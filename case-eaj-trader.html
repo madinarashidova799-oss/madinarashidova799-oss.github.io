@@ -13,7 +13,7 @@
 <style>
   :root {
     --bg: #f8f8f8;
-    --surface: #f7f7f7;
+    --surface: #ffffff;
     --surface-translucent: rgba(255, 255, 255, 0.65);
     --line: #ececec;
     --line-strong: #eaeaea;
@@ -22,7 +22,7 @@
     --text: #171717;
     --text-strong: #231e1b;
     --text-dim: #62605d;
-    --text-dim-2: #8a8782;
+    --text-dim-2: #6e6c68;
     --text-inverse: #f8f8f8;
     --accent: #231e1b;
     --live: #2f6b52;
@@ -63,7 +63,7 @@
     -webkit-font-smoothing: antialiased;
   }
   a { color: inherit; text-decoration: none; }
-  .page { max-width: 1680px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 80px); }
+  .page { max-width: 1680px; margin: 0 auto; padding: 0 clamp(24px, 7vw, 128px); }
 
   .site-nav {
     position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
@@ -126,31 +126,83 @@
   /* Scoped accent pair for this page's trading-account narrative only
      (§ Активный трейдер, § Работа с торговыми счетами) — not a sitewide
      palette change, just a local hierarchy accent per this round's brief. */
-  :root { --case-accent: var(--text-strong); --accent-blue: #1B60D9; --accent-blue-bg: #EFF6FF; }
-  .case-page { padding: 128px 0 160px; }
+  :root { --case-accent: var(--text-strong); --accent-blue: #1B60D9; --accent-blue-bg: #EFF6FF; --grid-gutter: 28px; }
+  .case-page { padding: 128px 0 160px; max-width: 1400px; margin: 0 auto; }
+
+  /* Invisible 12-column authoring grid — see case-alif-partners.html for
+     the reference component. Desktop ≥1280px: 12 cols, 24-32px gutter.
+     Tablet 768-1279px: same 12 logical columns, tighter gutter. Mobile
+     <768px: 4 columns. */
+  .case-grid { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--grid-gutter); align-items: start; }
+  .col-4 { grid-column: span 4; }
+  .col-6 { grid-column: span 6; }
+  .col-8 { grid-column: span 8; }
+  .col-8-center { grid-column: 3 / span 8; }
+  .col-12 { grid-column: span 12; }
+  @media (max-width: 1279px) { .case-grid { column-gap: 20px; } }
+  @media (max-width: 767px) {
+    .case-grid { grid-template-columns: repeat(4, 1fr); row-gap: 20px; }
+    .case-grid > .col-4, .case-grid > .col-6, .case-grid > .col-8, .case-grid > .col-8-center { grid-column: span 4; }
+  }
+
+  .case-context-cards { margin-top: clamp(56px, 6vw, 80px); align-items: stretch; }
+  .case-context-card {
+    background: var(--accent-blue-bg); border: none; border-radius: 20px; box-shadow: none;
+    padding: clamp(28px, 2.6vw, 36px); display: flex; flex-direction: column; gap: 10px; height: 100%;
+  }
+  .case-context-card__label {
+    display: flex; align-items: center; gap: 7px;
+    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--text-dim); margin: 0 0 2px;
+  }
+  .case-context-card__label::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent-blue); flex-shrink: 0; }
+  .case-context-card__title {
+    font-family: var(--display); font-weight: var(--font-weight-heading); font-size: var(--font-size-h4);
+    line-height: 1.3; color: var(--text);
+  }
+  .case-context-card__text { font-size: var(--font-size-body); color: var(--text-dim); line-height: var(--line-height-body); max-width: none; }
+
+  .case-split { margin-top: clamp(32px, 3vw, 40px); margin-bottom: 18px; }
+  .case-split-text p { margin-bottom: 0; max-width: none; }
+  .case-split-text p + p { margin-top: 16px; }
+  .case-split-media {
+    border-radius: var(--radius-large); overflow: hidden; background: #F8FAFC; border: 1px solid var(--line);
+    padding: clamp(20px, 3vw, 32px);
+    transition: transform 0.25s cubic-bezier(.22,1,.36,1), box-shadow 0.25s ease;
+  }
+  .case-split-media:hover {
+    transform: translateY(-6px); box-shadow: 0 16px 32px rgba(23,17,14,0.09);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .case-split-media { transition: none; }
+  }
+  .case-split-media img { margin: 0; border-radius: var(--radius-medium); object-fit: contain; }
+  .case-split-media .case-image-trigger:focus-visible { outline-offset: -3px; }
+
+  .detail-block.reveal-pending {
+    opacity: 0; transform: translateY(22px);
+    transition: opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1);
+  }
+  .detail-block.reveal-pending.in-view { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .detail-block.reveal-pending { opacity: 1; transform: none; transition: none; } }
+  /* A caption sitting above its own image, paired with a twin column so two
+     photo+caption pairs read side by side instead of each getting a full row. */
+  .case-split-pair { display: flex; flex-direction: column; }
+  .case-split-pair .case-split-text { margin-bottom: 14px; }
   /* The fixed bottom dock (Главная страница / Нравится / Следующий кейс)
      is taller relative to the viewport on mobile, so its safe area at the
      end of the page needs more room there than the 160px desktop floor. */
   @media (max-width: 720px) {
     .case-page { padding-bottom: 200px; }
   }
-  .case-header { margin-bottom: 48px; padding: 28px clamp(16px,4vw,32px); }
+  .case-header { margin-bottom: 48px; }
   .case-meta-group { display: flex; flex-direction: column; gap: 16px; margin-top: 10px; }
   .case-meta-line {
     font-family: var(--mono); font-size: var(--font-size-label); text-transform: uppercase;
     letter-spacing: 0.03em; color: var(--text-dim);
   }
   .case-tags { display: flex; gap: 8px; flex-wrap: wrap; font-size: var(--font-size-label); }
-  .case-tags span { background: var(--surface); border: 1px solid rgba(27, 96, 217, 0.3); color: var(--case-accent); padding: 5px 12px; border-radius: 999px; }
-  .case-dek { margin-top: 16px; font-size: var(--font-size-body); color: var(--text-dim); max-width: 62ch; line-height: var(--line-height-body); }
-  /* Task headline — a real <h4>, visually secondary to the project name
-     (h1). Own --font-size-h4 tier, not h2/h3, and wide enough (900-1000px)
-     to hold a full sentence without wrapping too tightly — see
-     typography-hierarchy instruction §1. */
-  .case-headline {
-    font-family: var(--display); font-weight: var(--font-weight-heading); font-size: var(--font-size-h4);
-    letter-spacing: -0.005em; line-height: 1.3; color: var(--text); margin-top: 20px; max-width: 960px;
-  }
+  .case-tags span { background: var(--accent-blue-bg); border: 1px solid rgba(27, 96, 217, 0.35); color: var(--accent-blue); padding: 5px 12px; border-radius: 999px; }
   h1.case-title {
     font-family: var(--display); font-size: var(--font-size-h1); font-weight: var(--font-weight-heading);
     line-height: var(--line-height-h1); letter-spacing: -0.02em;
@@ -165,40 +217,34 @@
   .case-facts dd { font-size: var(--font-size-label); color: var(--text); line-height: 1.4; }
   /* Spacing unified with case-alif-partners.html: 80-120px desktop /
      56-72px mobile between major numbered sections, 24-32px heading→body. */
-  .detail-block { margin-top: clamp(80px, 8vw, 120px); padding-top: var(--space-7); border-top: 1px solid var(--line); scroll-margin-top: 110px; }
+  .detail-block { margin-top: clamp(80px, 8vw, 120px); padding-top: var(--space-7); scroll-margin-top: 110px; }
   @media (max-width: 720px) { .detail-block { margin-top: clamp(56px, 10vw, 72px); } }
+  /* Result section's h2 has no kicker line under it, so it reads cramped
+     against the intro paragraph at the default heading→text gap. */
+  .detail-block:last-child .detail-head { margin-bottom: clamp(32px, 3.4vw, 44px); }
   /* Three-level section heading, shared scale across all four case pages —
      see case-alif-partners.html and typography-hierarchy instruction §2. */
-  .detail-head { display: flex; align-items: flex-start; gap: 20px; margin-bottom: clamp(24px, 2.4vw, 32px); }
-  .detail-num {
-    font-family: var(--display); font-weight: 700; font-size: clamp(2rem, 4.2vw, 2.8rem);
-    color: var(--line); line-height: 0.8; flex-shrink: 0; letter-spacing: 0;
+  .detail-head {
+    margin-bottom: clamp(24px, 2.4vw, 32px);
   }
-  .detail-head-text { padding-top: 6px; min-width: 0; }
   .detail-head h2 {
     font-family: var(--display); font-size: var(--font-size-h2); line-height: var(--line-height-heading);
-    font-weight: var(--font-weight-heading); letter-spacing: -0.01em; text-wrap: balance;
+    font-weight: 700; letter-spacing: -0.01em; text-wrap: balance; color: var(--text-strong);
   }
-  .detail-head-text .detail-kicker {
-    position: relative; margin-top: 8px; padding-left: 24px;
-    font-family: var(--sans); font-weight: 500; font-size: var(--font-size-h3);
-    line-height: 1.3; color: var(--text-strong); max-width: 46ch; text-wrap: pretty;
-  }
-  /* Kicker names the section's actual conclusion — a short marker in the
-     product's own accent ties that conclusion to the brand color, per
-     accent-color instruction §2 ("ключевым выводам"). */
-  .detail-head-text .detail-kicker::before {
-    content: ''; position: absolute; left: 0; top: 0.55em;
-    width: 16px; height: 2px; border-radius: 2px; background: var(--accent-blue);
+  .detail-dek {
+    font-family: var(--sans); font-weight: 500; font-size: var(--font-size-h4);
+    line-height: 1.35; color: var(--text-dim); margin: 8px 0 0; max-width: 46ch; text-wrap: pretty;
   }
   .detail-block p { color: var(--text-dim); font-size: var(--font-size-body); line-height: var(--line-height-body); max-width: 60ch; margin-bottom: clamp(20px, 2vw, 24px); text-wrap: pretty; }
+  .detail-block p.accent-callout {
+    background: var(--accent-blue-bg); color: var(--text-strong); font-weight: 500;
+    border-radius: 16px; padding: clamp(18px, 2vw, 24px); max-width: none;
+  }
   .detail-block > p:last-child { margin-bottom: 0; }
   /* Image treatment unified with case-alif-partners.html: radius-large outer,
-     object-fit: contain, no cropping. Single full-width shots use
-     .detail-media-frame (surface + border + padding, radius-medium on the
-     img itself); two-column rows use .detail-pair-media with the same
-     padding treatment. Neither uses a second, smaller nested radius on top
-     of a big outer one. */
+     object-fit: contain, no cropping. All content shots run through
+     .case-split-media (surface + border + padding, radius-medium on the
+     img itself) on the 12-col grid — no separate full-width frame class. */
   .detail-block img { display: block; width: 100%; height: auto; border-radius: var(--radius-large); margin-bottom: 18px; object-fit: contain; }
   .case-image-trigger {
     display: block; width: 100%; padding: 0; margin: 0; border: 0; background: none;
@@ -206,33 +252,6 @@
   }
   .case-image-trigger:focus-visible {
     outline: 3px solid var(--accent-blue); outline-offset: 3px; border-radius: var(--radius-large);
-  }
-  /* Product's own cool near-white (F8FAFC) instead of the generic warm
-     --surface — a quiet, page-specific touch per accent-color instruction §2. */
-  .detail-media-frame {
-    background: #F8FAFC; border: 1px solid var(--line); border-radius: var(--radius-large);
-    padding: clamp(20px, 3vw, 32px); margin-top: clamp(32px, 3vw, 40px); margin-bottom: clamp(32px, 3vw, 40px);
-  }
-  .detail-media-frame .case-image-trigger { display: block; }
-  .detail-media-frame img { margin-bottom: 0; border-radius: var(--radius-medium); }
-
-  .detail-pair { display: grid; grid-template-columns: 5fr 7fr; gap: 36px; align-items: center; margin-top: clamp(32px, 3vw, 40px); margin-bottom: 18px; }
-  .detail-pair.media-left { grid-template-columns: 7fr 5fr; }
-  .detail-pair.media-left .detail-pair-media { order: -1; }
-  .detail-pair-text p { margin-bottom: 0; max-width: none; }
-  .detail-pair-media {
-    border-radius: var(--radius-large); overflow: hidden; background: var(--surface); border: 1px solid var(--line);
-    padding: clamp(20px, 3vw, 32px);
-  }
-  .detail-pair-media img { margin: 0; border-radius: var(--radius-medium); object-fit: contain; }
-  .detail-pair-media .case-image-trigger:focus-visible,
-  .detail-mosaic .case-image-trigger:focus-visible { outline-offset: -3px; }
-  .detail-mosaic { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 18px; }
-  .detail-mosaic img { margin: 0; }
-  @media (max-width: 860px) {
-    .detail-pair, .detail-pair.media-left { grid-template-columns: 1fr; gap: 16px; }
-    .detail-pair.media-left .detail-pair-media { order: 0; }
-    .detail-mosaic { grid-template-columns: 1fr; }
   }
 
   /* Compact caption above the slider (§ Проверка концепций) — reads as the
@@ -319,57 +338,42 @@
      not just the sitewide spacing scale, so the fixed dock can't rest on
      top of the image during a normal scroll stop. */
   .compare-slider__frame { margin-bottom: clamp(80px, 8vw, 96px); }
+  .compare-slider.case-grid { margin-top: clamp(24px, 2.4vw, 32px); }
 
   /* Sequential support-flow steps (§ Поддержка внутри продукта) — each step
-     is a small mono label + one-line caption + a full-width .detail-media-frame,
-     stacked, never a side-by-side mosaic of two unrelated-looking shots. */
+     is a short 4-col label+caption beside an 8-col screenshot on the grid,
+     stacked one below the other, never a side-by-side mosaic of two
+     unrelated-looking shots. */
   .support-flow { display: flex; flex-direction: column; gap: clamp(48px, 5vw, 64px); margin-top: clamp(32px, 3vw, 40px); }
   .support-flow__label { display: block; font-family: var(--mono); font-size: var(--font-size-label); text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim-2); }
   .support-flow .support-flow__caption { margin: 8px 0 0; font-size: var(--font-size-body); color: var(--text-dim); line-height: var(--line-height-body); max-width: 60ch; }
-  .support-flow .detail-media-frame { margin-top: clamp(20px, 2.4vw, 24px); margin-bottom: 0; }
 
-  /* Unified "Результат" section — plain intro paragraph, then a 2x2 grid
-     of glass result cards. No decorative numbers, no icons, no repeated
-     "Результат" word, no invented figures. Replaces the old split
-     Результат/Метрики pair — see typography-hierarchy instruction §3. */
-  .result-cards, .metric-cards {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px;
-    margin-top: clamp(32px, 3vw, 40px); align-items: stretch;
-  }
-  /* Calm accent-tinted glass: very light blue wash, no dark drop shadow
-     (a soft box-shadow read as a dark halo under the card — removed, not
-     softened). min-height is a uniform floor comfortably above this
-     section's real content (measured 160-182px across all 4 cases) so
-     every card in the grid — not just each row — ends up the same size;
-     align-items:stretch still equalizes any row whose content genuinely
-     exceeds the floor. See visual-polish instruction §1-3/§6. */
+  /* Merged "Результат и критерии успеха" section — one intro paragraph on
+     what shipped, then four cards each tying a product result to the
+     metric it was judged by. Calm accent-tinted glass, no dark shadow. */
+  .result-cards { margin-top: clamp(32px, 3vw, 40px); row-gap: 22px; align-items: stretch; }
   .result-card {
-    background: rgba(27, 96, 217, 0.05);
-    backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-    border: 1px solid rgba(27, 96, 217, 0.18);
+    background: var(--accent-blue-bg);
+    border: none;
     box-shadow: none;
-    border-radius: 24px;
+    border-radius: 20px;
     min-height: 200px;
     padding: clamp(28px, 2.6vw, 36px);
-    display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 10px; min-width: 0;
+    display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 8px; min-width: 0;
   }
-  /* Accent lives as a short line inside the card, not a border around it —
-     see visual-hierarchy instruction §4 (no colored outline on any card). */
-  .result-card .result-card__metric, .metric-card .result-card__metric { font-family: var(--display); font-weight: 600; font-size: 1.05rem; color: var(--text); line-height: 1.35; margin: 0; max-width: none; }
-  .result-card .result-card__desc, .metric-card .result-card__desc { font-size: var(--font-size-label); color: var(--text-dim); line-height: 1.55; margin: 0; max-width: none; }
-  /* Metric cards mark the second, separate "Как оценивали эффект" layer —
-     a quiet neutral surface (not the case's accent tint) so it reads as a
-     distinct kind of card, not a continuation of the Результат grid. */
-  .metric-card {
-    background: var(--line-faint);
-    border: 1px solid var(--line);
-    box-shadow: none;
-    border-radius: 24px;
-    min-height: 200px;
-    padding: clamp(28px, 2.6vw, 36px);
-    display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 10px; min-width: 0;
+  /* Descendant-scoped (.result-card ...) so these beat .detail-block p's
+     (class+element) specificity — a bare .result-card__label class alone
+     was losing that cascade fight and silently falling back to body-text
+     color/size/margin. See visual-audit finding P0. */
+  .result-card .result-card__label {
+    display: flex; align-items: center; gap: 7px;
+    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--text-dim); margin: 0 0 2px;
   }
-  @media (max-width: 720px) { .result-cards, .metric-cards { grid-template-columns: 1fr; } .result-card, .metric-card { min-height: 0; } }
+  .result-card .result-card__label::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent-blue); flex-shrink: 0; }
+  .result-card .result-card__metric { font-family: var(--display); font-weight: 600; font-size: 1.05rem; color: var(--text); line-height: 1.35; margin: 0; max-width: none; }
+  .result-card .result-card__desc { font-size: var(--font-size-label); color: var(--text-dim); line-height: 1.55; margin: 0; max-width: none; }
+  .result-card .result-card__desc strong { color: var(--text); font-weight: 600; }
 
   /* ===== Case floating dock (like + next case) — shared across all case pages =====
      Two independent glass controls, fixed to the viewport like the top nav —
@@ -466,9 +470,6 @@
         <div class="case-meta-group">
           <div class="case-tags"><span>/trading</span><span>B2C</span></div>
         </div>
-        <h4 class="case-headline"><span data-lang="ru">Запуск личного кабинета EAJ Trader с нуля</span><span data-lang="en">Launching the EAJ Trader dashboard from scratch</span></h4>
-        <p class="case-dek"><span data-lang="ru">У EAJ Trader уже были айдентика, лендинг и список будущих функций. Следующим шагом был сам продукт: личный кабинет для открытия счетов, управления средствами и контроля операций.</span><span data-lang="en">EAJ Trader already had an identity, a landing page, and a list of future features. The next step was the product itself: a dashboard for opening accounts, managing funds, and tracking operations.</span></p>
-        <p class="case-dek"><span data-lang="ru">Нужно было собрать требования в цельный веб-кабинет и определить состав первой версии. В MVP оставили функции, которые поддерживают основной финансовый цикл. Остальные зафиксировали для следующих релизов.</span><span data-lang="en">The requirements needed to come together into one coherent web dashboard, with a defined scope for the first version. The MVP kept the features that support the core financial cycle. The rest were logged for later releases.</span></p>
         <dl class="case-facts">
           <div><dt><span data-lang="ru">Длительность</span><span data-lang="en">Duration</span></dt><dd><span data-lang="ru">2 месяца</span><span data-lang="en">2 months</span></dd></div>
           <div><dt><span data-lang="ru">Команда</span><span data-lang="en">Team</span></dt><dd>Product Designer, Product Owner, Developer</dd></div>
@@ -476,68 +477,68 @@
           <div><dt><span data-lang="ru">Пользователи</span><span data-lang="en">Users</span></dt><dd><span data-lang="ru">частные трейдеры</span><span data-lang="en">retail traders</span></dd></div>
           <div><dt><span data-lang="ru">Платформа</span><span data-lang="en">Platform</span></dt><dd><span data-lang="ru">веб</span><span data-lang="en">web</span></dd></div>
         </dl>
+        <div class="case-grid case-context-cards">
+          <div class="case-context-card col-6">
+            <p class="case-context-card__label"><span data-lang="ru">Контекст</span><span data-lang="en">Context</span></p>
+            <h2 class="case-context-card__title"><span data-lang="ru">Новый личный кабинет с нуля</span><span data-lang="en">A new dashboard from scratch</span></h2>
+            <p class="case-context-card__text"><span data-lang="ru">У EAJ Trader уже были айдентика, лендинг и список будущих функций. Следующим шагом стал сам продукт: личный кабинет для открытия счетов, управления средствами и контроля операций. Его создавали с нуля, без готового финансового цикла.</span><span data-lang="en">EAJ Trader already had an identity, a landing page, and a list of future features. The next step was the product itself: a dashboard for opening accounts, managing funds, and tracking operations. It was built from scratch, with no financial cycle yet in place.</span></p>
+          </div>
+          <div class="case-context-card col-6">
+            <p class="case-context-card__label"><span data-lang="ru">Задача</span><span data-lang="en">Task</span></p>
+            <h2 class="case-context-card__title"><span data-lang="ru">Определить состав MVP</span><span data-lang="en">Define the MVP scope</span></h2>
+            <p class="case-context-card__text"><span data-lang="ru">Нужно было собрать требования в цельный веб-кабинет и связать состояние капитала, счета и финансовые операции в одном сценарии. Из широкого списка функций требовалось выбрать те, что действительно поддерживают основной финансовый цикл.</span><span data-lang="en">The requirements needed to come together into one coherent web dashboard, tying capital status, accounts, and financial operations into a single scenario. From a broad list of features, the task was to pick the ones that actually support the core financial cycle.</span></p>
+          </div>
+        </div>
       </div>
 
       <div class="detail-block">
         <div class="detail-head">
-          <span class="detail-num">01</span>
-          <div class="detail-head-text">
-            <h2><span data-lang="ru">Фокус</span><span data-lang="en">Focus</span></h2>
-            <p class="detail-kicker"><span data-lang="ru">Что вошло в первую версию</span><span data-lang="en">What made the first version</span></p>
+          <h2><span data-lang="ru">Исследование</span><span data-lang="en">Research</span></h2>
+          <p class="detail-dek"><span data-lang="ru">Какую аудиторию выбрали приоритетной</span><span data-lang="en">Which audience we picked as the priority</span></p>
+        </div>
+        <p><span data-lang="ru">На старте проекта моей задачей было определить структуру будущего личного кабинета и логику взаимодействия пользователя с финансовыми операциями.</span><span data-lang="en">At the start of the project, my task was to define the structure of the future personal dashboard and the logic of how the user would interact with financial operations.</span></p>
+        <p><span data-lang="ru">Поскольку заказчик уже провёл предварительное исследование и сформировал список ключевых функций, фокус работы сместился на этап бизнес-анализа: понимание типов пользователей, их различий и влияния этих различий на структуру интерфейса.</span><span data-lang="en">Since the client had already done preliminary research and put together a list of key features, the focus of the work shifted to business analysis: understanding the types of users, their differences, and how those differences shape the interface structure.</span></p>
+        <p><span data-lang="ru">Я сравнила сценарии активного трейдера, скальпера, свинг-трейдера, инвестора и новичка. Для MVP сфокусировалась на активном трейдере.</span><span data-lang="en">I compared the scenarios of an active trader, a scalper, a swing trader, an investor, and a beginner. For the MVP I focused on the active trader.</span></p>
+        <div class="case-grid case-split">
+          <div class="case-split-media col-12">
+            <button class="case-image-trigger" type="button">
+              <img data-src-ru="assets/process/eaj-research-ru.webp" data-src-en="assets/process/eaj-research.webp" data-alt-ru="EAJ Trader · бизнес-анализ пользователей" data-alt-en="EAJ Trader · user business analysis" alt="EAJ Trader · бизнес-анализ пользователей" loading="lazy">
+            </button>
           </div>
         </div>
-        <p><span data-lang="ru">Заказчик принёс список ключевых функций. Я перевела его из перечня требований в пользовательские сценарии и разобрала, что действительно должно войти в MVP.</span><span data-lang="en">The client brought a list of key features. I translated it from a list of requirements into user scenarios and worked out what actually belonged in the MVP.</span></p>
-        <p><span data-lang="ru">В фокус попали четыре задачи: увидеть состояние капитала, управлять счетами, перемещать средства и получить помощь. Аналитику, сложные торговые инструменты и специализированные сценарии отложили. После приоритизации список стал короче и реалистичнее для запуска.</span><span data-lang="en">Four tasks made the cut: see the state of your capital, manage accounts, move funds, and get help. Analytics, complex trading instruments, and specialized scenarios were set aside. After prioritizing, the list got shorter and more realistic to launch.</span></p>
+        <p class="accent-callout"><span data-lang="ru">В результате стало очевидно, что MVP должен быть сфокусирован на оптимизации ключевых сценариев для активных трейдеров, с возможностью упрощения или отложенной реализации сложных и редко используемых функций, а также заложенной основой для дальнейшей персонализации интерфейса под разные модели поведения пользователей.</span><span data-lang="en">As a result, it became clear that the MVP needed to focus on optimizing the key scenarios for active traders, with room to simplify or defer complex, rarely used features, and a foundation laid for further personalizing the interface around different user behavior patterns.</span></p>
       </div>
       <div class="detail-block">
         <div class="detail-head">
-          <span class="detail-num">02</span>
-          <div class="detail-head-text">
-            <h2><span data-lang="ru">Исследование</span><span data-lang="en">Research</span></h2>
-            <p class="detail-kicker"><span data-lang="ru">Какую аудиторию выбрали приоритетной</span><span data-lang="en">Which audience we picked as the priority</span></p>
+          <h2><span data-lang="ru">Работа над продуктом</span><span data-lang="en">Working on the product</span></h2>
+        </div>
+        <div class="case-grid case-split">
+          <div class="case-split-text col-6">
+            <p><span data-lang="ru">Работа над продуктом началась с анализа бизнес-контекста и формирования структуры личного кабинета как основного инструмента управления финансовыми операциями пользователя.</span><span data-lang="en">Work on the product began with analyzing the business context and shaping the dashboard's structure as the user's main tool for managing financial operations.</span></p>
+            <p><span data-lang="ru">Главная страница должна была быстро отвечать на два вопроса: каким капиталом пользователь располагает и что он может сделать со средствами прямо сейчас. Поэтому на первом уровне я разместила общий баланс, активные счета, доступные суммы и входы в основные операции.</span><span data-lang="en">The home screen had to quickly answer two questions: how much capital the user has, and what they can do with it right now. So on the first level I placed the total balance, active accounts, available amounts, and entry points into the core operations.</span></p>
+          </div>
+          <div class="case-split-media col-6">
+            <button class="case-image-trigger" type="button">
+              <img data-src-ru="assets/process/eaj-home-ru.webp" data-src-en="assets/process/eaj-home.webp" data-alt-ru="EAJ Trader · главный экран личного кабинета" data-alt-en="EAJ Trader · the dashboard's main screen" alt="EAJ Trader · главный экран личного кабинета" loading="lazy">
+            </button>
           </div>
         </div>
-        <p><span data-lang="ru">Я сравнила сценарии активного трейдера, скальпера, свинг-трейдера, инвестора и новичка. Для MVP сфокусировалась на активном трейдере: он регулярно проверяет баланс, работает со счетами и выполняет финансовые операции.</span><span data-lang="en">I compared the scenarios of an active trader, a scalper, a swing trader, an investor, and a beginner. For the MVP I focused on the active trader: they regularly check their balance, work with accounts, and perform financial operations.</span></p>
-        <div class="detail-media-frame">
-          <button class="case-image-trigger" type="button">
-            <img src="assets/process/eaj-research.png" data-alt-ru="EAJ Trader · бизнес-анализ пользователей" data-alt-en="EAJ Trader · user business analysis" alt="EAJ Trader · бизнес-анализ пользователей" loading="lazy">
-          </button>
-        </div>
-        <p><span data-lang="ru">Этот фокус определил требования к интерфейсу: ясная иерархия, быстрое считывание состояния и короткий путь к действию.</span><span data-lang="en">This focus defined the interface requirements: a clear hierarchy, quick-to-read status, and a short path to action.</span></p>
       </div>
       <div class="detail-block">
         <div class="detail-head">
-          <span class="detail-num">03</span>
-          <div class="detail-head-text">
-            <h2><span data-lang="ru">Решение</span><span data-lang="en">Solution</span></h2>
-            <p class="detail-kicker"><span data-lang="ru">Кабинет вокруг финансового цикла</span><span data-lang="en">The dashboard built around the financial cycle</span></p>
-          </div>
+          <h2><span data-lang="ru">Работа с торговыми счетами</span><span data-lang="en">Working with trading accounts</span></h2>
         </div>
-        <p><span data-lang="ru">Главная страница должна была быстро отвечать на два вопроса: каким капиталом пользователь располагает и что он может сделать со средствами прямо сейчас. Поэтому на первом уровне я разместила общий баланс, активные счета, доступные суммы и входы в основные операции.</span><span data-lang="en">The home screen had to quickly answer two questions: how much capital the user has, and what they can do with it right now. So on the first level I placed the total balance, active accounts, available amounts, and entry points into the core operations.</span></p>
-        <div class="detail-media-frame">
-          <button class="case-image-trigger" type="button">
-            <img src="assets/process/eaj-home.png" data-alt-ru="EAJ Trader · главный экран личного кабинета" data-alt-en="EAJ Trader · the dashboard's main screen" alt="EAJ Trader · главный экран личного кабинета" loading="lazy">
-          </button>
-        </div>
-        <p><span data-lang="ru">Такая приоритизация поддерживает ключевые действия, от которых зависит использование кабинета: открытие и пополнение счёта, вывод средств и переводы. Аналитические данные остались в структуре продукта, но получили второй уровень и не перегружают операционный экран.</span><span data-lang="en">This prioritization supports the key actions the dashboard's use depends on: opening and funding an account, withdrawals, and transfers. Analytical data stayed part of the product's structure, but moved to a second level so it doesn't overload the operating screen.</span></p>
-      </div>
-      <div class="detail-block">
-        <div class="detail-head">
-          <span class="detail-num">04</span>
-          <div class="detail-head-text">
-            <h2><span data-lang="ru">Проверка</span><span data-lang="en">Check</span></h2>
-            <p class="detail-kicker"><span data-lang="ru">Какой формат счёта быстрее считывается</span><span data-lang="en">Which account format reads faster</span></p>
-          </div>
-        </div>
+        <p><span data-lang="ru">Торговый счёт является основной сущностью продукта, через которую пользователь взаимодействует с рынком: управляет средствами, совершает сделки и контролирует риски.</span><span data-lang="en">The trading account is the product's core entity, the one through which the user interacts with the market: managing funds, making trades, and controlling risk.</span></p>
+        <p><span data-lang="ru">Фактически это точка входа во все ключевые сценарии: от хранения капитала до выполнения операций и анализа состояния активов.</span><span data-lang="en">It's effectively the entry point into every key scenario: from holding capital to performing operations and analyzing the state of your assets.</span></p>
         <p><span data-lang="ru">Таблица компактна и привычна, особенно когда счетов много. Но статус, сумма и действия распределены по колонкам.</span><span data-lang="en">A table is compact and familiar, especially when there are many accounts. But status, amount, and actions are spread across columns.</span></p>
         <p><span data-lang="ru">В карточном варианте каждый счёт стал самостоятельным объектом: баланс, статус и операции считываются вместе.</span><span data-lang="en">In the card version, each account became a self-contained object: balance, status, and operations read together.</span></p>
         <p class="slider-caption"><span data-lang="ru">Проверка концепций · 5 участников</span><span data-lang="en">Testing the concepts · 5 participants</span></p>
-        <div class="compare-slider">
-          <div class="compare-slider__frame">
+        <div class="compare-slider case-grid">
+          <div class="compare-slider__frame col-8-center">
             <div class="compare-slider__stage" data-compare-slider>
-              <img class="compare-slider__base" src="assets/process/eaj-concept2.png?v=2" data-alt-ru="EAJ Trader · табличный формат счетов" data-alt-en="EAJ Trader · accounts in tabular format" alt="EAJ Trader · табличный формат счетов" loading="lazy">
+              <img class="compare-slider__base" data-src-ru="assets/process/eaj-concept2-ru.webp" data-src-en="assets/process/eaj-concept2.webp" data-alt-ru="EAJ Trader · табличный формат счетов" data-alt-en="EAJ Trader · accounts in tabular format" alt="EAJ Trader · табличный формат счетов" loading="lazy">
               <div class="compare-slider__overlay">
-                <img src="assets/process/eaj-concept1.png?v=2" data-alt-ru="EAJ Trader · карточный формат счетов" data-alt-en="EAJ Trader · accounts in card format" alt="EAJ Trader · карточный формат счетов" loading="lazy">
+                <img data-src-ru="assets/process/eaj-concept1-ru.webp" data-src-en="assets/process/eaj-concept1.webp" data-alt-ru="EAJ Trader · карточный формат счетов" data-alt-en="EAJ Trader · accounts in card format" alt="EAJ Trader · карточный формат счетов" loading="lazy">
               </div>
               <span class="compare-slider__tag compare-slider__tag--left"><span data-lang="ru">Карточный формат</span><span data-lang="en">Card format</span></span>
               <span class="compare-slider__tag compare-slider__tag--right"><span data-lang="ru">Табличный формат</span><span data-lang="en">Table format</span></span>
@@ -550,106 +551,79 @@
       </div>
       <div class="detail-block">
         <div class="detail-head">
-          <span class="detail-num">05</span>
-          <div class="detail-head-text">
-            <h2><span data-lang="ru">Решение</span><span data-lang="en">Solution</span></h2>
-            <p class="detail-kicker"><span data-lang="ru">Операции со средствами собраны в Funding</span><span data-lang="en">Fund operations brought together in Funding</span></p>
+          <h2><span data-lang="ru">Центр управления средствами</span><span data-lang="en">The fund management hub</span></h2>
+        </div>
+        <div class="case-grid case-split">
+          <div class="case-split-text col-6">
+            <p><span data-lang="ru">В качестве быстрого входа и логичного решения по архитектуре мы объединили пополнение, вывод и внутренние переводы в единый раздел <strong>Funding</strong>.</span><span data-lang="en">As a fast entry point and a logical architectural decision, we brought deposits, withdrawals, and internal transfers together into a single <strong>Funding</strong> section.</span></p>
+            <p><span data-lang="ru">Такой подход был выбран совместно с заказчиком для упрощения основной навигации и сокращения количества разрозненных точек входа в финансовые операции. Вместо отдельных разделов пользователь получает один централизованный блок, в котором собраны все действия, связанные с движением средств.</span><span data-lang="en">This approach was chosen together with the client to simplify the core navigation and cut down on scattered entry points into financial operations. Instead of separate sections, the user gets one centralized block that brings together every action tied to moving funds.</span></p>
+          </div>
+          <div class="case-split-media col-6">
+            <button class="case-image-trigger" type="button">
+              <img data-src-ru="assets/process/eaj-funding-2-ru.webp" data-src-en="assets/process/eaj-funding-2.webp" data-alt-ru="EAJ Trader · раздел Funding: выбор действия" data-alt-en="EAJ Trader · the Funding section: choosing an action" alt="EAJ Trader · раздел Funding: выбор действия" loading="lazy">
+            </button>
           </div>
         </div>
-        <p><span data-lang="ru">Пополнение, вывод и внутренние переводы относятся к одной задаче: управлению движением средств. Я собрала их в разделе Funding, чтобы пользователь начинал любую такую операцию из одной точки и видел единый принцип работы со статусами и подтверждениями.</span><span data-lang="en">Deposits, withdrawals, and internal transfers all belong to one task: managing the movement of funds. I brought them together in a Funding section, so the user starts any such operation from one place and sees one consistent way of working with statuses and confirmations.</span></p>
-        <div class="detail-media-frame">
-          <button class="case-image-trigger" type="button">
-            <img src="assets/process/eaj-funding-2.png" data-alt-ru="EAJ Trader · раздел Funding: выбор действия" data-alt-en="EAJ Trader · the Funding section: choosing an action" alt="EAJ Trader · раздел Funding: выбор действия" loading="lazy">
-          </button>
-        </div>
-        <p><span data-lang="ru">Для продукта это создаёт общую основу для развития финансовых операций. Новые способы пополнения и вывода можно добавлять внутри существующего раздела, не расширяя навигацию отдельным пунктом под каждый сценарий.</span><span data-lang="en">For the product, this creates a shared foundation for growing financial operations. New ways to deposit or withdraw can be added inside the existing section, without expanding the navigation with a separate item for every scenario.</span></p>
       </div>
       <div class="detail-block">
         <div class="detail-head">
-          <span class="detail-num">06</span>
-          <div class="detail-head-text">
-            <h2><span data-lang="ru">Решение</span><span data-lang="en">Solution</span></h2>
-            <p class="detail-kicker"><span data-lang="ru">Поддержка встроена в контекст операции</span><span data-lang="en">Support built into the context of the operation</span></p>
-          </div>
+          <h2><span data-lang="ru">Поддержка внутри продукта</span><span data-lang="en">Support inside the product</span></h2>
         </div>
         <p><span data-lang="ru">В финансовом продукте вопрос обычно связан с конкретным счётом, переводом или статусом операции. Если вынести поддержку во внешний канал, пользователю придётся заново объяснять ситуацию, а команде искать контекст обращения.</span><span data-lang="en">In a financial product, a question is usually tied to a specific account, transfer, or operation status. Moving support to an outside channel would mean the user has to re-explain the situation, and the team has to go looking for the request's context.</span></p>
         <p><span data-lang="ru">В Claims &amp; Complaints пользователь видит список запросов, их статусы и всю переписку внутри кабинета. Обращение остаётся связано с продуктом, а у команды появляется структурированный канал для обработки вопросов и поиска повторяющихся затруднений после запуска.</span><span data-lang="en">In Claims &amp; Complaints, the user sees their list of requests, their statuses, and the full correspondence right inside the dashboard. A request stays tied to the product, and the team gets a structured channel for handling questions and spotting recurring friction after launch.</span></p>
         <div class="support-flow">
-          <div class="support-flow__step">
-            <span class="support-flow__label"><span data-lang="ru">01. Список обращений</span><span data-lang="en">01. Request list</span></span>
-            <p class="support-flow__caption"><span data-lang="ru">Пользователь видит обращения, их типы и текущие статусы.</span><span data-lang="en">The user sees their requests, their types, and current statuses.</span></p>
-            <div class="detail-media-frame">
-              <button class="case-image-trigger" type="button">
-                <img src="assets/process/eaj-claims-list.png" data-alt-ru="EAJ Trader · список обращений Claims & Complaints" data-alt-en="EAJ Trader · the Claims & Complaints request list" alt="EAJ Trader · список обращений Claims & Complaints" loading="lazy">
-              </button>
+          <div class="case-grid case-split">
+            <div class="col-6 case-split-pair">
+              <div class="case-split-text">
+                <span class="support-flow__label"><span data-lang="ru">01. Список обращений</span><span data-lang="en">01. Request list</span></span>
+                <p class="support-flow__caption"><span data-lang="ru">Пользователь видит обращения, их типы и текущие статусы.</span><span data-lang="en">The user sees their requests, their types, and current statuses.</span></p>
+              </div>
+              <div class="case-split-media">
+                <button class="case-image-trigger" type="button">
+                  <img data-src-ru="assets/process/eaj-claims-list-ru.webp" data-src-en="assets/process/eaj-claims-list.webp" data-alt-ru="EAJ Trader · список обращений Claims & Complaints" data-alt-en="EAJ Trader · the Claims & Complaints request list" alt="EAJ Trader · список обращений Claims & Complaints" loading="lazy">
+                </button>
+              </div>
             </div>
-          </div>
-          <div class="support-flow__step">
-            <span class="support-flow__label"><span data-lang="ru">02. Диалог по обращению</span><span data-lang="en">02. Request dialogue</span></span>
-            <p class="support-flow__caption"><span data-lang="ru">Внутри обращения пользователь уточняет детали, получает ответ и прикладывает документы.</span><span data-lang="en">Inside a request, the user clarifies details, gets a reply, and attaches documents.</span></p>
-            <div class="detail-media-frame">
-              <button class="case-image-trigger" type="button">
-                <img src="assets/process/eaj-claims-detail.png" data-alt-ru="EAJ Trader · чат по обращению" data-alt-en="EAJ Trader · the chat for a single request" alt="EAJ Trader · чат по обращению" loading="lazy">
-              </button>
+            <div class="col-6 case-split-pair">
+              <div class="case-split-text">
+                <span class="support-flow__label"><span data-lang="ru">02. Диалог по обращению</span><span data-lang="en">02. Request dialogue</span></span>
+                <p class="support-flow__caption"><span data-lang="ru">Внутри обращения пользователь уточняет детали, получает ответ и прикладывает документы.</span><span data-lang="en">Inside a request, the user clarifies details, gets a reply, and attaches documents.</span></p>
+              </div>
+              <div class="case-split-media">
+                <button class="case-image-trigger" type="button">
+                  <img data-src-ru="assets/process/eaj-claims-detail-ru.webp" data-src-en="assets/process/eaj-claims-detail.webp" data-alt-ru="EAJ Trader · чат по обращению" data-alt-en="EAJ Trader · the chat for a single request" alt="EAJ Trader · чат по обращению" loading="lazy">
+                </button>
+              </div>
             </div>
           </div>
         </div>
-        <p><span data-lang="ru">Вместе кабинет, Funding и Claims &amp; Complaints закрывают ключевые сценарии первой версии. Дальше стоит посмотреть, что из этого получилось на выходе.</span><span data-lang="en">Together, the dashboard, Funding, and Claims &amp; Complaints cover the key scenarios of the first version. Next is a look at what actually came out of it.</span></p>
       </div>
       <div class="detail-block">
         <div class="detail-head">
-          <span class="detail-num">07</span>
-          <div class="detail-head-text">
-            <h2><span data-lang="ru">Результат</span><span data-lang="en">Result</span></h2>
-            <p class="detail-kicker"><span data-lang="ru">Из списка требований получился работающий личный кабинет</span><span data-lang="en">A list of requirements became a working personal dashboard</span></p>
-          </div>
+          <h2><span data-lang="ru">Результаты</span><span data-lang="en">Results</span></h2>
         </div>
         <p><span data-lang="ru">Запущен личный кабинет с базовым финансовым циклом: просмотр состояния капитала, управление счетами.</span><span data-lang="en">A personal dashboard has launched with the basic financial cycle: viewing your capital and managing accounts.</span></p>
-        <div class="result-cards">
-          <div class="result-card">
-            <p class="result-card__metric"><span data-lang="ru">Главный экран</span><span data-lang="en">Home screen</span></p>
-            <p class="result-card__desc"><span data-lang="ru">Баланс, счета, доступные суммы, входы в операции.</span><span data-lang="en">Balance, accounts, available amounts, entry points into operations.</span></p>
+        <p><span data-lang="ru">Заложенная структура решения позволяет масштабировать продукт за счёт добавления новых сценариев без нарушения основной логики взаимодействия.</span><span data-lang="en">The structure the solution laid down lets the product scale by adding new scenarios without disrupting the core interaction logic.</span></p>
+        <div class="case-grid result-cards">
+          <div class="result-card col-6">
+            <p class="result-card__label"><span data-lang="ru">Активация</span><span data-lang="en">Activation</span></p>
+            <p class="result-card__metric"><span data-lang="ru">Пользователь проходит путь до открытого и пополненного счёта</span><span data-lang="en">The user completes the path to an opened and funded account</span></p>
+            <p class="result-card__desc"><span data-lang="ru"><strong>Влияние оценивали по:</strong> конверсии в открытие и пополнение счёта</span><span data-lang="en"><strong>Measured by:</strong> conversion to opening and funding an account</span></p>
           </div>
-          <div class="result-card">
-            <p class="result-card__metric"><span data-lang="ru">Карточный формат счёта</span><span data-lang="en">A card-based account format</span></p>
-            <p class="result-card__desc"><span data-lang="ru">Таблицу сохранили для сценария, в котором счетов станет больше.</span><span data-lang="en">The table view was kept for a scenario with a larger number of accounts.</span></p>
+          <div class="result-card col-6">
+            <p class="result-card__label"><span data-lang="ru">Работа со счетами</span><span data-lang="en">Working with accounts</span></p>
+            <p class="result-card__metric"><span data-lang="ru">Для MVP выбран формат, удобный для частых операций</span><span data-lang="en">The MVP uses the format that's convenient for frequent operations</span></p>
+            <p class="result-card__desc"><span data-lang="ru"><strong>Влияние оценивали по:</strong> медианному времени выполнения ключевого сценария со счётом</span><span data-lang="en"><strong>Measured by:</strong> median time to complete the key account scenario</span></p>
           </div>
-          <div class="result-card">
+          <div class="result-card col-6">
+            <p class="result-card__label"><span data-lang="ru">Финансовые операции</span><span data-lang="en">Financial operations</span></p>
             <p class="result-card__metric"><span data-lang="ru">Прозрачные статусы операций</span><span data-lang="en">Transparent operation statuses</span></p>
-            <p class="result-card__desc"><span data-lang="ru">Пользователь видит состояние пополнений, выводов и переводов.</span><span data-lang="en">The user sees the state of deposits, withdrawals, and transfers.</span></p>
+            <p class="result-card__desc"><span data-lang="ru"><strong>Влияние оценивали по:</strong> доле пополненных счетов с повторной операцией</span><span data-lang="en"><strong>Measured by:</strong> the share of funded accounts with a repeat operation</span></p>
           </div>
-          <div class="result-card">
-            <p class="result-card__metric"><span data-lang="ru">Поддержка внутри продукта</span><span data-lang="en">Support built into the product</span></p>
-            <p class="result-card__desc"><span data-lang="ru">Обращение создаётся и отслеживается без поиска внешних контактов.</span><span data-lang="en">A request is created and tracked without hunting for outside contacts.</span></p>
-          </div>
-        </div>
-        <p><span data-lang="ru">Первая версия закрыла основной цикл работы трейдера и заложила структуру, которую можно расширять новыми операциями и аналитикой без перестройки базовых сценариев.</span><span data-lang="en">The first version covered the trader's core workflow and laid a structure that can be extended with new operations and analytics without reworking the basic scenarios.</span></p>
-      </div>
-
-      <div class="detail-block">
-        <div class="detail-head">
-          <span class="detail-num">08</span>
-          <div class="detail-head-text">
-            <h2><span data-lang="ru">Как оценивали эффект</span><span data-lang="en">How we evaluated the effect</span></h2>
-            <p class="detail-kicker"><span data-lang="ru">Продукт запущен недавно</span><span data-lang="en">The product launched recently</span></p>
-          </div>
-        </div>
-        <div class="metric-cards">
-          <div class="metric-card">
-            <p class="result-card__metric"><span data-lang="ru">Конверсия в открытие и пополнение счёта</span><span data-lang="en">Conversion to opening and funding an account</span></p>
-            <p class="result-card__desc"><span data-lang="ru">Показывает, доходит ли пользователь от входа в кабинет до первого ценностного действия.</span><span data-lang="en">Shows whether the user gets from entering the dashboard to the first valuable action.</span></p>
-          </div>
-          <div class="metric-card">
-            <p class="result-card__metric"><span data-lang="ru">Доля новых пользователей, открывших торговый счёт</span><span data-lang="en">The share of new users who opened a trading account</span></p>
-            <p class="result-card__desc"><span data-lang="ru">Показывает, доходит ли пользователь до первого счёта, а не только до главного экрана.</span><span data-lang="en">Shows whether the user reaches a first account, not just the home screen.</span></p>
-          </div>
-          <div class="metric-card">
-            <p class="result-card__metric"><span data-lang="ru">Доля пополненных счетов с повторной операцией</span><span data-lang="en">The share of funded accounts with a repeat operation</span></p>
-            <p class="result-card__desc"><span data-lang="ru">Показывает, возвращается ли пользователь в кабинет после первого пополнения.</span><span data-lang="en">Shows whether the user comes back to the dashboard after the first deposit.</span></p>
-          </div>
-          <div class="metric-card">
-            <p class="result-card__metric"><span data-lang="ru">Доля успешно завершённых пополнений, выводов и переводов</span><span data-lang="en">The share of successfully completed deposits, withdrawals, and transfers</span></p>
-            <p class="result-card__desc"><span data-lang="ru">Показывает надёжность финансового цикла, вокруг которого построен кабинет.</span><span data-lang="en">Shows the reliability of the financial cycle the dashboard is built around.</span></p>
+          <div class="result-card col-6">
+            <p class="result-card__label"><span data-lang="ru">Поддержка внутри продукта</span><span data-lang="en">In-product support</span></p>
+            <p class="result-card__metric"><span data-lang="ru">Обращение создаётся и отслеживается без поиска внешних контактов</span><span data-lang="en">A request is created and tracked without hunting for outside contacts</span></p>
+            <p class="result-card__desc"><span data-lang="ru"><strong>Влияние оценивали по:</strong> доле успешно завершённых пополнений, выводов и переводов</span><span data-lang="en"><strong>Measured by:</strong> the share of successfully completed deposits, withdrawals, and transfers</span></p>
           </div>
         </div>
       </div>
@@ -679,7 +653,25 @@
     <img id="lightboxImg" src="" alt="">
   </div>
 
-  <script src="assets/i18n.js"></script>
+  <script>
+  (function () {
+    // Only animate sections that start below the fold — anything already
+    // visible on load stays visible with no flash-of-invisible-content.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var targets = document.querySelectorAll('.detail-block');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    targets.forEach(function (el) {
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.9) return;
+      el.classList.add('reveal-pending');
+      io.observe(el);
+    });
+  })();
+</script>
+<script src="assets/i18n.js"></script>
   <script src="assets/typography.js"></script>
   <script src="assets/lightbox.js"></script>
   <script src="assets/case-nav.js"></script>

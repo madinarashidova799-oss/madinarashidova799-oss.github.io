@@ -21,6 +21,16 @@
       if (next !== null) img.setAttribute('alt', next);
     });
 
+    // Localized screenshots: explicit data-src-ru/data-src-en pair per image (no
+    // string-splicing of a shared path). No `src` ships in markup, so the browser
+    // never requests the wrong-language file — this runs before first paint for
+    // any image the layout hasn't already scrolled into view, and it swaps in
+    // place (no reload) for images already on screen when the toggle is used.
+    document.querySelectorAll('img[data-src-ru]').forEach(function (img) {
+      var next = lang === 'en' ? img.getAttribute('data-src-en') : img.getAttribute('data-src-ru');
+      if (next && img.getAttribute('src') !== next) img.setAttribute('src', next);
+    });
+
     document.dispatchEvent(new CustomEvent('langchange', { detail: { lang: lang } }));
   }
 
