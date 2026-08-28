@@ -48,6 +48,12 @@
     --font-size-h4: clamp(19px, 1.6vw, 23px);
     --font-size-body: clamp(16px, 1.1vw, 18px);
     --font-size-label: 14px;
+    /* UI-audit fix (2026-08-28): named tokens for values that were
+       previously repeated as bare 0.72rem/1.05rem literals across the
+       case-nav prev/next controls and the result-card metric — same
+       computed sizes, now backed by a token instead of ad-hoc numbers. */
+    --font-size-nav-label: 0.72rem;
+    --font-size-nav-title: 1.05rem;
     --font-weight-heading: 600;
     --line-height-h1: 1.05;
     --line-height-heading: 1.2;
@@ -124,7 +130,7 @@
 
 </style>
 <style>
-  :root { --case-accent: var(--text-strong); --accent-tracker: #5955FF; --accent-tracker-bg: #EBEBFF; --ink-tracker: #0F0E3E; --grid-gutter: 28px; }
+  :root { --case-accent: var(--text-strong); --accent-tracker: #5955FF; --ink-tracker: #0F0E3E; --grid-gutter: 28px; }
   .case-page { padding: 128px 0 160px; max-width: 1400px; margin: 0 auto; }
 
   /* Invisible 12-column authoring grid — see case-alif-partners.html for
@@ -144,9 +150,9 @@
     .case-grid > .col-4, .case-grid > .col-6, .case-grid > .col-8, .case-grid > .col-8-center, .case-grid > .col-6-center { grid-column: span 4; }
   }
 
-  .case-context-cards { margin-top: clamp(56px, 6vw, 80px); align-items: stretch; }
+  .case-context-cards { margin-top: clamp(80px, 8vw, 112px); align-items: stretch; }
   .case-context-card {
-    background: var(--accent-tracker-bg); border: none; border-radius: 20px; box-shadow: none;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: none;
     padding: clamp(28px, 2.6vw, 36px); display: flex; flex-direction: column; gap: 10px; height: 100%;
   }
   .case-context-card__label {
@@ -313,11 +319,11 @@
 
   /* Merged "Результат и критерии успеха" section — one intro paragraph on
      what shipped, then four cards each tying a product result to the
-     metric it was judged by. Calm accent-tinted glass, no dark shadow. */
+     metric it was judged by. */
   .result-cards { margin-top: clamp(32px, 3vw, 40px); row-gap: 22px; align-items: stretch; }
   .result-card {
-    background: var(--accent-tracker-bg);
-    border: none;
+    background: var(--surface);
+    border: 1px solid var(--line);
     box-shadow: none;
     border-radius: 20px;
     min-height: 200px;
@@ -334,7 +340,7 @@
     letter-spacing: 0.06em; color: var(--text-dim); margin: 0 0 2px;
   }
   .result-card .result-card__label::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent-tracker); flex-shrink: 0; }
-  .result-card .result-card__metric { font-family: var(--display); font-weight: 600; font-size: 1.05rem; color: var(--text); line-height: 1.35; margin: 0; max-width: none; }
+  .result-card .result-card__metric { font-family: var(--display); font-weight: 600; font-size: var(--font-size-nav-title); color: var(--text); line-height: 1.35; margin: 0; max-width: none; }
   .result-card .result-card__desc { font-size: var(--font-size-label); color: var(--text-dim); line-height: 1.55; margin: 0; max-width: none; }
   .result-card .result-card__desc strong { color: var(--text); font-weight: 600; }
 
@@ -379,10 +385,10 @@
   .case-prev:hover, .case-prev:focus-visible { background: rgba(255,255,255,0.88); box-shadow: var(--shadow-control); transform: translateY(-2px); }
   .case-prev:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 2px; }
   .case-prev:active { transform: translateY(0); }
-  .case-prev__label { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+  .case-prev__label { font-family: var(--mono); font-size: var(--font-size-nav-label); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
   .case-prev__title-row { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
   .case-prev__arrow { flex-shrink: 0; color: #171717; transition: transform 0.25s cubic-bezier(0.22,1,0.36,1); }
-  .case-prev__title { font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: #171717; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .case-prev__title { font-family: var(--display); font-weight: 700; font-size: var(--font-size-nav-title); color: #171717; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .case-prev:hover .case-prev__arrow, .case-prev:focus-visible .case-prev__arrow { transform: translateX(-5px); }
   .case-home__label { white-space: nowrap; }
 
@@ -395,9 +401,9 @@
   .case-next:hover, .case-next:focus-visible { background: rgba(255,255,255,0.88); box-shadow: var(--shadow-control); transform: translateY(-2px); }
   .case-next:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 2px; }
   .case-next:active { transform: translateY(0); }
-  .case-next__label { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+  .case-next__label { font-family: var(--mono); font-size: var(--font-size-nav-label); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
   .case-next__title-row { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
-  .case-next__title { font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: #171717; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .case-next__title { font-family: var(--display); font-weight: 700; font-size: var(--font-size-nav-title); color: #171717; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .case-next__arrow { flex-shrink: 0; color: #171717; transition: transform 0.25s cubic-bezier(0.22,1,0.36,1); }
   .case-next:hover .case-next__arrow, .case-next:focus-visible .case-next__arrow { transform: translateX(5px); }
 
@@ -413,6 +419,26 @@
   @media (prefers-reduced-motion: reduce) {
     .case-floating-nav { transition: none; opacity: 1; transform: translateX(-50%); }
     .case-next__arrow, .case-prev__arrow, .case-next, .case-prev { transition: none; }
+  }
+  /* On short viewports (common laptop heights, e.g. 1280x720/1366x768) the
+     hero+facts+context-cards stack can reach as far down as the fixed
+     bottom case-floating-nav dock at scroll position 0. The dock stays
+     fixed and always visible by design (see DESIGN.md §13.3) — it is not
+     hidden or scroll-triggered — so the fix compacts the vertical rhythm
+     above the fold instead, just enough to clear the dock's reserved
+     ~76px-tall zone at the bottom of the viewport. */
+  @media (max-height: 850px) {
+    .case-page { padding-top: 108px; }
+    .case-facts { margin-top: 20px; padding-top: 20px; }
+    .case-context-cards { margin-top: 56px; }
+    .case-context-card { padding: clamp(20px, 2.2vw, 28px); }
+  }
+  @media (max-height: 760px) {
+    .case-page { padding-top: 84px; }
+    .case-meta-group { gap: 10px; margin-top: 8px; }
+    .case-facts { margin-top: 8px; padding-top: 8px; }
+    .case-context-cards { margin-top: 16px; }
+    .case-context-card { padding: clamp(12px, 1.5vw, 18px); }
   }
 </style>
   <link rel="stylesheet" href="assets/typography.css">
@@ -432,7 +458,7 @@
       <div class="case-header">
         <h1 class="case-title">360 Tracker</h1>
         <div class="case-meta-group">
-          <div class="case-tags"><span>/mobile</span><span>B2C</span></div>
+          <div class="case-tags"><span>mobile</span><span>b2c</span></div>
         </div>
         <dl class="case-facts">
           <div><dt><span data-lang="ru">Длительность</span><span data-lang="en">Duration</span></dt><dd><span data-lang="ru">6 месяцев</span><span data-lang="en">6 months</span></dd></div>
@@ -597,7 +623,7 @@
         <div class="case-grid case-split">
           <div class="case-split-media col-6-center">
             <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/tracker-userflow-ru.webp" data-src-en="assets/process/tracker-userflow.webp" data-alt-ru="360 Tracker · схема user flow" data-alt-en="360 Tracker · user flow diagram" alt="360 Tracker · схема user flow" loading="lazy">
+              <img data-src-ru="assets/process/tracker-userflow-ru.webp" data-src-en="assets/process/tracker-userflow.webp" data-alt-ru="360 Tracker · схема user flow" data-alt-en="360 Tracker · user flow diagram" alt="360 Tracker · схема user flow" loading="lazy" width="3288" height="3078">
             </button>
           </div>
         </div>
@@ -612,14 +638,14 @@
           <div class="case-split-text col-6"><p><span data-lang="ru">Карта стала главным экраном. На ней видны участники семьи, актуальный статус, последнее обновление и значимые места. Отсюда можно выбрать человека, построить маршрут или перейти в семейный круг.</span><span data-lang="en">The map became the main screen. It shows family members, their current status, the last update, and important places. From here you can select a person, build a route, or go to the family circle.</span></p></div>
           <div class="case-split-media col-6">
             <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/tracker-main-ru.webp" data-src-en="assets/process/tracker-main.webp" data-alt-ru="360 Tracker · главный экран" data-alt-en="360 Tracker · the main screen" alt="360 Tracker · главный экран" loading="lazy">
+              <img data-src-ru="assets/process/tracker-main-ru.webp" data-src-en="assets/process/tracker-main.webp" data-alt-ru="360 Tracker · главный экран" data-alt-en="360 Tracker · the main screen" alt="360 Tracker · главный экран" loading="lazy" width="4086" height="2629">
             </button>
           </div>
         </div>
         <div class="case-grid case-split">
           <div class="case-split-media col-6">
             <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/tracker-geofence-ru.webp" data-src-en="assets/process/tracker-geofence.webp" data-alt-ru="360 Tracker · геозоны" data-alt-en="360 Tracker · geofences" alt="360 Tracker · геозоны" loading="lazy">
+              <img data-src-ru="assets/process/tracker-geofence-ru.webp" data-src-en="assets/process/tracker-geofence.webp" data-alt-ru="360 Tracker · геозоны" data-alt-en="360 Tracker · geofences" alt="360 Tracker · геозоны" loading="lazy" width="4086" height="2629">
             </button>
           </div>
           <div class="case-split-text col-6">
@@ -642,7 +668,7 @@
           </div>
           <div class="case-split-media col-6">
             <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/tracker-privacy-ru.webp" data-src-en="assets/process/tracker-privacy.webp" data-alt-ru="360 Tracker · скрыть геолокацию" data-alt-en="360 Tracker · hiding location" alt="360 Tracker · скрыть геолокацию" loading="lazy">
+              <img data-src-ru="assets/process/tracker-privacy-ru.webp" data-src-en="assets/process/tracker-privacy.webp" data-alt-ru="360 Tracker · скрыть геолокацию" data-alt-en="360 Tracker · hiding location" alt="360 Tracker · скрыть геолокацию" loading="lazy" width="4086" height="2629">
             </button>
           </div>
         </div>
@@ -656,7 +682,7 @@
         <div class="case-grid case-split">
           <div class="case-split-media col-6">
             <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/tracker-history-ru.webp" data-src-en="assets/process/tracker-history.webp" data-alt-ru="360 Tracker · история поездок" data-alt-en="360 Tracker · trip history" alt="360 Tracker · история поездок" loading="lazy">
+              <img data-src-ru="assets/process/tracker-history-ru.webp" data-src-en="assets/process/tracker-history.webp" data-alt-ru="360 Tracker · история поездок" data-alt-en="360 Tracker · trip history" alt="360 Tracker · история поездок" loading="lazy" width="4086" height="2629">
             </button>
           </div>
           <div class="case-split-text col-6">
@@ -674,7 +700,7 @@
         <div class="case-grid case-split">
           <div class="case-split-media col-6">
             <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/tracker-final-ru.webp" data-src-en="assets/process/tracker-final.webp" data-alt-ru="360 Tracker · семейный чат" data-alt-en="360 Tracker · the family chat" alt="360 Tracker · семейный чат" loading="lazy">
+              <img data-src-ru="assets/process/tracker-final-ru.webp" data-src-en="assets/process/tracker-final.webp" data-alt-ru="360 Tracker · семейный чат" data-alt-en="360 Tracker · the family chat" alt="360 Tracker · семейный чат" loading="lazy" width="4086" height="2629">
             </button>
           </div>
           <div class="case-split-text col-6">

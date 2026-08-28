@@ -128,9 +128,11 @@
     color: var(--text-dim); max-width: 62ch; line-height: 1.6; text-wrap: pretty;
   }
   /* Section headings ("Из поддержки...", "Что мне нравится...",
-     "За пределами макетов") are real <h4>s sharing --font-size-h4 with the
-     case pages' task headline — see instruction §2. */
-  .about-hero h4, .about-outside h4 {
+     "За пределами макетов") are real <h3>s (promoted from <h4> in the
+     2026-08-28 UI audit — h2.about-title had no h3 in between, skipping a
+     level) sharing --font-size-h4 with the case pages' task headline — see
+     instruction §2. */
+  .about-hero h3, .about-outside h3 {
     font-family: var(--display); font-weight: var(--font-weight-heading); font-size: var(--font-size-h4);
     line-height: 1.3; letter-spacing: -0.005em; margin-bottom: 24px; text-wrap: balance;
   }
@@ -337,6 +339,30 @@
     .case-floating-nav { opacity: 1; transform: translateX(-50%); }
   }
 
+  /* UI-audit fix (2026-08-28): on short viewports (e.g. 1366x768, a very
+     common laptop height) the fixed bottom .case-floating-nav dock — same
+     component as on the 4 case pages, present here too for Home/"See the
+     work" links — can sit directly over the "Что мне нравится в работе"
+     heading at scroll position 0, since the hero text column is tall
+     enough to reach that far down before any scrolling happens. The dock
+     stays fixed and always visible by design (not hidden/scroll-triggered)
+     so the fix compacts vertical rhythm above it instead, the same
+     approach used for the equivalent case-page dock-overlap fix. */
+  @media (max-height: 850px) {
+    .about-page-wrap { padding-top: 112px; }
+    .about-story { margin-top: 28px; }
+    .about-likelead { margin-top: 28px; }
+    .about-hero h3, .about-outside h3 { margin-bottom: 16px; }
+    .about-hero p + p, .about-outside p + p { margin-top: 14px; }
+  }
+  @media (max-height: 740px) {
+    .about-page-wrap { padding-top: 92px; }
+    .about-story { margin-top: 20px; }
+    .about-likelead { margin-top: 20px; }
+    .about-hero h3, .about-outside h3 { margin-bottom: 12px; }
+    .about-hero p + p, .about-outside p + p { margin-top: 10px; }
+  }
+
 </style>
   <link rel="stylesheet" href="assets/typography.css">
 </head>
@@ -359,14 +385,14 @@
           <p class="about-dek"><span data-lang="ru">Продуктовый дизайнер. Разбираюсь в сложных системах и стараюсь оставлять их сложность внутри продукта, а не на экране пользователя.</span><span data-lang="en">Product designer. I get to the bottom of complex systems and try to keep their complexity inside the product, not on the user's screen.</span></p>
 
           <section class="about-story">
-            <h4><span data-lang="ru">Из поддержки в продуктовый дизайн</span><span data-lang="en">From support into product design</span></h4>
+            <h3><span data-lang="ru">Из поддержки в продуктовый дизайн</span><span data-lang="en">From support into product design</span></h3>
             <p><span data-lang="ru">Я пришла в дизайн через колл-центр и отдел партнёров Alif. Там я видела процессы не на красивых схемах, а в работе: с повторными звонками, ручными проверками и данными, которые приходилось вводить несколько раз.</span><span data-lang="en">I came into design through Alif's call center and partner department. There I saw processes not on neat diagrams but at work: with repeat calls, manual checks, and data that had to be entered more than once.</span></p>
             <p><span data-lang="ru">Так появился довольно практичный интерес к дизайну. Я уже знала, где люди ошибаются, что приходится объяснять по телефону и почему одно простое действие иногда требует пяти вкладок и терпения модератора.</span><span data-lang="en">That's how a fairly practical interest in design showed up. I already knew where people made mistakes, what had to be explained over the phone, and why one simple action sometimes needed five tabs and a moderator's patience.</span></p>
             <p><span data-lang="ru">Сейчас я проектирую личные кабинеты, административные интерфейсы и продукты с нуля. Начинаю с пользователей и процессов, затем собираю логику, проверяю решения и сопровождаю их вместе с разработчиками.</span><span data-lang="en">Now I design personal dashboards, admin interfaces, and products from scratch. I start with users and processes, then put the logic together, test solutions, and see them through together with developers.</span></p>
           </section>
 
           <section class="about-likelead">
-            <h4><span data-lang="ru">Что мне нравится в работе</span><span data-lang="en">What I like about the work</span></h4>
+            <h3><span data-lang="ru">Что мне нравится в работе</span><span data-lang="en">What I like about the work</span></h3>
             <p><span data-lang="ru">Больше всего я люблю момент, когда большая схема с ролями, статусами и исключениями превращается в понятный сценарий.</span><span data-lang="en">What I love most is the moment when a big diagram full of roles, statuses, and exceptions turns into a clear scenario.</span></p>
             <p><span data-lang="ru">Мне близки задачи, где нужно не просто нарисовать экран, а разобраться, как устроен продукт, выбрать главное и убрать из интерфейса всё, что пользователь не обязан держать в голове.</span><span data-lang="en">I'm drawn to tasks where you can't just draw a screen. You have to figure out how the product works, choose what matters most, and clear out everything the user shouldn't have to keep in their head.</span></p>
             <p class="about-quote"><span data-lang="ru">«Если интерфейс приходится долго объяснять по телефону, у дизайна ещё есть работа»</span><span data-lang="en">"If an interface still needs a long phone call to explain, design still has work to do"</span></p>
@@ -415,7 +441,7 @@
       </div>
 
       <section class="about-outside">
-        <h4><span data-lang="ru">За пределами макетов</span><span data-lang="en">Outside the mockups</span></h4>
+        <h3><span data-lang="ru">За пределами макетов</span><span data-lang="en">Outside the mockups</span></h3>
         <div class="outside-text">
           <p><span data-lang="ru">После работы я переключаюсь на музыку, прогулки, природу и занятия, где не нужно согласовывать финальный макет. Люблю знакомиться с людьми и слушать их истории. Возможно, поэтому интервью остаются одной из любимых частей моей работы.</span><span data-lang="en">After work I switch to music, walks, nature, and activities where nobody needs to sign off on the final layout. I love meeting people and listening to their stories. Maybe that's why interviews stay one of my favorite parts of the job.</span></p>
           <p><span data-lang="ru">Часть находок сохраняю в Telegram: в Earworm собираю музыку и личные истории, а в «Дезигнере» держу работы, наблюдения и разборы интерфейсов.</span><span data-lang="en">Some of what I find, I save in Telegram: in Earworm I collect music and personal stories, and in "Дезигнер" I keep projects, observations, and interface breakdowns.</span></p>

@@ -48,6 +48,12 @@
     --font-size-h4: clamp(19px, 1.6vw, 23px);
     --font-size-body: clamp(16px, 1.1vw, 18px);
     --font-size-label: 14px;
+    /* UI-audit fix (2026-08-28): named tokens for values that were
+       previously repeated as bare 0.72rem/1.05rem literals across the
+       case-nav prev/next controls and the result-card metric — same
+       computed sizes, now backed by a token instead of ad-hoc numbers. */
+    --font-size-nav-label: 0.72rem;
+    --font-size-nav-title: 1.05rem;
     --font-weight-heading: 600;
     --line-height-h1: 1.05;
     --line-height-heading: 1.2;
@@ -145,9 +151,9 @@
     .case-grid > .col-4, .case-grid > .col-6, .case-grid > .col-8, .case-grid > .col-8-center { grid-column: span 4; }
   }
 
-  .case-context-cards { margin-top: clamp(56px, 6vw, 80px); align-items: stretch; }
+  .case-context-cards { margin-top: clamp(80px, 8vw, 112px); align-items: stretch; }
   .case-context-card {
-    background: var(--accent-blue-bg); border: none; border-radius: 20px; box-shadow: none;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: none;
     padding: clamp(28px, 2.6vw, 36px); display: flex; flex-direction: column; gap: 10px; height: 100%;
   }
   .case-context-card__label {
@@ -350,11 +356,11 @@
 
   /* Merged "Результат и критерии успеха" section — one intro paragraph on
      what shipped, then four cards each tying a product result to the
-     metric it was judged by. Calm accent-tinted glass, no dark shadow. */
+     metric it was judged by. */
   .result-cards { margin-top: clamp(32px, 3vw, 40px); row-gap: 22px; align-items: stretch; }
   .result-card {
-    background: var(--accent-blue-bg);
-    border: none;
+    background: var(--surface);
+    border: 1px solid var(--line);
     box-shadow: none;
     border-radius: 20px;
     min-height: 200px;
@@ -371,7 +377,7 @@
     letter-spacing: 0.06em; color: var(--text-dim); margin: 0 0 2px;
   }
   .result-card .result-card__label::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent-blue); flex-shrink: 0; }
-  .result-card .result-card__metric { font-family: var(--display); font-weight: 600; font-size: 1.05rem; color: var(--text); line-height: 1.35; margin: 0; max-width: none; }
+  .result-card .result-card__metric { font-family: var(--display); font-weight: 600; font-size: var(--font-size-nav-title); color: var(--text); line-height: 1.35; margin: 0; max-width: none; }
   .result-card .result-card__desc { font-size: var(--font-size-label); color: var(--text-dim); line-height: 1.55; margin: 0; max-width: none; }
   .result-card .result-card__desc strong { color: var(--text); font-weight: 600; }
 
@@ -416,10 +422,10 @@
   .case-prev:hover, .case-prev:focus-visible { background: rgba(255,255,255,0.88); box-shadow: var(--shadow-control); transform: translateY(-2px); }
   .case-prev:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 2px; }
   .case-prev:active { transform: translateY(0); }
-  .case-prev__label { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+  .case-prev__label { font-family: var(--mono); font-size: var(--font-size-nav-label); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
   .case-prev__title-row { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
   .case-prev__arrow { flex-shrink: 0; color: #171717; transition: transform 0.25s cubic-bezier(0.22,1,0.36,1); }
-  .case-prev__title { font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: #171717; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .case-prev__title { font-family: var(--display); font-weight: 700; font-size: var(--font-size-nav-title); color: #171717; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .case-prev:hover .case-prev__arrow, .case-prev:focus-visible .case-prev__arrow { transform: translateX(-5px); }
 
   .case-next {
@@ -431,9 +437,9 @@
   .case-next:hover, .case-next:focus-visible { background: rgba(255,255,255,0.88); box-shadow: var(--shadow-control); transform: translateY(-2px); }
   .case-next:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 2px; }
   .case-next:active { transform: translateY(0); }
-  .case-next__label { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+  .case-next__label { font-family: var(--mono); font-size: var(--font-size-nav-label); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
   .case-next__title-row { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
-  .case-next__title { font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: #171717; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .case-next__title { font-family: var(--display); font-weight: 700; font-size: var(--font-size-nav-title); color: #171717; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .case-next__arrow { flex-shrink: 0; color: #171717; transition: transform 0.25s cubic-bezier(0.22,1,0.36,1); }
   .case-next:hover .case-next__arrow, .case-next:focus-visible .case-next__arrow { transform: translateX(5px); }
 
@@ -449,6 +455,26 @@
   @media (prefers-reduced-motion: reduce) {
     .case-floating-nav { transition: none; opacity: 1; transform: translateX(-50%); }
     .case-next__arrow, .case-prev__arrow, .case-next, .case-prev { transition: none; }
+  }
+  /* On short viewports (common laptop heights, e.g. 1280x720/1366x768) the
+     hero+facts+context-cards stack can reach as far down as the fixed
+     bottom case-floating-nav dock at scroll position 0. The dock stays
+     fixed and always visible by design (see DESIGN.md §13.3) — it is not
+     hidden or scroll-triggered — so the fix compacts the vertical rhythm
+     above the fold instead, just enough to clear the dock's reserved
+     ~76px-tall zone at the bottom of the viewport. */
+  @media (max-height: 850px) {
+    .case-page { padding-top: 108px; }
+    .case-facts { margin-top: 20px; padding-top: 20px; }
+    .case-context-cards { margin-top: 56px; }
+    .case-context-card { padding: clamp(20px, 2.2vw, 28px); }
+  }
+  @media (max-height: 760px) {
+    .case-page { padding-top: 84px; }
+    .case-meta-group { gap: 10px; margin-top: 8px; }
+    .case-facts { margin-top: 8px; padding-top: 8px; }
+    .case-context-cards { margin-top: 16px; }
+    .case-context-card { padding: clamp(12px, 1.5vw, 18px); }
   }
 </style>
   <link rel="stylesheet" href="assets/typography.css">
@@ -468,7 +494,7 @@
       <div class="case-header">
         <h1 class="case-title">EAJ Trader</h1>
         <div class="case-meta-group">
-          <div class="case-tags"><span>/trading</span><span>B2C</span></div>
+          <div class="case-tags"><span>trading</span><span>b2c</span></div>
         </div>
         <dl class="case-facts">
           <div><dt><span data-lang="ru">Длительность</span><span data-lang="en">Duration</span></dt><dd><span data-lang="ru">2 месяца</span><span data-lang="en">2 months</span></dd></div>
@@ -502,7 +528,7 @@
         <div class="case-grid case-split">
           <div class="case-split-media col-12">
             <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/eaj-research-ru.webp" data-src-en="assets/process/eaj-research.webp" data-alt-ru="EAJ Trader · бизнес-анализ пользователей" data-alt-en="EAJ Trader · user business analysis" alt="EAJ Trader · бизнес-анализ пользователей" loading="lazy">
+              <img data-src-ru="assets/process/eaj-research-ru.webp" data-src-en="assets/process/eaj-research.webp" data-alt-ru="EAJ Trader · бизнес-анализ пользователей" data-alt-en="EAJ Trader · user business analysis" alt="EAJ Trader · бизнес-анализ пользователей" loading="lazy" width="4320" height="2445">
             </button>
           </div>
         </div>
@@ -519,7 +545,7 @@
           </div>
           <div class="case-split-media col-6">
             <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/eaj-home-ru.webp" data-src-en="assets/process/eaj-home.webp" data-alt-ru="EAJ Trader · главный экран личного кабинета" data-alt-en="EAJ Trader · the dashboard's main screen" alt="EAJ Trader · главный экран личного кабинета" loading="lazy">
+              <img data-src-ru="assets/process/eaj-home-ru.webp" data-src-en="assets/process/eaj-home.webp" data-alt-ru="EAJ Trader · главный экран личного кабинета" data-alt-en="EAJ Trader · the dashboard's main screen" alt="EAJ Trader · главный экран личного кабинета" loading="lazy" width="4272" height="4830">
             </button>
           </div>
         </div>
@@ -536,9 +562,9 @@
         <div class="compare-slider case-grid">
           <div class="compare-slider__frame col-8-center">
             <div class="compare-slider__stage" data-compare-slider>
-              <img class="compare-slider__base" data-src-ru="assets/process/eaj-concept2-ru.webp" data-src-en="assets/process/eaj-concept2.webp" data-alt-ru="EAJ Trader · табличный формат счетов" data-alt-en="EAJ Trader · accounts in tabular format" alt="EAJ Trader · табличный формат счетов" loading="lazy">
+              <img class="compare-slider__base" data-src-ru="assets/process/eaj-concept2-ru.webp" data-src-en="assets/process/eaj-concept2.webp" data-alt-ru="EAJ Trader · табличный формат счетов" data-alt-en="EAJ Trader · accounts in tabular format" alt="EAJ Trader · табличный формат счетов" loading="lazy" width="4080" height="2328">
               <div class="compare-slider__overlay">
-                <img data-src-ru="assets/process/eaj-concept1-ru.webp" data-src-en="assets/process/eaj-concept1.webp" data-alt-ru="EAJ Trader · карточный формат счетов" data-alt-en="EAJ Trader · accounts in card format" alt="EAJ Trader · карточный формат счетов" loading="lazy">
+                <img data-src-ru="assets/process/eaj-concept1-ru.webp" data-src-en="assets/process/eaj-concept1.webp" data-alt-ru="EAJ Trader · карточный формат счетов" data-alt-en="EAJ Trader · accounts in card format" alt="EAJ Trader · карточный формат счетов" loading="lazy" width="4080" height="2316">
               </div>
               <span class="compare-slider__tag compare-slider__tag--left"><span data-lang="ru">Карточный формат</span><span data-lang="en">Card format</span></span>
               <span class="compare-slider__tag compare-slider__tag--right"><span data-lang="ru">Табличный формат</span><span data-lang="en">Table format</span></span>
@@ -560,7 +586,7 @@
           </div>
           <div class="case-split-media col-6">
             <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/eaj-funding-2-ru.webp" data-src-en="assets/process/eaj-funding-2.webp" data-alt-ru="EAJ Trader · раздел Funding: выбор действия" data-alt-en="EAJ Trader · the Funding section: choosing an action" alt="EAJ Trader · раздел Funding: выбор действия" loading="lazy">
+              <img data-src-ru="assets/process/eaj-funding-2-ru.webp" data-src-en="assets/process/eaj-funding-2.webp" data-alt-ru="EAJ Trader · раздел Funding: выбор действия" data-alt-en="EAJ Trader · the Funding section: choosing an action" alt="EAJ Trader · раздел Funding: выбор действия" loading="lazy" width="4080" height="2172">
             </button>
           </div>
         </div>
@@ -580,7 +606,7 @@
               </div>
               <div class="case-split-media">
                 <button class="case-image-trigger" type="button">
-                  <img data-src-ru="assets/process/eaj-claims-list-ru.webp" data-src-en="assets/process/eaj-claims-list.webp" data-alt-ru="EAJ Trader · список обращений Claims & Complaints" data-alt-en="EAJ Trader · the Claims & Complaints request list" alt="EAJ Trader · список обращений Claims & Complaints" loading="lazy">
+                  <img data-src-ru="assets/process/eaj-claims-list-ru.webp" data-src-en="assets/process/eaj-claims-list.webp" data-alt-ru="EAJ Trader · список обращений Claims & Complaints" data-alt-en="EAJ Trader · the Claims & Complaints request list" alt="EAJ Trader · список обращений Claims & Complaints" loading="lazy" width="4080" height="3876">
                 </button>
               </div>
             </div>
@@ -591,7 +617,7 @@
               </div>
               <div class="case-split-media">
                 <button class="case-image-trigger" type="button">
-                  <img data-src-ru="assets/process/eaj-claims-detail-ru.webp" data-src-en="assets/process/eaj-claims-detail.webp" data-alt-ru="EAJ Trader · чат по обращению" data-alt-en="EAJ Trader · the chat for a single request" alt="EAJ Trader · чат по обращению" loading="lazy">
+                  <img data-src-ru="assets/process/eaj-claims-detail-ru.webp" data-src-en="assets/process/eaj-claims-detail.webp" data-alt-ru="EAJ Trader · чат по обращению" data-alt-en="EAJ Trader · the chat for a single request" alt="EAJ Trader · чат по обращению" loading="lazy" width="4080" height="3444">
                 </button>
               </div>
             </div>

@@ -22,7 +22,7 @@
     --text: #171717;
     --text-strong: #231e1b;
     --text-dim: #62605d;
-    --text-dim-2: #8a8782;
+    --text-dim-2: #6e6c68;
     --text-inverse: #f8f8f8;
     --accent: #231e1b;
     --live: #2f6b52;
@@ -59,7 +59,9 @@
     z-index: 100; display: flex; align-items: center;
     background: var(--nav-bg); border-radius: 100px; padding: 8px 8px 8px 22px;
     box-shadow: var(--shadow-control);
+    transition: transform 0.28s cubic-bezier(0.22,1,0.36,1), opacity 0.28s cubic-bezier(0.22,1,0.36,1);
   }
+  .site-nav.is-nav-hidden { transform: translateX(-50%) translateY(-140%); opacity: 0; pointer-events: none; }
   .site-nav .nav-name {
     font-family: var(--mono); font-size: 0.85rem; font-weight: 500;
     color: #fff; margin-right: 8px; white-space: nowrap;
@@ -399,7 +401,13 @@
      same pure black (the one deliberate exception to DESIGN.md §3's "no pure
      black surfaces" rule — that rule is about designed UI chrome, not about
      matching a photo's own background so a letterboxed edge disappears). */
-  .project-showcase--eaj { background: #000; }
+  /* UI audit fix (2026-08-28): the scene wrapper carries a subtle warm
+     gradient toward the text column instead of flat #000, so this scene
+     reads as a variation on the same shared dark palette (--nav-bg) rather
+     than an unrelated pure-black slide dropped into the sequence — the
+     media box itself stays literal #000 (unchanged) so the photo's own
+     #000 background pixels still meet it with zero visible seam. */
+  .project-showcase--eaj { background: linear-gradient(100deg, #000 0%, #000 55%, #17110e 100%); }
   .project-showcase--eaj .project-showcase__scrim { display: none; }
   .project-showcase--eaj .project-showcase__media { background: #000; }
   @media (min-width: 768px) {
@@ -713,7 +721,7 @@
   .exp-item details[open] .exp-summary__chevron { transform: rotate(180deg); }
   .exp-detail { padding: 0 0 28px; display: flex; flex-direction: column; gap: 20px; }
   .exp-detail__intro { font-size: 0.92rem; line-height: 1.62; color: var(--text-dim); max-width: 640px; }
-  .exp-detail__block h4 {
+  .exp-detail__block h3 {
     font-family: var(--mono); font-size: 0.76rem; font-weight: 600; letter-spacing: 0.06em;
     text-transform: uppercase; color: var(--text-dim-2); margin-bottom: 10px;
   }
@@ -742,6 +750,7 @@
 <!--
 THESIS: One calm, neutral system carries the whole site — no per-case color-coding, no separate "hero exception." Trust reads through structure, spacing, and craft, not through decoration.
 SOURCE: reference/Main page-web.svg governs the site's character in full — light neutral ground (#f8f8f8), warm dark-brown nav/surfaces, soft wide low-contrast shadows, generous rounded radii. Color is reserved for logos and case covers only, never used as a general UI palette.
+NOTE 2026-08-28: case-page context/task/result cards briefly carried a per-case accent tint; a UI audit flagged that as contradicting this thesis, and the direction was to revert rather than amend the thesis — cards are back to the neutral surface/border treatment this rule describes.
 STORY: A hiring manager sees a clean, consistent, confidently restrained interface and reads "this designer has taste and doesn't need noise to prove it."
 FIRST VIEWPORT: reference/Main page-web.svg reproduced structurally — 5-ring orbit stage (11 tool logos on rings 2–4, one shared rAF loop, exact SVG geometry), centered hero-content column (status, name, role, 3 glass contact pills), nav fading in above it.
 FORM: Unified light system per DESIGN.md, superseding the earlier "Screenprint Overlap" ink-world direction (seed key b57bacc7, source id ink-pigment-printmaking-screenprint-transparent-overlap) across every page, including case studies.
@@ -844,7 +853,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           <div class="project-showcase__body">
             <div class="project-showcase__header">
               <div class="project-showcase__row">
-                <h3 class="project-showcase__title">Alif Partners</h3>
+                <h2 class="project-showcase__title">Alif Partners</h2>
               </div>
               <div class="project-showcase__meta"><span data-lang="ru">B2B fintech · Web + Mobile</span><span data-lang="en">B2B fintech · Web + Mobile</span></div>
             </div>
@@ -865,7 +874,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           <div class="project-showcase__body">
             <div class="project-showcase__header">
               <div class="project-showcase__row">
-                <h3 class="project-showcase__title">EAJ Trader</h3>
+                <h2 class="project-showcase__title">EAJ Trader</h2>
               </div>
               <div class="project-showcase__meta"><span data-lang="ru">B2C trading · Web</span><span data-lang="en">B2C trading · Web</span></div>
             </div>
@@ -886,7 +895,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           <div class="project-showcase__body">
             <div class="project-showcase__header">
               <div class="project-showcase__row">
-                <h3 class="project-showcase__title">Namaste</h3>
+                <h2 class="project-showcase__title">Namaste</h2>
               </div>
               <div class="project-showcase__meta"><span data-lang="ru">B2C wellness · iOS</span><span data-lang="en">B2C wellness · iOS</span></div>
             </div>
@@ -907,7 +916,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           <div class="project-showcase__body">
             <div class="project-showcase__header">
               <div class="project-showcase__row">
-                <h3 class="project-showcase__title">360 Tracker</h3>
+                <h2 class="project-showcase__title">360 Tracker</h2>
               </div>
               <div class="project-showcase__meta"><span data-lang="ru">B2C family safety · iOS</span><span data-lang="en">B2C family safety · iOS</span></div>
             </div>
@@ -923,7 +932,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
   <div class="page">
     <section class="experience" id="experience">
-      <div class="work-heading"><span data-lang="ru">Опыт</span><span data-lang="en">Experience</span></div>
+      <h2 class="work-heading"><span data-lang="ru">Опыт</span><span data-lang="en">Experience</span></h2>
       <div class="exp-item">
         <details>
           <summary class="exp-summary">
@@ -938,8 +947,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             <p class="exp-detail__intro" data-lang-block="ru">Работаю с ключевым партнёром компании FIBO Group, международным брокером и поставщиком торговых решений на финансовых рынках. Отвечаю за развитие клиентских и внутренних цифровых продуктов компании: мобильного приложения Fibo Forex (iOS/Android), клиентского кабинета, корпоративного сайта, маркетинговых лендингов и новых продуктовых направлений.</p>
             <p class="exp-detail__intro" data-lang-block="en">I work with FIBO Group, the company's key partner (an international broker and provider of trading solutions in financial markets). I'm responsible for developing the company's client-facing and internal digital products: the Fibo Forex mobile app (iOS/Android), the client dashboard, the corporate website, marketing landing pages, and new product directions.</p>
             <div class="exp-detail__block">
-              <h4 data-lang-block="ru">Обязанности</h4>
-              <h4 data-lang-block="en">Responsibilities</h4>
+              <h3 data-lang-block="ru">Обязанности</h3>
+              <h3 data-lang-block="en">Responsibilities</h3>
               <ul class="exp-detail__list" data-lang-block="ru">
                 <li>Развитие и поддержка единой дизайн-системы для Web, iOS и Android.</li>
                 <li>Проектирование пользовательских сценариев для мобильных и веб-продуктов.</li>
@@ -960,8 +969,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
               </ul>
             </div>
             <div class="exp-detail__block">
-              <h4 data-lang-block="ru">Результаты</h4>
-              <h4 data-lang-block="en">Results</h4>
+              <h3 data-lang-block="ru">Результаты</h3>
+              <h3 data-lang-block="en">Results</h3>
               <ul class="exp-detail__list" data-lang-block="ru">
                 <li>Создала и внедрила единую дизайн-систему для клиентского кабинета, корпоративного сайта FIBO Group и мобильного приложения Fibo Forex. Сократила время проектирования новых функций на 15% благодаря стандартизации компонентов и унификации процессов.</li>
                 <li>Снизила количество UI-багов и несоответствий между платформами.</li>
@@ -994,8 +1003,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             <p class="exp-detail__intro" data-lang-block="ru">Foreesco занимается разработкой кастомных B2C мобильных приложений для iOS и Android. Работала одновременно над несколькими мобильными продуктами, отвечая за полный цикл проектирования: исследования, формирование гипотез, UX/UI-дизайн и сопровождение разработки.</p>
             <p class="exp-detail__intro" data-lang-block="en">Foreesco is a product studio building custom B2C mobile apps for iOS and Android. I worked on several mobile products at once, owning the full design cycle: research, hypothesis generation, UX/UI design, and development support.</p>
             <div class="exp-detail__block">
-              <h4 data-lang-block="ru">Обязанности</h4>
-              <h4 data-lang-block="en">Responsibilities</h4>
+              <h3 data-lang-block="ru">Обязанности</h3>
+              <h3 data-lang-block="en">Responsibilities</h3>
               <ul class="exp-detail__list" data-lang-block="ru">
                 <li>Проведение CustDev и UX-исследований.</li>
                 <li>Конкурентный анализ и поиск продуктовых возможностей.</li>
@@ -1014,8 +1023,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
               </ul>
             </div>
             <div class="exp-detail__block">
-              <h4 data-lang-block="ru">Результаты</h4>
-              <h4 data-lang-block="en">Results</h4>
+              <h3 data-lang-block="ru">Результаты</h3>
+              <h3 data-lang-block="en">Results</h3>
               <ul class="exp-detail__list" data-lang-block="ru">
                 <li>Спроектировала MVP мобильного приложения 360 Tracker: провела исследования, определила структуру продукта и ключевые пользовательские сценарии.</li>
                 <li>Спроектировала фитнес-приложение Namaste, включая систему персонализированных тренировок и пользовательских сценариев.</li>
@@ -1044,8 +1053,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             <p class="exp-detail__intro" data-lang-block="ru">Alif Bank входит в число крупнейших цифровых банков Центральной Азии с многомиллионной аудиторией пользователей. Экосистема банка включает приложение для физических лиц, маркетплейс B2C-сервисов, партнёрские платформы и внутренние продукты для сотрудников банка. Работала над B2B, B2C и внутренними цифровыми сервисами банка.</p>
             <p class="exp-detail__intro" data-lang-block="en">Alif Bank is one of the largest digital banks in Central Asia, with a multi-million user base. The bank's ecosystem includes a retail app, a B2C services marketplace, partner platforms, and internal products for bank employees. I worked across the bank's B2B, B2C, and internal digital services.</p>
             <div class="exp-detail__block">
-              <h4 data-lang-block="ru">Обязанности</h4>
-              <h4 data-lang-block="en">Responsibilities</h4>
+              <h3 data-lang-block="ru">Обязанности</h3>
+              <h3 data-lang-block="en">Responsibilities</h3>
               <ul class="exp-detail__list" data-lang-block="ru">
                 <li>Исследование пользовательского опыта и проведение UX-аудитов.</li>
                 <li>Построение CJM и проектирование пользовательских сценариев.</li>
@@ -1066,8 +1075,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
               </ul>
             </div>
             <div class="exp-detail__block">
-              <h4 data-lang-block="ru">Результаты</h4>
-              <h4 data-lang-block="en">Results</h4>
+              <h3 data-lang-block="ru">Результаты</h3>
+              <h3 data-lang-block="en">Results</h3>
               <ul class="exp-detail__list" data-lang-block="ru">
                 <li>Спроектировала B2B-платформу Alif Partners для сети из более чем 2000 партнёров банка, цифровизировав процессы оформления рассрочки. Это позволило сократить нагрузку на модераторов и колл-центр, ускорить обработку заявок и положительно повлияло на Task Completion Rate, Conversion Rate оформления рассрочки и Time to Approval.</li>
                 <li>Спроектировала внутреннюю платформу Alif Audit для проведения собраний, голосований и согласования решений совета директоров, переведя процессы из бумажного документооборота, Excel и электронной почты в единый цифровой продукт. В результате улучшились показатели Time to Decision, Process Efficiency и User Adoption.</li>
@@ -1093,6 +1102,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
   <script src="assets/i18n.js"></script>
   <script src="assets/typography.js"></script>
+  <script src="assets/case-nav.js"></script>
   <script>
     // Hero name: appears once via the CSS heroNameReveal keyframe (no JS
     // animation). This listener only keeps the text in sync on language
