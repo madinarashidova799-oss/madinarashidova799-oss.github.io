@@ -427,13 +427,13 @@
      hidden or scroll-triggered — so the fix compacts the vertical rhythm
      above the fold instead, just enough to clear the dock's reserved
      ~76px-tall zone at the bottom of the viewport. */
-  @media (max-height: 850px) {
+  @media (max-height: 850px) and (min-width: 768px) {
     .case-page { padding-top: 108px; }
     .case-facts { margin-top: 20px; padding-top: 20px; }
     .case-context-cards { margin-top: 56px; }
     .case-context-card { padding: clamp(20px, 2.2vw, 28px); }
   }
-  @media (max-height: 760px) {
+  @media (max-height: 760px) and (min-width: 768px) {
     .case-page { padding-top: 84px; }
     .case-meta-group { gap: 10px; margin-top: 8px; }
     .case-facts { margin-top: 8px; padding-top: 8px; }

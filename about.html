@@ -348,14 +348,14 @@
      stays fixed and always visible by design (not hidden/scroll-triggered)
      so the fix compacts vertical rhythm above it instead, the same
      approach used for the equivalent case-page dock-overlap fix. */
-  @media (max-height: 850px) {
+  @media (max-height: 850px) and (min-width: 768px) {
     .about-page-wrap { padding-top: 112px; }
     .about-story { margin-top: 28px; }
     .about-likelead { margin-top: 28px; }
     .about-hero h3, .about-outside h3 { margin-bottom: 16px; }
     .about-hero p + p, .about-outside p + p { margin-top: 14px; }
   }
-  @media (max-height: 740px) {
+  @media (max-height: 740px) and (min-width: 768px) {
     .about-page-wrap { padding-top: 92px; }
     .about-story { margin-top: 20px; }
     .about-likelead { margin-top: 20px; }
