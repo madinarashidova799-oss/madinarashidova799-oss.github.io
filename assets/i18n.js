@@ -31,6 +31,13 @@
       if (next && img.getAttribute('src') !== next) img.setAttribute('src', next);
     });
 
+    // Same pattern as the image src swap above, for links to language-specific
+    // files (e.g. the CV: cv.pdf vs cv-en.pdf).
+    document.querySelectorAll('a[data-href-ru]').forEach(function (a) {
+      var next = lang === 'en' ? a.getAttribute('data-href-en') : a.getAttribute('data-href-ru');
+      if (next) a.setAttribute('href', next);
+    });
+
     document.dispatchEvent(new CustomEvent('langchange', { detail: { lang: lang } }));
   }
 
