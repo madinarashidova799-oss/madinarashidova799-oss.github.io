@@ -6,7 +6,7 @@
 <script>(function(){if(localStorage.getItem('site-lang')==='en')document.documentElement.classList.add('lang-en');})();</script>
 <title data-ru="360 Tracker · Мадина Рашидова" data-en="360 Tracker · Madina Rashidova">360 Tracker · Мадина Рашидова</title>
 <link rel="icon" type="image/png" href="favicon.png">
-<meta name="description" content="360 Tracker. MVP мобильного приложения для семейной безопасности за 6 месяцев. Разбор процесса: анализ конкурентов, user flow, итоги." data-ru="360 Tracker. MVP мобильного приложения для семейной безопасности за 6 месяцев. Разбор процесса: анализ конкурентов, user flow, итоги." data-en="360 Tracker. A family safety mobile app MVP built in 6 months. Process breakdown: competitor analysis, user flow, outcomes.">
+<meta name="description" content="360 Tracker. MVP мобильного приложения для семейной безопасности за 6 месяцев. Разбор процесса: анализ конкурентов, user flow, итоги." data-ru="360 Tracker. MVP мобильного приложения для семейной безопасности за 6 месяцев. Разбор процесса: анализ конкурентов, user flow, итоги." data-en="360 Tracker. A family safety mobile app MVP built in 6 months. Process breakdown: competitor analysis, user flow, results.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500;1,600&display=swap" rel="stylesheet">
@@ -96,6 +96,16 @@
     margin-left: 4px; transition: background 0.2s ease, color 0.2s ease;
   }
   .lang-toggle:hover, .lang-toggle:focus-visible { background: rgba(255,255,255,0.16); color: #fff; }
+  /* ===== область нажатия верхней навигации =====
+     Ссылки были 35 px высотой, переключатель языка 38x31 — меньше цели
+     44x44. Видимая плашка не меняется: увеличена только область нажатия,
+     по вертикали, чтобы соседние ссылки не перекрывали друг друга. */
+  .site-nav a.nav-link, .lang-toggle { position: relative; }
+  .site-nav a.nav-link::after { content: ''; position: absolute; inset: -5px 0; }
+  .site-nav a.nav-name { position: relative; }
+  .site-nav a.nav-name::after { content: ''; position: absolute; inset: -12px 0; }
+  .lang-toggle::after { content: ''; position: absolute; inset: -7px -4px; }
+  /* ===== конец блока области нажатия ===== */
   @media (max-width: 560px) {
     .site-nav { padding: 6px 6px 6px 14px; }
     .site-nav .nav-name { display: none; }
@@ -123,7 +133,7 @@
   .lightbox.open img { transform: scale(1); }
   .lightbox-close {
     position: absolute; top: 28px; right: 32px;
-    width: 42px; height: 42px; border-radius: 50%;
+    width: 44px; height: 44px; border-radius: 50%;
     background: var(--surface); border: 1px solid var(--line);
     color: var(--text); font-size: 1.3rem; line-height: 1; cursor: pointer;
   }
@@ -182,6 +192,193 @@
     .case-split-media { transition: none; }
   }
   .case-split-media img { margin: 0; border-radius: var(--radius-medium); object-fit: contain; }
+
+  /* ===== Крупная подача экранов (.case-shot / .case-steps) =====
+     Веб-интерфейс нечитаем в половине колонки: при окне 1440 .case-split-media
+     отдаёт картинке 539px, а пара в --mosaic-row — по 262px. Два режима вместо
+     этого, оба держат картинку ~912px и оба уже колонки, чтобы экран не
+     распластывался во всю страницу:
+       .case-shot  — одиночный экран в кадре ≤1000px по центру;
+       .case-steps — бывшая пара, разведённая по вертикали: каждый шаг в том же
+                     кадре и с подписью, номера совпадают с шагами сценария.
+     Текст в обоих режимах идёт над картинкой во всю колонку, а не сбоку. */
+  .case-shot {
+    max-width: 1000px; margin: clamp(32px, 3vw, 40px) auto;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius-large); padding: clamp(24px, 3.4vw, 44px);
+    transition: transform 0.25s cubic-bezier(.22,1,.36,1), box-shadow 0.25s ease;
+  }
+  .case-shot:hover { transform: translateY(-6px); box-shadow: 0 16px 32px rgba(23,17,14,0.09); }
+  @media (prefers-reduced-motion: reduce) { .case-shot { transition: none; } }
+  .case-shot .case-image-trigger { display: block; }
+  .case-shot .case-image-trigger:focus-visible { outline-offset: -3px; }
+  .case-shot img { display: block; width: 100%; height: auto; margin: 0; border-radius: var(--radius-medium); }
+
+  .case-steps { display: flex; flex-direction: column; gap: clamp(28px, 3vw, 40px); margin: clamp(32px, 3vw, 40px) 0; }
+  .case-step { max-width: 1000px; width: 100%; margin-inline: auto; }
+  .case-step .case-shot { margin-block: 0; }
+  .case-step__cap {
+    display: flex; gap: 10px; align-items: baseline; max-width: none;
+    font-size: var(--font-size-label); line-height: 1.5; color: var(--text-dim);
+    margin: 0 0 12px; padding-inline: clamp(24px, 3.4vw, 44px);
+  }
+  .case-step__num { font-family: var(--mono); font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; flex: none; }
+
+  /* ===== Формы подачи блока =====
+     Раньше каждый блок выглядел одинаково: заголовок, абзацы во всю колонку,
+     под ними картинка на 910px. Шесть блоков подряд с одним ритмом читаются
+     как список, а не как рассказ. Форма теперь выбирается по содержанию:
+
+       .case-rail   — текст без картинки, который является последовательностью
+                      (предположили → проверили → изменили). Номер несёт смысл,
+                      поэтому он здесь заслужен, а не декоративен.
+       .case-stats  — выборка исследования: числа, которые в прозе теряются.
+       .case-split  — один абзац и одна вертикальная картинка рядом (уже было).
+       .case-figs   — две связанные картинки в ряд.
+       .case-shot   — широкий экран во всю колонку кадра (уже было).
+       .result-card — итоги карточками (уже было).
+  */
+
+  /* Шаги по горизонтали: номер на линии, под ним заголовок и текст. */
+  .case-rail {
+    display: grid; grid-template-columns: repeat(var(--rail-cols, 3), minmax(0, 1fr));
+    column-gap: clamp(20px, 2.4vw, 40px); row-gap: 32px;
+    margin: clamp(32px, 3.5vw, 48px) 0 clamp(28px, 3vw, 40px);
+  }
+  .case-rail__step { position: relative; padding-top: 54px; min-width: 0; }
+  /* Соединительная линия тянется от номера к следующему шагу. */
+  .case-rail__step::before {
+    content: ''; position: absolute; top: 17px; left: 42px;
+    right: calc(-1 * clamp(20px, 2.4vw, 40px)); height: 1px;
+    background: var(--line-strong);
+  }
+  .case-rail__step:last-child::before { display: none; }
+  .case-rail__num {
+    position: absolute; top: 0; left: 0; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--nav-bg); color: var(--text-inverse);
+    display: grid; place-items: center;
+    font-family: var(--mono); font-size: 13px; font-weight: 500; line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .case-rail__title {
+    font-family: var(--display); font-weight: var(--font-weight-heading);
+    font-size: var(--font-size-h3); line-height: 1.25; color: var(--text);
+    margin: 0 0 10px; text-wrap: balance;
+  }
+  .case-rail__text {
+    font-size: var(--font-size-body); line-height: var(--line-height-body);
+    color: var(--text-dim); margin: 0; max-width: 42ch; text-wrap: pretty;
+  }
+  @media (max-width: 900px) {
+    .case-rail { grid-template-columns: 1fr; row-gap: 28px; }
+    .case-rail__step { padding-top: 0; padding-left: 52px; }
+    .case-rail__step::before {
+      top: 42px; bottom: -28px; left: 17px; right: auto; width: 1px; height: auto;
+    }
+    .case-rail__text { max-width: none; }
+  }
+
+  /* Выборка исследования. Числа из утверждённого текста, не пересчитаны. */
+  .case-stats {
+    display: flex; flex-wrap: wrap; gap: clamp(24px, 4vw, 64px);
+    margin: clamp(28px, 3vw, 40px) 0;
+    padding: clamp(18px, 2vw, 24px) 0;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .case-stats__item { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .case-stats__num {
+    font-family: var(--display); font-weight: var(--font-weight-heading);
+    font-size: clamp(26px, 2.8vw, 36px); line-height: 1; color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+  .case-stats__label { font-size: var(--font-size-label); line-height: 1.45; color: var(--text-dim); }
+
+  /* Две связанные картинки в ряд. */
+  /* Пара картинок во всю ширину колонки, а не в суженном кадре: две
+     половины по ~600px читаются, две по 454px — уже нет. */
+  .case-figs {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(20px, 2.4vw, 32px); align-items: start;
+    margin: clamp(32px, 3vw, 40px) 0;
+  }
+  .case-figs .case-shot { margin: 0; max-width: none; }
+  @media (max-width: 860px) { .case-figs { grid-template-columns: 1fr; } }
+
+  /* Картинка внутри половины сетки — тот же кадр, без собственной ширины. */
+  .case-split .case-shot { margin: 0; max-width: none; }
+  .case-split-text p + p { margin-top: 16px; }
+
+  /* Закрывающая строка блока итогов: что проверять дальше. */
+  .case-next-step {
+    margin-top: clamp(28px, 3vw, 40px); padding-top: clamp(18px, 2vw, 24px);
+    border-top: 1px solid var(--line);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .case-next-step__label {
+    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--text-dim);
+  }
+  .case-next-step p { margin: 0; max-width: 62ch; }
+
+  /* Подзаголовок кейса под H1 (content.json → subtitle). */
+  .case-headline {
+    font-family: var(--display); font-weight: var(--font-weight-heading);
+    font-size: var(--font-size-h4); line-height: 1.3; color: var(--text);
+    margin: 14px 0 0; max-width: 34ch; text-wrap: pretty;
+  }
+
+  /* Таблица решений внутри кейса. Настоящая <table>, горизонтальный скролл
+     внутри своего контейнера — страница по горизонтали не едет. */
+  .case-table-wrap {
+    margin-top: clamp(24px, 2.5vw, 32px); margin-bottom: clamp(20px, 2vw, 24px); overflow-x: auto;
+    border: 1px solid var(--line); border-radius: var(--radius-medium); background: var(--surface);
+    width: 100%; min-width: 0; max-width: 100%;
+  }
+  .case-table-wrap:focus-visible { outline: 2px solid var(--text-strong); outline-offset: -2px; }
+  .case-table { width: 100%; min-width: 480px; border-collapse: collapse; }
+  .case-table th, .case-table td {
+    padding: clamp(14px, 1.6vw, 20px) clamp(16px, 2vw, 24px); text-align: left;
+    font-size: var(--font-size-label); line-height: 1.5; color: var(--text-dim);
+    border-bottom: 1px solid var(--line); white-space: normal; vertical-align: top;
+  }
+  .case-table thead th {
+    font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-dim-2); font-weight: 500; background: var(--surface);
+  }
+  .case-table tbody th {
+    font-family: var(--display); font-weight: 600; color: var(--text);
+    position: sticky; left: 0; background: var(--surface); min-width: 150px;
+  }
+  .case-table tbody tr:last-child th, .case-table tbody tr:last-child td { border-bottom: 0; }
+
+  /* Подпись под иллюстрацией. В HTML, а не внутри растра, и не дублирует alt. */
+  .case-shot { margin-inline: auto; }
+  .case-shot__cap {
+    margin: 14px 0 0; font-size: var(--font-size-label); line-height: 1.5;
+    color: var(--text-dim); max-width: 62ch;
+  }
+
+  /* «Дополнительные экраны»: материалы реестра с placement: gallery.
+     <details> вместо самодельного аккордеона — работает с клавиатуры
+     и без JS, состояние читается скринридером. */
+  .case-gallery {
+    margin-top: clamp(56px, 6vw, 88px);
+    border-top: 1px solid var(--line); padding-top: clamp(20px, 2vw, 28px);
+  }
+  .case-gallery__summary {
+    cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--display); font-weight: 600; font-size: var(--font-size-h3);
+    color: var(--text); padding: 6px 2px; border-radius: var(--radius-small);
+  }
+  .case-gallery__summary::-webkit-details-marker { display: none; }
+  .case-gallery__summary::after {
+    content: '+'; font-family: var(--mono); font-weight: 500; font-size: 0.8em;
+    color: var(--text-dim); transition: transform 0.2s ease;
+  }
+  .case-gallery[open] .case-gallery__summary::after { content: '\2212'; }
+  .case-gallery__summary:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 3px; }
+  .case-gallery__body { display: flex; flex-direction: column; gap: clamp(28px, 3vw, 40px); margin-top: 24px; }
+  @media (prefers-reduced-motion: reduce) { .case-gallery__summary::after { transition: none; } }
   .case-split-media .case-image-trigger:focus-visible { outline-offset: -3px; }
 
   .detail-block.reveal-pending {
@@ -351,6 +548,7 @@
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
   }
+
   .case-floating-nav {
     position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom));
     transform: translateX(-50%) translateY(12px);
@@ -440,6 +638,306 @@
     .case-context-cards { margin-top: 16px; }
     .case-context-card { padding: clamp(12px, 1.5vw, 18px); }
   }
+
+  /* ===== Редакция 3.2: формы подачи блоков =====
+     Ни одна иллюстрация не шире 8 колонок из 12. Две композиции:
+       6 / 6 — обычная: текст и экран рядом, текст по центру визуала;
+       4 / 8 — редкая: группы мобильных экранов, широкие web-интерфейсы,
+               схемы процесса, сравнительные таблицы;
+       col-8-center — вступление в 6 колонок сверху, таблица или схема
+               в 8 колонках по центру контентной области.
+     .case-seq     — один сценарий по шагам, каждый шаг в той же сетке 4/8;
+     .case-cols    — параллельные наблюдения: колонка с засечкой акцента;
+     .case-results — итоги: тёмная полоса и четыре карточки 2×2.
+     Цвет кейса живёт в трёх переменных ниже и нигде больше не дублируется. */
+  :root {
+    --case-mark: #5955FF;        /* метка: точка, номер шага, засечка колонки */
+    --case-mark-on: #FFFFFF;       /* текст поверх метки */
+    --case-mark-text: #4B47E0;   /* тот же акцент как текст на светлом фоне */
+  }
+
+  .col-5 { grid-column: span 5; }
+  .col-7 { grid-column: span 7; }
+  @media (max-width: 767px) {
+    .case-grid > .col-5, .case-grid > .col-7 { grid-column: span 4; }
+  }
+
+  /* Сторону визуала выбирает содержание, а не автоматическое чередование:
+     основной путь — текст слева, продолжение сценария — визуал слева.
+     В разметке всегда сначала текст, поэтому на мобильном порядок
+     сбрасывается и текст снова идёт первым. */
+  .case-split--flip > :last-child { order: -1; }
+  @media (max-width: 767px) { .case-split--flip > * { order: 0; } }
+  /* Выравнивание по верхнему краю: заголовок и абзац стоят рядом с верхом
+     визуала, а не разъезжаются по высоте картинки. */
+  .case-split { align-items: start; }
+  /* Оптическая поправка: у заголовка есть выносная линия, у рамки кадра нет. */
+  .case-split-text { padding-top: 6px; }
+  .case-split .compare-slider__frame { margin-top: 0; margin-bottom: 0; }
+
+  /* ---- Текстовая колонка ----
+     Заголовок и описание — один модуль: 24–32 px между ними, длина строки
+     45–70 знаков, высота колонки по содержимому, без растяжки под картинку. */
+  .case-split-text { align-self: start; }
+  .case-lead-title {
+    font-family: var(--display); font-size: var(--font-size-h2);
+    line-height: var(--line-height-heading); font-weight: 700; letter-spacing: -0.01em;
+    color: var(--text-strong); text-wrap: balance; max-width: 18ch;
+    margin: 0 0 clamp(24px, 2.2vw, 32px);
+  }
+  .case-split-text .case-subhead { max-width: 22ch; margin-bottom: clamp(20px, 1.8vw, 26px); }
+  .detail-block .case-split-text p { max-width: 56ch; margin-bottom: clamp(16px, 1.4vw, 20px); }
+  .detail-block .case-split-text p:last-child { margin-bottom: 0; }
+  .col-6.case-split-text, .col-4.case-split-text { max-width: 560px; }
+
+  /* Высокий кадр рядом с коротким абзацем оставлял от 240 до 720 px пустой
+     колонки — замерено во всех четырёх кейсах. Растягивать текст незачем,
+     увеличивать картинку нельзя, поэтому текст едет вместе с кадром: он
+     остаётся на экране, пока читатель проходит изображение, и подпись
+     работает как комментарий к тому, что видно прямо сейчас.
+     Отступ сверху уводит колонку из-под верхней навигации.
+     Ниже 900 px колонки складываются в одну и липкость выключается. */
+  @media (min-width: 900px) {
+    .case-split > .case-split-text { position: sticky; top: clamp(96px, 12vh, 132px); }
+  }
+
+  /* Два-три коротких вывода под абзацем: та же колонка, ближе к тексту,
+     чем к следующей секции. */
+  .case-points {
+    list-style: none; margin: clamp(32px, 3vw, 40px) 0 0; padding: 0;
+    display: flex; flex-direction: column; gap: clamp(18px, 1.8vw, 24px);
+  }
+  .case-points li { position: relative; padding-top: 16px; border-top: 1px solid var(--line-strong); }
+  .case-points li::before {
+    content: ''; position: absolute; top: -1px; left: 0; width: 36px; height: 2px;
+    background: var(--case-mark);
+  }
+  .detail-block .case-points__title {
+    font-family: var(--display); font-weight: 600; font-size: var(--font-size-label);
+    line-height: 1.4; color: var(--text); margin: 0 0 4px; max-width: none;
+  }
+  .detail-block .case-points__text {
+    font-size: 13px; line-height: 1.55; color: var(--text-dim); margin: 0; max-width: none;
+  }
+
+  .case-subhead {
+    font-family: var(--display); font-weight: var(--font-weight-heading);
+    font-size: var(--font-size-h3); line-height: 1.3; color: var(--text);
+    margin: 0 0 12px; text-wrap: balance;
+  }
+
+  /* Вступление перед таблицей или схемой: занимает 6 колонок сетки. */
+  .case-lede { max-width: 56ch; margin-bottom: clamp(24px, 2.4vw, 32px); }
+  .case-lede > p:last-child { margin-bottom: 0; }
+  .case-grid > .case-split-text.col-6 { margin-bottom: clamp(24px, 2.4vw, 32px); }
+  .detail-head + .case-grid .case-split-text p { margin-top: 0; }
+  .case-grid > .col-8-center + .col-8-center { margin-top: clamp(24px, 2.4vw, 32px); }
+
+  /* ---- Кадр с интерфейсом ----
+     Подпись вынесена из белого контейнера: раньше она входила в карточку и
+     добавляла ей высоты. Внутренние поля кадра сокращены, чтобы размер
+     задавал интерфейс, а не рамка вокруг него. */
+  /* Кадр всегда живёт внутри своей колонки сетки: собственной ширины у него
+     нет, режим «во всю страницу» убран. */
+  .case-fig { max-width: none; margin: 0; min-width: 0; }
+  /* Схема уже нарисована на собственной подложке — вторая рамка вокруг неё
+     читалась бы как вложенная карточка. */
+  .detail-block .case-fig--plain .case-shot { background: none; border: 0; padding: 0; }
+  .detail-block .case-fig--plain .case-shot img { border-radius: var(--radius-large); }
+  .detail-block .case-shot {
+    display: block; width: 100%; max-width: none; margin: 0;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius-large);
+    padding: clamp(12px, 1.2vw, 18px);
+    cursor: zoom-in; transition: border-color 0.2s ease;
+  }
+  .detail-block .case-shot:hover { transform: none; box-shadow: none; border-color: var(--line-strong); }
+  .detail-block .case-shot img {
+    display: block; width: 100%; height: auto; margin: 0;
+    border-radius: var(--radius-medium);
+  }
+  .case-fig__cap {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px;
+    margin: 18px 0 0;
+    font-size: 13px; line-height: 1.5; color: var(--text-dim);
+  }
+  .case-fig__text { max-width: 62ch; }
+  .case-fig__open {
+    font: inherit; font-size: 12px; color: var(--case-mark-text);
+    background: none; border: 0; padding: 2px 0; cursor: pointer;
+    text-decoration: underline; text-underline-offset: 3px; white-space: nowrap;
+  }
+  .case-fig__open:hover { text-decoration-thickness: 2px; }
+  /* Строка подписи высотой 22 px — слишком мелкая цель для пальца. Сама
+     строка остаётся прежней, растёт только область нажатия: 44 px по
+     вертикали. Подпись лежит в той же flex-строке слева, перекрытия нет. */
+  .case-fig__open { position: relative; }
+  .case-fig__open::after { content: ''; position: absolute; inset: -11px -6px; }
+  .case-fig__open:focus-visible { outline: 2px solid var(--case-mark-text); outline-offset: 3px; border-radius: 4px; }
+
+  /* Два экрана одного сценария — друг под другом внутри своей колонки. */
+  .case-figs--stack { display: flex; flex-direction: column; gap: clamp(20px, 2.2vw, 28px); }
+
+  /* Подписи к частям одной композиции. */
+  .case-shot-labels {
+    list-style: none; display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 28px); margin: clamp(20px, 2vw, 26px) 0 0; padding: 0;
+  }
+  .case-shot-labels li {
+    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--text-dim);
+    padding-top: 10px; border-top: 1px solid var(--line-strong); position: relative;
+  }
+  .case-shot-labels li::before {
+    content: ''; position: absolute; top: -1px; left: 0; width: 36px; height: 2px;
+    background: var(--case-mark);
+  }
+  @media (max-width: 640px) { .case-shot-labels { grid-template-columns: 1fr; gap: 12px; } }
+
+  /* Один сценарий по шагам. <ol>: порядок действий — часть содержания. */
+  .case-seq { list-style: none; display: flex; flex-direction: column; gap: clamp(44px, 4.5vw, 72px); }
+  .case-seq__step { min-width: 0; }
+  .case-seq__head { position: relative; padding-left: 52px; }
+  .case-seq__num {
+    position: absolute; top: 1px; left: 0; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--case-mark); color: var(--case-mark-on);
+    display: grid; place-items: center;
+    font-family: var(--mono); font-size: 13px; font-weight: 500; line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .case-seq__head .case-subhead { margin-bottom: 10px; }
+  .case-seq__head > p:last-child { margin-bottom: 0; }
+  @media (max-width: 767px) { .case-seq__head { margin-bottom: 20px; } }
+  @media (max-width: 560px) { .case-seq__head { padding-left: 46px; } }
+
+  /* Нумерованная последовательность шагов исследования. */
+  .case-rail { list-style: none; }
+  .case-rail__num { background: var(--case-mark); color: var(--case-mark-on); }
+  .case-rail__title { font-size: var(--font-size-h4); }
+  .case-rail .case-rail__text { margin: 0; }
+
+  /* Параллельные наблюдения: не карточки, а колонки под общей линией с
+     короткой засечкой акцента. Карточка обещала бы отдельный объект. */
+  .case-cols {
+    display: grid; grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
+    gap: clamp(24px, 2.6vw, 36px) clamp(24px, 2.6vw, 40px);
+    margin: clamp(32px, 3.2vw, 44px) 0;
+  }
+  .case-col {
+    position: relative; min-width: 0;
+    padding-top: clamp(18px, 1.8vw, 22px); border-top: 1px solid var(--line-strong);
+  }
+  .case-col::before {
+    content: ''; position: absolute; top: -1px; left: 0; width: 48px; height: 2px;
+    background: var(--case-mark);
+  }
+  .case-col .case-col__label {
+    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--case-mark-text); margin: 0 0 8px; max-width: none;
+  }
+  .case-col__title {
+    font-family: var(--display); font-weight: var(--font-weight-heading);
+    font-size: var(--font-size-h4); line-height: 1.3; color: var(--text);
+    margin: 0 0 8px; text-wrap: balance;
+  }
+  .case-col .case-col__text {
+    font-size: var(--font-size-body); line-height: var(--line-height-body);
+    color: var(--text-dim); margin: 0; max-width: 44ch; text-wrap: pretty;
+  }
+  /* Компактный вариант: три колонки читаются как подводка к решению ниже. */
+  .case-cols--compact { margin-bottom: clamp(24px, 2.4vw, 32px); }
+  .case-cols--compact .case-col__title { font-size: var(--font-size-h3); }
+  .case-cols--compact .case-col__text { font-size: var(--font-size-label); line-height: 1.55; }
+  @media (max-width: 860px) {
+    .case-cols { grid-template-columns: 1fr; gap: 26px; }
+    .case-col .case-col__text { max-width: none; }
+  }
+
+  /* Вывод из исследования. Отдельная реплика после материала, не ещё один абзац. */
+  .case-takeaway {
+    margin: clamp(28px, 2.8vw, 40px) 0 0; padding-left: clamp(18px, 2vw, 26px);
+    border-left: 2px solid var(--case-mark);
+  }
+  .detail-block .case-takeaway p {
+    margin: 0; max-width: 66ch;
+    font-size: var(--font-size-body); line-height: var(--line-height-body); color: var(--text);
+  }
+
+  /* Пара концептов: у каждой картинки своя подпись-заголовок. */
+  /* Пара концептов — обычная строка сетки, по 6 колонок на концепт.
+     Собственная сетка .case-figs здесь не нужна, отступы задаёт .case-grid;
+     на мобильном каждый концепт занимает всю ширину, отсюда row-gap. */
+  .case-grid.case-figs--labelled { align-items: start; margin: clamp(32px, 3vw, 40px) 0; row-gap: clamp(24px, 2.6vw, 32px); }
+  .case-figs--labelled { align-items: start; }
+  .case-figs__item { min-width: 0; }
+  .case-figs__item .case-figs__label {
+    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--case-mark-text); margin: 0 0 12px; max-width: none;
+  }
+  .detail-block p.case-artifact-cap {
+    font-size: var(--font-size-label); line-height: 1.5; color: var(--text-dim);
+    margin: clamp(24px, 2.4vw, 32px) 0 12px; max-width: 62ch;
+  }
+  .case-table-wrap--narrow { max-width: 720px; }
+
+  /* ---- Итоги ----
+     Тёмная полоса во всю ширину экрана, контент остаётся в основном
+     контейнере. Полоса нарисована box-shadow + clip-path: это не влияет на
+     раскладку и не создаёт горизонтальной прокрутки, в отличие от 100vw. */
+  :root {
+    --results-bg: #211B18;
+    --results-card: #2C2723;
+    --results-line: rgba(255, 255, 255, 0.11);
+    --results-text: rgba(255, 255, 255, 0.68);
+    --results-dim: rgba(255, 255, 255, 0.5);
+  }
+  .detail-block.case-results { margin-top: clamp(96px, 9vw, 140px); padding-top: 0; }
+  .case-results__panel {
+    position: relative; background: var(--results-bg);
+    box-shadow: 0 0 0 100vmax var(--results-bg);
+    clip-path: inset(0 -100vmax);
+    padding: clamp(40px, 4.5vw, 72px) 0 clamp(44px, 5vw, 80px);
+  }
+  .case-results__panel .detail-head { margin-bottom: clamp(16px, 1.6vw, 20px); }
+  .case-results__panel .detail-head h2 { color: #fff; }
+  .case-results__panel p { color: var(--results-text); max-width: 62ch; }
+  .case-results__panel .case-lede { margin-bottom: 0; }
+  .case-results .result-cards { margin-top: clamp(28px, 3vw, 40px); row-gap: clamp(20px, 2vw, 28px); }
+  .case-results .result-card {
+    background: var(--results-card); border: 1px solid var(--results-line);
+    border-radius: var(--radius-medium); box-shadow: none;
+    min-height: 0; height: 100%;
+    padding: clamp(28px, 2.6vw, 40px); gap: 10px;
+  }
+  .case-results .result-card .result-card__label {
+    color: var(--results-dim); margin: 0 0 2px;
+  }
+  .case-results .result-card .result-card__label::before { background: var(--case-mark); }
+  .case-results .result-card .result-card__metric {
+    font-size: clamp(18px, 1.5vw, 22px); line-height: 1.3; color: #fff;
+  }
+  .case-results .result-card .result-card__desc { color: var(--results-text); }
+  .case-results .result-card .result-card__measure {
+    width: 100%; margin: auto 0 0; padding-top: 18px;
+    border-top: 1px solid var(--results-line);
+    font-size: 13px; line-height: 1.5; color: var(--results-text); max-width: none;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .case-results .result-card .result-card__measure-label {
+    font-family: var(--mono); font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--results-dim);
+  }
+
+  /* Ритм страницы: воздух разделяет разные истории, а не связанные части
+     одной. Между самостоятельными секциями 128–176 px. */
+  .detail-block { margin-top: clamp(128px, 11vw, 176px); padding-top: 0; }
+  @media (max-width: 720px) { .detail-block { margin-top: clamp(88px, 14vw, 112px); } }
+  .detail-block .detail-head { margin-bottom: clamp(24px, 2.2vw, 32px); }
+  .detail-block:last-child .detail-head { margin-bottom: clamp(24px, 2.2vw, 32px); }
+
+  /* Экспорты обрезаны по содержимому, пропорция набора изменилась. */
+  .compare-slider__stage { aspect-ratio: 2700 / 1768; }
+  /* ===== конец блока редакции 3.2 ===== */
 </style>
   <link rel="stylesheet" href="assets/typography.css">
 </head>
@@ -457,39 +955,61 @@
     <div class="case-page">
       <div class="case-header">
         <h1 class="case-title">360 Tracker</h1>
-        <div class="case-meta-group">
-          <div class="case-tags"><span>mobile</span><span>b2c</span></div>
-        </div>
+        <p class="case-headline"><span data-lang="ru">Карта семьи, геозоны и разные правила приватности</span><span data-lang="en">A family map, geofences and different privacy rules</span></p>
         <dl class="case-facts">
-          <div><dt><span data-lang="ru">Длительность</span><span data-lang="en">Duration</span></dt><dd><span data-lang="ru">6 месяцев</span><span data-lang="en">6 months</span></dd></div>
-          <div><dt><span data-lang="ru">Команда</span><span data-lang="en">Team</span></dt><dd>Product Designer, Product Owner, Developer, Product Manager</dd></div>
-          <div><dt><span data-lang="ru">Моя роль</span><span data-lang="en">My role</span></dt><dd>Product Designer</dd></div>
-          <div><dt><span data-lang="ru">Пользователи</span><span data-lang="en">Users</span></dt><dd><span data-lang="ru">родители, дети и люди, которые заботятся о безопасности близких</span><span data-lang="en">parents, children, and people who care about their loved ones' safety</span></dd></div>
-          <div><dt><span data-lang="ru">Платформа</span><span data-lang="en">Platform</span></dt><dd><span data-lang="ru">мобильное приложение, iOS</span><span data-lang="en">mobile app, iOS</span></dd></div>
+          <div><dt><span data-lang="ru">Срок</span><span data-lang="en">Duration</span></dt><dd><span data-lang="ru">6 месяцев</span><span data-lang="en">6 months</span></dd></div>
+          <div><dt><span data-lang="ru">Роль</span><span data-lang="en">Role</span></dt><dd><span data-lang="ru">Product Designer</span><span data-lang="en">Product Designer</span></dd></div>
+          <div><dt><span data-lang="ru">Платформы</span><span data-lang="en">Platforms</span></dt><dd><span data-lang="ru">iOS</span><span data-lang="en">iOS</span></dd></div>
+          <div><dt><span data-lang="ru">Команда</span><span data-lang="en">Team</span></dt><dd><span data-lang="ru">Product Designer, Product Owner, Developer, Product Manager</span><span data-lang="en">Product Designer, Product Owner, Developer, Product Manager</span></dd></div>
         </dl>
         <div class="case-grid case-context-cards">
           <div class="case-context-card col-6">
             <p class="case-context-card__label"><span data-lang="ru">Контекст</span><span data-lang="en">Context</span></p>
-            <h2 class="case-context-card__title"><span data-lang="ru">Семейная безопасность с нуля</span><span data-lang="en">Family safety from scratch</span></h2>
-            <p class="case-context-card__text"><span data-lang="ru">Семейный трекер отвечает на вопрос, где сейчас близкий человек и всё ли с ним в порядке. Приложение создавалось с нуля: нужно было связать участников семьи, карту, статусы и уведомления в одном сценарии, аккуратно работая с чувствительными данными.</span><span data-lang="en">A family tracker answers one question: where is a loved one right now, and are they okay. The app was built from scratch: family members, the map, statuses, and notifications needed to come together in one scenario, handled carefully as sensitive data.</span></p>
+            <h2 class="case-context-card__title"><span data-lang="ru">Семейный трекер с нуля</span><span data-lang="en">A family tracker from scratch</span></h2>
+            <p class="case-context-card__text"><span data-lang="ru">360 Tracker помогает узнать, где находятся близкие, и связаться с ними. Предстояло собрать карту, семейный круг и уведомления о выходе из геозоны в одном приложении.</span><span data-lang="en">360 Tracker helps you find out where the people close to you are and get in touch with them. The map, the family circle and notifications about leaving a geofence had to come together in one app.</span></p>
           </div>
           <div class="case-context-card col-6">
             <p class="case-context-card__label"><span data-lang="ru">Задача</span><span data-lang="en">Task</span></p>
-            <h2 class="case-context-card__title"><span data-lang="ru">Собрать базовый сценарий и роли</span><span data-lang="en">Build the base scenario and roles</span></h2>
-            <p class="case-context-card__text"><span data-lang="ru">Нужно было собрать базовый семейный сценарий и разделить роли и доступ: для взрослых и детей предусмотреть разные правила приватности.</span><span data-lang="en">The task was to build the basic family scenario and split roles and access: give adults and children different privacy rules.</span></p>
+            <h2 class="case-context-card__title"><span data-lang="ru">Учесть интересы всей семьи</span><span data-lang="en">Account for the whole family’s needs</span></h2>
+            <p class="case-context-card__text"><span data-lang="ru">Я проектировала основные сценарии и настройки геолокации. Нужно было определить состав MVP и учесть, что у родителей, детей и взрослых участников разные ожидания от доступа к местоположению.</span><span data-lang="en">I designed the core scenarios and the geolocation settings. I had to define the MVP knowing that parents, children and adult members have different expectations about access to a location.</span></p>
           </div>
         </div>
       </div>
 
-      <div class="detail-block">
+      <div class="detail-block" id="tracker-scope">
         <div class="detail-head">
-          <h2><span data-lang="ru">Исследование</span><span data-lang="en">Research</span></h2>
+          <h2><span data-lang="ru">С чего начали</span><span data-lang="en">How it started</span></h2>
         </div>
-        <p><span data-lang="ru">Исследование было сфокусировано на определении продуктового направления и ключевых сценариев использования в сфере семейной безопасности.</span><span data-lang="en">The research focused on defining the product direction and the key usage scenarios in family safety.</span></p>
-        <p class="inline-subhead"><span data-lang="ru">Общение со стейкхолдерами</span><span data-lang="en">Talking with stakeholders</span></p>
-        <p><span data-lang="ru">На старте проекта мы обсудили ключевые ожидания от продукта. Основной фокус был на том, чтобы обеспечить безопасность членов семьи, не создавая ощущения тотального контроля.</span><span data-lang="en">At the start of the project, we discussed the key expectations for the product. The main focus was on keeping family members safe without creating a feeling of total control.</span></p>
-        <p><span data-lang="ru">Вместо глубинных интервью мы сосредоточились на анализе существующих решений. Я проанализировала Kids360, Kid Security, iSharing и Family Tracker. Сравнивала геолокацию, геозоны, уведомления, историю перемещений, инструменты безопасности и модели монетизации.</span><span data-lang="en">Instead of in-depth interviews, we focused on analyzing existing solutions. I analyzed Kids360, Kid Security, iSharing, and Family Tracker. I compared geolocation, geofences, notifications, movement history, safety tools, and monetization models.</span></p>
-        <div class="compare-table-wrap" tabindex="0" role="region" aria-label="Сравнение функций конкурентов">
+        <p><span data-lang="ru">Сначала обсудили со стейкхолдерами задачи продукта. Затем я сравнила Kids360, Kid Security, iSharing и Family Tracker: как устроены карта, геозоны, уведомления, история поездок и подписка.</span><span data-lang="en">First we discussed the product’s goals with the stakeholders. Then I compared Kids360, Kid Security, iSharing and Family Tracker: how each handles the map, geofences, notifications, trip history and the subscription.</span></p>
+        <p><span data-lang="ru">В первую версию включили карту, семейный круг, статусы, геозоны и связь между участниками. Сложную аналитику и расширенные настройки отложили.</span><span data-lang="en">The first version included the map, the family circle, statuses, geofences and the connection between members. Complex analytics and extended settings were postponed.</span></p>
+        <h3 class="case-subhead"><span data-lang="ru">Что вошло в первую версию</span><span data-lang="en">What went into the first version</span></h3>
+        <ol class="case-rail" style="--rail-cols: 3">
+          <li class="case-rail__step">
+            <span class="case-rail__num" aria-hidden="true">1</span>
+            <h3 class="case-rail__title"><span data-lang="ru">Карта и семейный круг</span><span data-lang="en">The map and the family circle</span></h3>
+            <p class="case-rail__text"><span data-lang="ru">Участники, местоположение и время обновления.</span><span data-lang="en">Members, their location and the time of the last update.</span></p>
+          </li>
+          <li class="case-rail__step">
+            <span class="case-rail__num" aria-hidden="true">2</span>
+            <h3 class="case-rail__title"><span data-lang="ru">Геозоны и события</span><span data-lang="en">Geofences and events</span></h3>
+            <p class="case-rail__text"><span data-lang="ru">Настройка границ и уведомления.</span><span data-lang="en">Boundary settings and notifications.</span></p>
+          </li>
+          <li class="case-rail__step">
+            <span class="case-rail__num" aria-hidden="true">3</span>
+            <h3 class="case-rail__title"><span data-lang="ru">Связь между участниками</span><span data-lang="en">Contact between members</span></h3>
+            <p class="case-rail__text"><span data-lang="ru">Общий чат и личные диалоги.</span><span data-lang="en">A group chat and private conversations.</span></p>
+          </li>
+        </ol>
+        <div class="case-grid">
+          <div class="case-split-text col-6">
+            <h3 class="case-subhead"><span data-lang="ru">Что сравнивала</span><span data-lang="en">What I compared</span></h3>
+            <p><span data-lang="ru">Карту, геозоны, уведомления, историю поездок и подходы к подписке. Ниже материалы анализа на этапе проекта.</span><span data-lang="en">The map, geofences, notifications, trip history and the approaches to a subscription. Below is the analysis material from the project.</span></p>
+          </div>
+        </div>
+        <div class="case-grid">
+          <div class="col-8-center">
+            <p class="case-artifact-cap"><span data-lang="ru">Сравнение функций семейных трекеров. Материал на этапе проекта.</span><span data-lang="en">A comparison of family tracker features. Material from the project.</span></p>
+        <div class="compare-table-wrap" tabindex="0" role="region" aria-label="Сравнение функций конкурентов" data-aria-ru="Сравнение функций конкурентов" data-aria-en="Competitor feature comparison">
           <table class="compare-table">
             <thead>
               <tr>
@@ -502,7 +1022,7 @@
             </thead>
             <tbody>
               <tr class="compare-group-row">
-                <td colspan="5"><span class="compare-group-row__label"><span data-lang="ru">Обязательная основа</span><span data-lang="en">The market's common baseline</span></span></td>
+                <td colspan="5"><span class="compare-group-row__label"><span data-lang="ru">Обязательная основа</span><span data-lang="en">The market’s common baseline</span></span></td>
               </tr>
               <tr class="is-baseline">
                 <th scope="row"><span data-lang="ru">Геолокация в реальном времени</span><span data-lang="en">Real-time geolocation</span></th>
@@ -566,9 +1086,8 @@
             </tbody>
           </table>
         </div>
-        <p><span data-lang="ru">В обязательную основу вошли карта, семейный круг, статусы, геозоны, уведомления и быстрая связь. Длительная история, сложная аналитика и расширенные настройки заметно увеличивали технический объём.</span><span data-lang="en">The map, family circle, statuses, geofences, notifications, and quick communication made it into the essential baseline. Long-term history, complex analytics, and extended settings noticeably increased the technical scope.</span></p>
-        <p><span data-lang="ru">В процессе анализа я также изучила, как конкуренты выстраивают монетизацию и за какие функции пользователи готовы платить.</span><span data-lang="en">As part of the analysis, I also looked at how competitors structure monetization and which features users are willing to pay for.</span></p>
-        <div class="compare-table-wrap" tabindex="0" role="region" aria-label="Сравнение моделей монетизации">
+            <p class="case-artifact-cap"><span data-lang="ru">Сравнение моделей подписки. Материал на этапе проекта.</span><span data-lang="en">A comparison of subscription models. Material from the project.</span></p>
+        <div class="compare-table-wrap" tabindex="0" role="region" aria-label="Сравнение моделей монетизации" data-aria-ru="Сравнение моделей монетизации" data-aria-en="Monetisation model comparison">
           <table class="compare-table">
             <thead>
               <tr>
@@ -606,139 +1125,187 @@
             </tbody>
           </table>
         </div>
-        <p class="compare-conclusion"><span data-lang="ru">Анализ конкурентов показал, что существующие приложения решают схожие задачи, однако сами продукты отличаются высокой технологической сложностью:</span><span data-lang="en">The competitor analysis showed that existing apps solve similar problems, but the products themselves carry high technical complexity:</span></p>
-        <ul class="detail-list">
-          <li><span data-lang="ru">Работа с GPS в реальном времени</span><span data-lang="en">Real-time GPS handling</span></li>
-          <li><span data-lang="ru">Геофенсинг</span><span data-lang="en">Geofencing</span></li>
-          <li><span data-lang="ru">Обработка маршрутов</span><span data-lang="en">Route processing</span></li>
-          <li><span data-lang="ru">Интеграция с картографическими API</span><span data-lang="en">Integration with mapping APIs</span></li>
-        </ul>
-      </div>
-
-      <div class="detail-block">
-        <div class="detail-head">
-          <h2><span data-lang="ru">User flow</span><span data-lang="en">User flow</span></h2>
-        </div>
-        <p><span data-lang="ru">По результатам исследования мы проработали следующий user flow, основанный на ключевых сценариях использования продукта:</span><span data-lang="en">Based on the research, we worked out the following user flow, built around the product's key usage scenarios:</span></p>
-        <div class="case-grid case-split">
-          <div class="case-split-media col-6-center">
-            <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/tracker-userflow-ru.webp" data-src-en="assets/process/tracker-userflow.webp" data-alt-ru="360 Tracker · схема user flow" data-alt-en="360 Tracker · user flow diagram" alt="360 Tracker · схема user flow" loading="lazy" width="3288" height="3078">
-            </button>
           </div>
         </div>
       </div>
 
-      <div class="detail-block">
+      <div class="detail-block" id="tracker-structure">
         <div class="detail-head">
-          <h2><span data-lang="ru">Главный экран</span><span data-lang="en">Main screen</span></h2>
-          <p class="detail-dek"><span data-lang="ru">Продукт вокруг карты и событий</span><span data-lang="en">The product built around the map and events</span></p>
+          <h2><span data-lang="ru">Структура приложения</span><span data-lang="en">The app’s structure</span></h2>
         </div>
-        <div class="case-grid case-split">
-          <div class="case-split-text col-6"><p><span data-lang="ru">Карта стала главным экраном. На ней видны участники семьи, актуальный статус, последнее обновление и значимые места. Отсюда можно выбрать человека, построить маршрут или перейти в семейный круг.</span><span data-lang="en">The map became the main screen. It shows family members, their current status, the last update, and important places. From here you can select a person, build a route, or go to the family circle.</span></p></div>
-          <div class="case-split-media col-6">
-            <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/tracker-main-ru.webp" data-src-en="assets/process/tracker-main.webp" data-alt-ru="360 Tracker · главный экран" data-alt-en="360 Tracker · the main screen" alt="360 Tracker · главный экран" loading="lazy" width="4086" height="2629">
-            </button>
-          </div>
-        </div>
-        <div class="case-grid case-split">
-          <div class="case-split-media col-6">
-            <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/tracker-geofence-ru.webp" data-src-en="assets/process/tracker-geofence.webp" data-alt-ru="360 Tracker · геозоны" data-alt-en="360 Tracker · geofences" alt="360 Tracker · геозоны" loading="lazy" width="4086" height="2629">
-            </button>
-          </div>
+        <div class="case-grid">
           <div class="case-split-text col-6">
-            <p><span data-lang="ru">Геозоны уменьшают необходимость постоянно открывать карту. Приложение само сообщает, когда ребёнок выходит за установленную границу.</span><span data-lang="en">Geofences reduce the need to keep opening the map. The app reports on its own when a child leaves the set boundary.</span></p>
-            <p><span data-lang="ru">Карта и геозоны закрывают вопрос «где сейчас человек».</span><span data-lang="en">The map and geofences answer the question of where someone is right now.</span></p>
+            <p><span data-lang="ru">Структуру приложения построила вокруг семейного круга. После добавления близких пользователь видит их на карте, получает уведомления о важных событиях и при необходимости обращается к истории поездок.</span><span data-lang="en">I built the app’s structure around the family circle. Once people have been added, the user sees them on the map, gets notifications about the events that matter and can turn to the trip history when needed.</span></p>
+          </div>
+        </div>
+        <div class="case-grid">
+          <div class="col-8-center">
+            <figure class="case-fig case-fig--plain">
+              <div class="case-shot" data-lightbox-for="fig-tr-01-18">
+                <img id="fig-tr-01-18" data-src-ru="assets/process/tracker-userflow-ru.webp" data-src-en="assets/process/tracker-userflow.webp" data-alt-ru="Схема структуры" data-alt-en="Structure diagram" alt="Схема структуры" loading="lazy" width="3096" height="2886">
+              </div>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Основные разделы семейного трекера.</span><span data-lang="en">The main sections of the family tracker.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-tr-01-18"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+            </figure>
           </div>
         </div>
       </div>
 
-      <div class="detail-block">
-        <div class="detail-head">
-          <h2><span data-lang="ru">Скрыть геолокацию</span><span data-lang="en">Hiding location</span></h2>
+      <div class="detail-block" id="tracker-map">
+        <div class="case-grid case-split">
+          <div class="case-split-text col-4">
+            <h2 class="case-lead-title"><span data-lang="ru">Карта и события</span><span data-lang="en">The map and events</span></h2>
+            <p><span data-lang="ru">Карта стала главным экраном. На ней можно выбрать участника семьи, посмотреть его местоположение и время последнего обновления. Для важных мест предусмотрены геозоны.</span><span data-lang="en">The map became the main screen. On it you can select a family member, see their location and the time of the last update. Geofences cover the places that matter.</span></p>
+          </div>
+          <div class="col-8">
+            <figure class="case-fig">
+              <div class="case-shot" data-lightbox-for="fig-tr-02-19">
+                <img id="fig-tr-02-19" data-src-ru="assets/process/tracker-main-ru.webp" data-src-en="assets/process/tracker-main.webp" data-alt-ru="Карта, люди, места" data-alt-en="Map, people, places" alt="Карта, люди, места" loading="lazy" width="3725" height="2388">
+              </div>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Карта, список участников и значимые места.</span><span data-lang="en">The map, the list of members and the places that matter.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-tr-02-19"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+            </figure>
+            <ul class="case-shot-labels" style="--cols: 3">
+              <li><span data-lang="ru">Карта</span><span data-lang="en">The map</span></li>
+              <li><span data-lang="ru">Участники</span><span data-lang="en">Members</span></li>
+              <li><span data-lang="ru">Места и геозоны</span><span data-lang="en">Places and geofences</span></li>
+            </ul>
+          </div>
         </div>
+      </div>
+
+      <div class="detail-block" id="tracker-events">
         <div class="case-grid case-split">
           <div class="case-split-text col-6">
-            <p><span data-lang="ru">Продукты в категории семейного трекинга строятся на постоянном отслеживании геолокации, что может вызывать напряжение и снижать доверие к приложению, особенно со стороны взрослых пользователей.</span><span data-lang="en">Products in the family-tracking category are built around constantly tracking location, which can create tension and lower trust in the app, especially for adult users.</span></p>
-            <p><span data-lang="ru">Возникла гипотеза: если дать пользователю возможность временно скрывать своё местоположение, это повысит доверие к продукту и снизит ощущение контроля. Добавили возможность временно скрывать геолокацию и выбирать зоны, где пользователь не отображается.</span><span data-lang="en">A hypothesis emerged: giving the user the ability to temporarily hide their location would raise trust in the product and lower the feeling of being controlled. We added the ability to temporarily hide location and choose zones where the user doesn't appear.</span></p>
-            <p><span data-lang="ru">Провели тестирование: респонденты положительно восприняли саму возможность скрытия, но в родительском сценарии это вызвало вопросы: терялся контроль над ребёнком.</span><span data-lang="en">We ran testing: respondents responded well to the ability to hide location itself, but in the parent scenario it raised questions, since it meant losing control over the child.</span></p>
-            <p><span data-lang="ru">В результате доработали логику: родитель может ограничить возможность скрытия геолокации ребёнком. Это позволило сохранить контроль в детском сценарии и при этом дать взрослым пользователям управление своей приватностью.</span><span data-lang="en">As a result, we refined the logic: a parent can restrict a child's ability to hide their location. This kept control intact in the child scenario while still giving adult users control over their own privacy.</span></p>
+            <h2 class="case-lead-title"><span data-lang="ru">Из события к действию</span><span data-lang="en">From an event to an action</span></h2>
+            <p><span data-lang="ru">Если ребёнок выходит за границу зоны, приложение показывает уведомление. Из него можно перейти к местоположению или сообщению.</span><span data-lang="en">If a child leaves the boundary of a zone, the app shows a notification. From it you can go to the location or to a message.</span></p>
           </div>
-          <div class="case-split-media col-6">
-            <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/tracker-privacy-ru.webp" data-src-en="assets/process/tracker-privacy.webp" data-alt-ru="360 Tracker · скрыть геолокацию" data-alt-en="360 Tracker · hiding location" alt="360 Tracker · скрыть геолокацию" loading="lazy" width="4086" height="2629">
-            </button>
+          <div class="col-6">
+            <figure class="case-fig">
+              <div class="case-shot" data-lightbox-for="fig-tr-03-20">
+                <img id="fig-tr-03-20" data-src-ru="assets/process/tracker-geofence-main-ru.webp" data-src-en="assets/process/tracker-geofence-main.webp" data-alt-ru="Уведомление с действиями «Сообщение» и «Локация» рядом с картой" data-alt-en="A notification with the actions Message and Location next to the map" alt="Уведомление с действиями «Сообщение» и «Локация» рядом с картой" loading="lazy" width="2443" height="2388">
+              </div>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Уведомление о выходе из зоны и местоположение на карте.</span><span data-lang="en">A notification about leaving a zone, and the location on the map.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-tr-03-20"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+            </figure>
           </div>
         </div>
       </div>
 
-      <div class="detail-block">
-        <div class="detail-head">
-          <h2><span data-lang="ru">История поездок</span><span data-lang="en">Trip history</span></h2>
-          <p class="detail-dek"><span data-lang="ru">История поездок как премиальная ценность</span><span data-lang="en">Trip history as premium value</span></p>
-        </div>
+      <div class="detail-block" id="tracker-chat">
         <div class="case-grid case-split">
-          <div class="case-split-media col-6">
-            <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/tracker-history-ru.webp" data-src-en="assets/process/tracker-history.webp" data-alt-ru="360 Tracker · история поездок" data-alt-en="360 Tracker · trip history" alt="360 Tracker · история поездок" loading="lazy" width="4086" height="2629">
-            </button>
+          <div class="case-split-text col-4">
+            <h2 class="case-lead-title"><span data-lang="ru">Связь внутри семейного круга</span><span data-lang="en">Talking inside the family circle</span></h2>
+            <p><span data-lang="ru">В семейном круге есть общий чат и личные диалоги: можно уточнить, что произошло, запросить геолокацию, отправить фото или файл.</span><span data-lang="en">The family circle has a group chat and private conversations: you can check what happened, ask for a location, send a photo or a file.</span></p>
           </div>
-          <div class="case-split-text col-6">
-            <p><span data-lang="ru">История маршрутов вошла в запущенный MVP как премиальная функция. Её ограничили 30 днями и показывают владельцу данных, а не всем участникам круга автоматически.</span><span data-lang="en">Route history made it into the launched MVP as a premium feature. It's limited to 30 days and shown to the data's owner, not automatically to every member of the circle.</span></p>
-            <p><span data-lang="ru">Freemium-модель сохранила базовые сценарии безопасности бесплатными, а расширенную ценность связала с подпиской.</span><span data-lang="en">The freemium model kept the core safety scenarios free and tied the extended value to the subscription.</span></p>
+          <div class="col-8">
+            <figure class="case-fig">
+              <div class="case-shot" data-lightbox-for="fig-tr-06-21">
+                <img id="fig-tr-06-21" data-src-ru="assets/process/tracker-final-ru.webp" data-src-en="assets/process/tracker-final.webp" data-alt-ru="Чаты и семейный круг" data-alt-en="Chats and the family circle" alt="Чаты и семейный круг" loading="lazy" width="3725" height="2388">
+              </div>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Общий чат, личная переписка и состав семейного круга.</span><span data-lang="en">The group chat, private conversations and the family circle.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-tr-06-21"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+            </figure>
           </div>
         </div>
       </div>
 
-      <div class="detail-block">
+      <div class="detail-block" id="tracker-privacy">
         <div class="detail-head">
-          <h2><span data-lang="ru">Семейный чат</span><span data-lang="en">Family chat</span></h2>
-          <p class="detail-dek"><span data-lang="ru">Связь внутри семейного круга</span><span data-lang="en">Staying in touch within the family circle</span></p>
+          <h2><span data-lang="ru">Скрытие геолокации пришлось доработать</span><span data-lang="en">Hiding a location needed more work</span></h2>
         </div>
-        <div class="case-grid case-split">
-          <div class="case-split-media col-6">
-            <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/tracker-final-ru.webp" data-src-en="assets/process/tracker-final.webp" data-alt-ru="360 Tracker · семейный чат" data-alt-en="360 Tracker · the family chat" alt="360 Tracker · семейный чат" loading="lazy" width="4086" height="2629">
-            </button>
+        <div class="case-cols case-cols--compact" style="--cols: 3">
+          <div class="case-col">
+            <p class="case-col__label"><span data-lang="ru">Идея</span><span data-lang="en">The idea</span></p>
+            <h3 class="case-col__title"><span data-lang="ru">Управлять своей видимостью</span><span data-lang="en">Controlling your own visibility</span></h3>
+            <p class="case-col__text"><span data-lang="ru">Мы предложили временно скрывать местоположение и выбирать зоны, где пользователь не отображается. Предполагали, что взрослым будет важно управлять своей видимостью.</span><span data-lang="en">We proposed letting people hide their location temporarily and choose zones where they do not appear. We assumed adults would want to control their own visibility.</span></p>
           </div>
+          <div class="case-col">
+            <p class="case-col__label"><span data-lang="ru">Проверка</span><span data-lang="en">Test</span></p>
+            <h3 class="case-col__title"><span data-lang="ru">Вопрос в детском сценарии</span><span data-lang="en">A question in the child’s scenario</span></h3>
+            <p class="case-col__text"><span data-lang="ru">На тестировании саму возможность восприняли положительно. Но в родительском сценарии возник вопрос: что делать, если ребёнок скроет геолокацию и родитель потеряет к ней доступ?</span><span data-lang="en">In testing, the capability itself was received well. But a question came up in the parent’s scenario: what happens if a child hides their location and the parent loses access to it?</span></p>
+          </div>
+          <div class="case-col">
+            <p class="case-col__label"><span data-lang="ru">Решение</span><span data-lang="en">Decision</span></p>
+            <h3 class="case-col__title"><span data-lang="ru">Разные правила для взрослых и детей</span><span data-lang="en">Different rules for adults and children</span></h3>
+            <p class="case-col__text"><span data-lang="ru">После проверки изменили правила. Взрослые управляют собственной видимостью, а для детского профиля родитель может ограничить скрытие. Одна настройка получила разные правила для разных участников семьи.</span><span data-lang="en">After the test we changed the rules. Adults control their own visibility, while for a child profile a parent can restrict hiding. One setting ended up with different rules for different family members.</span></p>
+          </div>
+        </div>
+        <div class="case-grid case-split case-split--flip">
           <div class="case-split-text col-6">
-            <p><span data-lang="ru">На этих экранах виден список диалогов: общий чат семейного круга и личные переписки с каждым участником. Внутри переписки можно попросить геолокацию или прикрепить фото и файлы. Экран Family circle показывает состав круга, последнее местоположение каждого участника и позволяет его покинуть.</span><span data-lang="en">These screens show the list of dialogues: the family circle's shared chat and personal correspondence with each member. Inside a conversation, you can ask for a location or attach photos and files. The Family circle screen shows the circle's members, each one's last known location, and lets you leave the circle.</span></p>
-            <p><span data-lang="ru">Так пользователь может написать близким и уточнить, где они, не выходя из сценария семейной безопасности.</span><span data-lang="en">This way, a user can message loved ones and check on them without leaving the family-safety scenario.</span></p>
+            <h3 class="case-subhead"><span data-lang="ru">Разделили правила для взрослых и детей</span><span data-lang="en">Different rules for adults and children</span></h3>
+            <p><span data-lang="ru">Взрослый может самостоятельно управлять своей видимостью. Для детского профиля возможность скрыть геолокацию контролирует родитель. Так одна настройка получила разные правила для разных участников семьи.</span><span data-lang="en">An adult controls their own visibility. On a child profile, the option to hide a location is controlled by a parent. One setting ended up with different rules for different family members.</span></p>
+          </div>
+          <div class="col-6">
+            <figure class="case-fig">
+              <div class="case-shot" data-lightbox-for="fig-tr-04-22">
+                <img id="fig-tr-04-22" data-src-ru="assets/process/tracker-privacy-main-ru.webp" data-src-en="assets/process/tracker-privacy-main.webp" data-alt-ru="Скрытие геолокации" data-alt-en="Hiding a location" alt="Скрытие геолокации" loading="lazy" width="2444" height="2388">
+              </div>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Управление видимостью местоположения.</span><span data-lang="en">Controlling the visibility of a location.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-tr-04-22"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+            </figure>
           </div>
         </div>
       </div>
 
-      <div class="detail-block">
+      <div class="detail-block" id="tracker-history">
+        <div class="case-grid case-split">
+          <div class="case-split-text col-4">
+            <h2 class="case-lead-title"><span data-lang="ru">История поездок и подписка</span><span data-lang="en">Trip history and the subscription</span></h2>
+            <p><span data-lang="ru">Историю маршрутов за 30 дней включили в MVP как платную функцию. Она доступна владельцу данных и не открывается остальным участникам круга автоматически. Базовые сценарии оставили бесплатными.</span><span data-lang="en">30 days of route history went into the MVP as a paid feature. It is available to the owner of the data and is not opened to the rest of the circle automatically. The basic scenarios stayed free.</span></p>
+          </div>
+          <div class="col-8">
+            <figure class="case-fig">
+              <div class="case-shot" data-lightbox-for="fig-tr-05-23">
+                <img id="fig-tr-05-23" data-src-ru="assets/process/tracker-history-ru.webp" data-src-en="assets/process/tracker-history.webp" data-alt-ru="История поездок" data-alt-en="Trip history" alt="История поездок" loading="lazy" width="3725" height="2388">
+              </div>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">История маршрутов и выбор периода.</span><span data-lang="en">Route history and the choice of period.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-tr-05-23"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-block case-results" id="tracker-result">
+        <div class="case-results__panel">
         <div class="detail-head">
           <h2><span data-lang="ru">Результаты</span><span data-lang="en">Results</span></h2>
         </div>
-        <p><span data-lang="ru">Запущено iOS-приложение с картой как главным экраном: статусы участников семьи, геозоны, уведомления о выходе за границу.</span><span data-lang="en">An iOS app has launched with the map as the main screen: family members' statuses, geofences, and notifications when someone leaves a boundary.</span></p>
+        <p><span data-lang="ru">Запущено iOS-приложение с картой, геозонами и уведомлениями.</span><span data-lang="en">We launched an iOS app with the map, geofences and notifications.</span></p>
         <div class="case-grid result-cards">
           <div class="result-card col-6">
             <p class="result-card__label"><span data-lang="ru">Активация семьи</span><span data-lang="en">Family activation</span></p>
-            <p class="result-card__metric"><span data-lang="ru">Пользователь создаёт круг и добавляет близких</span><span data-lang="en">The user creates a circle and adds family members</span></p>
-            <p class="result-card__desc"><span data-lang="ru"><strong>Влияние оценивали по:</strong> доле пользователей, создавших круг и добавивших участника</span><span data-lang="en"><strong>Measured by:</strong> the share of users who created a circle and added a member</span></p>
+            <h3 class="result-card__metric"><span data-lang="ru">Семейный круг — первый сценарий</span><span data-lang="en">The family circle comes first</span></h3>
+            <p class="result-card__desc"><span data-lang="ru">Сделали создание семейного круга и добавление близких первым ключевым сценарием.</span><span data-lang="en">We made creating the family circle and adding people the first key scenario.</span></p>
+            <p class="result-card__measure">
+              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
+              <span><span data-lang="ru">доле пользователей, создавших круг и добавивших участника</span><span data-lang="en">the share of users who create a circle and add a member</span></span>
+            </p>
           </div>
           <div class="result-card col-6">
             <p class="result-card__label"><span data-lang="ru">Карта и статусы</span><span data-lang="en">Map and statuses</span></p>
-            <p class="result-card__metric"><span data-lang="ru">Местоположение и актуальное состояние участников доступны на одном экране</span><span data-lang="en">Members' location and current status are available on a single screen</span></p>
-            <p class="result-card__desc"><span data-lang="ru"><strong>Влияние оценивали по:</strong> удержанию D7 и D30 среди активированных семей</span><span data-lang="en"><strong>Measured by:</strong> D7 and D30 retention among activated families</span></p>
+            <h3 class="result-card__metric"><span data-lang="ru">Местоположение и статус на одном экране</span><span data-lang="en">Location and status on one screen</span></h3>
+            <p class="result-card__desc"><span data-lang="ru">Объединили местоположение и актуальное состояние участников на одном экране.</span><span data-lang="en">We brought the location and the current state of each member onto one screen.</span></p>
+            <p class="result-card__measure">
+              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
+              <span><span data-lang="ru">удержанию D7 и D30 среди активированных семей</span><span data-lang="en">D7 and D30 retention among activated families</span></span>
+            </p>
           </div>
           <div class="result-card col-6">
             <p class="result-card__label"><span data-lang="ru">Геозоны и уведомления</span><span data-lang="en">Geofences and notifications</span></p>
-            <p class="result-card__metric"><span data-lang="ru">Приложение сообщает о важных событиях без постоянного наблюдения за картой</span><span data-lang="en">The app reports important events without anyone having to watch the map constantly</span></p>
-            <p class="result-card__desc"><span data-lang="ru"><strong>Влияние оценивали по:</strong> доле активных пользователей, использующих данную функцию</span><span data-lang="en"><strong>Measured by:</strong> the share of active users who use this feature</span></p>
+            <h3 class="result-card__metric"><span data-lang="ru">Уведомления вместо слежения за картой</span><span data-lang="en">Notifications instead of watching the map</span></h3>
+            <p class="result-card__desc"><span data-lang="ru">Добавили уведомления о важных событиях, чтобы пользователю не приходилось постоянно следить за картой.</span><span data-lang="en">We added notifications about the events that matter, so nobody has to keep watching the map.</span></p>
+            <p class="result-card__measure">
+              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
+              <span><span data-lang="ru">доле активных пользователей, использующих геозоны и уведомления</span><span data-lang="en">the share of active users who use geofences and notifications</span></span>
+            </p>
           </div>
           <div class="result-card col-6">
             <p class="result-card__label"><span data-lang="ru">Freemium</span><span data-lang="en">Freemium</span></p>
-            <p class="result-card__metric"><span data-lang="ru">Базовая безопасность остаётся бесплатной, история расширяет сценарий</span><span data-lang="en">Core safety stays free, history extends the scenario</span></p>
-            <p class="result-card__desc"><span data-lang="ru"><strong>Влияние оценивали по:</strong> конверсии активных семей в подписку и доле продлений</span><span data-lang="en"><strong>Measured by:</strong> conversion of active families to subscription and the renewal rate</span></p>
+            <h3 class="result-card__metric"><span data-lang="ru">Безопасность бесплатно, история — в подписке</span><span data-lang="en">Safety free, history by subscription</span></h3>
+            <p class="result-card__desc"><span data-lang="ru">Оставили базовые функции безопасности бесплатными, а историю поездок включили в расширенный сценарий.</span><span data-lang="en">We kept the basic safety features free and put trip history into the extended plan.</span></p>
+            <p class="result-card__measure">
+              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
+              <span><span data-lang="ru">конверсии активных семей в подписку и доле продлений</span><span data-lang="en">conversion of active families to a subscription and the renewal rate</span></span>
+            </p>
           </div>
         </div>
+        </div>
       </div>
-
     </div>
 
     <nav class="case-floating-nav">
@@ -761,7 +1328,7 @@
 
   <div class="lightbox" id="lightbox">
     <button class="lightbox-close" aria-label="Закрыть">×</button>
-    <img id="lightboxImg" src="" alt="">
+    <img id="lightboxImg" alt="">
   </div>
 
   <script>
@@ -774,7 +1341,7 @@
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0, rootMargin: '0px 0px -80px 0px' });
     targets.forEach(function (el) {
       if (el.getBoundingClientRect().top < window.innerHeight * 0.9) return;
       el.classList.add('reveal-pending');

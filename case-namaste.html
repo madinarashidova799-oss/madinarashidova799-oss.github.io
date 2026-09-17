@@ -6,7 +6,7 @@
 <script>(function(){if(localStorage.getItem('site-lang')==='en')document.documentElement.classList.add('lang-en');})();</script>
 <title data-ru="Namaste: Мадина Рашидова" data-en="Namaste: Madina Rashidova">Namaste: Мадина Рашидова</title>
 <link rel="icon" type="image/png" href="favicon.png">
-<meta name="description" content="Namaste: MVP мобильного приложения для йоги, фитнеса и медитации за 3 месяца. Разбор процесса: анализ рынка, айдентика, итоги." data-ru="Namaste: MVP мобильного приложения для йоги, фитнеса и медитации за 3 месяца. Разбор процесса: анализ рынка, айдентика, итоги." data-en="Namaste: an MVP of a mobile app for yoga, fitness, and meditation in 3 months. Process breakdown: market analysis, identity, outcomes.">
+<meta name="description" content="Namaste: MVP мобильного приложения для йоги, фитнеса и медитации за 3 месяца. Разбор процесса: анализ рынка, айдентика, итоги." data-ru="Namaste: MVP мобильного приложения для йоги, фитнеса и медитации за 3 месяца. Разбор процесса: анализ рынка, айдентика, итоги." data-en="Namaste: a mobile app MVP for yoga, fitness and meditation, built in 3 months. Process breakdown: market analysis, identity, results.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500;1,600&display=swap" rel="stylesheet">
@@ -96,6 +96,16 @@
     margin-left: 4px; transition: background 0.2s ease, color 0.2s ease;
   }
   .lang-toggle:hover, .lang-toggle:focus-visible { background: rgba(255,255,255,0.16); color: #fff; }
+  /* ===== область нажатия верхней навигации =====
+     Ссылки были 35 px высотой, переключатель языка 38x31 — меньше цели
+     44x44. Видимая плашка не меняется: увеличена только область нажатия,
+     по вертикали, чтобы соседние ссылки не перекрывали друг друга. */
+  .site-nav a.nav-link, .lang-toggle { position: relative; }
+  .site-nav a.nav-link::after { content: ''; position: absolute; inset: -5px 0; }
+  .site-nav a.nav-name { position: relative; }
+  .site-nav a.nav-name::after { content: ''; position: absolute; inset: -12px 0; }
+  .lang-toggle::after { content: ''; position: absolute; inset: -7px -4px; }
+  /* ===== конец блока области нажатия ===== */
   @media (max-width: 560px) {
     .site-nav { padding: 6px 6px 6px 14px; }
     .site-nav .nav-name { display: none; }
@@ -123,7 +133,7 @@
   .lightbox.open img { transform: scale(1); }
   .lightbox-close {
     position: absolute; top: 28px; right: 32px;
-    width: 42px; height: 42px; border-radius: 50%;
+    width: 44px; height: 44px; border-radius: 50%;
     background: var(--surface); border: 1px solid var(--line);
     color: var(--text); font-size: 1.3rem; line-height: 1; cursor: pointer;
   }
@@ -181,6 +191,193 @@
     .case-split-media { transition: none; }
   }
   .case-split-media img { margin: 0; border-radius: var(--radius-medium); object-fit: contain; }
+
+  /* ===== Крупная подача экранов (.case-shot / .case-steps) =====
+     Веб-интерфейс нечитаем в половине колонки: при окне 1440 .case-split-media
+     отдаёт картинке 539px, а пара в --mosaic-row — по 262px. Два режима вместо
+     этого, оба держат картинку ~912px и оба уже колонки, чтобы экран не
+     распластывался во всю страницу:
+       .case-shot  — одиночный экран в кадре ≤1000px по центру;
+       .case-steps — бывшая пара, разведённая по вертикали: каждый шаг в том же
+                     кадре и с подписью, номера совпадают с шагами сценария.
+     Текст в обоих режимах идёт над картинкой во всю колонку, а не сбоку. */
+  .case-shot {
+    max-width: 1000px; margin: clamp(32px, 3vw, 40px) auto;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius-large); padding: clamp(24px, 3.4vw, 44px);
+    transition: transform 0.25s cubic-bezier(.22,1,.36,1), box-shadow 0.25s ease;
+  }
+  .case-shot:hover { transform: translateY(-6px); box-shadow: 0 16px 32px rgba(23,17,14,0.09); }
+  @media (prefers-reduced-motion: reduce) { .case-shot { transition: none; } }
+  .case-shot .case-image-trigger { display: block; }
+  .case-shot .case-image-trigger:focus-visible { outline-offset: -3px; }
+  .case-shot img { display: block; width: 100%; height: auto; margin: 0; border-radius: var(--radius-medium); }
+
+  .case-steps { display: flex; flex-direction: column; gap: clamp(28px, 3vw, 40px); margin: clamp(32px, 3vw, 40px) 0; }
+  .case-step { max-width: 1000px; width: 100%; margin-inline: auto; }
+  .case-step .case-shot { margin-block: 0; }
+  .case-step__cap {
+    display: flex; gap: 10px; align-items: baseline; max-width: none;
+    font-size: var(--font-size-label); line-height: 1.5; color: var(--text-dim);
+    margin: 0 0 12px; padding-inline: clamp(24px, 3.4vw, 44px);
+  }
+  .case-step__num { font-family: var(--mono); font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; flex: none; }
+
+  /* ===== Формы подачи блока =====
+     Раньше каждый блок выглядел одинаково: заголовок, абзацы во всю колонку,
+     под ними картинка на 910px. Шесть блоков подряд с одним ритмом читаются
+     как список, а не как рассказ. Форма теперь выбирается по содержанию:
+
+       .case-rail   — текст без картинки, который является последовательностью
+                      (предположили → проверили → изменили). Номер несёт смысл,
+                      поэтому он здесь заслужен, а не декоративен.
+       .case-stats  — выборка исследования: числа, которые в прозе теряются.
+       .case-split  — один абзац и одна вертикальная картинка рядом (уже было).
+       .case-figs   — две связанные картинки в ряд.
+       .case-shot   — широкий экран во всю колонку кадра (уже было).
+       .result-card — итоги карточками (уже было).
+  */
+
+  /* Шаги по горизонтали: номер на линии, под ним заголовок и текст. */
+  .case-rail {
+    display: grid; grid-template-columns: repeat(var(--rail-cols, 3), minmax(0, 1fr));
+    column-gap: clamp(20px, 2.4vw, 40px); row-gap: 32px;
+    margin: clamp(32px, 3.5vw, 48px) 0 clamp(28px, 3vw, 40px);
+  }
+  .case-rail__step { position: relative; padding-top: 54px; min-width: 0; }
+  /* Соединительная линия тянется от номера к следующему шагу. */
+  .case-rail__step::before {
+    content: ''; position: absolute; top: 17px; left: 42px;
+    right: calc(-1 * clamp(20px, 2.4vw, 40px)); height: 1px;
+    background: var(--line-strong);
+  }
+  .case-rail__step:last-child::before { display: none; }
+  .case-rail__num {
+    position: absolute; top: 0; left: 0; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--nav-bg); color: var(--text-inverse);
+    display: grid; place-items: center;
+    font-family: var(--mono); font-size: 13px; font-weight: 500; line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .case-rail__title {
+    font-family: var(--display); font-weight: var(--font-weight-heading);
+    font-size: var(--font-size-h3); line-height: 1.25; color: var(--text);
+    margin: 0 0 10px; text-wrap: balance;
+  }
+  .case-rail__text {
+    font-size: var(--font-size-body); line-height: var(--line-height-body);
+    color: var(--text-dim); margin: 0; max-width: 42ch; text-wrap: pretty;
+  }
+  @media (max-width: 900px) {
+    .case-rail { grid-template-columns: 1fr; row-gap: 28px; }
+    .case-rail__step { padding-top: 0; padding-left: 52px; }
+    .case-rail__step::before {
+      top: 42px; bottom: -28px; left: 17px; right: auto; width: 1px; height: auto;
+    }
+    .case-rail__text { max-width: none; }
+  }
+
+  /* Выборка исследования. Числа из утверждённого текста, не пересчитаны. */
+  .case-stats {
+    display: flex; flex-wrap: wrap; gap: clamp(24px, 4vw, 64px);
+    margin: clamp(28px, 3vw, 40px) 0;
+    padding: clamp(18px, 2vw, 24px) 0;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .case-stats__item { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .case-stats__num {
+    font-family: var(--display); font-weight: var(--font-weight-heading);
+    font-size: clamp(26px, 2.8vw, 36px); line-height: 1; color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+  .case-stats__label { font-size: var(--font-size-label); line-height: 1.45; color: var(--text-dim); }
+
+  /* Две связанные картинки в ряд. */
+  /* Пара картинок во всю ширину колонки, а не в суженном кадре: две
+     половины по ~600px читаются, две по 454px — уже нет. */
+  .case-figs {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(20px, 2.4vw, 32px); align-items: start;
+    margin: clamp(32px, 3vw, 40px) 0;
+  }
+  .case-figs .case-shot { margin: 0; max-width: none; }
+  @media (max-width: 860px) { .case-figs { grid-template-columns: 1fr; } }
+
+  /* Картинка внутри половины сетки — тот же кадр, без собственной ширины. */
+  .case-split .case-shot { margin: 0; max-width: none; }
+  .case-split-text p + p { margin-top: 16px; }
+
+  /* Закрывающая строка блока итогов: что проверять дальше. */
+  .case-next-step {
+    margin-top: clamp(28px, 3vw, 40px); padding-top: clamp(18px, 2vw, 24px);
+    border-top: 1px solid var(--line);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .case-next-step__label {
+    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--text-dim);
+  }
+  .case-next-step p { margin: 0; max-width: 62ch; }
+
+  /* Подзаголовок кейса под H1 (content.json → subtitle). */
+  .case-headline {
+    font-family: var(--display); font-weight: var(--font-weight-heading);
+    font-size: var(--font-size-h4); line-height: 1.3; color: var(--text);
+    margin: 14px 0 0; max-width: 34ch; text-wrap: pretty;
+  }
+
+  /* Таблица решений внутри кейса. Настоящая <table>, горизонтальный скролл
+     внутри своего контейнера — страница по горизонтали не едет. */
+  .case-table-wrap {
+    margin-top: clamp(24px, 2.5vw, 32px); margin-bottom: clamp(20px, 2vw, 24px); overflow-x: auto;
+    border: 1px solid var(--line); border-radius: var(--radius-medium); background: var(--surface);
+    width: 100%; min-width: 0; max-width: 100%;
+  }
+  .case-table-wrap:focus-visible { outline: 2px solid var(--text-strong); outline-offset: -2px; }
+  .case-table { width: 100%; min-width: 480px; border-collapse: collapse; }
+  .case-table th, .case-table td {
+    padding: clamp(14px, 1.6vw, 20px) clamp(16px, 2vw, 24px); text-align: left;
+    font-size: var(--font-size-label); line-height: 1.5; color: var(--text-dim);
+    border-bottom: 1px solid var(--line); white-space: normal; vertical-align: top;
+  }
+  .case-table thead th {
+    font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-dim-2); font-weight: 500; background: var(--surface);
+  }
+  .case-table tbody th {
+    font-family: var(--display); font-weight: 600; color: var(--text);
+    position: sticky; left: 0; background: var(--surface); min-width: 150px;
+  }
+  .case-table tbody tr:last-child th, .case-table tbody tr:last-child td { border-bottom: 0; }
+
+  /* Подпись под иллюстрацией. В HTML, а не внутри растра, и не дублирует alt. */
+  .case-shot { margin-inline: auto; }
+  .case-shot__cap {
+    margin: 14px 0 0; font-size: var(--font-size-label); line-height: 1.5;
+    color: var(--text-dim); max-width: 62ch;
+  }
+
+  /* «Дополнительные экраны»: материалы реестра с placement: gallery.
+     <details> вместо самодельного аккордеона — работает с клавиатуры
+     и без JS, состояние читается скринридером. */
+  .case-gallery {
+    margin-top: clamp(56px, 6vw, 88px);
+    border-top: 1px solid var(--line); padding-top: clamp(20px, 2vw, 28px);
+  }
+  .case-gallery__summary {
+    cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--display); font-weight: 600; font-size: var(--font-size-h3);
+    color: var(--text); padding: 6px 2px; border-radius: var(--radius-small);
+  }
+  .case-gallery__summary::-webkit-details-marker { display: none; }
+  .case-gallery__summary::after {
+    content: '+'; font-family: var(--mono); font-weight: 500; font-size: 0.8em;
+    color: var(--text-dim); transition: transform 0.2s ease;
+  }
+  .case-gallery[open] .case-gallery__summary::after { content: '\2212'; }
+  .case-gallery__summary:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 3px; }
+  .case-gallery__body { display: flex; flex-direction: column; gap: clamp(28px, 3vw, 40px); margin-top: 24px; }
+  @media (prefers-reduced-motion: reduce) { .case-gallery__summary::after { transition: none; } }
   .case-split-media .case-image-trigger:focus-visible { outline-offset: -3px; }
 
   .detail-block.reveal-pending {
@@ -385,6 +582,7 @@
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
   }
+
   .case-floating-nav {
     position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom));
     transform: translateX(-50%) translateY(12px);
@@ -473,6 +671,324 @@
     .case-context-cards { margin-top: 16px; }
     .case-context-card { padding: clamp(12px, 1.5vw, 18px); }
   }
+
+  /* ===== Редакция 3.2: формы подачи блоков =====
+     Ни одна иллюстрация не шире 8 колонок из 12. Две композиции:
+       6 / 6 — обычная: текст и экран рядом, текст по центру визуала;
+       4 / 8 — редкая: группы мобильных экранов, широкие web-интерфейсы,
+               схемы процесса, сравнительные таблицы;
+       col-8-center — вступление в 6 колонок сверху, таблица или схема
+               в 8 колонках по центру контентной области.
+     .case-seq     — один сценарий по шагам, каждый шаг в той же сетке 4/8;
+     .case-cols    — параллельные наблюдения: колонка с засечкой акцента;
+     .case-results — итоги: тёмная полоса и четыре карточки 2×2.
+     Цвет кейса живёт в трёх переменных ниже и нигде больше не дублируется. */
+  :root {
+    --case-mark: #6F64B8;        /* метка: точка, номер шага, засечка колонки */
+    --case-mark-on: #FFFFFF;       /* текст поверх метки */
+    --case-mark-text: #6F64B8;   /* тот же акцент как текст на светлом фоне */
+  }
+
+  .col-5 { grid-column: span 5; }
+  .col-7 { grid-column: span 7; }
+  @media (max-width: 767px) {
+    .case-grid > .col-5, .case-grid > .col-7 { grid-column: span 4; }
+  }
+
+  /* Сторону визуала выбирает содержание, а не автоматическое чередование:
+     основной путь — текст слева, продолжение сценария — визуал слева.
+     В разметке всегда сначала текст, поэтому на мобильном порядок
+     сбрасывается и текст снова идёт первым. */
+  .case-split--flip > :last-child { order: -1; }
+  @media (max-width: 767px) { .case-split--flip > * { order: 0; } }
+  /* Выравнивание по верхнему краю: заголовок и абзац стоят рядом с верхом
+     визуала, а не разъезжаются по высоте картинки. */
+  .case-split { align-items: start; }
+  /* Оптическая поправка: у заголовка есть выносная линия, у рамки кадра нет. */
+  .case-split-text { padding-top: 6px; }
+  .case-split .compare-slider__frame { margin-top: 0; margin-bottom: 0; }
+
+  /* ---- Текстовая колонка ----
+     Заголовок и описание — один модуль: 24–32 px между ними, длина строки
+     45–70 знаков, высота колонки по содержимому, без растяжки под картинку. */
+  .case-split-text { align-self: start; }
+  .case-lead-title {
+    font-family: var(--display); font-size: var(--font-size-h2);
+    line-height: var(--line-height-heading); font-weight: 700; letter-spacing: -0.01em;
+    color: var(--text-strong); text-wrap: balance; max-width: 18ch;
+    margin: 0 0 clamp(24px, 2.2vw, 32px);
+  }
+  .case-split-text .case-subhead { max-width: 22ch; margin-bottom: clamp(20px, 1.8vw, 26px); }
+  .detail-block .case-split-text p { max-width: 56ch; margin-bottom: clamp(16px, 1.4vw, 20px); }
+  .detail-block .case-split-text p:last-child { margin-bottom: 0; }
+  .col-6.case-split-text, .col-4.case-split-text { max-width: 560px; }
+
+  /* Высокий кадр рядом с коротким абзацем оставлял от 240 до 720 px пустой
+     колонки — замерено во всех четырёх кейсах. Растягивать текст незачем,
+     увеличивать картинку нельзя, поэтому текст едет вместе с кадром: он
+     остаётся на экране, пока читатель проходит изображение, и подпись
+     работает как комментарий к тому, что видно прямо сейчас.
+     Отступ сверху уводит колонку из-под верхней навигации.
+     Ниже 900 px колонки складываются в одну и липкость выключается. */
+  @media (min-width: 900px) {
+    .case-split > .case-split-text { position: sticky; top: clamp(96px, 12vh, 132px); }
+  }
+
+  /* Два-три коротких вывода под абзацем: та же колонка, ближе к тексту,
+     чем к следующей секции. */
+  .case-points {
+    list-style: none; margin: clamp(32px, 3vw, 40px) 0 0; padding: 0;
+    display: flex; flex-direction: column; gap: clamp(18px, 1.8vw, 24px);
+  }
+  .case-points li { position: relative; padding-top: 16px; border-top: 1px solid var(--line-strong); }
+  .case-points li::before {
+    content: ''; position: absolute; top: -1px; left: 0; width: 36px; height: 2px;
+    background: var(--case-mark);
+  }
+  .detail-block .case-points__title {
+    font-family: var(--display); font-weight: 600; font-size: var(--font-size-label);
+    line-height: 1.4; color: var(--text); margin: 0 0 4px; max-width: none;
+  }
+  .detail-block .case-points__text {
+    font-size: 13px; line-height: 1.55; color: var(--text-dim); margin: 0; max-width: none;
+  }
+
+  .case-subhead {
+    font-family: var(--display); font-weight: var(--font-weight-heading);
+    font-size: var(--font-size-h3); line-height: 1.3; color: var(--text);
+    margin: 0 0 12px; text-wrap: balance;
+  }
+
+  /* Вступление перед таблицей или схемой: занимает 6 колонок сетки. */
+  .case-lede { max-width: 56ch; margin-bottom: clamp(24px, 2.4vw, 32px); }
+  .case-lede > p:last-child { margin-bottom: 0; }
+  .case-grid > .case-split-text.col-6 { margin-bottom: clamp(24px, 2.4vw, 32px); }
+  .detail-head + .case-grid .case-split-text p { margin-top: 0; }
+  .case-grid > .col-8-center + .col-8-center { margin-top: clamp(24px, 2.4vw, 32px); }
+
+  /* ---- Кадр с интерфейсом ----
+     Подпись вынесена из белого контейнера: раньше она входила в карточку и
+     добавляла ей высоты. Внутренние поля кадра сокращены, чтобы размер
+     задавал интерфейс, а не рамка вокруг него. */
+  /* Кадр всегда живёт внутри своей колонки сетки: собственной ширины у него
+     нет, режим «во всю страницу» убран. */
+  .case-fig { max-width: none; margin: 0; min-width: 0; }
+  /* Схема уже нарисована на собственной подложке — вторая рамка вокруг неё
+     читалась бы как вложенная карточка. */
+  .detail-block .case-fig--plain .case-shot { background: none; border: 0; padding: 0; }
+  .detail-block .case-fig--plain .case-shot img { border-radius: var(--radius-large); }
+  .detail-block .case-shot {
+    display: block; width: 100%; max-width: none; margin: 0;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius-large);
+    padding: clamp(12px, 1.2vw, 18px);
+    cursor: zoom-in; transition: border-color 0.2s ease;
+  }
+  .detail-block .case-shot:hover { transform: none; box-shadow: none; border-color: var(--line-strong); }
+  .detail-block .case-shot img {
+    display: block; width: 100%; height: auto; margin: 0;
+    border-radius: var(--radius-medium);
+  }
+  .case-fig__cap {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px;
+    margin: 18px 0 0;
+    font-size: 13px; line-height: 1.5; color: var(--text-dim);
+  }
+  .case-fig__text { max-width: 62ch; }
+  .case-fig__open {
+    font: inherit; font-size: 12px; color: var(--case-mark-text);
+    background: none; border: 0; padding: 2px 0; cursor: pointer;
+    text-decoration: underline; text-underline-offset: 3px; white-space: nowrap;
+  }
+  .case-fig__open:hover { text-decoration-thickness: 2px; }
+  /* Строка подписи высотой 22 px — слишком мелкая цель для пальца. Сама
+     строка остаётся прежней, растёт только область нажатия: 44 px по
+     вертикали. Подпись лежит в той же flex-строке слева, перекрытия нет. */
+  .case-fig__open { position: relative; }
+  .case-fig__open::after { content: ''; position: absolute; inset: -11px -6px; }
+  .case-fig__open:focus-visible { outline: 2px solid var(--case-mark-text); outline-offset: 3px; border-radius: 4px; }
+
+  /* Два экрана одного сценария — друг под другом внутри своей колонки. */
+  .case-figs--stack { display: flex; flex-direction: column; gap: clamp(20px, 2.2vw, 28px); }
+
+  /* Подписи к частям одной композиции. */
+  .case-shot-labels {
+    list-style: none; display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 28px); margin: clamp(20px, 2vw, 26px) 0 0; padding: 0;
+  }
+  .case-shot-labels li {
+    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--text-dim);
+    padding-top: 10px; border-top: 1px solid var(--line-strong); position: relative;
+  }
+  .case-shot-labels li::before {
+    content: ''; position: absolute; top: -1px; left: 0; width: 36px; height: 2px;
+    background: var(--case-mark);
+  }
+  @media (max-width: 640px) { .case-shot-labels { grid-template-columns: 1fr; gap: 12px; } }
+
+  /* Один сценарий по шагам. <ol>: порядок действий — часть содержания. */
+  .case-seq { list-style: none; display: flex; flex-direction: column; gap: clamp(44px, 4.5vw, 72px); }
+  .case-seq__step { min-width: 0; }
+  .case-seq__head { position: relative; padding-left: 52px; }
+  .case-seq__num {
+    position: absolute; top: 1px; left: 0; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--case-mark); color: var(--case-mark-on);
+    display: grid; place-items: center;
+    font-family: var(--mono); font-size: 13px; font-weight: 500; line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .case-seq__head .case-subhead { margin-bottom: 10px; }
+  .case-seq__head > p:last-child { margin-bottom: 0; }
+  @media (max-width: 767px) { .case-seq__head { margin-bottom: 20px; } }
+  @media (max-width: 560px) { .case-seq__head { padding-left: 46px; } }
+
+  /* Нумерованная последовательность шагов исследования. */
+  .case-rail { list-style: none; }
+  .case-rail__num { background: var(--case-mark); color: var(--case-mark-on); }
+  .case-rail__title { font-size: var(--font-size-h4); }
+  .case-rail .case-rail__text { margin: 0; }
+
+  /* Параллельные наблюдения: не карточки, а колонки под общей линией с
+     короткой засечкой акцента. Карточка обещала бы отдельный объект. */
+  .case-cols {
+    display: grid; grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
+    gap: clamp(24px, 2.6vw, 36px) clamp(24px, 2.6vw, 40px);
+    margin: clamp(32px, 3.2vw, 44px) 0;
+  }
+  .case-col {
+    position: relative; min-width: 0;
+    padding-top: clamp(18px, 1.8vw, 22px); border-top: 1px solid var(--line-strong);
+  }
+  .case-col::before {
+    content: ''; position: absolute; top: -1px; left: 0; width: 48px; height: 2px;
+    background: var(--case-mark);
+  }
+  .case-col .case-col__label {
+    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--case-mark-text); margin: 0 0 8px; max-width: none;
+  }
+  .case-col__title {
+    font-family: var(--display); font-weight: var(--font-weight-heading);
+    font-size: var(--font-size-h4); line-height: 1.3; color: var(--text);
+    margin: 0 0 8px; text-wrap: balance;
+  }
+  .case-col .case-col__text {
+    font-size: var(--font-size-body); line-height: var(--line-height-body);
+    color: var(--text-dim); margin: 0; max-width: 44ch; text-wrap: pretty;
+  }
+  /* Компактный вариант: три колонки читаются как подводка к решению ниже. */
+  .case-cols--compact { margin-bottom: clamp(24px, 2.4vw, 32px); }
+  .case-cols--compact .case-col__title { font-size: var(--font-size-h3); }
+  .case-cols--compact .case-col__text { font-size: var(--font-size-label); line-height: 1.55; }
+  @media (max-width: 860px) {
+    .case-cols { grid-template-columns: 1fr; gap: 26px; }
+    .case-col .case-col__text { max-width: none; }
+  }
+
+  /* Вывод из исследования. Отдельная реплика после материала, не ещё один абзац. */
+  .case-takeaway {
+    margin: clamp(28px, 2.8vw, 40px) 0 0; padding-left: clamp(18px, 2vw, 26px);
+    border-left: 2px solid var(--case-mark);
+  }
+  .detail-block .case-takeaway p {
+    margin: 0; max-width: 66ch;
+    font-size: var(--font-size-body); line-height: var(--line-height-body); color: var(--text);
+  }
+
+  /* Пара концептов: у каждой картинки своя подпись-заголовок. */
+  /* Пара концептов — обычная строка сетки, по 6 колонок на концепт.
+     Собственная сетка .case-figs здесь не нужна, отступы задаёт .case-grid;
+     на мобильном каждый концепт занимает всю ширину, отсюда row-gap. */
+  .case-grid.case-figs--labelled { align-items: start; margin: clamp(32px, 3vw, 40px) 0; row-gap: clamp(24px, 2.6vw, 32px); }
+  .case-figs--labelled { align-items: start; }
+  .case-figs__item { min-width: 0; }
+  .case-figs__item .case-figs__label {
+    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--case-mark-text); margin: 0 0 12px; max-width: none;
+  }
+  .detail-block p.case-artifact-cap {
+    font-size: var(--font-size-label); line-height: 1.5; color: var(--text-dim);
+    margin: clamp(24px, 2.4vw, 32px) 0 12px; max-width: 62ch;
+  }
+  .case-table-wrap--narrow { max-width: 720px; }
+
+  /* ---- Итоги ----
+     Тёмная полоса во всю ширину экрана, контент остаётся в основном
+     контейнере. Полоса нарисована box-shadow + clip-path: это не влияет на
+     раскладку и не создаёт горизонтальной прокрутки, в отличие от 100vw. */
+  :root {
+    --results-bg: #211B18;
+    --results-card: #2C2723;
+    --results-line: rgba(255, 255, 255, 0.11);
+    --results-text: rgba(255, 255, 255, 0.68);
+    --results-dim: rgba(255, 255, 255, 0.5);
+  }
+  .detail-block.case-results { margin-top: clamp(96px, 9vw, 140px); padding-top: 0; }
+  .case-results__panel {
+    position: relative; background: var(--results-bg);
+    box-shadow: 0 0 0 100vmax var(--results-bg);
+    clip-path: inset(0 -100vmax);
+    padding: clamp(40px, 4.5vw, 72px) 0 clamp(44px, 5vw, 80px);
+  }
+  .case-results__panel .detail-head { margin-bottom: clamp(16px, 1.6vw, 20px); }
+  .case-results__panel .detail-head h2 { color: #fff; }
+  .case-results__panel p { color: var(--results-text); max-width: 62ch; }
+  .case-results__panel .case-lede { margin-bottom: 0; }
+  .case-results .result-cards { margin-top: clamp(28px, 3vw, 40px); row-gap: clamp(20px, 2vw, 28px); }
+  .case-results .result-card {
+    background: var(--results-card); border: 1px solid var(--results-line);
+    border-radius: var(--radius-medium); box-shadow: none;
+    min-height: 0; height: 100%;
+    padding: clamp(28px, 2.6vw, 40px); gap: 10px;
+  }
+  .case-results .result-card .result-card__label {
+    color: var(--results-dim); margin: 0 0 2px;
+  }
+  .case-results .result-card .result-card__label::before { background: var(--case-mark); }
+  .case-results .result-card .result-card__metric {
+    font-size: clamp(18px, 1.5vw, 22px); line-height: 1.3; color: #fff;
+  }
+  .case-results .result-card .result-card__desc { color: var(--results-text); }
+  .case-results .result-card .result-card__measure {
+    width: 100%; margin: auto 0 0; padding-top: 18px;
+    border-top: 1px solid var(--results-line);
+    font-size: 13px; line-height: 1.5; color: var(--results-text); max-width: none;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .case-results .result-card .result-card__measure-label {
+    font-family: var(--mono); font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--results-dim);
+  }
+
+  /* Ритм страницы: воздух разделяет разные истории, а не связанные части
+     одной. Между самостоятельными секциями 128–176 px. */
+  .detail-block { margin-top: clamp(128px, 11vw, 176px); padding-top: 0; }
+  @media (max-width: 720px) { .detail-block { margin-top: clamp(88px, 14vw, 112px); } }
+  .detail-block .detail-head { margin-bottom: clamp(24px, 2.2vw, 32px); }
+  .detail-block:last-child .detail-head { margin-bottom: clamp(24px, 2.2vw, 32px); }
+
+  /* Экспорты обрезаны по содержимому, пропорция набора изменилась. */
+  .compare-slider__stage { aspect-ratio: 2700 / 1768; }
+
+  /* Кнопки «крупно» под слайдером тем: сам слайдер показывает сравнение,
+     а рассмотреть экран целиком можно в лайтбоксе. */
+  .compare-slider__frame { padding: clamp(12px, 1.2vw, 18px); }
+  .compare-slider__tools {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 12px; margin-top: 12px;
+  }
+  .compare-slider__hint { font-size: 13px; line-height: 1.45; color: var(--text-dim-2); }
+  .compare-slider__zooms { display: flex; gap: 8px; flex-wrap: wrap; }
+  .compare-slider__zoom {
+    font: inherit; font-size: 13px; cursor: pointer;
+    background: var(--bg); border: 1px solid var(--line-strong); color: var(--text);
+    border-radius: var(--radius-pill); padding: 9px 16px; min-height: 44px;
+  }
+  .compare-slider__zoom:hover { border-color: var(--case-mark); }
+  .compare-slider__zoom:focus-visible { outline: 2px solid var(--case-mark-text); outline-offset: 2px; }
+
+  /* ===== конец блока редакции 3.2 ===== */
 </style>
   <link rel="stylesheet" href="assets/typography.css">
 </head>
@@ -490,196 +1006,246 @@
     <div class="case-page">
       <div class="case-header">
         <h1 class="case-title">Namaste</h1>
-        <div class="case-meta-group">
-          <div class="case-tags"><span>mobile</span><span>b2c</span></div>
-        </div>
+        <p class="case-headline"><span data-lang="ru">Как выбирали функции первой версии приложения для тренировок</span><span data-lang="en">How we chose the features of a workout app’s first version</span></p>
         <dl class="case-facts">
-          <div><dt><span data-lang="ru">Длительность</span><span data-lang="en">Duration</span></dt><dd><span data-lang="ru">3 месяца</span><span data-lang="en">3 months</span></dd></div>
-          <div><dt><span data-lang="ru">Команда</span><span data-lang="en">Team</span></dt><dd>Product Designer, Product Owner, Developer, Product Manager</dd></div>
-          <div><dt><span data-lang="ru">Моя роль</span><span data-lang="en">My role</span></dt><dd>Product Designer</dd></div>
-          <div><dt><span data-lang="ru">Пользователи</span><span data-lang="en">Users</span></dt><dd><span data-lang="ru">люди, практикующие йогу, фитнес и медитации, а также начинающие пользователи онлайн-тренировок</span><span data-lang="en">people who practice yoga, fitness, and meditation, plus newcomers to online workouts</span></dd></div>
-          <div><dt><span data-lang="ru">Платформа</span><span data-lang="en">Platform</span></dt><dd><span data-lang="ru">мобильное приложение iOS</span><span data-lang="en">mobile app, iOS</span></dd></div>
+          <div><dt><span data-lang="ru">Срок</span><span data-lang="en">Duration</span></dt><dd><span data-lang="ru">3 месяца</span><span data-lang="en">3 months</span></dd></div>
+          <div><dt><span data-lang="ru">Роль</span><span data-lang="en">Role</span></dt><dd><span data-lang="ru">Product Designer</span><span data-lang="en">Product Designer</span></dd></div>
+          <div><dt><span data-lang="ru">Платформы</span><span data-lang="en">Platforms</span></dt><dd><span data-lang="ru">iOS</span><span data-lang="en">iOS</span></dd></div>
+          <div><dt><span data-lang="ru">Команда</span><span data-lang="en">Team</span></dt><dd><span data-lang="ru">Product Designer, Product Owner, Developer, Product Manager</span><span data-lang="en">Product Designer, Product Owner, Developer, Product Manager</span></dd></div>
         </dl>
         <div class="case-grid case-context-cards">
           <div class="case-context-card col-6">
             <p class="case-context-card__label"><span data-lang="ru">Контекст</span><span data-lang="en">Context</span></p>
             <h2 class="case-context-card__title"><span data-lang="ru">Больше идей, чем ресурсов</span><span data-lang="en">More ideas than resources</span></h2>
-            <p class="case-context-card__text"><span data-lang="ru">Команда хотела объединить в одном iOS-приложении тренировки, развитие привычки и дополнительные health-функции. Идей было много: разные практики, уровни сложности, персонализация, сон, вода, питание и активность. Это было больше, чем можно было уместить в первую версию.</span><span data-lang="en">The team wanted to combine workouts, habit-building, and additional health features in one iOS app. There were plenty of ideas: different practices, difficulty levels, personalization, sleep, water, nutrition, and activity. That was more than could fit into a first version.</span></p>
+            <p class="case-context-card__text"><span data-lang="ru">Команда хотела объединить тренировки, развитие привычки и health-функции. В списке были разные практики, уровни сложности, персонализация, сон, вода, питание и активность. Для первой версии нужно было выбрать самое нужное.</span><span data-lang="en">The team wanted to combine workouts, habit building and health features. The list had different practices, difficulty levels, personalization, sleep, water, nutrition and activity. For the first version we had to pick what mattered most.</span></p>
           </div>
           <div class="case-context-card col-6">
             <p class="case-context-card__label"><span data-lang="ru">Задача</span><span data-lang="en">Task</span></p>
-            <h2 class="case-context-card__title"><span data-lang="ru">Собрать жизнеспособную первую версию</span><span data-lang="en">Ship a viable first version</span></h2>
-            <p class="case-context-card__text"><span data-lang="ru">Нужно было определить основной тренировочный цикл и выбрать состав MVP: какие health-функции действительно нужны пользователям, с учётом пользы, сроков и ресурсов команды.</span><span data-lang="en">The task was to define the core workout cycle and settle the MVP scope: which health features users actually needed, weighed against their value, the timeline, and the team's resources.</span></p>
+            <h2 class="case-context-card__title"><span data-lang="ru">Собрать основу приложения</span><span data-lang="en">Build the core of the app</span></h2>
+            <p class="case-context-card__text"><span data-lang="ru">Я проектировала путь к подходящему занятию и участвовала в выборе дополнительных функций для MVP.</span><span data-lang="en">I designed the path to a suitable class and took part in choosing the extra features for the MVP.</span></p>
           </div>
         </div>
       </div>
 
-      <div class="detail-block">
+      <div class="detail-block" id="namaste-scope">
         <div class="detail-head">
-          <h2><span data-lang="ru">Исследование</span><span data-lang="en">Research</span></h2>
-          <p class="detail-dek"><span data-lang="ru">Без чего продукт не работает</span><span data-lang="en">What the product couldn't work without</span></p>
+          <h2><span data-lang="ru">Сначала определила, как помочь пользователю начать практику</span><span data-lang="en">First I worked out how to help someone start practising</span></h2>
         </div>
-        <p><span data-lang="ru">Проект нужно было реализовать в сжатые сроки, поэтому вместо глубинных исследований мы сфокусировались на анализе рынка и существующих решений. Основной задачей было понять, как устроены популярные приложения для тренировок йогой, какие сценарии они предлагают пользователю и за счёт чего удерживают аудиторию.</span><span data-lang="en">The project had to ship on a tight timeline, so instead of in-depth research we focused on analyzing the market and existing solutions. The main task was to understand how popular yoga workout apps are built, what scenarios they offer users, and what keeps their audience coming back.</span></p>
-        <div class="detail-pair-media detail-pair-media--stacked">
-          <button class="case-image-trigger" type="button">
-            <img data-src-ru="assets/namaste/Research-ru.webp" data-src-en="assets/namaste/Research.webp" data-alt-ru="Namaste: сравнение конкурентов" data-alt-en="Namaste: competitor comparison" alt="Namaste: сравнение конкурентов" loading="lazy" width="4020" height="2436">
-          </button>
-        </div>
-        <p class="accent-callout"><span data-lang="ru">В результате ключевая проблема рынка заключается в отсутствии единого продукта, который одновременно обеспечивает понятную, интуитивную навигацию для новичков и достаточную гибкость и персонализацию для более продвинутых пользователей.</span><span data-lang="en">The upshot: the market's key problem is the lack of a single product that offers both clear, intuitive navigation for beginners and enough flexibility and personalization for more advanced users.</span></p>
-      </div>
-      <div class="detail-block">
-        <div class="detail-head">
-          <h2><span data-lang="ru">Работа над продуктом</span><span data-lang="en">Working on the product</span></h2>
-        </div>
-        <div class="case-grid case-split">
+        <div class="case-grid">
           <div class="case-split-text col-6">
-            <p><span data-lang="ru">На основе анализа конкурентов мы определили, что ключевой ценностью в категории является персонализированное планирование тренировок, и именно этот сценарий стал основой архитектуры нашего продукта.</span><span data-lang="en">Based on the competitor analysis, we determined that the key value in this category is personalized workout planning, and this scenario became the foundation of our product's architecture.</span></p>
-          </div>
-          <div class="case-split-media col-6">
-            <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/Userflow-ru.webp" data-src-en="assets/Userflow.webp" data-alt-ru="Namaste: схема пользовательского флоу: онбординг, опрос и структура Home" data-alt-en="Namaste: user flow diagram: onboarding, survey, and Home structure" alt="Namaste: схема пользовательского флоу: онбординг, опрос и структура Home" loading="lazy" width="2856" height="2190">
-            </button>
+            <p><span data-lang="ru">До проектирования экранов нужно было понять, как помочь человеку выбрать подходящее направление и перейти к первой тренировке без сложной настройки. Я изучила приложения для йоги и осознанности: сравнила онбординг, персонализацию, структуру занятий и модели подписки.</span><span data-lang="en">Before designing any screens I had to understand how to help a person choose a direction that suits them and reach their first workout without a complicated setup. I studied yoga and mindfulness apps and compared onboarding, personalization, class structure and subscription models.</span></p>
           </div>
         </div>
-        <p><span data-lang="ru">В первой версии пользователь сам выбирает направление, уровень и цель. Сложную рекомендательную систему оставили на развитие, чтобы она не задерживала основной сценарий.</span><span data-lang="en">In the first version, the user chooses the style, level, and goal themselves. A complex recommendation system was left for later development, so it wouldn't hold up the core scenario.</span></p>
-        <div class="compare-slider case-grid">
-          <div class="compare-slider__frame col-8-center">
-            <div class="compare-slider__stage" data-compare-slider>
-              <img class="compare-slider__base" data-src-ru="assets/namaste/уровень-white-ru.webp" data-src-en="assets/namaste/уровень-white.webp" data-alt-ru="Namaste: экран опроса и выбора уровня, светлая тема" data-alt-en="Namaste: survey and level-selection screens, light theme" alt="Namaste: экран опроса и выбора уровня, светлая тема" loading="lazy" width="4410" height="2892">
-              <div class="compare-slider__overlay">
-                <img data-src-ru="assets/namaste/уровень-dark-ru.webp" data-src-en="assets/namaste/уровень-dark.webp" data-alt-ru="Namaste: экран опроса и выбора уровня, тёмная тема" data-alt-en="Namaste: survey and level-selection screens, dark theme" alt="Namaste: экран опроса и выбора уровня, тёмная тема" loading="lazy" width="4410" height="2892">
+        <div class="case-grid">
+          <div class="col-8-center">
+            <figure class="case-fig">
+              <div class="case-shot" data-lightbox-for="fig-na-01-16">
+                <img id="fig-na-01-16" data-src-ru="assets/namaste/Research-ru.webp" data-src-en="assets/namaste/Research.webp" data-alt-ru="Сравнение приложений" data-alt-en="App comparison" alt="Сравнение приложений" loading="lazy" width="3828" height="2213">
               </div>
-              <span class="compare-slider__tag compare-slider__tag--left"><span data-lang="ru">Тёмная тема</span><span data-lang="en">Dark theme</span></span>
-              <span class="compare-slider__tag compare-slider__tag--right"><span data-lang="ru">Светлая тема</span><span data-lang="en">Light theme</span></span>
-              <div class="compare-slider__handle"><span class="compare-slider__grip" aria-hidden="true">‹›</span></div>
-              <input class="compare-slider__range" type="range" min="0" max="100" value="50" step="1" aria-label="Сравнение тёмной и светлой темы экрана опроса и выбора уровня">
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Исходный анализ приложений для тренировок. Материал исследования на этапе проекта.</span><span data-lang="en">The original analysis of workout apps. Research material from the project.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-na-01-16"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="case-grid">
+          <div class="col-8-center">
+            <div class="case-takeaway">
+              <p><span data-lang="ru">Исследование показало два подхода. В одних приложениях пользователь быстро начинал тренировку, но почти не мог настроить опыт под себя. В других персонализация была глубже, но старт перегружали вопросами. Для Namaste выбрала промежуточный сценарий: короткий опрос помогает определить направление, уровень и формат занятий, после чего пользователь переходит к подходящей программе.</span><span data-lang="en">The research showed two approaches. In some apps a person started a workout quickly but could barely tailor the experience. In others the personalization went deeper, but the start was overloaded with questions. For Namaste I chose something in between: a short survey establishes the direction, the level and the class format, and then the user moves on to a programme that fits.</span></p>
             </div>
           </div>
         </div>
       </div>
-      <div class="detail-block">
+
+      <div class="detail-block" id="namaste-structure">
         <div class="detail-head">
-          <h2><span data-lang="ru">Health-функции</span><span data-lang="en">Health features</span></h2>
-          <p class="detail-dek"><span data-lang="ru">Health-функции по ценности и ресурсам</span><span data-lang="en">Health features by value and resources</span></p>
+          <h2><span data-lang="ru">Структура приложения</span><span data-lang="en">The app’s structure</span></h2>
         </div>
-        <p><span data-lang="ru">С выбором направления и уровня разобрались. Оставалось понять, какие дополнительные health-функции действительно стоят своего места в MVP.</span><span data-lang="en">With style and level selection settled, what remained was figuring out which additional health features actually earned their place in the MVP.</span></p>
-        <div class="health-comparison">
-          <div class="health-table-wrap">
-            <table class="health-table">
-              <thead>
-                <tr>
-                  <th scope="col"><span data-lang="ru">Функция</span><span data-lang="en">Feature</span></th>
-                  <th scope="col"><span data-lang="ru">Сложность</span><span data-lang="en">Complexity</span></th>
-                  <th scope="col"><span data-lang="ru">Ценность</span><span data-lang="en">Value</span></th>
-                  <th scope="col"><span data-lang="ru">Монетизация</span><span data-lang="en">Monetization</span></th>
-                  <th scope="col"><span data-lang="ru">Решение</span><span data-lang="en">Decision</span></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="is-mvp">
-                  <th scope="row"><span data-lang="ru">Трекер сна</span><span data-lang="en">Sleep tracker</span></th>
-                  <td><span data-lang="ru">8 из 10</span><span data-lang="en">8 of 10</span></td>
-                  <td><span data-lang="ru">7 из 10</span><span data-lang="en">7 of 10</span></td>
-                  <td><span data-lang="ru">7 из 10</span><span data-lang="en">7 of 10</span></td>
-                  <td><span class="health-status health-status--mvp"><span data-lang="ru">В MVP</span><span data-lang="en">In the MVP</span></span></td>
-                </tr>
-                <tr class="is-mvp">
-                  <th scope="row"><span data-lang="ru">Потребление воды</span><span data-lang="en">Water intake</span></th>
-                  <td><span data-lang="ru">2 из 10</span><span data-lang="en">2 of 10</span></td>
-                  <td><span data-lang="ru">9 из 10</span><span data-lang="en">9 of 10</span></td>
-                  <td><span data-lang="ru">8 из 10</span><span data-lang="en">8 of 10</span></td>
-                  <td><span class="health-status health-status--mvp"><span data-lang="ru">В MVP</span><span data-lang="en">In the MVP</span></span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span data-lang="ru">Счётчик КБЖУ</span><span data-lang="en">Calorie and macro counter</span></th>
-                  <td><span data-lang="ru">9 из 10</span><span data-lang="en">9 of 10</span></td>
-                  <td><span data-lang="ru">10 из 10</span><span data-lang="en">10 of 10</span></td>
-                  <td><span data-lang="ru">9 из 10</span><span data-lang="en">9 of 10</span></td>
-                  <td><span class="health-status health-status--after"><span data-lang="ru">После MVP</span><span data-lang="en">After the MVP</span></span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span data-lang="ru">Шагомер и активность</span><span data-lang="en">Step counter and activity</span></th>
-                  <td><span data-lang="ru">7 из 10</span><span data-lang="en">7 of 10</span></td>
-                  <td><span data-lang="ru">8 из 10</span><span data-lang="en">8 of 10</span></td>
-                  <td><span data-lang="ru">6 из 10</span><span data-lang="en">6 of 10</span></td>
-                  <td><span class="health-status health-status--depends"><span data-lang="ru">После проверки интеграций</span><span data-lang="en">After integrations are validated</span></span></td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="case-grid">
+          <div class="case-split-text col-6">
+            <p><span data-lang="ru">Структуру приложения собрала вокруг одного цикла: пользователь выбирает направление, проходит занятие и возвращается к следующей тренировке. Health-функции дополняют основной сценарий, но не конкурируют с тренировками на главном экране.</span><span data-lang="en">I built the app’s structure around a single cycle: a person chooses a direction, takes a class and comes back for the next workout. The health features support the core scenario without competing with the workouts on the main screen.</span></p>
           </div>
         </div>
-        <p><span data-lang="ru">В MVP вошли трекеры сна и воды: у них было подходящее соотношение ценности и объёма разработки.</span><span data-lang="en">The MVP included the sleep and water trackers: they had the right balance of value to development effort.</span></p>
-        <div class="compare-slider case-grid">
-          <div class="compare-slider__frame col-8-center">
-            <div class="compare-slider__stage" data-compare-slider>
-              <img class="compare-slider__base" data-src-ru="assets/namaste/фокус-white-ru.webp" data-src-en="assets/namaste/фокус-white.webp" data-alt-ru="Namaste: экраны трекеров сна и воды, светлая тема" data-alt-en="Namaste: sleep and water tracker screens, light theme" alt="Namaste: экраны трекеров сна и воды, светлая тема" loading="lazy" width="4410" height="2892">
-              <div class="compare-slider__overlay">
-                <img data-src-ru="assets/namaste/фокус-dark-ru.webp" data-src-en="assets/namaste/фокус-dark.webp" data-alt-ru="Namaste: экраны трекеров сна и воды, тёмная тема" data-alt-en="Namaste: sleep and water tracker screens, dark theme" alt="Namaste: экраны трекеров сна и воды, тёмная тема" loading="lazy" width="4410" height="2892">
+        <div class="case-grid">
+          <div class="col-8-center">
+            <figure class="case-fig case-fig--plain">
+              <div class="case-shot" data-lightbox-for="fig-na-02-17">
+                <img id="fig-na-02-17" data-src-ru="assets/Userflow-ru.webp" data-src-en="assets/Userflow.webp" data-alt-ru="Схема структуры" data-alt-en="Structure diagram" alt="Схема структуры" loading="lazy" width="2856" height="2190">
               </div>
-              <span class="compare-slider__tag compare-slider__tag--left"><span data-lang="ru">Тёмная тема</span><span data-lang="en">Dark theme</span></span>
-              <span class="compare-slider__tag compare-slider__tag--right"><span data-lang="ru">Светлая тема</span><span data-lang="en">Light theme</span></span>
-              <div class="compare-slider__handle"><span class="compare-slider__grip" aria-hidden="true">‹›</span></div>
-              <input class="compare-slider__range" type="range" min="0" max="100" value="50" step="1" aria-label="Сравнение тёмной и светлой темы экранов трекеров сна и воды">
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Структура приложения и основные разделы.</span><span data-lang="en">The app’s structure and its main sections.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-na-02-17"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-block" id="namaste-start">
+        <div class="case-grid case-split">
+          <div class="case-split-text col-4">
+            <h2 class="case-lead-title"><span data-lang="ru">Как пользователь выбирает занятие</span><span data-lang="en">How a user picks a class</span></h2>
+            <p><span data-lang="ru">При первом входе пользователь задаёт направление и уровень. Затем переходит к занятиям и открывает описание подходящей тренировки. В приложении три уровня сложности: начинающий, продвинутый и мастер.</span><span data-lang="en">On first launch the user sets a direction and a level. Then they move to the classes and open the description of a suitable workout. The app has three difficulty levels: beginner, advanced and master.</span></p>
+          </div>
+          <div class="col-8">
+            <div class="compare-slider__frame">
+              <div class="compare-slider__stage" data-compare-slider>
+                <img class="compare-slider__base" id="theme-уровень-light" data-src-ru="assets/namaste/уровень-white-ru.webp" data-src-en="assets/namaste/уровень-white.webp" data-alt-ru="Как пользователь выбирает занятие, светлая тема" data-alt-en="How a user picks a class, light theme" alt="Как пользователь выбирает занятие, светлая тема" loading="lazy" width="4050" height="2652">
+                <div class="compare-slider__overlay">
+                  <img id="theme-уровень-dark" data-src-ru="assets/namaste/уровень-dark-ru.webp" data-src-en="assets/namaste/уровень-dark.webp" data-alt-ru="Как пользователь выбирает занятие, тёмная тема" data-alt-en="How a user picks a class, dark theme" alt="Как пользователь выбирает занятие, тёмная тема" loading="lazy" width="4050" height="2652">
+                </div>
+                <span class="compare-slider__tag compare-slider__tag--left"><span data-lang="ru">Светлая</span><span data-lang="en">Light</span></span>
+                <span class="compare-slider__tag compare-slider__tag--right"><span data-lang="ru">Тёмная</span><span data-lang="en">Dark</span></span>
+                <div class="compare-slider__handle"><span class="compare-slider__grip" aria-hidden="true">‹›</span></div>
+                <input class="compare-slider__range" type="range" min="0" max="100" value="50" step="1" aria-label="Как пользователь выбирает занятие: сравнение светлой и тёмной темы" data-aria-ru="Как пользователь выбирает занятие: сравнение светлой и тёмной темы" data-aria-en="How a user picks a class: light and dark theme comparison">
+              </div>
+              <div class="compare-slider__tools">
+                <span class="compare-slider__hint"><span data-lang="ru">Перетащите разделитель или используйте стрелки</span><span data-lang="en">Drag the divider or use the arrow keys</span></span>
+                <span class="compare-slider__zooms">
+                  <button type="button" class="compare-slider__zoom" data-lightbox-for="theme-уровень-light"><span data-lang="ru">Светлая крупно</span><span data-lang="en">Light, full size</span></button>
+                  <button type="button" class="compare-slider__zoom" data-lightbox-for="theme-уровень-dark"><span data-lang="ru">Тёмная крупно</span><span data-lang="en">Dark, full size</span></button>
+                </span>
+              </div>
             </div>
           </div>
         </div>
-        <p><span data-lang="ru">Health-функции протестировали с 6 респондентами в формате Feature Testing. Сон и вода воспринимались как логичное дополнение к тренировкам и не размывали основной сценарий.</span><span data-lang="en">The health features were tested with 6 respondents using feature testing. Sleep and water were perceived as a logical addition to workouts and didn't dilute the core scenario.</span></p>
-        <p><span data-lang="ru">Расширенную персонализацию и более глубокую прогрессию оставили в бэклоге, чтобы не задерживать запуск.</span><span data-lang="en">Extended personalization and deeper progression were left in the backlog so they wouldn't delay the launch.</span></p>
       </div>
-      <div class="detail-block">
+
+      <div class="detail-block" id="namaste-lessons">
+        <div class="case-grid case-split case-split--flip">
+          <div class="case-split-text col-4">
+            <h2 class="case-lead-title"><span data-lang="ru">От списка к тренировке</span><span data-lang="en">From the list to the workout</span></h2>
+            <p><span data-lang="ru">После выбора параметров пользователь переходит к занятиям и открывает описание тренировки. На этих экранах показаны главная, список упражнений и карточка занятия.</span><span data-lang="en">After choosing the parameters the user moves to the classes and opens a workout description. These screens show the main screen, the list of exercises and a class card.</span></p>
+          </div>
+          <div class="col-8">
+            <div class="compare-slider__frame">
+              <div class="compare-slider__stage" data-compare-slider>
+                <img class="compare-slider__base" id="theme-Финал-light" data-src-ru="assets/namaste/Финал-white-ru.webp" data-src-en="assets/namaste/Финал-white.webp" data-alt-ru="От списка к тренировке, светлая тема" data-alt-en="From the list to the workout, light theme" alt="От списка к тренировке, светлая тема" loading="lazy" width="4050" height="2652">
+                <div class="compare-slider__overlay">
+                  <img id="theme-Финал-dark" data-src-ru="assets/namaste/Финал-dark-ru.webp" data-src-en="assets/namaste/Финал-dark.webp" data-alt-ru="От списка к тренировке, тёмная тема" data-alt-en="From the list to the workout, dark theme" alt="От списка к тренировке, тёмная тема" loading="lazy" width="4050" height="2652">
+                </div>
+                <span class="compare-slider__tag compare-slider__tag--left"><span data-lang="ru">Светлая</span><span data-lang="en">Light</span></span>
+                <span class="compare-slider__tag compare-slider__tag--right"><span data-lang="ru">Тёмная</span><span data-lang="en">Dark</span></span>
+                <div class="compare-slider__handle"><span class="compare-slider__grip" aria-hidden="true">‹›</span></div>
+                <input class="compare-slider__range" type="range" min="0" max="100" value="50" step="1" aria-label="От списка к тренировке: сравнение светлой и тёмной темы" data-aria-ru="От списка к тренировке: сравнение светлой и тёмной темы" data-aria-en="From the list to the workout: light and dark theme comparison">
+              </div>
+              <div class="compare-slider__tools">
+                <span class="compare-slider__hint"><span data-lang="ru">Перетащите разделитель или используйте стрелки</span><span data-lang="en">Drag the divider or use the arrow keys</span></span>
+                <span class="compare-slider__zooms">
+                  <button type="button" class="compare-slider__zoom" data-lightbox-for="theme-Финал-light"><span data-lang="ru">Светлая крупно</span><span data-lang="en">Light, full size</span></button>
+                  <button type="button" class="compare-slider__zoom" data-lightbox-for="theme-Финал-dark"><span data-lang="ru">Тёмная крупно</span><span data-lang="en">Dark, full size</span></button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-block" id="namaste-health">
+        <div class="case-grid case-split">
+          <div class="case-split-text col-4">
+            <h2 class="case-lead-title"><span data-lang="ru">Что делать с health-функциями</span><span data-lang="en">What to do about the health features</span></h2>
+            <p><span data-lang="ru">После основного сценария вернулись к дополнительным функциям. Сравнивали их ценность, сложность разработки и возможности монетизации. В первую версию включили сон и воду. Счётчик КБЖУ отложили, а для шагомера и активности требовалась проверка интеграций.</span><span data-lang="en">After the core scenario we came back to the extra features. We compared their value, the development effort and the monetization options. Sleep and water went into the first version. The calorie counter was postponed, and the pedometer and activity tracking needed their integrations checked.</span></p>
+          </div>
+          <div class="col-8">
+            <div class="compare-slider__frame">
+              <div class="compare-slider__stage" data-compare-slider>
+                <img class="compare-slider__base" id="theme-фокус-light" data-src-ru="assets/namaste/фокус-white-ru.webp" data-src-en="assets/namaste/фокус-white.webp" data-alt-ru="Что делать с health-функциями, светлая тема" data-alt-en="What to do about the health features, light theme" alt="Что делать с health-функциями, светлая тема" loading="lazy" width="4050" height="2652">
+                <div class="compare-slider__overlay">
+                  <img id="theme-фокус-dark" data-src-ru="assets/namaste/фокус-dark-ru.webp" data-src-en="assets/namaste/фокус-dark.webp" data-alt-ru="Что делать с health-функциями, тёмная тема" data-alt-en="What to do about the health features, dark theme" alt="Что делать с health-функциями, тёмная тема" loading="lazy" width="4050" height="2652">
+                </div>
+                <span class="compare-slider__tag compare-slider__tag--left"><span data-lang="ru">Светлая</span><span data-lang="en">Light</span></span>
+                <span class="compare-slider__tag compare-slider__tag--right"><span data-lang="ru">Тёмная</span><span data-lang="en">Dark</span></span>
+                <div class="compare-slider__handle"><span class="compare-slider__grip" aria-hidden="true">‹›</span></div>
+                <input class="compare-slider__range" type="range" min="0" max="100" value="50" step="1" aria-label="Что делать с health-функциями: сравнение светлой и тёмной темы" data-aria-ru="Что делать с health-функциями: сравнение светлой и тёмной темы" data-aria-en="What to do about the health features: light and dark theme comparison">
+              </div>
+              <div class="compare-slider__tools">
+                <span class="compare-slider__hint"><span data-lang="ru">Перетащите разделитель или используйте стрелки</span><span data-lang="en">Drag the divider or use the arrow keys</span></span>
+                <span class="compare-slider__zooms">
+                  <button type="button" class="compare-slider__zoom" data-lightbox-for="theme-фокус-light"><span data-lang="ru">Светлая крупно</span><span data-lang="en">Light, full size</span></button>
+                  <button type="button" class="compare-slider__zoom" data-lightbox-for="theme-фокус-dark"><span data-lang="ru">Тёмная крупно</span><span data-lang="en">Dark, full size</span></button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="case-table-wrap case-table-wrap--narrow" tabindex="0" role="region" aria-label="Что делать с health-функциями: таблица" data-aria-ru="Что делать с health-функциями: таблица" data-aria-en="What to do about the health features: table">
+          <table class="case-table">
+            <thead><tr><th scope="col"><span data-lang="ru">Функция</span><span data-lang="en">Feature</span></th><th scope="col"><span data-lang="ru">Решение</span><span data-lang="en">Decision</span></th></tr></thead>
+            <tbody>
+              <tr><th scope="row"><span data-lang="ru">Трекер сна</span><span data-lang="en">Sleep tracker</span></th><td><span data-lang="ru">В MVP</span><span data-lang="en">In the MVP</span></td></tr>
+              <tr><th scope="row"><span data-lang="ru">Учёт воды</span><span data-lang="en">Water tracking</span></th><td><span data-lang="ru">В MVP</span><span data-lang="en">In the MVP</span></td></tr>
+              <tr><th scope="row"><span data-lang="ru">Счётчик КБЖУ</span><span data-lang="en">Calorie counter</span></th><td><span data-lang="ru">После MVP</span><span data-lang="en">After the MVP</span></td></tr>
+              <tr><th scope="row"><span data-lang="ru">Шагомер и активность</span><span data-lang="en">Pedometer and activity</span></th><td><span data-lang="ru">После проверки интеграций</span><span data-lang="en">After the integrations are checked</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="detail-block" id="namaste-test">
         <div class="detail-head">
-          <h2><span data-lang="ru">Финальный концепт</span><span data-lang="en">Final concept</span></h2>
-          <p class="detail-dek"><span data-lang="ru">Тренировка и health-функции на одном экране</span><span data-lang="en">The workout and health features on one screen</span></p>
+          <h2><span data-lang="ru">Проверка с пользователями</span><span data-lang="en">Testing with users</span></h2>
         </div>
-        <div class="detail-pair-media detail-pair-media--stacked detail-pair-media--narrow">
-          <button class="case-image-trigger" type="button">
-            <img src="assets/process/namaste-keyactions.webp" data-alt-ru="Namaste: экран ключевых действий" data-alt-en="Namaste: the key-actions screen" alt="Namaste: экран ключевых действий" loading="lazy" width="1600" height="387">
-          </button>
-        </div>
-        <div class="compare-slider case-grid">
-          <div class="compare-slider__frame col-8-center">
-            <div class="compare-slider__stage" data-compare-slider>
-              <img class="compare-slider__base" data-src-ru="assets/namaste/Финал-white-ru.webp" data-src-en="assets/namaste/Финал-white.webp" data-alt-ru="Namaste: финальные экраны тренировок, светлая тема" data-alt-en="Namaste: final workout screens, light theme" alt="Namaste: финальные экраны тренировок, светлая тема" loading="lazy" width="4410" height="2892">
-              <div class="compare-slider__overlay">
-                <img data-src-ru="assets/namaste/Финал-dark-ru.webp" data-src-en="assets/namaste/Финал-dark.webp" data-alt-ru="Namaste: финальные экраны тренировок, тёмная тема" data-alt-en="Namaste: final workout screens, dark theme" alt="Namaste: финальные экраны тренировок, тёмная тема" loading="lazy" width="4410" height="2892">
-              </div>
-              <span class="compare-slider__tag compare-slider__tag--left"><span data-lang="ru">Тёмная тема</span><span data-lang="en">Dark theme</span></span>
-              <span class="compare-slider__tag compare-slider__tag--right"><span data-lang="ru">Светлая тема</span><span data-lang="en">Light theme</span></span>
-              <div class="compare-slider__handle"><span class="compare-slider__grip" aria-hidden="true">‹›</span></div>
-              <input class="compare-slider__range" type="range" min="0" max="100" value="50" step="1" aria-label="Сравнение тёмной и светлой темы финальных экранов тренировок">
-            </div>
+        <div class="case-cols" style="--cols: 3">
+          <div class="case-col">
+            <p class="case-col__label"><span data-lang="ru">Проверка</span><span data-lang="en">Test</span></p>
+            <h3 class="case-col__title"><span data-lang="ru">6 респондентов</span><span data-lang="en">6 respondents</span></h3>
+            <p class="case-col__text"><span data-lang="ru">Health-функции проверили в формате Feature Testing.</span><span data-lang="en">The health features were tested using Feature Testing.</span></p>
+          </div>
+          <div class="case-col">
+            <p class="case-col__label"><span data-lang="ru">Наблюдение</span><span data-lang="en">Observation</span></p>
+            <h3 class="case-col__title"><span data-lang="ru">Сон и вода дополняют тренировки</span><span data-lang="en">Sleep and water fit alongside the workouts</span></h3>
+            <p class="case-col__text"><span data-lang="ru">Участники воспринимали эти функции как уместную часть приложения.</span><span data-lang="en">Participants saw these features as a fitting part of the app.</span></p>
+          </div>
+          <div class="case-col">
+            <p class="case-col__label"><span data-lang="ru">Оценка</span><span data-lang="en">Evaluation</span></p>
+            <h3 class="case-col__title"><span data-lang="ru">Регулярность занятий</span><span data-lang="en">Practice consistency</span></h3>
+            <p class="case-col__text"><span data-lang="ru">Отдельные тренировки складываются в последовательную практику. Влияние оценивали по: частоте возвращения к занятиям и удержанию D7 и D30 после первой тренировки.</span><span data-lang="en">Individual workouts form a consistent practice. Impact was evaluated using: return frequency and D7 and D30 retention after the first workout.</span></p>
           </div>
         </div>
       </div>
-      <div class="detail-block">
+
+      <div class="detail-block case-results" id="namaste-result">
+        <div class="case-results__panel">
         <div class="detail-head">
           <h2><span data-lang="ru">Результаты</span><span data-lang="en">Results</span></h2>
         </div>
-        <p><span data-lang="ru">Запущено iOS-приложение с тренировочным циклом вокруг направлений и трёх уровней сложности (начинающий, продвинутый, мастер).</span><span data-lang="en">An iOS app has launched with a workout cycle built around styles and three difficulty levels (beginner, advanced, master).</span></p>
+        <p><span data-lang="ru">Запустили iOS-приложение с тренировочным циклом, тремя уровнями сложности и health-функциями сна и воды.</span><span data-lang="en">We launched an iOS app with a training cycle, three difficulty levels and the sleep and water health features.</span></p>
         <div class="case-grid result-cards">
           <div class="result-card col-6">
             <p class="result-card__label"><span data-lang="ru">Персонализированный старт</span><span data-lang="en">Personalized start</span></p>
-            <p class="result-card__metric"><span data-lang="ru">Онбординг помогает выбрать направление, уровень и подходящий формат занятий</span><span data-lang="en">Onboarding helps pick a style, level, and a workout format that fits</span></p>
-            <p class="result-card__desc"><span data-lang="ru"><strong>Влияние оценивали по:</strong> доле пользователей, завершивших первую тренировку</span><span data-lang="en"><strong>Measured by:</strong> the share of users who completed their first workout</span></p>
+            <h3 class="result-card__metric"><span data-lang="ru">Короткий онбординг</span><span data-lang="en">A short onboarding</span></h3>
+            <p class="result-card__desc"><span data-lang="ru">Сделали короткий онбординг, который помогает выбрать направление, уровень и подходящий формат занятий.</span><span data-lang="en">We made a short onboarding that helps people choose a direction, a level and a class format that suits them.</span></p>
+            <p class="result-card__measure">
+              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
+              <span><span data-lang="ru">доле пользователей, завершивших первую тренировку</span><span data-lang="en">the share of users who complete their first workout</span></span>
+            </p>
           </div>
           <div class="result-card col-6">
-            <p class="result-card__label"><span data-lang="ru">Регулярность</span><span data-lang="en">Consistency</span></p>
-            <p class="result-card__metric"><span data-lang="ru">Отдельные занятия складываются в тренировочный цикл</span><span data-lang="en">Individual sessions add up to a workout cycle</span></p>
-            <p class="result-card__desc"><span data-lang="ru"><strong>Влияние оценивали по:</strong> удержанию D7 и D30 после первой тренировки</span><span data-lang="en"><strong>Measured by:</strong> D7 and D30 retention after the first workout</span></p>
+            <p class="result-card__label"><span data-lang="ru">Регулярность занятий</span><span data-lang="en">Practice consistency</span></p>
+            <h3 class="result-card__metric"><span data-lang="ru">Последовательный тренировочный цикл</span><span data-lang="en">A continuous training cycle</span></h3>
+            <p class="result-card__desc"><span data-lang="ru">Объединили отдельные занятия в последовательный тренировочный цикл.</span><span data-lang="en">We joined the separate classes into one continuous training cycle.</span></p>
+            <p class="result-card__measure">
+              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
+              <span><span data-lang="ru">удержанию D7 и D30 после первой тренировки</span><span data-lang="en">D7 and D30 retention after the first workout</span></span>
+            </p>
           </div>
           <div class="result-card col-6">
             <p class="result-card__label"><span data-lang="ru">Состав MVP</span><span data-lang="en">MVP scope</span></p>
-            <p class="result-card__metric"><span data-lang="ru">Health-функции отобраны по ценности и сложности реализации</span><span data-lang="en">Health features were selected by value and implementation effort</span></p>
-            <p class="result-card__desc"><span data-lang="ru"><strong>Влияние оценивали по:</strong> использованию health-функций среди активных пользователей</span><span data-lang="en"><strong>Measured by:</strong> health-feature usage among active users</span></p>
+            <h3 class="result-card__metric"><span data-lang="ru">Health-функции сна и воды</span><span data-lang="en">Sleep and water health features</span></h3>
+            <p class="result-card__desc"><span data-lang="ru">Отобрали health-функции по пользовательской ценности и сложности реализации.</span><span data-lang="en">We selected the health features by user value and implementation effort.</span></p>
+            <p class="result-card__measure">
+              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
+              <span><span data-lang="ru">использованию health-функций среди активных пользователей</span><span data-lang="en">health feature usage among active users</span></span>
+            </p>
           </div>
           <div class="result-card col-6">
             <p class="result-card__label"><span data-lang="ru">Монетизация</span><span data-lang="en">Monetization</span></p>
-            <p class="result-card__metric"><span data-lang="ru">Бесплатный опыт знакомит пользователя с ценностью продукта</span><span data-lang="en">The free experience introduces the user to the product's value</span></p>
-            <p class="result-card__desc"><span data-lang="ru"><strong>Влияние оценивали по:</strong> конверсии в подписку и доле продлений</span><span data-lang="en"><strong>Measured by:</strong> conversion to subscription and the renewal rate</span></p>
+            <h3 class="result-card__metric"><span data-lang="ru">Бесплатный опыт до подписки</span><span data-lang="en">A free experience before the subscription</span></h3>
+            <p class="result-card__desc"><span data-lang="ru">Сохранили бесплатный опыт, который знакомит пользователя с ценностью продукта до оформления подписки.</span><span data-lang="en">We kept a free experience that shows the product’s value before anyone subscribes.</span></p>
+            <p class="result-card__measure">
+              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
+              <span><span data-lang="ru">конверсии в подписку и доле продлений</span><span data-lang="en">conversion to a subscription and the renewal rate</span></span>
+            </p>
           </div>
         </div>
+        </div>
       </div>
-
     </div>
 
     <nav class="case-floating-nav">
@@ -702,7 +1268,7 @@
 
   <div class="lightbox" id="lightbox">
     <button class="lightbox-close" aria-label="Закрыть">×</button>
-    <img id="lightboxImg" src="" alt="">
+    <img id="lightboxImg" alt="">
   </div>
 
   <script>
@@ -715,7 +1281,7 @@
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0, rootMargin: '0px 0px -80px 0px' });
     targets.forEach(function (el) {
       if (el.getBoundingClientRect().top < window.innerHeight * 0.9) return;
       el.classList.add('reveal-pending');

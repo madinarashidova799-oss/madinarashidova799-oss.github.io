@@ -26,6 +26,15 @@
     // never requests the wrong-language file — this runs before first paint for
     // any image the layout hasn't already scrolled into view, and it swaps in
     // place (no reload) for images already on screen when the toggle is used.
+    // Same problem as alt: aria-label is an attribute, so the [data-lang] span
+    // pair can't live in it. Scroll regions and the theme slider carry
+    // data-aria-ru/data-aria-en and get their name swapped here — otherwise the
+    // EN page announces its landmarks in Russian.
+    document.querySelectorAll('[data-aria-ru]').forEach(function (el) {
+      var next = lang === 'en' ? el.getAttribute('data-aria-en') : el.getAttribute('data-aria-ru');
+      if (next) el.setAttribute('aria-label', next);
+    });
+
     document.querySelectorAll('img[data-src-ru]').forEach(function (img) {
       var next = lang === 'en' ? img.getAttribute('data-src-en') : img.getAttribute('data-src-ru');
       if (next && img.getAttribute('src') !== next) img.setAttribute('src', next);

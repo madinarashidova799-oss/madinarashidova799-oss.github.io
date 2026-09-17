@@ -6,7 +6,7 @@
 <script>(function(){if(localStorage.getItem('site-lang')==='en')document.documentElement.classList.add('lang-en');})();</script>
 <title data-ru="Alif Partners · Мадина Рашидова" data-en="Alif Partners · Madina Rashidova">Alif Partners · Мадина Рашидова</title>
 <link rel="icon" type="image/png" href="favicon.png">
-<meta name="description" content="Alif Partners. Редизайн админ-панели для партнёрской сети Alif Bank. Разбор процесса: исследование, решение, итоги." data-ru="Alif Partners. Редизайн админ-панели для партнёрской сети Alif Bank. Разбор процесса: исследование, решение, итоги." data-en="Alif Partners. A redesign of the admin panel for Alif Bank's partner network. A breakdown of the process: research, solution, results.">
+<meta name="description" content="Alif Partners. Редизайн админ-панели для партнёрской сети Alif Bank. Разбор процесса: исследование, решение, итоги." data-ru="Alif Partners. Редизайн админ-панели для партнёрской сети Alif Bank. Разбор процесса: исследование, решение, итоги." data-en="Alif Partners. A redesign of the admin panel for Alif Bank’s partner network. Process breakdown: research, solution, results.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500;1,600&display=swap" rel="stylesheet">
@@ -96,6 +96,16 @@
     margin-left: 4px; transition: background 0.2s ease, color 0.2s ease;
   }
   .lang-toggle:hover, .lang-toggle:focus-visible { background: rgba(255,255,255,0.16); color: #fff; }
+  /* ===== область нажатия верхней навигации =====
+     Ссылки были 35 px высотой, переключатель языка 38x31 — меньше цели
+     44x44. Видимая плашка не меняется: увеличена только область нажатия,
+     по вертикали, чтобы соседние ссылки не перекрывали друг друга. */
+  .site-nav a.nav-link, .lang-toggle { position: relative; }
+  .site-nav a.nav-link::after { content: ''; position: absolute; inset: -5px 0; }
+  .site-nav a.nav-name { position: relative; }
+  .site-nav a.nav-name::after { content: ''; position: absolute; inset: -12px 0; }
+  .lang-toggle::after { content: ''; position: absolute; inset: -7px -4px; }
+  /* ===== конец блока области нажатия ===== */
   @media (max-width: 560px) {
     .site-nav { padding: 6px 6px 6px 14px; }
     .site-nav .nav-name { display: none; }
@@ -124,7 +134,7 @@
   .lightbox.open img { transform: scale(1); }
   .lightbox-close {
     position: absolute; top: 28px; right: 32px;
-    width: 42px; height: 42px; border-radius: 50%;
+    width: 44px; height: 44px; border-radius: 50%;
     background: var(--surface); border: 1px solid var(--line);
     color: var(--text); font-size: 1.3rem; line-height: 1; cursor: pointer;
   }
@@ -190,6 +200,202 @@
     .case-split-media, .detail-media-frame { transition: none; }
   }
   .case-split-media img { margin: 0; border-radius: var(--radius-medium); object-fit: contain; }
+
+  /* ===== Крупная подача экранов (.case-shot / .case-steps) =====
+     Веб-интерфейс нечитаем в половине колонки: при окне 1440 .case-split-media
+     отдаёт картинке 539px, а пара в --mosaic-row — по 262px. Два режима вместо
+     этого, оба держат картинку ~912px и оба уже колонки, чтобы экран не
+     распластывался во всю страницу:
+       .case-shot  — одиночный экран в кадре ≤1000px по центру;
+       .case-steps — бывшая пара, разведённая по вертикали: каждый шаг в том же
+                     кадре и с подписью, номера совпадают с шагами сценария.
+     Текст в обоих режимах идёт над картинкой во всю колонку, а не сбоку. */
+  .case-shot {
+    max-width: 1000px; margin: clamp(32px, 3vw, 40px) auto;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius-large); padding: clamp(24px, 3.4vw, 44px);
+    transition: transform 0.25s cubic-bezier(.22,1,.36,1), box-shadow 0.25s ease;
+  }
+  .case-shot:hover { transform: translateY(-6px); box-shadow: 0 16px 32px rgba(23,17,14,0.09); }
+  @media (prefers-reduced-motion: reduce) { .case-shot { transition: none; } }
+  .case-shot .case-image-trigger { display: block; }
+  .case-shot .case-image-trigger:focus-visible { outline-offset: -3px; }
+  .case-shot img { display: block; width: 100%; height: auto; margin: 0; border-radius: var(--radius-medium); }
+
+  .case-steps { display: flex; flex-direction: column; gap: clamp(28px, 3vw, 40px); margin: clamp(32px, 3vw, 40px) 0; }
+  .case-step { max-width: 1000px; width: 100%; margin-inline: auto; }
+  .case-step .case-shot { margin-block: 0; }
+  .case-step__cap {
+    display: flex; gap: 10px; align-items: baseline; max-width: none;
+    font-size: var(--font-size-label); line-height: 1.5; color: var(--text-dim);
+    margin: 0 0 12px; padding-inline: clamp(24px, 3.4vw, 44px);
+  }
+  .case-step__num { font-family: var(--mono); font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; flex: none; }
+
+  /* ===== Формы подачи блока =====
+     Раньше каждый блок выглядел одинаково: заголовок, абзацы во всю колонку,
+     под ними картинка на 910px. Шесть блоков подряд с одним ритмом читаются
+     как список, а не как рассказ. Форма теперь выбирается по содержанию:
+
+       .case-rail   — текст без картинки, который является последовательностью
+                      (предположили → проверили → изменили). Номер несёт смысл,
+                      поэтому он здесь заслужен, а не декоративен.
+       .case-stats  — выборка исследования: числа, которые в прозе теряются.
+       .case-split  — один абзац и одна вертикальная картинка рядом (уже было).
+       .case-figs   — две связанные картинки в ряд.
+       .case-shot   — широкий экран во всю колонку кадра (уже было).
+       .result-card — итоги карточками (уже было).
+  */
+
+  /* Шаги по горизонтали: номер на линии, под ним заголовок и текст. */
+  .case-rail {
+    display: grid; grid-template-columns: repeat(var(--rail-cols, 3), minmax(0, 1fr));
+    column-gap: clamp(20px, 2.4vw, 40px); row-gap: 32px;
+    margin: clamp(32px, 3.5vw, 48px) 0 clamp(28px, 3vw, 40px);
+  }
+  .case-rail__step { position: relative; padding-top: 54px; min-width: 0; }
+  /* Соединительная линия тянется от номера к следующему шагу. */
+  .case-rail__step::before {
+    content: ''; position: absolute; top: 17px; left: 42px;
+    right: calc(-1 * clamp(20px, 2.4vw, 40px)); height: 1px;
+    background: var(--line-strong);
+  }
+  .case-rail__step:last-child::before { display: none; }
+  .case-rail__num {
+    position: absolute; top: 0; left: 0; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--nav-bg); color: var(--text-inverse);
+    display: grid; place-items: center;
+    font-family: var(--mono); font-size: 13px; font-weight: 500; line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .case-rail__title {
+    font-family: var(--display); font-weight: var(--font-weight-heading);
+    font-size: var(--font-size-h3); line-height: 1.25; color: var(--text);
+    margin: 0 0 10px; text-wrap: balance;
+  }
+  .case-rail__text {
+    font-size: var(--font-size-body); line-height: var(--line-height-body);
+    color: var(--text-dim); margin: 0; max-width: 42ch; text-wrap: pretty;
+  }
+  @media (max-width: 900px) {
+    .case-rail { grid-template-columns: 1fr; row-gap: 28px; }
+    .case-rail__step { padding-top: 0; padding-left: 52px; }
+    .case-rail__step::before {
+      top: 42px; bottom: -28px; left: 17px; right: auto; width: 1px; height: auto;
+    }
+    .case-rail__text { max-width: none; }
+  }
+
+  /* Выборка исследования. Числа из утверждённого текста, не пересчитаны. */
+  .case-stats {
+    display: flex; flex-wrap: wrap; gap: clamp(24px, 4vw, 64px);
+    margin: clamp(28px, 3vw, 40px) 0;
+    padding: clamp(18px, 2vw, 24px) 0;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .case-stats__item { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .case-stats__num {
+    font-family: var(--display); font-weight: var(--font-weight-heading);
+    font-size: clamp(26px, 2.8vw, 36px); line-height: 1; color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+  .case-stats__label { font-size: var(--font-size-label); line-height: 1.45; color: var(--text-dim); }
+
+  /* Две связанные картинки в ряд. */
+  /* Пара картинок во всю ширину колонки, а не в суженном кадре: две
+     половины по ~600px читаются, две по 454px — уже нет. */
+  .case-figs {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(20px, 2.4vw, 32px); align-items: start;
+    margin: clamp(32px, 3vw, 40px) 0;
+  }
+  .case-figs .case-shot { margin: 0; max-width: none; }
+  @media (max-width: 860px) { .case-figs { grid-template-columns: 1fr; } }
+
+  /* Картинка внутри половины сетки — тот же кадр, без собственной ширины. */
+  .case-split .case-shot { margin: 0; max-width: none; }
+  .case-split-text p + p { margin-top: 16px; }
+
+  /* Закрывающая строка блока итогов: что проверять дальше. */
+  .case-next-step {
+    margin-top: clamp(28px, 3vw, 40px); padding-top: clamp(18px, 2vw, 24px);
+    border-top: 1px solid var(--line);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .case-next-step__label {
+    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--text-dim);
+  }
+  .case-next-step p { margin: 0; max-width: 62ch; }
+
+  /* Подпись под иллюстрацией. В HTML, а не внутри растра, и не дублирует alt. */
+  .case-shot { margin-inline: auto; }
+  .case-shot__cap {
+    margin: 14px 0 0; font-size: var(--font-size-label); line-height: 1.5;
+    color: var(--text-dim); max-width: 62ch;
+  }
+
+  /* «Дополнительные экраны»: материалы реестра с placement: gallery.
+     <details> вместо самодельного аккордеона — работает с клавиатуры
+     и без JS, состояние читается скринридером. */
+  .case-gallery {
+    margin-top: clamp(56px, 6vw, 88px);
+    border-top: 1px solid var(--line); padding-top: clamp(20px, 2vw, 28px);
+  }
+  .case-gallery__summary {
+    cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--display); font-weight: 600; font-size: var(--font-size-h3);
+    color: var(--text); padding: 6px 2px; border-radius: var(--radius-small);
+  }
+  .case-gallery__summary::-webkit-details-marker { display: none; }
+  .case-gallery__summary::after {
+    content: '+'; font-family: var(--mono); font-weight: 500; font-size: 0.8em;
+    color: var(--text-dim); transition: transform 0.2s ease;
+  }
+  .case-gallery[open] .case-gallery__summary::after { content: '\2212'; }
+  .case-gallery__summary:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 3px; }
+  .case-gallery__body { display: flex; flex-direction: column; gap: clamp(28px, 3vw, 40px); margin-top: 24px; }
+  @media (prefers-reduced-motion: reduce) { .case-gallery__summary::after { transition: none; } }
+
+  /* B1 — подзаголовок и строка о роли/результате под H1 (спека §1, блок B1).
+     DESIGN.md упоминает .case-headline как общий компонент всех четырёх
+     кейсов, но в разметке его не было ни на одной странице — заводим здесь. */
+  .case-headline {
+    font-family: var(--display); font-weight: var(--font-weight-heading);
+    font-size: var(--font-size-h4); line-height: 1.3; color: var(--text);
+    margin: 14px 0 0; max-width: 34ch; text-wrap: pretty;
+  }
+  .case-lede {
+    font-size: var(--font-size-body); line-height: var(--line-height-body);
+    color: var(--text-dim); margin: 12px 0 0; max-width: 58ch; text-wrap: pretty;
+  }
+
+  /* B4 — таблица сценария «как было / что изменилось». Тот же ритм, что у
+     .compare-table в 360 Tracker и .health-table в Namaste: реальная
+     <table>, горизонтальный скролл внутри своего контейнера, первая
+     колонка липкая, чтобы шаг не терялся при прокрутке на узком экране. */
+  .case-table-wrap {
+    margin-top: clamp(24px, 2.5vw, 32px); margin-bottom: clamp(20px, 2vw, 24px); overflow-x: auto;
+    border: 1px solid var(--line); border-radius: var(--radius-medium); background: var(--surface);
+    width: 100%; min-width: 0; max-width: 100%;
+  }
+  .case-table-wrap:focus-visible { outline: 2px solid var(--text-strong); outline-offset: -2px; }
+  .case-table { width: 100%; min-width: 680px; border-collapse: collapse; }
+  .case-table th, .case-table td {
+    padding: clamp(14px, 1.6vw, 20px) clamp(16px, 2vw, 24px); text-align: left;
+    font-size: var(--font-size-label); line-height: 1.5; color: var(--text-dim);
+    border-bottom: 1px solid var(--line); white-space: normal; vertical-align: top;
+  }
+  .case-table thead th {
+    font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-dim-2); font-weight: 500; background: var(--surface);
+  }
+  .case-table tbody th {
+    font-family: var(--display); font-weight: 600; color: var(--text);
+    position: sticky; left: 0; background: var(--surface); min-width: 150px;
+  }
+  .case-table tbody tr:last-child th, .case-table tbody tr:last-child td { border-bottom: 0; }
+  .case-table .was { color: var(--text-dim-2); }
   .case-split-media--mosaic { display: flex; flex-direction: column; gap: 16px; }
   .case-split-media--mosaic .case-image-trigger { display: block; }
   .case-split-media .case-image-trigger:focus-visible { outline-offset: -3px; }
@@ -343,6 +549,7 @@
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
   }
+
   .case-floating-nav {
     position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom));
     transform: translateX(-50%) translateY(12px);
@@ -434,6 +641,306 @@
     .case-context-cards { margin-top: 16px; }
     .case-context-card { padding: clamp(12px, 1.5vw, 18px); }
   }
+
+  /* ===== Редакция 3.2: формы подачи блоков =====
+     Ни одна иллюстрация не шире 8 колонок из 12. Две композиции:
+       6 / 6 — обычная: текст и экран рядом, текст по центру визуала;
+       4 / 8 — редкая: группы мобильных экранов, широкие web-интерфейсы,
+               схемы процесса, сравнительные таблицы;
+       col-8-center — вступление в 6 колонок сверху, таблица или схема
+               в 8 колонках по центру контентной области.
+     .case-seq     — один сценарий по шагам, каждый шаг в той же сетке 4/8;
+     .case-cols    — параллельные наблюдения: колонка с засечкой акцента;
+     .case-results — итоги: тёмная полоса и четыре карточки 2×2.
+     Цвет кейса живёт в трёх переменных ниже и нигде больше не дублируется. */
+  :root {
+    --case-mark: #FBBF02;        /* метка: точка, номер шага, засечка колонки */
+    --case-mark-on: #17110E;       /* текст поверх метки */
+    --case-mark-text: #8A6400;   /* тот же акцент как текст на светлом фоне */
+  }
+
+  .col-5 { grid-column: span 5; }
+  .col-7 { grid-column: span 7; }
+  @media (max-width: 767px) {
+    .case-grid > .col-5, .case-grid > .col-7 { grid-column: span 4; }
+  }
+
+  /* Сторону визуала выбирает содержание, а не автоматическое чередование:
+     основной путь — текст слева, продолжение сценария — визуал слева.
+     В разметке всегда сначала текст, поэтому на мобильном порядок
+     сбрасывается и текст снова идёт первым. */
+  .case-split--flip > :last-child { order: -1; }
+  @media (max-width: 767px) { .case-split--flip > * { order: 0; } }
+  /* Выравнивание по верхнему краю: заголовок и абзац стоят рядом с верхом
+     визуала, а не разъезжаются по высоте картинки. */
+  .case-split { align-items: start; }
+  /* Оптическая поправка: у заголовка есть выносная линия, у рамки кадра нет. */
+  .case-split-text { padding-top: 6px; }
+  .case-split .compare-slider__frame { margin-top: 0; margin-bottom: 0; }
+
+  /* ---- Текстовая колонка ----
+     Заголовок и описание — один модуль: 24–32 px между ними, длина строки
+     45–70 знаков, высота колонки по содержимому, без растяжки под картинку. */
+  .case-split-text { align-self: start; }
+  .case-lead-title {
+    font-family: var(--display); font-size: var(--font-size-h2);
+    line-height: var(--line-height-heading); font-weight: 700; letter-spacing: -0.01em;
+    color: var(--text-strong); text-wrap: balance; max-width: 18ch;
+    margin: 0 0 clamp(24px, 2.2vw, 32px);
+  }
+  .case-split-text .case-subhead { max-width: 22ch; margin-bottom: clamp(20px, 1.8vw, 26px); }
+  .detail-block .case-split-text p { max-width: 56ch; margin-bottom: clamp(16px, 1.4vw, 20px); }
+  .detail-block .case-split-text p:last-child { margin-bottom: 0; }
+  .col-6.case-split-text, .col-4.case-split-text { max-width: 560px; }
+
+  /* Высокий кадр рядом с коротким абзацем оставлял от 240 до 720 px пустой
+     колонки — замерено во всех четырёх кейсах. Растягивать текст незачем,
+     увеличивать картинку нельзя, поэтому текст едет вместе с кадром: он
+     остаётся на экране, пока читатель проходит изображение, и подпись
+     работает как комментарий к тому, что видно прямо сейчас.
+     Отступ сверху уводит колонку из-под верхней навигации.
+     Ниже 900 px колонки складываются в одну и липкость выключается. */
+  @media (min-width: 900px) {
+    .case-split > .case-split-text { position: sticky; top: clamp(96px, 12vh, 132px); }
+  }
+
+  /* Два-три коротких вывода под абзацем: та же колонка, ближе к тексту,
+     чем к следующей секции. */
+  .case-points {
+    list-style: none; margin: clamp(32px, 3vw, 40px) 0 0; padding: 0;
+    display: flex; flex-direction: column; gap: clamp(18px, 1.8vw, 24px);
+  }
+  .case-points li { position: relative; padding-top: 16px; border-top: 1px solid var(--line-strong); }
+  .case-points li::before {
+    content: ''; position: absolute; top: -1px; left: 0; width: 36px; height: 2px;
+    background: var(--case-mark);
+  }
+  .detail-block .case-points__title {
+    font-family: var(--display); font-weight: 600; font-size: var(--font-size-label);
+    line-height: 1.4; color: var(--text); margin: 0 0 4px; max-width: none;
+  }
+  .detail-block .case-points__text {
+    font-size: 13px; line-height: 1.55; color: var(--text-dim); margin: 0; max-width: none;
+  }
+
+  .case-subhead {
+    font-family: var(--display); font-weight: var(--font-weight-heading);
+    font-size: var(--font-size-h3); line-height: 1.3; color: var(--text);
+    margin: 0 0 12px; text-wrap: balance;
+  }
+
+  /* Вступление перед таблицей или схемой: занимает 6 колонок сетки. */
+  .case-lede { max-width: 56ch; margin-bottom: clamp(24px, 2.4vw, 32px); }
+  .case-lede > p:last-child { margin-bottom: 0; }
+  .case-grid > .case-split-text.col-6 { margin-bottom: clamp(24px, 2.4vw, 32px); }
+  .detail-head + .case-grid .case-split-text p { margin-top: 0; }
+  .case-grid > .col-8-center + .col-8-center { margin-top: clamp(24px, 2.4vw, 32px); }
+
+  /* ---- Кадр с интерфейсом ----
+     Подпись вынесена из белого контейнера: раньше она входила в карточку и
+     добавляла ей высоты. Внутренние поля кадра сокращены, чтобы размер
+     задавал интерфейс, а не рамка вокруг него. */
+  /* Кадр всегда живёт внутри своей колонки сетки: собственной ширины у него
+     нет, режим «во всю страницу» убран. */
+  .case-fig { max-width: none; margin: 0; min-width: 0; }
+  /* Схема уже нарисована на собственной подложке — вторая рамка вокруг неё
+     читалась бы как вложенная карточка. */
+  .detail-block .case-fig--plain .case-shot { background: none; border: 0; padding: 0; }
+  .detail-block .case-fig--plain .case-shot img { border-radius: var(--radius-large); }
+  .detail-block .case-shot {
+    display: block; width: 100%; max-width: none; margin: 0;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius-large);
+    padding: clamp(12px, 1.2vw, 18px);
+    cursor: zoom-in; transition: border-color 0.2s ease;
+  }
+  .detail-block .case-shot:hover { transform: none; box-shadow: none; border-color: var(--line-strong); }
+  .detail-block .case-shot img {
+    display: block; width: 100%; height: auto; margin: 0;
+    border-radius: var(--radius-medium);
+  }
+  .case-fig__cap {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px;
+    margin: 18px 0 0;
+    font-size: 13px; line-height: 1.5; color: var(--text-dim);
+  }
+  .case-fig__text { max-width: 62ch; }
+  .case-fig__open {
+    font: inherit; font-size: 12px; color: var(--case-mark-text);
+    background: none; border: 0; padding: 2px 0; cursor: pointer;
+    text-decoration: underline; text-underline-offset: 3px; white-space: nowrap;
+  }
+  .case-fig__open:hover { text-decoration-thickness: 2px; }
+  /* Строка подписи высотой 22 px — слишком мелкая цель для пальца. Сама
+     строка остаётся прежней, растёт только область нажатия: 44 px по
+     вертикали. Подпись лежит в той же flex-строке слева, перекрытия нет. */
+  .case-fig__open { position: relative; }
+  .case-fig__open::after { content: ''; position: absolute; inset: -11px -6px; }
+  .case-fig__open:focus-visible { outline: 2px solid var(--case-mark-text); outline-offset: 3px; border-radius: 4px; }
+
+  /* Два экрана одного сценария — друг под другом внутри своей колонки. */
+  .case-figs--stack { display: flex; flex-direction: column; gap: clamp(20px, 2.2vw, 28px); }
+
+  /* Подписи к частям одной композиции. */
+  .case-shot-labels {
+    list-style: none; display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 28px); margin: clamp(20px, 2vw, 26px) 0 0; padding: 0;
+  }
+  .case-shot-labels li {
+    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--text-dim);
+    padding-top: 10px; border-top: 1px solid var(--line-strong); position: relative;
+  }
+  .case-shot-labels li::before {
+    content: ''; position: absolute; top: -1px; left: 0; width: 36px; height: 2px;
+    background: var(--case-mark);
+  }
+  @media (max-width: 640px) { .case-shot-labels { grid-template-columns: 1fr; gap: 12px; } }
+
+  /* Один сценарий по шагам. <ol>: порядок действий — часть содержания. */
+  .case-seq { list-style: none; display: flex; flex-direction: column; gap: clamp(44px, 4.5vw, 72px); }
+  .case-seq__step { min-width: 0; }
+  .case-seq__head { position: relative; padding-left: 52px; }
+  .case-seq__num {
+    position: absolute; top: 1px; left: 0; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--case-mark); color: var(--case-mark-on);
+    display: grid; place-items: center;
+    font-family: var(--mono); font-size: 13px; font-weight: 500; line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .case-seq__head .case-subhead { margin-bottom: 10px; }
+  .case-seq__head > p:last-child { margin-bottom: 0; }
+  @media (max-width: 767px) { .case-seq__head { margin-bottom: 20px; } }
+  @media (max-width: 560px) { .case-seq__head { padding-left: 46px; } }
+
+  /* Нумерованная последовательность шагов исследования. */
+  .case-rail { list-style: none; }
+  .case-rail__num { background: var(--case-mark); color: var(--case-mark-on); }
+  .case-rail__title { font-size: var(--font-size-h4); }
+  .case-rail .case-rail__text { margin: 0; }
+
+  /* Параллельные наблюдения: не карточки, а колонки под общей линией с
+     короткой засечкой акцента. Карточка обещала бы отдельный объект. */
+  .case-cols {
+    display: grid; grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
+    gap: clamp(24px, 2.6vw, 36px) clamp(24px, 2.6vw, 40px);
+    margin: clamp(32px, 3.2vw, 44px) 0;
+  }
+  .case-col {
+    position: relative; min-width: 0;
+    padding-top: clamp(18px, 1.8vw, 22px); border-top: 1px solid var(--line-strong);
+  }
+  .case-col::before {
+    content: ''; position: absolute; top: -1px; left: 0; width: 48px; height: 2px;
+    background: var(--case-mark);
+  }
+  .case-col .case-col__label {
+    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--case-mark-text); margin: 0 0 8px; max-width: none;
+  }
+  .case-col__title {
+    font-family: var(--display); font-weight: var(--font-weight-heading);
+    font-size: var(--font-size-h4); line-height: 1.3; color: var(--text);
+    margin: 0 0 8px; text-wrap: balance;
+  }
+  .case-col .case-col__text {
+    font-size: var(--font-size-body); line-height: var(--line-height-body);
+    color: var(--text-dim); margin: 0; max-width: 44ch; text-wrap: pretty;
+  }
+  /* Компактный вариант: три колонки читаются как подводка к решению ниже. */
+  .case-cols--compact { margin-bottom: clamp(24px, 2.4vw, 32px); }
+  .case-cols--compact .case-col__title { font-size: var(--font-size-h3); }
+  .case-cols--compact .case-col__text { font-size: var(--font-size-label); line-height: 1.55; }
+  @media (max-width: 860px) {
+    .case-cols { grid-template-columns: 1fr; gap: 26px; }
+    .case-col .case-col__text { max-width: none; }
+  }
+
+  /* Вывод из исследования. Отдельная реплика после материала, не ещё один абзац. */
+  .case-takeaway {
+    margin: clamp(28px, 2.8vw, 40px) 0 0; padding-left: clamp(18px, 2vw, 26px);
+    border-left: 2px solid var(--case-mark);
+  }
+  .detail-block .case-takeaway p {
+    margin: 0; max-width: 66ch;
+    font-size: var(--font-size-body); line-height: var(--line-height-body); color: var(--text);
+  }
+
+  /* Пара концептов: у каждой картинки своя подпись-заголовок. */
+  /* Пара концептов — обычная строка сетки, по 6 колонок на концепт.
+     Собственная сетка .case-figs здесь не нужна, отступы задаёт .case-grid;
+     на мобильном каждый концепт занимает всю ширину, отсюда row-gap. */
+  .case-grid.case-figs--labelled { align-items: start; margin: clamp(32px, 3vw, 40px) 0; row-gap: clamp(24px, 2.6vw, 32px); }
+  .case-figs--labelled { align-items: start; }
+  .case-figs__item { min-width: 0; }
+  .case-figs__item .case-figs__label {
+    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--case-mark-text); margin: 0 0 12px; max-width: none;
+  }
+  .detail-block p.case-artifact-cap {
+    font-size: var(--font-size-label); line-height: 1.5; color: var(--text-dim);
+    margin: clamp(24px, 2.4vw, 32px) 0 12px; max-width: 62ch;
+  }
+  .case-table-wrap--narrow { max-width: 720px; }
+
+  /* ---- Итоги ----
+     Тёмная полоса во всю ширину экрана, контент остаётся в основном
+     контейнере. Полоса нарисована box-shadow + clip-path: это не влияет на
+     раскладку и не создаёт горизонтальной прокрутки, в отличие от 100vw. */
+  :root {
+    --results-bg: #211B18;
+    --results-card: #2C2723;
+    --results-line: rgba(255, 255, 255, 0.11);
+    --results-text: rgba(255, 255, 255, 0.68);
+    --results-dim: rgba(255, 255, 255, 0.5);
+  }
+  .detail-block.case-results { margin-top: clamp(96px, 9vw, 140px); padding-top: 0; }
+  .case-results__panel {
+    position: relative; background: var(--results-bg);
+    box-shadow: 0 0 0 100vmax var(--results-bg);
+    clip-path: inset(0 -100vmax);
+    padding: clamp(40px, 4.5vw, 72px) 0 clamp(44px, 5vw, 80px);
+  }
+  .case-results__panel .detail-head { margin-bottom: clamp(16px, 1.6vw, 20px); }
+  .case-results__panel .detail-head h2 { color: #fff; }
+  .case-results__panel p { color: var(--results-text); max-width: 62ch; }
+  .case-results__panel .case-lede { margin-bottom: 0; }
+  .case-results .result-cards { margin-top: clamp(28px, 3vw, 40px); row-gap: clamp(20px, 2vw, 28px); }
+  .case-results .result-card {
+    background: var(--results-card); border: 1px solid var(--results-line);
+    border-radius: var(--radius-medium); box-shadow: none;
+    min-height: 0; height: 100%;
+    padding: clamp(28px, 2.6vw, 40px); gap: 10px;
+  }
+  .case-results .result-card .result-card__label {
+    color: var(--results-dim); margin: 0 0 2px;
+  }
+  .case-results .result-card .result-card__label::before { background: var(--case-mark); }
+  .case-results .result-card .result-card__metric {
+    font-size: clamp(18px, 1.5vw, 22px); line-height: 1.3; color: #fff;
+  }
+  .case-results .result-card .result-card__desc { color: var(--results-text); }
+  .case-results .result-card .result-card__measure {
+    width: 100%; margin: auto 0 0; padding-top: 18px;
+    border-top: 1px solid var(--results-line);
+    font-size: 13px; line-height: 1.5; color: var(--results-text); max-width: none;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .case-results .result-card .result-card__measure-label {
+    font-family: var(--mono); font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--results-dim);
+  }
+
+  /* Ритм страницы: воздух разделяет разные истории, а не связанные части
+     одной. Между самостоятельными секциями 128–176 px. */
+  .detail-block { margin-top: clamp(128px, 11vw, 176px); padding-top: 0; }
+  @media (max-width: 720px) { .detail-block { margin-top: clamp(88px, 14vw, 112px); } }
+  .detail-block .detail-head { margin-bottom: clamp(24px, 2.2vw, 32px); }
+  .detail-block:last-child .detail-head { margin-bottom: clamp(24px, 2.2vw, 32px); }
+
+  /* Экспорты обрезаны по содержимому, пропорция набора изменилась. */
+  .compare-slider__stage { aspect-ratio: 2700 / 1768; }
+  /* ===== конец блока редакции 3.2 ===== */
 </style>
   <link rel="stylesheet" href="assets/typography.css">
 </head>
@@ -451,190 +958,238 @@
     <div class="case-page">
       <div class="case-header">
         <h1 class="case-title">Alif Partners</h1>
-        <div class="case-meta-group">
-          <div class="case-tags"><span>b2b</span><span>fintech</span></div>
-        </div>
+        <p class="case-headline"><span data-lang="ru">Товары, заявки и доставка в кабинете партнёра</span><span data-lang="en">Products, requests and delivery in the partner workspace</span></p>
         <dl class="case-facts">
-          <div><dt><span data-lang="ru">Длительность</span><span data-lang="en">Duration</span></dt><dd><span data-lang="ru">4 месяца</span><span data-lang="en">4 months</span></dd></div>
-          <div><dt><span data-lang="ru">Команда</span><span data-lang="en">Team</span></dt><dd>Product Designer, UX Researcher, Product Owner</dd></div>
-          <div><dt><span data-lang="ru">Моя роль</span><span data-lang="en">My role</span></dt><dd>Product Designer</dd></div>
-          <div><dt><span data-lang="ru">Пользователи</span><span data-lang="en">Users</span></dt><dd><span data-lang="ru">партнёры банка и модераторы маркетплейса</span><span data-lang="en">bank partners and marketplace moderators</span></dd></div>
-          <div><dt><span data-lang="ru">Платформы</span><span data-lang="en">Platforms</span></dt><dd><span data-lang="ru">веб и мобильная версия</span><span data-lang="en">web and mobile</span></dd></div>
+          <div><dt><span data-lang="ru">Срок</span><span data-lang="en">Duration</span></dt><dd><span data-lang="ru">4 месяца</span><span data-lang="en">4 months</span></dd></div>
+          <div><dt><span data-lang="ru">Роль</span><span data-lang="en">Role</span></dt><dd><span data-lang="ru">Product Designer</span><span data-lang="en">Product Designer</span></dd></div>
+          <div><dt><span data-lang="ru">Платформы</span><span data-lang="en">Platforms</span></dt><dd><span data-lang="ru">Веб и мобильная версия</span><span data-lang="en">Web and mobile</span></dd></div>
+          <div><dt><span data-lang="ru">Команда</span><span data-lang="en">Team</span></dt><dd><span data-lang="ru">Product Designer, UX Researcher, Product Owner</span><span data-lang="en">Product Designer, UX Researcher, Product Owner</span></dd></div>
         </dl>
         <div class="case-grid case-context-cards">
           <div class="case-context-card col-6">
             <p class="case-context-card__label"><span data-lang="ru">Контекст</span><span data-lang="en">Context</span></p>
-            <h2 class="case-context-card__title"><span data-lang="ru">Партнёрская сеть</span><span data-lang="en">A partner network</span></h2>
-            <p class="case-context-card__text"><span data-lang="ru">Alif развивает рассрочку через партнёрские магазины и маркетплейс Alif Shop. Партнёры зависели от звонков в колл-центр, терминалов и ручной помощи модераторов. Вместе с количеством заказов росла нагрузка на сотрудников банка.</span><span data-lang="en">Alif grows its installment business through partner stores and the Alif Shop marketplace. Partners depended on call-center calls, terminals, and manual help from moderators. As order volume grew, so did the load on the bank's staff.</span></p>
+            <h2 class="case-context-card__title"><span data-lang="ru">Партнёрская сеть росла</span><span data-lang="en">The partner network was growing</span></h2>
+            <p class="case-context-card__text"><span data-lang="ru">Alif развивает рассрочку через партнёрские магазины и маркетплейс Alif Shop. Магазины работали с заказами через админ-панель, терминалы и сотрудников банка. Вместе с количеством заказов росла нагрузка на колл-центр и модераторов.</span><span data-lang="en">Alif runs instalment plans through partner stores and the Alif Shop marketplace. Stores handled orders through an admin panel, terminals and bank employees. As the number of orders grew, so did the load on the call centre and the moderators.</span></p>
           </div>
           <div class="case-context-card col-6">
             <p class="case-context-card__label"><span data-lang="ru">Задача</span><span data-lang="en">Task</span></p>
-            <h2 class="case-context-card__title"><span data-lang="ru">Перенести операции в рабочий контур</span><span data-lang="en">Move operations into a working product</span></h2>
-            <p class="case-context-card__text"><span data-lang="ru">Нужно было перенести повседневную работу партнёра в админ-панель. Заявки, товары и доставка должны были проходить внутри продукта, а у банка оставаться инструменты проверки и контроля.</span><span data-lang="en">The partner's day-to-day work needed to move into the admin panel. Requests, products, and delivery had to run inside the product itself, while the bank kept its tools for verification and control.</span></p>
+            <h2 class="case-context-card__title"><span data-lang="ru">Больше самостоятельности для магазина</span><span data-lang="en">More independence for the store</span></h2>
+            <p class="case-context-card__text"><span data-lang="ru">Я проектировала кабинет, в котором партнёр сможет работать с товарами, заявками и доставкой. Сотрудникам банка нужно было сохранить инструменты проверки данных и помощи партнёрам.</span><span data-lang="en">I designed a workspace where a partner can handle products, requests and delivery. Bank employees had to keep their tools for checking data and helping partners.</span></p>
           </div>
         </div>
       </div>
 
-      <div class="detail-block">
+      <div class="detail-block" id="alif-research">
         <div class="detail-head">
-          <h2><span data-lang="ru">Исследование</span><span data-lang="en">Research</span></h2>
-          <p class="detail-dek"><span data-lang="ru">Где процесс держится на людях</span><span data-lang="en">Where the process ran on people</span></p>
+          <h2><span data-lang="ru">Как разобрались в работе партнёра</span><span data-lang="en">How we made sense of the partner’s work</span></h2>
         </div>
-        <p><span data-lang="ru">До перехода в дизайн я работала в колл-центре и отделе партнёров Alif. Я сама принимала обращения и видела, сколько ручной работы скрывается за одной заявкой. Вместе с UX-исследователем мы поговорили с 8 модераторами, 7 ведущими партнёрами и 2 CDO-менеджерами.</span><span data-lang="en">Before moving into design, I worked in Alif's call center and partner department. I took requests myself and saw how much manual work hides behind a single order. Together with a UX researcher, we talked with 8 moderators, 7 lead partners, and 2 CDO managers.</span></p>
-        <p><span data-lang="ru">Исследование показало три системные проблемы.</span><span data-lang="en">The research turned up three systemic problems.</span></p>
-        <div class="problem-grid">
-          <div class="problem-item">
-            <span class="problem-num">01</span>
-            <p><span class="problem-name"><span data-lang="ru">Заявки замечали с опозданием.</span><span data-lang="en">Requests got noticed late.</span></span></p>
-            <p><span data-lang="ru">Партнёр зависел от звонка колл-центра, чтобы начать обработку.</span><span data-lang="en">The partner depended on a call from the call center to start processing.</span></p>
-          </div>
-          <div class="problem-item">
-            <span class="problem-num">02</span>
-            <p><span class="problem-name"><span data-lang="ru">Данные вводили повторно.</span><span data-lang="en">Data got entered twice.</span></span></p>
-            <p><span data-lang="ru">Информацию о существующих товарах приходилось переносить вручную.</span><span data-lang="en">Information about products that already existed had to be carried over by hand.</span></p>
-          </div>
-          <div class="problem-item">
-            <span class="problem-num">03</span>
-            <p><span class="problem-name"><span data-lang="ru">Процесс обрывался до доставки.</span><span data-lang="en">The process broke off before delivery.</span></span></p>
-            <p><span data-lang="ru">Часть операций находилась вне единого рабочего сценария.</span><span data-lang="en">Part of the operations lived outside a single unified workflow.</span></p>
-          </div>
-        </div>
-        <p><span data-lang="ru">Структура админ-панели повторяла устройство банка. Партнёру же нужен был понятный рабочий маршрут от новой заявки до доставки.</span><span data-lang="en">The admin panel's structure mirrored the bank's own setup. What the partner needed instead was a clear working path from a new request to delivery.</span></p>
-        <div class="detail-media-frame">
-          <button class="case-image-trigger" type="button">
-            <img data-src-ru="assets/process/alif-research-table-ru.webp" data-src-en="assets/process/alif-research-table.webp" data-alt-ru="Alif Partners · таблица результатов интервью с модераторами и партнёрами" data-alt-en="Alif Partners · a table of results from interviews with moderators and partners" alt="Alif Partners · таблица результатов интервью с модераторами и партнёрами" loading="lazy" width="4800" height="5538">
-          </button>
-        </div>
-      </div>
-      <div class="detail-block">
-        <div class="detail-head">
-          <h2><span data-lang="ru">Гипотеза</span><span data-lang="en">Hypothesis</span></h2>
-        </div>
-        <div class="problem-statement">
-          <span class="quote-mark">"</span>
-          <p><span data-lang="ru">Мы предположили, что единый рабочий сценарий позволит партнёру вести заказ самостоятельно: принять заявку, подготовить товар и оформить доставку. Проверка данных и спорные ситуации останутся у сотрудников банка.</span><span data-lang="en">We assumed that a single unified workflow would let a partner run an order independently: accept the request, prepare the product, and arrange delivery. Data checks and disputed situations would stay with the bank's staff.</span></p>
-        </div>
-      </div>
-      <div class="detail-block">
-        <div class="detail-head">
-          <h2><span data-lang="ru">Решение</span><span data-lang="en">Solution</span></h2>
-        </div>
+        <p><span data-lang="ru">До перехода в дизайн я работала в колл-центре и отделе партнёров Alif. Этот опыт помог разбирать повседневные задачи магазинов вместе с UX-исследователем.</span><span data-lang="en">Before moving into design I worked in Alif’s call centre and partner department. That experience helped me work through the stores’ everyday tasks together with a UX researcher.</span></p>
+        <ol class="case-rail" style="--rail-cols: 3">
+          <li class="case-rail__step">
+            <span class="case-rail__num" aria-hidden="true">1</span>
+            <h3 class="case-rail__title"><span data-lang="ru">Опирались на опыт</span><span data-lang="en">We drew on first-hand experience</span></h3>
+            <p class="case-rail__text"><span data-lang="ru">Я знала процесс со стороны колл-центра и отдела партнёров.</span><span data-lang="en">I knew the process from the call centre and the partner department.</span></p>
+          </li>
+          <li class="case-rail__step">
+            <span class="case-rail__num" aria-hidden="true">2</span>
+            <h3 class="case-rail__title"><span data-lang="ru">Поговорили с участниками</span><span data-lang="en">We talked to the people involved</span></h3>
+            <p class="case-rail__text"><span data-lang="ru">8 модераторов, 7 ведущих партнёров и 2 CDO-менеджера.</span><span data-lang="en">8 moderators, 7 leading partners and 2 CDO managers.</span></p>
+          </li>
+          <li class="case-rail__step">
+            <span class="case-rail__num" aria-hidden="true">3</span>
+            <h3 class="case-rail__title"><span data-lang="ru">Выделили две задачи</span><span data-lang="en">We singled out two tasks</span></h3>
+            <p class="case-rail__text"><span data-lang="ru">Подготовить предложение магазина и обработать поступивший заказ.</span><span data-lang="en">Prepare the store’s offer and handle an incoming order.</span></p>
+          </li>
+        </ol>
         <div class="case-grid case-split">
-          <div class="case-split-text col-6">
-            <p><span data-lang="ru">Мы перестроили админ-панель, отошли от сайдбара и перенесли навигацию на верхнюю часть. Она была собрана по основным сценариям: магазины, товары, заявки, доставка и отзывы. Для модераторов сохранен отдельный контур проверки и редактирования данных.</span><span data-lang="en">We rebuilt the admin panel, moved away from the sidebar, and brought the navigation to the top. It was organized around the core scenarios: stores, products, requests, delivery, and reviews. For moderators, a separate loop for reviewing and editing data was kept.</span></p>
-            <p><span data-lang="ru">Теперь партнёр выполняет основные операции сам, а модератор подключается для проверки и нестандартных ситуаций.</span><span data-lang="en">Now the partner handles the core operations themselves, and the moderator steps in for checks and non-standard situations.</span></p>
+          <div class="case-split-text col-4">
+            <h3 class="case-subhead"><span data-lang="ru">Что услышали в интервью</span><span data-lang="en">What we heard in the interviews</span></h3>
+            <p><span data-lang="ru">В таблице собраны ответы о заявках, каталоге и доставке. Из них в работу взяли два направления, показанные ниже.</span><span data-lang="en">The table collects the answers about requests, the catalogue and delivery. Two directions came out of those answers, and both are shown below.</span></p>
+            <ul class="case-points">
+              <li>
+                <p class="case-points__title"><span data-lang="ru">Добавление товара</span><span data-lang="en">Adding a product</span></p>
+                <p class="case-points__text"><span data-lang="ru">Партнёр искал товар на Alif Shop и переносил SKU в админ-панель. В новом сценарии поиск перенесли внутрь добавления.</span><span data-lang="en">A partner looked the product up on Alif Shop and copied the SKU into the admin panel. In the new scenario the search moved inside the add-product step.</span></p>
+              </li>
+              <li>
+                <p class="case-points__title"><span data-lang="ru">Передача заказа</span><span data-lang="en">Handing over an order</span></p>
+                <p class="case-points__text"><span data-lang="ru">Было непонятно, где найти обработанную заявку и что делать при самовывозе. Для доставки и самовывоза проработали отдельные пути.</span><span data-lang="en">It was unclear where to find a processed request and what to do about self-pickup. Delivery and self-pickup got separate paths.</span></p>
+              </li>
+            </ul>
           </div>
-          <div class="case-split-media col-6">
-            <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/alif-admin-structure-ru.webp" data-src-en="assets/process/alif-admin-structure.webp" data-alt-ru="Alif Partners · новая структура админки" data-alt-en="Alif Partners · the admin panel's new structure" alt="Alif Partners · новая структура админки" loading="lazy" width="2784" height="549">
-            </button>
-          </div>
-        </div>
-        <div class="case-grid case-split">
-          <div class="case-split-text col-6">
-            <p><span data-lang="ru">Дополнительно в интерфейсе появился единый канал коммуникации с банком в виде чата, объединяющего взаимодействие с модераторами, отделом партнёров и колл-центром. Это решение позволяет сократить количество разрозненных обращений и ускорить решение вопросов.</span><span data-lang="en">The interface also gained a single communication channel with the bank in the form of a chat, bringing together interaction with moderators, the partner department, and the call center. This cuts down on scattered requests and speeds up resolving issues.</span></p>
-            <p><span data-lang="ru">Также были добавлены уведомления, которые помогают партнёрам отслеживать новые заявки и изменения в системе. Отдельный акцент был сделан на управлении остатками товаров: система сигнализирует о снижении количества позиций, позволяя пользователю своевременно реагировать и избегать потери заказов.</span><span data-lang="en">Notifications were also added to help partners track new requests and changes in the system. Separate attention went to managing stock levels: the system flags when a listing's quantity is running low, letting the partner react in time and avoid losing orders.</span></p>
-          </div>
-          <div class="case-split-media col-6 case-split-media--mosaic-row">
-            <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/alif-chat-ru.webp" data-src-en="assets/process/alif-chat.webp" data-alt-ru="Alif Partners · единый чат с банком" data-alt-en="Alif Partners · a single chat with the bank" alt="Alif Partners · единый чат с банком" loading="lazy" width="3792" height="3429">
-            </button>
-            <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/alif-notifications-ru.webp" data-src-en="assets/process/alif-notifications.webp" data-alt-ru="Alif Partners · уведомления о заявках и статусах" data-alt-en="Alif Partners · notifications for requests and statuses" alt="Alif Partners · уведомления о заявках и статусах" loading="lazy" width="2352" height="3315">
-            </button>
+          <div class="col-8">
+            <figure class="case-fig">
+              <div class="case-shot" data-lightbox-for="fig-al-01-1">
+                <img id="fig-al-01-1" data-src-ru="assets/process/alif-research-table-ru.webp" data-src-en="assets/process/alif-research-table.webp" data-alt-ru="Таблица ответов на интервью" data-alt-en="Interview answers table" alt="Таблица ответов на интервью" loading="lazy" width="4608" height="5346">
+              </div>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Ответы партнёров о работе с каталогом, заявками и доставкой. Материал исследования на этапе проекта.</span><span data-lang="en">Partners’ answers about working with the catalogue, requests and delivery. Research material from the project.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-al-01-1"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+            </figure>
           </div>
         </div>
       </div>
-      <div class="detail-block">
-        <div class="detail-head">
-          <h2><span data-lang="ru">Фокус</span><span data-lang="en">Focus</span></h2>
-          <p class="detail-dek"><span data-lang="ru">Меньше лишних кругов в товарах и ценах</span><span data-lang="en">Fewer extra loops in products and pricing</span></p>
-        </div>
+
+      <div class="detail-block" id="alif-navigation">
         <div class="case-grid case-split">
-          <div class="case-split-text col-6">
-            <p><span data-lang="ru">В ходе интервью стало понятно, что добавление товара занимает много времени из-за необходимости вручную заполнять данные, даже если товар уже существует. Поиск стал первым шагом добавления товара. Если позиция уже есть в каталоге, партнёр не создаёт карточку заново, а добавляет своё предложение: цену, остаток и условия.</span><span data-lang="en">The interviews showed that adding a product took a long time because data had to be filled in by hand, even when the product already existed. Search became the first step of adding a product. If a listing already exists in the catalog, the partner doesn't recreate it. Instead, they add their own offer: price, stock, and terms.</span></p>
+          <div class="case-split-text col-4">
+            <h2 class="case-lead-title"><span data-lang="ru">Разделы под задачи магазина</span><span data-lang="en">Sections built around the store’s tasks</span></h2>
+            <p><span data-lang="ru">Навигацию собрали вокруг магазинов, товаров, заявок, доставки и отзывов. Для модераторов сохранили отдельный раздел проверки данных.</span><span data-lang="en">Navigation was built around stores, products, requests, delivery and reviews. Moderators kept a separate data-checking section.</span></p>
           </div>
-          <div class="case-split-media col-6">
-            <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/alif-product-search-ru.webp" data-src-en="assets/process/alif-product-search.webp" data-alt-ru="Alif Partners · процесс добавления товара" data-alt-en="Alif Partners · the product-adding flow" alt="Alif Partners · процесс добавления товара" loading="lazy" width="3870" height="1992">
-            </button>
-          </div>
-        </div>
-        <div class="case-grid case-split">
-          <div class="case-split-text col-6">
-            <p class="inline-subhead"><span data-lang="ru">Партнёрский инсайт</span><span data-lang="en">A partner insight</span></p>
-            <p><span data-lang="ru">В ходе глубинного интервью у партнёров мы получили инсайт: при формировании цен на товары они ориентируются на конкуренцию, поэтому можно интегрировать данные о ценах прямо с сайта.</span><span data-lang="en">A deep-dive interview with partners surfaced an insight: when setting prices, they look at the competition, so competitor pricing data could be integrated directly from the site.</span></p>
-            <p><span data-lang="ru">В процессе добавления товара мы интегрировали блок с ценами на аналогичные позиции. Это позволяет партнёру сразу видеть рыночный диапазон и принимать решение по стоимости товара в момент его создания.</span><span data-lang="en">During the product-adding flow, we integrated a block showing prices for similar listings. This lets the partner see the market range right away and decide on a price the moment they create the listing.</span></p>
-          </div>
-          <div class="case-split-media col-6">
-            <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/alif-price-insight-ru.webp" data-src-en="assets/process/alif-price-insight.webp" data-alt-ru="Alif Partners · сравнение цен конкурентов" data-alt-en="Alif Partners · competitor price comparison" alt="Alif Partners · сравнение цен конкурентов" loading="lazy" width="3417" height="1611">
-            </button>
+          <div class="col-8">
+            <figure class="case-fig">
+              <div class="case-shot" data-lightbox-for="fig-al-02-2">
+                <img id="fig-al-02-2" data-src-ru="assets/process/alif-admin-structure-ru.webp" data-src-en="assets/process/alif-admin-structure.webp" data-alt-ru="Верхняя навигация" data-alt-en="Top navigation" alt="Верхняя навигация" loading="lazy" width="2640" height="405">
+              </div>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Разделы кабинета партнёра и модератора.</span><span data-lang="en">Sections of the partner and moderator workspace.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-al-02-2"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+            </figure>
           </div>
         </div>
       </div>
-      <div class="detail-block">
+
+      <div class="detail-block" id="alif-offer">
         <div class="detail-head">
-          <h2><span data-lang="ru">Доставка</span><span data-lang="en">Delivery</span></h2>
+          <h2><span data-lang="ru">Добавление товара</span><span data-lang="en">Adding a product</span></h2>
         </div>
+        <ol class="case-seq">
+          <li class="case-seq__step case-grid">
+            <div class="case-seq__head col-4">
+              <span class="case-seq__num" aria-hidden="true">1</span>
+              <p><span data-lang="ru">Поиск стал первым шагом добавления. Если товар уже есть в каталоге, партнёр находит его внутри кабинета и указывает своё предложение: цену, остаток и условия. Переходить на Alif Shop за SKU для этого больше не нужно.</span><span data-lang="en">Search became the first step of adding a product. If the product is already in the catalogue, the partner finds it inside the workspace and sets their own offer: price, stock and terms. Going to Alif Shop for the SKU is no longer necessary.</span></p>
+            </div>
+            <div class="col-8">
+              <figure class="case-fig">
+                <div class="case-shot" data-lightbox-for="fig-al-05-3">
+                  <img id="fig-al-05-3" data-src-ru="assets/process/alif-product-search-ru.webp" data-src-en="assets/process/alif-product-search.webp" data-alt-ru="Поиск товара" data-alt-en="Product search" alt="Поиск товара" loading="lazy" width="3678" height="1800">
+                </div>
+                <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Поиск существующего товара при добавлении предложения.</span><span data-lang="en">Searching for an existing product while adding an offer.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-al-05-3"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+              </figure>
+            </div>
+          </li>
+          <li class="case-seq__step case-grid">
+            <div class="case-seq__head col-4">
+              <span class="case-seq__num" aria-hidden="true">2</span>
+              <h3 class="case-subhead"><span data-lang="ru">Цена рядом с предложениями других продавцов</span><span data-lang="en">Price next to other sellers’ offers</span></h3>
+              <p><span data-lang="ru">Партнёры рассказывали, что при назначении цены смотрят на конкурентов. Мы добавили цены на аналогичные товары прямо в форму создания предложения. Так сравнить варианты можно в тот момент, когда назначаешь свою цену.</span><span data-lang="en">Partners told us they look at competitors when setting a price. We added the prices of similar products right inside the offer form. That way the comparison happens at the moment you set your own price.</span></p>
+            </div>
+            <div class="col-8">
+              <figure class="case-fig">
+                <div class="case-shot" data-lightbox-for="fig-al-06-4">
+                  <img id="fig-al-06-4" data-src-ru="assets/process/alif-price-insight-ru.webp" data-src-en="assets/process/alif-price-insight.webp" data-alt-ru="Цены аналогов" data-alt-en="Prices of similar products" alt="Цены аналогов" loading="lazy" width="3225" height="1419">
+                </div>
+                <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Цены других продавцов в форме создания предложения.</span><span data-lang="en">Other sellers’ prices in the offer form.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-al-06-4"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+              </figure>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="detail-block" id="alif-order">
         <div class="case-grid case-split">
           <div class="case-split-text col-6">
-            <p><span data-lang="ru">Раздел доставки в админ-панели оказался самым проблемным: партнёры и курьеры тратили много времени на оформление заявок, которые приходят не только с маркетплейса, но и из оффлайн-точек.</span><span data-lang="en">The delivery section in the admin panel turned out to be the most problematic: partners and couriers spent a lot of time processing requests that came in not just from the marketplace, but from offline points too.</span></p>
-            <p><span data-lang="ru">Решили перенести весь процесс в админку и разделить сценарии на самовывоз и доставку, чтобы сотрудники смогли работать напрямую без необходимости обращаться к терминалам или колл-центру.</span><span data-lang="en">We decided to move the whole process into the admin panel and split the scenarios into pickup and delivery, so staff could work directly without having to go through terminals or the call center.</span></p>
-            <p><span data-lang="ru">Процесс оформления заявок, который ранее проходил через терминалы, был перенесён в админку и адаптирован под её дизайн, сохранив всю бизнес-логику. Для сотрудников партнёров и курьеров был предусмотрен мобильный сценарий.</span><span data-lang="en">The request process, which used to run through terminals, was moved into the admin panel and adapted to its design while keeping all the business logic in place. A mobile scenario was provided for partner staff and couriers.</span></p>
+            <h2 class="case-lead-title"><span data-lang="ru">От заявки к передаче товара</span><span data-lang="en">From a request to handing over the goods</span></h2>
+            <p><span data-lang="ru">В работе с заказом маршрут другой: заметить новую заявку, открыть её и оформить передачу товара. О новых заявках партнёрам сообщал колл-центр. В кабинете для этого предусмотрели уведомления.</span><span data-lang="en">Handling an order takes a different path: spot a new request, open it and arrange the handover. Partners used to hear about new requests from the call centre. The workspace carries notifications for that.</span></p>
           </div>
-          <div class="case-split-media col-6 case-split-media--mosaic-row">
-            <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/alif-delivery-ru.webp" data-src-en="assets/process/alif-delivery.webp" data-alt-ru="Alif Partners · раздел доставки" data-alt-en="Alif Partners · the delivery section" alt="Alif Partners · раздел доставки" loading="lazy" width="3870" height="3252">
-            </button>
-            <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/alif-order-detail-ru.webp" data-src-en="assets/process/alif-order-detail.webp" data-alt-ru="Alif Partners · оформление заявки с сохранением бизнес-логики" data-alt-en="Alif Partners · processing a request while preserving the business logic" alt="Alif Partners · оформление заявки с сохранением бизнес-логики" loading="lazy" width="3792" height="2544">
-            </button>
+          <div class="col-6">
+            <figure class="case-fig">
+              <div class="case-shot" data-lightbox-for="fig-al-04-5">
+                <img id="fig-al-04-5" data-src-ru="assets/process/alif-notifications-ru.webp" data-src-en="assets/process/alif-notifications.webp" data-alt-ru="Уведомления" data-alt-en="Notifications" alt="Уведомления" loading="lazy" width="2160" height="3123">
+              </div>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Уведомления о заявках, доставке и остатках.</span><span data-lang="en">Notifications about requests, delivery and stock.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-al-04-5"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="case-grid case-split case-split--flip">
+          <div class="case-split-text col-4">
+            <h3 class="case-subhead"><span data-lang="ru">Доставка и самовывоз</span><span data-lang="en">Delivery and self-pickup</span></h3>
+            <p><span data-lang="ru">Оформление, которое проходило через терминалы, перенесли в проектируемую панель. Доставку и самовывоз разделили, сохранив бизнес-логику. Способ передачи товара определяет дальнейшие действия сотрудника.</span><span data-lang="en">The paperwork that used to go through terminals moved into the panel I designed. Delivery and self-pickup were separated, keeping the business logic intact. The handover method determines what the employee does next.</span></p>
+          </div>
+          <div class="col-8">
+            <figure class="case-fig">
+              <div class="case-shot" data-lightbox-for="fig-al-07-6">
+                <img id="fig-al-07-6" data-src-ru="assets/process/alif-delivery-ru.webp" data-src-en="assets/process/alif-delivery.webp" data-alt-ru="Карточки доставки" data-alt-en="Delivery cards" alt="Карточки доставки" loading="lazy" width="3678" height="3060">
+              </div>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Заказы в разделе доставки.</span><span data-lang="en">Orders in the delivery section.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-al-07-6"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+            </figure>
           </div>
         </div>
       </div>
-      <div class="detail-block">
-        <div class="detail-head">
-          <h2><span data-lang="ru">Мобильная версия</span><span data-lang="en">Mobile version</span></h2>
-          <p class="detail-dek"><span data-lang="ru">Полный функционал вне офиса</span><span data-lang="en">Full functionality away from the desk</span></p>
-        </div>
+
+      <div class="detail-block" id="alif-chat">
         <div class="case-grid case-split">
           <div class="case-split-text col-6">
-            <p><span data-lang="ru">Дополнительно спроектировала мобильную версию с полным функционалом, чтобы партнёры могли работать с заявками, доставкой и уведомлениями не только за компьютером, но и в магазине, на складе или на выдаче.</span><span data-lang="en">I additionally designed a full-featured mobile version so partners could work with requests, delivery, and notifications not just at a computer, but in-store, in the warehouse, or at pickup.</span></p>
+            <h2 class="case-lead-title"><span data-lang="ru">Связь с банком</span><span data-lang="en">A line to the bank</span></h2>
+            <p><span data-lang="ru">В кабинет добавили чат с банком. Партнёр может обратиться за помощью во время работы с товарами и заказами.</span><span data-lang="en">A chat with the bank was added to the workspace. A partner can ask for help while working with products and orders.</span></p>
           </div>
-          <div class="case-split-media col-6">
-            <button class="case-image-trigger" type="button">
-              <img data-src-ru="assets/process/alif-mobile-ru.webp" data-src-en="assets/process/alif-mobile.webp" data-alt-ru="Alif Partners · мобильная версия" data-alt-en="Alif Partners · the mobile version" alt="Alif Partners · мобильная версия" loading="lazy" width="4092" height="2623">
-            </button>
+          <div class="col-6">
+            <figure class="case-fig">
+              <div class="case-shot" data-lightbox-for="fig-al-03-7">
+                <img id="fig-al-03-7" data-src-ru="assets/process/alif-chat-ru.webp" data-src-en="assets/process/alif-chat.webp" data-alt-ru="Чат" data-alt-en="Chat" alt="Чат" loading="lazy" width="3600" height="3237">
+              </div>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Чат с банком внутри кабинета.</span><span data-lang="en">A chat with the bank inside the workspace.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-al-03-7"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+            </figure>
           </div>
         </div>
       </div>
-      <div class="detail-block">
+
+      <div class="detail-block" id="alif-mobile">
+        <div class="case-grid case-split">
+          <div class="case-split-text col-4">
+            <h2 class="case-lead-title"><span data-lang="ru">Работа с телефона</span><span data-lang="en">Working from a phone</span></h2>
+            <p><span data-lang="ru">Отдельно я спроектировала мобильную версию: с уведомлениями, товарами и доставкой можно работать в магазине, на складе и на выдаче.</span><span data-lang="en">I designed the mobile version separately: notifications, products and delivery can be handled in the store, in the warehouse and at the pickup point.</span></p>
+          </div>
+          <div class="col-8">
+            <figure class="case-fig">
+              <div class="case-shot" data-lightbox-for="fig-al-09-8">
+                <img id="fig-al-09-8" data-src-ru="assets/process/alif-mobile-ru.webp" data-src-en="assets/process/alif-mobile.webp" data-alt-ru="Мобильные уведомления, товар, доставка" data-alt-en="Mobile notifications, products and delivery" alt="Мобильные уведомления, товар, доставка" loading="lazy" width="3894" height="2423">
+              </div>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Работа с уведомлениями, товаром и доставкой с телефона.</span><span data-lang="en">Handling notifications, products and delivery from a phone.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-al-09-8"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-block case-results" id="alif-result">
+        <div class="case-results__panel">
         <div class="detail-head">
           <h2><span data-lang="ru">Результаты</span><span data-lang="en">Results</span></h2>
         </div>
-        <p><span data-lang="ru">Удалось переосмыслить админ-панель из внутреннего инструмента в продукт, ориентированный на самостоятельную работу партнёров. Это позволило снизить операционную нагрузку на банк и перераспределить ключевые сценарии в сторону партнёрской автономности.</span><span data-lang="en">We managed to rethink the admin panel: from an internal tool into a product oriented around partners working independently. This reduced the operational load on the bank and shifted the key scenarios toward partner autonomy.</span></p>
+        <p><span data-lang="ru">Спроектированы веб- и мобильная версии кабинета. Основные решения собраны ниже.</span><span data-lang="en">The web and mobile versions of the workspace were designed. The main decisions are collected below.</span></p>
         <div class="case-grid result-cards">
           <div class="result-card col-6">
-            <p class="result-card__label"><span data-lang="ru">Самостоятельность</span><span data-lang="en">Independence</span></p>
-            <p class="result-card__metric"><span data-lang="ru">Партнёр ведёт заказ без постоянного участия банка</span><span data-lang="en">A partner runs an order without the bank's constant involvement</span></p>
-            <p class="result-card__desc"><span data-lang="ru"><strong>Влияние оценивали по:</strong> доле заказов, обработанных партнёром самостоятельно</span><span data-lang="en"><strong>Measured by:</strong> the share of orders a partner processes independently</span></p>
+            <p class="result-card__label"><span data-lang="ru">Самостоятельность партнёра</span><span data-lang="en">Partner autonomy</span></p>
+            <h3 class="result-card__metric"><span data-lang="ru">Заказ без участия банка</span><span data-lang="en">An order without the bank stepping in</span></h3>
+            <p class="result-card__desc"><span data-lang="ru">Партнёр ведёт заказ без постоянного участия банка.</span><span data-lang="en">The partner runs the order without the bank being involved at every step.</span></p>
+            <p class="result-card__measure">
+              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
+              <span><span data-lang="ru">доле заказов, обработанных партнёром самостоятельно</span><span data-lang="en">the share of orders handled by the partner alone</span></span>
+            </p>
           </div>
           <div class="result-card col-6">
             <p class="result-card__label"><span data-lang="ru">Качество процесса</span><span data-lang="en">Process quality</span></p>
-            <p class="result-card__metric"><span data-lang="ru">Товары, цены и условия проверяются в одном сценарии</span><span data-lang="en">Products, prices, and terms are checked within a single scenario</span></p>
-            <p class="result-card__desc"><span data-lang="ru"><strong>Влияние оценивали по:</strong> доле заявок, завершённых без отмены</span><span data-lang="en"><strong>Measured by:</strong> the share of requests completed without cancellation</span></p>
+            <h3 class="result-card__metric"><span data-lang="ru">Товары, цены и условия в одном сценарии</span><span data-lang="en">Products, prices and terms in one flow</span></h3>
+            <p class="result-card__desc"><span data-lang="ru">Товары, цены и условия проверяются в одном сценарии.</span><span data-lang="en">Products, prices and terms are checked in a single flow.</span></p>
+            <p class="result-card__measure">
+              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
+              <span><span data-lang="ru">доле заявок, завершённых без отмены</span><span data-lang="en">the share of requests completed without cancellation</span></span>
+            </p>
           </div>
           <div class="result-card col-6">
-            <p class="result-card__label"><span data-lang="ru">Скорость</span><span data-lang="en">Speed</span></p>
-            <p class="result-card__metric"><span data-lang="ru">Заказ и доставка связаны в одном рабочем процессе</span><span data-lang="en">The order and delivery are connected in one workflow</span></p>
-            <p class="result-card__desc"><span data-lang="ru"><strong>Влияние оценивали по:</strong> медианному времени от заявки до передачи в доставку</span><span data-lang="en"><strong>Measured by:</strong> median time from request to handoff to delivery</span></p>
+            <p class="result-card__label"><span data-lang="ru">Скорость обработки</span><span data-lang="en">Processing speed</span></p>
+            <h3 class="result-card__metric"><span data-lang="ru">Заказ и доставка в одном процессе</span><span data-lang="en">Order and delivery in one process</span></h3>
+            <p class="result-card__desc"><span data-lang="ru">Заказ и доставка связаны в одном рабочем процессе.</span><span data-lang="en">The order and the delivery are linked in one working process.</span></p>
+            <p class="result-card__measure">
+              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
+              <span><span data-lang="ru">медианному времени от заявки до передачи товара в доставку</span><span data-lang="en">the median time from request to handover for delivery</span></span>
+            </p>
           </div>
           <div class="result-card col-6">
-            <p class="result-card__label"><span data-lang="ru">Масштабирование</span><span data-lang="en">Scaling</span></p>
-            <p class="result-card__metric"><span data-lang="ru">Модераторы подключаются только к ситуациям, требующим контроля</span><span data-lang="en">Moderators step in only for situations that need oversight</span></p>
-            <p class="result-card__desc"><span data-lang="ru"><strong>Влияние оценивали по:</strong> количеству активных партнёров на одного модератора</span><span data-lang="en"><strong>Measured by:</strong> the number of active partners per moderator</span></p>
+            <p class="result-card__label"><span data-lang="ru">Масштабирование</span><span data-lang="en">Scalability</span></p>
+            <h3 class="result-card__metric"><span data-lang="ru">Модератор — только там, где нужен контроль</span><span data-lang="en">A moderator only where control is needed</span></h3>
+            <p class="result-card__desc"><span data-lang="ru">Модераторы подключаются только к ситуациям, требующим контроля.</span><span data-lang="en">Moderators step in only where a situation needs oversight.</span></p>
+            <p class="result-card__measure">
+              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
+              <span><span data-lang="ru">количеству активных партнёров на одного модератора</span><span data-lang="en">the number of active partners per moderator</span></span>
+            </p>
           </div>
+        </div>
         </div>
       </div>
     </div>
@@ -656,7 +1211,7 @@
 
   <div class="lightbox" id="lightbox">
     <button class="lightbox-close" aria-label="Закрыть">×</button>
-    <img id="lightboxImg" src="" alt="">
+    <img id="lightboxImg" alt="">
   </div>
 
   <script>
@@ -669,7 +1224,7 @@
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0, rootMargin: '0px 0px -80px 0px' });
     targets.forEach(function (el) {
       if (el.getBoundingClientRect().top < window.innerHeight * 0.9) return;
       el.classList.add('reveal-pending');

@@ -1,0 +1,934 @@
+{
+ "version": "3.1",
+ "language": "en",
+ "source": "Portfolio_Final, редакция 3.0 (утверждённый текст)",
+ "cases": [
+  {
+   "id": "alif",
+   "title": "Alif Partners",
+   "subtitle": "Products, requests and delivery in the partner workspace",
+   "accent": "#e3b300",
+   "meta": {
+    "Срок": "4 months",
+    "Роль": "Product Designer",
+    "Платформы": "Web and mobile",
+    "Команда": "Product Designer, UX Researcher, Product Owner"
+   },
+   "context": {
+    "title": "The partner network was growing",
+    "text": "Alif runs instalment plans through partner stores and the Alif Shop marketplace. Stores handled orders through an admin panel, terminals and bank employees. As the number of orders grew, so did the load on the call centre and the moderators."
+   },
+   "task": {
+    "title": "More independence for the store",
+    "text": "I designed a workspace where a partner can handle products, requests and delivery. Bank employees had to keep their tools for checking data and helping partners."
+   },
+   "sections": [
+    {
+     "id": "alif-research",
+     "title": "How we made sense of the partner’s work",
+     "blocks": [
+      {
+       "type": "lede",
+       "paragraphs": [
+        "Before moving into design I worked in Alif’s call centre and partner department. That experience helped me work through the stores’ everyday tasks together with a UX researcher."
+       ]
+      },
+      {
+       "type": "rail",
+       "steps": [
+        {
+         "title": "We drew on first-hand experience",
+         "text": "I knew the process from the call centre and the partner department."
+        },
+        {
+         "title": "We talked to the people involved",
+         "text": "8 moderators, 7 leading partners and 2 CDO managers."
+        },
+        {
+         "title": "We singled out two tasks",
+         "text": "Prepare the store’s offer and handle an incoming order."
+        }
+       ]
+      },
+      {
+       "type": "split",
+       "subhead": "What we heard in the interviews",
+       "paragraphs": [
+        "The table collects the answers about requests, the catalogue and delivery. Two directions came out of those answers, and both are shown below."
+       ],
+       "figures": [
+        {
+         "asset": "AL-01",
+         "caption": "Partners’ answers about working with the catalogue, requests and delivery. Research material from the project.",
+         "alt": "Interview answers table"
+        }
+       ],
+       "layout": "accent",
+       "points": [
+        {
+         "title": "Adding a product",
+         "text": "A partner looked the product up on Alif Shop and copied the SKU into the admin panel. In the new scenario the search moved inside the add-product step."
+        },
+        {
+         "title": "Handing over an order",
+         "text": "It was unclear where to find a processed request and what to do about self-pickup. Delivery and self-pickup got separate paths."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "alif-navigation",
+     "title": "Sections built around the store’s tasks",
+     "blocks": [
+      {
+       "type": "split",
+       "paragraphs": [
+        "Navigation was built around stores, products, requests, delivery and reviews. Moderators kept a separate data-checking section."
+       ],
+       "figures": [
+        {
+         "asset": "AL-02",
+         "caption": "Sections of the partner and moderator workspace.",
+         "alt": "Top navigation"
+        }
+       ],
+       "layout": "accent"
+      }
+     ]
+    },
+    {
+     "id": "alif-offer",
+     "title": "Adding a product",
+     "blocks": [
+      {
+       "type": "sequence",
+       "steps": [
+        {
+         "paragraphs": [
+          "Search became the first step of adding a product. If the product is already in the catalogue, the partner finds it inside the workspace and sets their own offer: price, stock and terms. Going to Alif Shop for the SKU is no longer necessary."
+         ],
+         "figures": [
+          {
+           "asset": "AL-05",
+           "caption": "Searching for an existing product while adding an offer.",
+           "alt": "Product search"
+          }
+         ]
+        },
+        {
+         "subhead": "Price next to other sellers’ offers",
+         "paragraphs": [
+          "Partners told us they look at competitors when setting a price. We added the prices of similar products right inside the offer form. That way the comparison happens at the moment you set your own price."
+         ],
+         "figures": [
+          {
+           "asset": "AL-06",
+           "caption": "Other sellers’ prices in the offer form.",
+           "alt": "Prices of similar products"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "alif-order",
+     "title": "From a request to handing over the goods",
+     "blocks": [
+      {
+       "type": "split",
+       "paragraphs": [
+        "Handling an order takes a different path: spot a new request, open it and arrange the handover. Partners used to hear about new requests from the call centre. The workspace carries notifications for that."
+       ],
+       "figures": [
+        {
+         "asset": "AL-04",
+         "caption": "Notifications about requests, delivery and stock.",
+         "alt": "Notifications"
+        }
+       ],
+       "layout": "even"
+      },
+      {
+       "type": "split",
+       "layout": "accent",
+       "subhead": "Delivery and self-pickup",
+       "paragraphs": [
+        "The paperwork that used to go through terminals moved into the panel I designed. Delivery and self-pickup were separated, keeping the business logic intact. The handover method determines what the employee does next."
+       ],
+       "figures": [
+        {
+         "asset": "AL-07",
+         "caption": "Orders in the delivery section.",
+         "alt": "Delivery cards"
+        }
+       ],
+       "media_first": true
+      }
+     ]
+    },
+    {
+     "id": "alif-chat",
+     "title": "A line to the bank",
+     "blocks": [
+      {
+       "type": "split",
+       "paragraphs": [
+        "A chat with the bank was added to the workspace. A partner can ask for help while working with products and orders."
+       ],
+       "figures": [
+        {
+         "asset": "AL-03",
+         "caption": "A chat with the bank inside the workspace.",
+         "alt": "Chat"
+        }
+       ],
+       "layout": "even"
+      }
+     ]
+    },
+    {
+     "id": "alif-mobile",
+     "title": "Working from a phone",
+     "blocks": [
+      {
+       "type": "split",
+       "paragraphs": [
+        "I designed the mobile version separately: notifications, products and delivery can be handled in the store, in the warehouse and at the pickup point."
+       ],
+       "figures": [
+        {
+         "asset": "AL-09",
+         "caption": "Handling notifications, products and delivery from a phone.",
+         "alt": "Mobile notifications, products and delivery"
+        }
+       ],
+       "layout": "accent"
+      }
+     ]
+    },
+    {
+     "id": "alif-result",
+     "title": "Results",
+     "blocks": [
+      {
+       "type": "lede",
+       "paragraphs": [
+        "The web and mobile versions of the workspace were designed. The main decisions are collected below."
+       ]
+      },
+      {
+       "type": "result-cards",
+       "cards": [
+        {
+         "label": "Partner autonomy",
+         "title": "An order without the bank stepping in",
+         "text": "The partner runs the order without the bank being involved at every step.",
+         "measure": "the share of orders handled by the partner alone"
+        },
+        {
+         "label": "Process quality",
+         "title": "Products, prices and terms in one flow",
+         "text": "Products, prices and terms are checked in a single flow.",
+         "measure": "the share of requests completed without cancellation"
+        },
+        {
+         "label": "Processing speed",
+         "title": "Order and delivery in one process",
+         "text": "The order and the delivery are linked in one working process.",
+         "measure": "the median time from request to handover for delivery"
+        },
+        {
+         "label": "Scalability",
+         "title": "A moderator only where control is needed",
+         "text": "Moderators step in only where a situation needs oversight.",
+         "measure": "the number of active partners per moderator"
+        }
+       ]
+      }
+     ],
+     "kind": "results"
+    }
+   ]
+  },
+  {
+   "id": "eaj",
+   "title": "EAJ Trader",
+   "subtitle": "A trader’s dashboard from scratch",
+   "accent": "#1b60d9",
+   "meta": {
+    "Срок": "2 months",
+    "Роль": "Product Designer",
+    "Платформы": "Web",
+    "Команда": "Product Designer, Product Owner, Developer"
+   },
+   "context": {
+    "title": "From a landing page to a dashboard",
+    "text": "EAJ Trader already had an identity, a landing page and a list of future features. The next step was a dashboard for opening accounts, managing funds and keeping track of operations."
+   },
+   "task": {
+    "title": "Define the first version",
+    "text": "I was responsible for the structure of the dashboard and the logic of its main actions. Together with the client I chose which features would go into the MVP and how to connect the overview of funds, the accounts and the financial operations."
+   },
+   "sections": [
+    {
+     "id": "eaj-scope",
+     "title": "How the work started",
+     "blocks": [
+      {
+       "type": "lede",
+       "paragraphs": [
+        "The client handed over preliminary research and a list of features. I compared the scenarios of different user types, from a beginner to an active trader. For the MVP we settled on the active trader."
+       ]
+      },
+      {
+       "type": "subhead",
+       "text": "The main path through the dashboard"
+      },
+      {
+       "type": "rail",
+       "steps": [
+        {
+         "title": "Assess the funds",
+         "text": "Look at the balance and the available amounts."
+        },
+        {
+         "title": "Choose an account",
+         "text": "Find the right account and check its status."
+        },
+        {
+         "title": "Go to an operation",
+         "text": "Choose a deposit, a withdrawal or a transfer."
+        }
+       ]
+      },
+      {
+       "type": "split",
+       "subhead": "Comparing the scenarios",
+       "paragraphs": [
+        "The table maps the user types to their tasks. This is analysis material from the start of the project."
+       ],
+       "figures": [
+        {
+         "asset": "EA-01",
+         "caption": "A comparison of the scenarios of different trader types. Research material from the project.",
+         "alt": "User types table"
+        }
+       ],
+       "layout": "accent"
+      }
+     ]
+    },
+    {
+     "id": "eaj-home",
+     "title": "Main screen",
+     "blocks": [
+      {
+       "type": "split",
+       "paragraphs": [
+        "On the main screen I brought together the total balance, the information about funds and the entry points to the core operations. From here you can open an account, go to your accounts, top up the balance or withdraw funds. That way the overview of capital connects directly to what happens next."
+       ],
+       "figures": [
+        {
+         "asset": "EA-02",
+         "caption": "An overview of funds and the entry points to the core operations.",
+         "alt": "Main screen"
+        }
+       ],
+       "layout": "even"
+      }
+     ]
+    },
+    {
+     "id": "eaj-accounts",
+     "title": "Cards or a table",
+     "blocks": [
+      {
+       "type": "lede",
+       "paragraphs": [
+        "I prepared two options for the trading accounts. A table is compact when there are many accounts. A card gathers the balance, the status and the actions around a single account.",
+        "The concepts were tested with 5 participants. Cards went into the MVP, and the table was kept as an option for working with a large number of accounts."
+       ]
+      },
+      {
+       "type": "compare-pair",
+       "figures": [
+        {
+         "asset": "EA-07",
+         "caption": "Concept 2. Accounts shown as cards.",
+         "alt": "Accounts as cards, concept 2",
+         "label": "Concept 2 · Card view"
+        },
+        {
+         "asset": "EA-06",
+         "caption": "Concept 1. Accounts shown as a table.",
+         "alt": "Accounts as a table, concept 1",
+         "label": "Concept 1 · Table view"
+        }
+       ],
+       "layout": "center8"
+      }
+     ]
+    },
+    {
+     "id": "eaj-funding",
+     "title": "Deposits, withdrawals and transfers",
+     "blocks": [
+      {
+       "type": "split",
+       "paragraphs": [
+        "The client and I brought these operations together in the Funding section. Inside it the user chooses what to do with their funds. The entry points to deposits and withdrawals stayed on the main screen."
+       ],
+       "figures": [
+        {
+         "asset": "EA-03",
+         "caption": "Deposits, withdrawals and internal transfers in one section.",
+         "alt": "Funding"
+        }
+       ],
+       "layout": "accent"
+      }
+     ]
+    },
+    {
+     "id": "eaj-support",
+     "title": "Support requests",
+     "blocks": [
+      {
+       "type": "split",
+       "paragraphs": [
+        "For questions about the dashboard I designed Claims & Complaints. The user sees the list of support requests and their statuses, opens the conversation, adds details and attaches documents. The conversation can be picked up again from the same section."
+       ],
+       "figures": [
+        {
+         "asset": "EA-04",
+         "caption": "Support requests and their current statuses.",
+         "alt": "Support request list"
+        },
+        {
+         "asset": "EA-05",
+         "caption": "The conversation for the selected support request.",
+         "alt": "Support request conversation"
+        }
+       ],
+       "layout": "accent"
+      }
+     ]
+    },
+    {
+     "id": "eaj-result",
+     "title": "Results",
+     "blocks": [
+      {
+       "type": "lede",
+       "paragraphs": [
+        "The dashboard launched with an overview of funds and accounts. The financial operations and support were designed as well."
+       ]
+      },
+      {
+       "type": "result-cards",
+       "cards": [
+        {
+         "label": "Activation",
+         "title": "The path to a first deposit",
+         "text": "We put together the path from signing in to opening and funding a trading account.",
+         "measure": "conversion to opening and funding an account"
+        },
+        {
+         "label": "Account management",
+         "title": "A format for frequent operations",
+         "text": "For the MVP we chose the format that suits frequent operations on trading accounts.",
+         "measure": "the median time to complete the key account scenario"
+        },
+        {
+         "label": "Financial operations",
+         "title": "Clear operation statuses",
+         "text": "We made the statuses of deposits, withdrawals and transfers visible and clear.",
+         "measure": "the share of funded accounts with a repeat operation"
+        },
+        {
+         "label": "In-product support",
+         "title": "Support requests inside the dashboard",
+         "text": "A support request is created and tracked inside the dashboard, with no need to look for an external contact.",
+         "measure": "the share of successfully completed deposits, withdrawals and transfers"
+        }
+       ]
+      }
+     ],
+     "kind": "results"
+    }
+   ]
+  },
+  {
+   "id": "namaste",
+   "title": "Namaste",
+   "subtitle": "How we chose the features of a workout app’s first version",
+   "accent": "#8980ca",
+   "meta": {
+    "Срок": "3 months",
+    "Роль": "Product Designer",
+    "Платформы": "iOS",
+    "Команда": "Product Designer, Product Owner, Developer, Product Manager"
+   },
+   "context": {
+    "title": "More ideas than resources",
+    "text": "The team wanted to combine workouts, habit building and health features. The list had different practices, difficulty levels, personalization, sleep, water, nutrition and activity. For the first version we had to pick what mattered most."
+   },
+   "task": {
+    "title": "Build the core of the app",
+    "text": "I designed the path to a suitable class and took part in choosing the extra features for the MVP."
+   },
+   "sections": [
+    {
+     "id": "namaste-scope",
+     "title": "First I worked out how to help someone start practising",
+     "blocks": [
+      {
+       "type": "split",
+       "paragraphs": [
+        "Before designing any screens I had to understand how to help a person choose a direction that suits them and reach their first workout without a complicated setup. I studied yoga and mindfulness apps and compared onboarding, personalization, class structure and subscription models."
+       ],
+       "figures": [
+        {
+         "asset": "NA-01",
+         "caption": "The original analysis of workout apps. Research material from the project.",
+         "alt": "App comparison"
+        }
+       ],
+       "layout": "center8",
+       "after": [
+        "The research showed two approaches. In some apps a person started a workout quickly but could barely tailor the experience. In others the personalization went deeper, but the start was overloaded with questions. For Namaste I chose something in between: a short survey establishes the direction, the level and the class format, and then the user moves on to a programme that fits."
+       ]
+      }
+     ]
+    },
+    {
+     "id": "namaste-structure",
+     "title": "The app’s structure",
+     "blocks": [
+      {
+       "type": "split",
+       "layout": "center8",
+       "paragraphs": [
+        "I built the app’s structure around a single cycle: a person chooses a direction, takes a class and comes back for the next workout. The health features support the core scenario without competing with the workouts on the main screen."
+       ],
+       "figures": [
+        {
+         "asset": "NA-02",
+         "caption": "The app’s structure and its main sections.",
+         "alt": "Structure diagram"
+        }
+       ],
+       "plain": true
+      }
+     ]
+    },
+    {
+     "id": "namaste-start",
+     "title": "How a user picks a class",
+     "blocks": [
+      {
+       "type": "theme",
+       "paragraphs": [
+        "On first launch the user sets a direction and a level. Then they move to the classes and open the description of a suitable workout. The app has three difficulty levels: beginner, advanced and master."
+       ],
+       "pair": "уровень",
+       "layout": "accent"
+      }
+     ]
+    },
+    {
+     "id": "namaste-lessons",
+     "title": "From the list to the workout",
+     "blocks": [
+      {
+       "type": "theme",
+       "paragraphs": [
+        "After choosing the parameters the user moves to the classes and opens a workout description. These screens show the main screen, the list of exercises and a class card."
+       ],
+       "pair": "Финал",
+       "layout": "accent",
+       "media_first": true
+      }
+     ]
+    },
+    {
+     "id": "namaste-health",
+     "title": "What to do about the health features",
+     "blocks": [
+      {
+       "type": "theme",
+       "paragraphs": [
+        "After the core scenario we came back to the extra features. We compared their value, the development effort and the monetization options. Sleep and water went into the first version. The calorie counter was postponed, and the pedometer and activity tracking needed their integrations checked."
+       ],
+       "table": {
+        "headers": [
+         "Feature",
+         "Decision"
+        ],
+        "rows": [
+         [
+          "Sleep tracker",
+          "In the MVP"
+         ],
+         [
+          "Water tracking",
+          "In the MVP"
+         ],
+         [
+          "Calorie counter",
+          "After the MVP"
+         ],
+         [
+          "Pedometer and activity",
+          "After the integrations are checked"
+         ]
+        ]
+       },
+       "pair": "фокус",
+       "layout": "accent"
+      }
+     ]
+    },
+    {
+     "id": "namaste-test",
+     "title": "Testing with users",
+     "blocks": [
+      {
+       "type": "insights",
+       "items": [
+        {
+         "label": "Test",
+         "title": "6 respondents",
+         "text": "The health features were tested using Feature Testing."
+        },
+        {
+         "label": "Observation",
+         "title": "Sleep and water fit alongside the workouts",
+         "text": "Participants saw these features as a fitting part of the app."
+        },
+        {
+         "label": "Evaluation",
+         "title": "Practice consistency",
+         "text": "Individual workouts form a consistent practice. Impact was evaluated using: return frequency and D7 and D30 retention after the first workout."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "namaste-result",
+     "title": "Results",
+     "blocks": [
+      {
+       "type": "lede",
+       "paragraphs": [
+        "We launched an iOS app with a training cycle, three difficulty levels and the sleep and water health features."
+       ]
+      },
+      {
+       "type": "result-cards",
+       "cards": [
+        {
+         "label": "Personalized start",
+         "title": "A short onboarding",
+         "text": "We made a short onboarding that helps people choose a direction, a level and a class format that suits them.",
+         "measure": "the share of users who complete their first workout"
+        },
+        {
+         "label": "Practice consistency",
+         "title": "A continuous training cycle",
+         "text": "We joined the separate classes into one continuous training cycle.",
+         "measure": "D7 and D30 retention after the first workout"
+        },
+        {
+         "label": "MVP scope",
+         "title": "Sleep and water health features",
+         "text": "We selected the health features by user value and implementation effort.",
+         "measure": "health feature usage among active users"
+        },
+        {
+         "label": "Monetization",
+         "title": "A free experience before the subscription",
+         "text": "We kept a free experience that shows the product’s value before anyone subscribes.",
+         "measure": "conversion to a subscription and the renewal rate"
+        }
+       ]
+      }
+     ],
+     "kind": "results"
+    }
+   ]
+  },
+  {
+   "id": "tracker",
+   "title": "360 Tracker",
+   "subtitle": "A family map, geofences and different privacy rules",
+   "accent": "#7060d9",
+   "meta": {
+    "Срок": "6 months",
+    "Роль": "Product Designer",
+    "Платформы": "iOS",
+    "Команда": "Product Designer, Product Owner, Developer, Product Manager"
+   },
+   "context": {
+    "title": "A family tracker from scratch",
+    "text": "360 Tracker helps you find out where the people close to you are and get in touch with them. The map, the family circle and notifications about leaving a geofence had to come together in one app."
+   },
+   "task": {
+    "title": "Account for the whole family’s needs",
+    "text": "I designed the core scenarios and the geolocation settings. I had to define the MVP knowing that parents, children and adult members have different expectations about access to a location."
+   },
+   "sections": [
+    {
+     "id": "tracker-scope",
+     "title": "How it started",
+     "blocks": [
+      {
+       "type": "lede",
+       "paragraphs": [
+        "First we discussed the product’s goals with the stakeholders. Then I compared Kids360, Kid Security, iSharing and Family Tracker: how each handles the map, geofences, notifications, trip history and the subscription.",
+        "The first version included the map, the family circle, statuses, geofences and the connection between members. Complex analytics and extended settings were postponed."
+       ]
+      },
+      {
+       "type": "subhead",
+       "text": "What went into the first version"
+      },
+      {
+       "type": "rail",
+       "steps": [
+        {
+         "title": "The map and the family circle",
+         "text": "Members, their location and the time of the last update."
+        },
+        {
+         "title": "Geofences and events",
+         "text": "Boundary settings and notifications."
+        },
+        {
+         "title": "Contact between members",
+         "text": "A group chat and private conversations."
+        }
+       ]
+      },
+      {
+       "type": "split",
+       "subhead": "What I compared",
+       "paragraphs": [
+        "The map, geofences, notifications, trip history and the approaches to a subscription. Below is the analysis material from the project."
+       ],
+       "figures": [
+        {
+         "asset": "TR-07",
+         "caption": "A comparison of family tracker features. Material from the project.",
+         "alt": "Family tracker feature comparison"
+        },
+        {
+         "asset": "TR-08",
+         "caption": "A comparison of subscription models. Material from the project.",
+         "alt": "Subscription model comparison"
+        }
+       ],
+       "layout": "center8"
+      }
+     ]
+    },
+    {
+     "id": "tracker-structure",
+     "title": "The app’s structure",
+     "blocks": [
+      {
+       "type": "split",
+       "layout": "center8",
+       "paragraphs": [
+        "I built the app’s structure around the family circle. Once people have been added, the user sees them on the map, gets notifications about the events that matter and can turn to the trip history when needed."
+       ],
+       "figures": [
+        {
+         "asset": "TR-01",
+         "caption": "The main sections of the family tracker.",
+         "alt": "Structure diagram"
+        }
+       ],
+       "plain": true
+      }
+     ]
+    },
+    {
+     "id": "tracker-map",
+     "title": "The map and events",
+     "blocks": [
+      {
+       "type": "split",
+       "paragraphs": [
+        "The map became the main screen. On it you can select a family member, see their location and the time of the last update. Geofences cover the places that matter."
+       ],
+       "figures": [
+        {
+         "asset": "TR-02",
+         "caption": "The map, the list of members and the places that matter.",
+         "alt": "Map, people, places"
+        }
+       ],
+       "layout": "accent",
+       "captions": [
+        "The map",
+        "Members",
+        "Places and geofences"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "tracker-events",
+     "title": "From an event to an action",
+     "blocks": [
+      {
+       "type": "split",
+       "paragraphs": [
+        "If a child leaves the boundary of a zone, the app shows a notification. From it you can go to the location or to a message."
+       ],
+       "figures": [
+        {
+         "asset": "TR-03",
+         "caption": "A notification about leaving a zone, and the location on the map.",
+         "alt": "A notification with the actions Message and Location next to the map"
+        }
+       ],
+       "layout": "even"
+      }
+     ]
+    },
+    {
+     "id": "tracker-chat",
+     "title": "Talking inside the family circle",
+     "blocks": [
+      {
+       "type": "split",
+       "paragraphs": [
+        "The family circle has a group chat and private conversations: you can check what happened, ask for a location, send a photo or a file."
+       ],
+       "figures": [
+        {
+         "asset": "TR-06",
+         "caption": "The group chat, private conversations and the family circle.",
+         "alt": "Chats and the family circle"
+        }
+       ],
+       "layout": "accent"
+      }
+     ]
+    },
+    {
+     "id": "tracker-privacy",
+     "title": "Hiding a location needed more work",
+     "blocks": [
+      {
+       "type": "insights",
+       "items": [
+        {
+         "label": "The idea",
+         "title": "Controlling your own visibility",
+         "text": "We proposed letting people hide their location temporarily and choose zones where they do not appear. We assumed adults would want to control their own visibility."
+        },
+        {
+         "label": "Test",
+         "title": "A question in the child’s scenario",
+         "text": "In testing, the capability itself was received well. But a question came up in the parent’s scenario: what happens if a child hides their location and the parent loses access to it?"
+        },
+        {
+         "label": "Decision",
+         "title": "Different rules for adults and children",
+         "text": "After the test we changed the rules. Adults control their own visibility, while for a child profile a parent can restrict hiding. One setting ended up with different rules for different family members."
+        }
+       ],
+       "compact": true
+      },
+      {
+       "type": "split",
+       "subhead": "Different rules for adults and children",
+       "paragraphs": [
+        "An adult controls their own visibility. On a child profile, the option to hide a location is controlled by a parent. One setting ended up with different rules for different family members."
+       ],
+       "figures": [
+        {
+         "asset": "TR-04",
+         "caption": "Controlling the visibility of a location.",
+         "alt": "Hiding a location"
+        }
+       ],
+       "layout": "even",
+       "media_first": true
+      }
+     ]
+    },
+    {
+     "id": "tracker-history",
+     "title": "Trip history and the subscription",
+     "blocks": [
+      {
+       "type": "split",
+       "paragraphs": [
+        "30 days of route history went into the MVP as a paid feature. It is available to the owner of the data and is not opened to the rest of the circle automatically. The basic scenarios stayed free."
+       ],
+       "figures": [
+        {
+         "asset": "TR-05",
+         "caption": "Route history and the choice of period.",
+         "alt": "Trip history"
+        }
+       ],
+       "layout": "accent"
+      }
+     ]
+    },
+    {
+     "id": "tracker-result",
+     "title": "Results",
+     "blocks": [
+      {
+       "type": "lede",
+       "paragraphs": [
+        "We launched an iOS app with the map, geofences and notifications."
+       ]
+      },
+      {
+       "type": "result-cards",
+       "cards": [
+        {
+         "label": "Family activation",
+         "title": "The family circle comes first",
+         "text": "We made creating the family circle and adding people the first key scenario.",
+         "measure": "the share of users who create a circle and add a member"
+        },
+        {
+         "label": "Map and statuses",
+         "title": "Location and status on one screen",
+         "text": "We brought the location and the current state of each member onto one screen.",
+         "measure": "D7 and D30 retention among activated families"
+        },
+        {
+         "label": "Geofences and notifications",
+         "title": "Notifications instead of watching the map",
+         "text": "We added notifications about the events that matter, so nobody has to keep watching the map.",
+         "measure": "the share of active users who use geofences and notifications"
+        },
+        {
+         "label": "Freemium",
+         "title": "Safety free, history by subscription",
+         "text": "We kept the basic safety features free and put trip history into the extended plan.",
+         "measure": "conversion of active families to a subscription and the renewal rate"
+        }
+       ]
+      }
+     ],
+     "kind": "results"
+    }
+   ]
+  }
+ ],
+ "note": "English translation written by Claude from the approved Russian v3.0. NOT proofread by the author — review before relying on it."
+}

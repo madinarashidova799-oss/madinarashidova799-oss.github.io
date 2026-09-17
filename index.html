@@ -6,7 +6,7 @@
 <script>(function(){if(localStorage.getItem('site-lang')==='en')document.documentElement.classList.add('lang-en');})();</script>
 <title data-ru="Мадина Рашидова · Продуктовый дизайнер" data-en="Madina Rashidova · Product Designer">Мадина Рашидова · Продуктовый дизайнер</title>
 <link rel="icon" type="image/png" href="favicon.png">
-<meta name="description" data-ru="Мадина Рашидова, продуктовый дизайнер с опытом в fintech, banking и мобильных продуктах. Портфолио с разбором процесса: Alif Partners, EAJ Trader, 360 Tracker, Namaste." data-en="Madina Rashidova, a product designer with experience in fintech, banking, and mobile products. A portfolio walking through the process behind Alif Partners, EAJ Trader, 360 Tracker, and Namaste." content="Мадина Рашидова, продуктовый дизайнер с опытом в fintech, banking и мобильных продуктах. Портфолио с разбором процесса: Alif Partners, EAJ Trader, 360 Tracker, Namaste.">
+<meta name="description" data-ru="Мадина Рашидова, продуктовый дизайнер с опытом в fintech, banking и мобильных продуктах. Портфолио с разбором процесса: Alif Partners, EAJ Trader, 360 Tracker, Namaste." data-en="Madina Rashidova, a product designer with experience in fintech, banking and mobile products. A portfolio walking through the process behind Alif Partners, EAJ Trader, 360 Tracker and Namaste." content="Мадина Рашидова, продуктовый дизайнер с опытом в fintech, banking и мобильных продуктах. Портфолио с разбором процесса: Alif Partners, EAJ Trader, 360 Tracker, Namaste.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500;1,600&family=Lora:ital,wght@0,500;0,600&display=swap" rel="stylesheet">
@@ -81,6 +81,16 @@
     margin-left: 4px; transition: background 0.2s ease, color 0.2s ease;
   }
   .lang-toggle:hover, .lang-toggle:focus-visible { background: rgba(255,255,255,0.16); color: #fff; }
+  /* ===== область нажатия верхней навигации =====
+     Ссылки были 35 px высотой, переключатель языка 38x31 — меньше цели
+     44x44. Видимая плашка не меняется: увеличена только область нажатия,
+     по вертикали, чтобы соседние ссылки не перекрывали друг друга. */
+  .site-nav a.nav-link, .lang-toggle { position: relative; }
+  .site-nav a.nav-link::after { content: ''; position: absolute; inset: -5px 0; }
+  .site-nav a.nav-name { position: relative; }
+  .site-nav a.nav-name::after { content: ''; position: absolute; inset: -12px 0; }
+  .lang-toggle::after { content: ''; position: absolute; inset: -7px -4px; }
+  /* ===== конец блока области нажатия ===== */
   @media (max-width: 560px) {
     .site-nav { padding: 6px 6px 6px 14px; }
     .site-nav .nav-name { display: none; }
@@ -417,7 +427,11 @@
     }
     .project-showcase--eaj .project-showcase__media {
       position: relative; inset: auto; overflow: visible;
-      flex: 0 0 62%; width: 62%; height: 100%;
+      /* 62% + 38% + gap > 100%: с flex-shrink: 0 лишние 64 px уезжали за
+         правый край, и `overflow: hidden` срезал часть текстовой колонки
+         (замерено: правый край блока 1504 px при окне 1440). Обе колонки
+         теперь сжимаются на ширину зазора пропорционально. */
+      flex: 0 1 62%; min-width: 0; width: 62%; height: 100%;
       display: flex; align-items: flex-end; justify-content: flex-start;
     }
     .project-showcase--eaj .project-showcase__media img {
@@ -434,7 +448,9 @@
   }
   .project-showcase--namaste .project-showcase__content { justify-content: flex-end; }
   .project-showcase--namaste .project-showcase__index,
-  .project-showcase--namaste .project-showcase__meta { color: rgba(23,17,17,.58); }
+  /* .58 давало 4.48:1 на светлом скриме — ниже порога 4.5:1 для мелкого
+     текста. .64 поднимает до 5.2:1, тон остаётся вторичным. */
+  .project-showcase--namaste .project-showcase__meta { color: rgba(23,17,17,.64); }
   .project-showcase--namaste .project-showcase__title { color: #171717; }
   .project-showcase--namaste .project-showcase__desc { color: rgba(23,17,17,.82); }
   /* Namaste's light scene makes the shared light `.project-showcase__cta` disappear
@@ -488,7 +504,7 @@
        padding/min-height, so the parent's `align-items: center` can center
        it against the laptop instead of pinning it to the padding box. */
     .project-showcase--eaj .project-showcase__content {
-      flex: 0 0 38%; width: 38%; min-height: 0;
+      flex: 0 1 38%; width: 38%; min-width: 0; min-height: 0;
       padding: 0 clamp(20px, 4vw, 64px) 0 0;
       justify-content: center;
     }
@@ -846,7 +862,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
     <div class="projects-stage">
       <a class="project-showcase project-showcase--alif" href="case-alif-partners.html" data-showcase>
         <div class="project-showcase__media">
-          <img src="assets/alif-partners-showcase.jpg" data-alt-ru="Alif Partners: планшет с админ-панелью Stores для партнёров банка" data-alt-en="Alif Partners: a tablet showing the Stores admin panel for bank partners" alt="Alif Partners: планшет с админ-панелью Stores для партнёров банка" loading="lazy" width="2400" height="1600" style="object-position: center 42%;">
+          <img src="assets/alif-partners-showcase.webp" data-alt-ru="Alif Partners: планшет с админ-панелью Stores для партнёров банка" data-alt-en="Alif Partners: a tablet showing the Stores admin panel for bank partners" alt="Alif Partners: планшет с админ-панелью Stores для партнёров банка" loading="lazy" width="2400" height="1600" style="object-position: center 42%;">
         </div>
         <div class="project-showcase__scrim" aria-hidden="true"></div>
         <div class="project-showcase__content">
@@ -857,7 +873,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
               </div>
               <div class="project-showcase__meta"><span data-lang="ru">B2B fintech · Web + Mobile</span><span data-lang="en">B2B fintech · Web + Mobile</span></div>
             </div>
-            <p class="project-showcase__desc"><span data-lang="ru">Редизайн админ-панели для партнёрской сети Alif Bank: снизили нагрузку на колл-центр и модераторов, партнёры стали самостоятельнее в ключевых операциях.</span><span data-lang="en">Redesigned the partner admin panel for Alif Bank's fast-growing network: cut the load on the call center and moderators, and gave partners more independence in key operations.</span></p>
+            <p class="project-showcase__desc"><span data-lang="ru">Редизайн админ-панели для партнёрской сети Alif Bank: снизили нагрузку на колл-центр и модераторов, партнёры стали самостоятельнее в ключевых операциях.</span><span data-lang="en">Redesigned the partner admin panel for Alif Bank’s fast-growing network: cut the load on the call center and moderators, and gave partners more independence in key operations.</span></p>
             <span class="project-showcase__cta-wrap">
               <span class="project-showcase__cta"><span data-lang="ru">Подробнее</span><span data-lang="en">See details</span><span class="arrow" aria-hidden="true">→</span></span>
             </span>
@@ -867,7 +883,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
       <a class="project-showcase project-showcase--eaj" href="case-eaj-trader.html" data-showcase>
         <div class="project-showcase__media">
-          <img src="assets/eaj-trader-cover.png" data-alt-ru="EAJ Trader: ноутбук с дашбордом личного кабинета трейдера" data-alt-en="EAJ Trader: a laptop showing the trader's personal dashboard" alt="EAJ Trader: ноутбук с дашбордом личного кабинета трейдера" loading="lazy" width="3000" height="2000">
+          <img src="assets/eaj-trader-cover.webp" data-alt-ru="EAJ Trader: ноутбук с дашбордом личного кабинета трейдера" data-alt-en="EAJ Trader: a laptop showing the trader’s personal dashboard" alt="EAJ Trader: ноутбук с дашбордом личного кабинета трейдера" loading="lazy" width="2400" height="1600">
         </div>
         <div class="project-showcase__scrim" aria-hidden="true"></div>
         <div class="project-showcase__content">
@@ -878,7 +894,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
               </div>
               <div class="project-showcase__meta"><span data-lang="ru">B2C trading · Web</span><span data-lang="en">B2C trading · Web</span></div>
             </div>
-            <p class="project-showcase__desc"><span data-lang="ru">MVP личного кабинета трейдера с нуля: определили ключевые сегменты пользователей и спроектировали архитектуру кабинета под быстрые и частые финансовые операции.</span><span data-lang="en">Built a trader's personal dashboard MVP from scratch: defined key user segments and shaped a dashboard architecture built for fast, frequent financial operations.</span></p>
+            <p class="project-showcase__desc"><span data-lang="ru">MVP личного кабинета трейдера с нуля: определили ключевые сегменты пользователей и спроектировали архитектуру кабинета под быстрые и частые финансовые операции.</span><span data-lang="en">Built a trader’s personal dashboard MVP from scratch: defined key user segments and shaped a dashboard architecture built for fast, frequent financial operations.</span></p>
             <span class="project-showcase__cta-wrap">
               <span class="project-showcase__cta"><span data-lang="ru">Подробнее</span><span data-lang="en">See details</span><span class="arrow" aria-hidden="true">→</span></span>
             </span>

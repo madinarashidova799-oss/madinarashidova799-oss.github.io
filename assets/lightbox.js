@@ -16,18 +16,34 @@
   var lightbox = document.getElementById('lightbox');
   var lightboxImg = document.getElementById('lightboxImg');
   var closeBtn = lightbox ? lightbox.querySelector('.lightbox-close') : null;
-  var triggers = Array.prototype.slice.call(document.querySelectorAll('.case-image-trigger'));
+  // Two kinds of trigger: a button wrapping its own <img>, and a button that
+  // points at an image elsewhere on the page via data-lightbox-for (the theme
+  // slider's "full size" buttons — their images are layered inside the stage
+  // and can't be wrapped individually).
+  var triggers = Array.prototype.slice.call(
+    document.querySelectorAll('.case-image-trigger, [data-lightbox-for]'));
   var lastTrigger = null;
 
+  function imageFor(trigger) {
+    var ref = trigger.getAttribute('data-lightbox-for');
+    return ref ? document.getElementById(ref) : trigger.querySelector('img');
+  }
+
   function labelFor(trigger) {
-    var img = trigger.querySelector('img');
+    var img = imageFor(trigger);
     var lang = currentLang();
     var caption = img ? (lang === 'en' ? img.getAttribute('data-alt-en') : img.getAttribute('data-alt-ru')) : '';
     return LABELS[lang].open + (caption || '');
   }
 
   function applyLabels() {
-    triggers.forEach(function (trigger) { trigger.setAttribute('aria-label', labelFor(trigger)); });
+    triggers.forEach(function (trigger) {
+      // The slider's zoom buttons carry their own visible RU/EN label; an
+      // aria-label would silently replace it, so only unlabelled triggers
+      // (the bare image buttons) get one.
+      if (trigger.hasAttribute('data-lightbox-for')) return;
+      trigger.setAttribute('aria-label', labelFor(trigger));
+    });
     if (closeBtn) closeBtn.setAttribute('aria-label', LABELS[currentLang()].close);
   }
   applyLabels();
@@ -43,7 +59,7 @@
   }
 
   function openLightbox(trigger) {
-    var img = trigger.querySelector('img');
+    var img = imageFor(trigger);
     if (!img) return;
     lastTrigger = trigger;
     lightboxImg.src = img.getAttribute('src');
