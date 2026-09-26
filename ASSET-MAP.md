@@ -35,8 +35,8 @@ JPEG извлечены из PDF и ограничены 1600 px, в репоз�
 | NA-09 | в слайдере тем | namaste-lessons | `assets/namaste/Финал-dark-ru.webp` | `assets/namaste/Финал-dark.webp` |  |
 | TR-01 | «Дополнительные экраны» | Структура приложения | `assets/process/tracker-userflow-ru.webp` | `assets/process/tracker-userflow.webp` |  |
 | TR-02 | на странице | tracker-map | `assets/process/tracker-main-ru.webp` | `assets/process/tracker-main.webp` |  |
-| TR-03 | на странице | tracker-events | `assets/process/tracker-geofence-main-ru.webp` | `assets/process/tracker-geofence-main.webp` | кроп: центр и правая панель |
-| TR-04 | на странице | tracker-privacy | `assets/process/tracker-privacy-main-ru.webp` | `assets/process/tracker-privacy-main.webp` | кроп: левая и средняя панели |
+| TR-03 | на странице | tracker-events | `assets/process/tracker-geofence-main-ru.webp` | `assets/process/tracker-geofence-main.webp` | с 25.09.2026 — новый экспорт «Из события к действию», три экрана без кропа, микрокопия исправлена |
+| TR-04 | на странице | tracker-privacy | `assets/process/tracker-privacy-main-ru.webp` | `assets/process/tracker-privacy-main.webp` | с 25.09.2026 — новый экспорт «Скрытие геолокации», без кропа |
 | TR-05 | на странице | tracker-history | `assets/process/tracker-history-ru.webp` | `assets/process/tracker-history.webp` |  |
 | TR-06 | на странице | tracker-chat | `assets/process/tracker-final-ru.webp` | `assets/process/tracker-final.webp` |  |
 | TR-07 | таблицей на странице | tracker-scope | — | — | вместо картинки — двуязычная `<table>` |
@@ -53,7 +53,29 @@ JPEG извлечены из PDF и ограничены 1600 px, в репоз�
   внутри своего контейнера. Картинки — русские и нередактируемые.
   Обоснование и способ вернуть картинки — в `BUILD-REPORT.md` §3.
 
-## Производные изображения
+## Замена изображений 25.09.2026
+
+Материалы из папки `new image` (Desktop) сопоставлены по содержимому и разделу
+кейса. Исходники положены в `assets/source-originals/` под прежними именами,
+опубликованные `.webp` обрезаны по прозрачной рамке и ограничены 3600 px по
+ширине.
+
+* Alif: AL-01, AL-03…AL-07, AL-09 и обложка `alif-partners-showcase` (главная).
+  AL-08 (`Info new`) обновлён в `alif-order-detail`, на странице по-прежнему
+  не публикуется; кроп `alif-order-detail-left` не пересобирался.
+  AL-02 (верхняя навигация) новой версии не получил.
+* EAJ: EA-01…EA-07. Имена новых концептов совпадают с содержимым:
+  «Концепт 1» — карточки (`eaj-concept1`), «Концепт 2» — таблица (`eaj-concept2`).
+* Namaste: NA-01 и все шесть экранов слайдера тем. NA-02 (Userflow) без замены.
+* 360 Tracker: TR-02…TR-06. TR-01 (userflow) без замены.
+
+## Замена изображений 26.09.2026
+
+Из папок `alif partners new` и `eaj trader new`: AL-09 (мобильная версия),
+AL-04 (уведомления, теперь три карточки в горизонтальном кадре), EA-05
+(переписка по обращению). Остальные файлы этих кейсов не менялись.
+
+## Производные изображения (до 25.09.2026)
 
 Созданы отдельными файлами, оригиналы не тронуты. PNG-исходники —
 в `assets/source-originals/derived/`.

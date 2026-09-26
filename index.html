@@ -399,6 +399,20 @@
       linear-gradient(100deg, rgba(8,8,10,.62) 0%, rgba(8,8,10,.28) 34%, rgba(8,8,10,0) 58%),
       linear-gradient(0deg, rgba(8,8,10,.58) 0%, rgba(8,8,10,0) 42%);
   }
+  /* Аудит 2026-09-26: на 1440×900 заголовок «Alif Partners» наезжал на
+     карточки интерфейса, описание лежало на белом экране планшета. Фото
+     сдвинуто вправо на 6%: край снимка — чистый #000, поэтому открывшаяся
+     полоса заливается тем же цветом без шва. Затемнение слева и снизу
+     плотнее, чтобы текстовая колонка читалась на тёмном, а не на экране. */
+  @media (min-width: 761px) {
+    .project-showcase--alif .project-showcase__media { background: #000; }
+    .project-showcase--alif .project-showcase__media img { translate: 6% 0; }
+    .project-showcase--alif .project-showcase__scrim {
+      background:
+        linear-gradient(100deg, rgba(8,8,10,.78) 0%, rgba(8,8,10,.46) 32%, rgba(8,8,10,0) 56%),
+        linear-gradient(0deg, rgba(8,8,10,.66) 0%, rgba(8,8,10,0) 44%);
+    }
+  }
   /* EAJ abandons the shared full-bleed-photo-with-overlay-text pattern the
      other three scenes use. The earlier version of this cover cropped the
      laptop under `object-fit: cover` no matter how the crop point was tuned
@@ -848,7 +862,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 6.5l9 6.5 9-6.5"/></svg>
                 <span data-lang="ru">Почта</span><span data-lang="en">Email</span>
               </a>
-              <a class="contact-btn" href="cv.pdf" data-href-ru="cv.pdf" data-href-en="cv-en.pdf" target="_blank">
+              <a class="contact-btn" href="cv.pdf" data-href-ru="cv.pdf" data-href-en="cv-en.pdf" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h5M8 12h8M8 16h8"/></svg>
                 CV
               </a>
@@ -1117,7 +1131,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   </div>
 
   <footer class="page-footer">
-    <div class="page">handmade with claude code · last update: 15.07.2026 · v2.0</div>
+    <div class="page">handmade with claude code · last update: 26.09.2026 · v2.0</div>
   </footer>
 
   <script src="assets/i18n.js"></script>

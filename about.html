@@ -68,7 +68,8 @@
     -webkit-font-smoothing: antialiased;
   }
   a { color: inherit; text-decoration: none; }
-  .page { max-width: 1680px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 80px); }
+  /* Боковое поле то же, что у страниц кейсов: колонки совпадают при переходе. */
+  .page { max-width: 1680px; margin: 0 auto; padding: 0 clamp(24px, 7vw, 128px); }
 
   .site-nav {
     position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
@@ -118,55 +119,98 @@
   html.lang-en [data-lang="ru"] { display: none; }
   html.lang-en [data-lang="en"] { display: inline; }
 
-  /* ===================== Page shell ===================== */
-  .about-page-wrap { padding: 152px 0 160px; }
-  @media (max-width: 720px) { .about-page-wrap { padding-bottom: 200px; } }
+  ::selection { background: var(--text-strong); color: var(--text-inverse); }
 
-  /* ===================== Typographic system ===================== */
-  /* The page name is the document's <h1> — every page needs exactly one, and
-     this page had none. The visual demotion asked for in instruction §2 is a
-     size step (--font-size-about-name), between the shared h1 and h2 tokens
-     and below the case pages' h1 scale — it is not a heading-level change. */
+  /* ===================== Рама страницы — та же, что у кейсов =====================
+     Ширина 1400, 12 колонок, те же отступы сверху и снизу. Шапка повторяет
+     шапку кейса: имя, подзаголовок, строка фактов под линией. Дальше три
+     секции по одной схеме: текст — 6 колонок слева, справа то, что его
+     дополняет (коллаж, цитата, каналы). Пустых половин нет. */
+  .about-page { max-width: 1400px; margin: 0 auto; padding: 128px 0 160px; --grid-gutter: 28px; }
+  @media (max-width: 720px) { .about-page { padding: 108px 0 200px; } }
+  .about-grid {
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gutter); align-items: start;
+  }
+  .about-col-6 { grid-column: span 6; min-width: 0; }
+  @media (max-width: 1279px) { .about-grid { column-gap: 20px; } }
+  @media (max-width: 899px) {
+    .about-grid { grid-template-columns: minmax(0, 1fr); row-gap: clamp(32px, 6vw, 48px); }
+    .about-col-6 { grid-column: auto; }
+  }
+
+  /* ---- Шапка ---- */
   h1.about-title {
-    font-family: var(--display); font-weight: var(--font-weight-heading); font-size: var(--font-size-about-name);
-    line-height: 1.15; letter-spacing: -0.02em; text-wrap: balance;
+    font-family: var(--display); font-size: clamp(30px, 2.8vw, 40px); font-weight: var(--font-weight-heading);
+    line-height: 1.1; letter-spacing: -0.02em; text-wrap: balance;
   }
-  /* Body copy on this page is pinned flat at 16px — never scales past it via
-     clamp(), unlike the case pages' --font-size-body (16-18px). See
-     instruction §2. */
-  .about-dek {
-    margin-top: 20px; font-size: 16px; font-weight: 400;
-    color: var(--text-dim); max-width: 62ch; line-height: 1.6; text-wrap: pretty;
+  .about-role {
+    font-family: var(--display); font-weight: 500; font-size: var(--font-size-body);
+    line-height: 1.4; color: var(--text-dim); margin-top: 8px;
   }
-  /* Section headings ("Из поддержки...", "Что мне нравится...",
-     "За пределами макетов") are the page's <h2>s — one level below the
-     .about-title <h1>, no skipped level. They keep --font-size-h4, shared with
-     the case pages' task headline: the level is structure, the size is
-     instruction §2. */
-  .about-hero h2, .about-outside h2 {
-    font-family: var(--display); font-weight: var(--font-weight-heading); font-size: var(--font-size-h4);
-    line-height: 1.3; letter-spacing: -0.005em; margin-bottom: 24px; text-wrap: balance;
+  /* Принцип работы — голосом автора: та же антиква, что у цитаты ниже,
+     линия сверху отделяет его от имени и роли. */
+  .about-motto {
+    margin: clamp(24px, 2.4vw, 32px) 0 0; padding-top: clamp(16px, 1.6vw, 20px);
+    border-top: 1px solid var(--line-strong); width: fit-content; max-width: 100%;
   }
-  .about-hero p, .about-outside p {
-    font-size: 16px; font-weight: 400;
-    color: var(--text-dim); line-height: 1.6; max-width: 720px; text-wrap: pretty;
-  }
-  .about-hero p + p, .about-outside p + p { margin-top: 22px; }
-
-  .about-quote {
+  .about-motto p {
     font-family: var(--serif); font-style: italic; font-weight: 400;
-    font-size: clamp(1.4rem, 1.2rem + 0.8vw, 1.75rem); line-height: 1.4; color: var(--text-strong);
-    max-width: 640px; margin-top: 32px; background: #F4EEDD; border-radius: 16px;
-    padding: clamp(18px, 2vw, 24px);
+    font-size: clamp(18px, 1.45vw, 21px); line-height: 1.4; color: var(--text-strong);
+    max-width: 36ch; text-wrap: pretty;
   }
 
-  /* ===================== Hero: text + collage ===================== */
-  .about-hero { display: grid; grid-template-columns: 1fr; gap: 48px; align-items: start; }
+  /* ---- Вступление: колонка чтения слева, коллаж закреплён справа ----
+     Коллаж занимает обе строки сетки и стоит на месте, пока слева идут
+     имя, принцип и две первые истории. Высота коллажа ограничена экраном,
+     чтобы он целиком помещался под верхней навигацией. На телефоне
+     порядок: шапка, коллаж, текст. */
+  .about-intro { grid-template-rows: auto 1fr; }
+  .about-intro__head { grid-column: 1 / span 6; grid-row: 1; }
+  .about-intro__flow { grid-column: 1 / span 6; grid-row: 2; }
+  .about-intro__media { grid-column: 8 / span 5; grid-row: 1 / span 2; align-self: start; min-width: 0; }
+  .about-intro__flow > section { margin-top: clamp(72px, 7vw, 112px); }
   @media (min-width: 900px) {
-    .about-hero { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(48px, 6vw, 80px); }
+    .about-intro__media { position: sticky; top: clamp(96px, 12vh, 124px); }
+    .about-intro__media .about-collage {
+      width: min(100%, calc((100svh - 150px) * 5 / 6)); margin: 0 0 0 auto;
+    }
   }
-  .about-story { margin-top: 40px; }
-  .about-likelead { margin-top: 40px; }
+  @media (max-width: 899px) {
+    .about-intro__head, .about-intro__flow, .about-intro__media { grid-column: auto; grid-row: auto; }
+    .about-intro__flow > section:first-child { margin-top: clamp(24px, 6vw, 40px); }
+  }
+
+  /* ---- Секции ---- */
+  .about-block { margin-top: clamp(112px, 10vw, 160px); }
+  @media (max-width: 720px) { .about-block { margin-top: clamp(72px, 14vw, 96px); } }
+  .about-page h2 {
+    font-family: var(--display); font-size: clamp(22px, 1.7vw, 26px); line-height: var(--line-height-heading);
+    font-weight: 700; letter-spacing: -0.01em; color: var(--text-strong); text-wrap: balance;
+    margin-bottom: clamp(24px, 2.2vw, 32px);
+  }
+  .about-text p {
+    font-size: var(--font-size-body); line-height: var(--line-height-body);
+    color: var(--text-dim); max-width: 56ch; text-wrap: pretty;
+  }
+  .about-text p + p { margin-top: clamp(16px, 1.4vw, 20px); }
+  /* Текст короче соседнего материала: на десктопе он стоит на месте, пока
+     читатель проходит коллаж или карточки, — как текстовая колонка кейса. */
+  @media (min-width: 900px) {
+    .about-split > .about-text { position: sticky; top: clamp(96px, 12vh, 132px); padding-top: 6px; }
+  }
+
+  /* Цитата — отдельная реплика рядом с абзацами, без плашки: вес ей даёт
+     антиква и размер, линия сверху отделяет её от фона. */
+  .about-quote {
+    margin: clamp(28px, 2.6vw, 36px) 0 0; padding-top: clamp(16px, 1.6vw, 20px);
+    border-top: 1px solid var(--line-strong); width: fit-content; max-width: 100%;
+  }
+  .about-quote p {
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    font-size: clamp(18px, 1.45vw, 21px); line-height: 1.4; color: var(--text-strong);
+    max-width: 36ch; text-wrap: pretty;
+  }
 
   /* ===================== Photo scrapbook ===================== */
   .about-collage {
@@ -229,26 +273,12 @@
     .collage-caption { font-size: 0.8rem; }
   }
 
-  /* ===================== "За пределами макетов": personal text + Telegram ===================== */
-  .about-outside { margin-top: clamp(80px, 8vw, 120px); }
-  @media (max-width: 720px) { .about-outside { margin-top: clamp(56px, 10vw, 72px); } }
-
-  /* Both Telegram cards in one full-width row inside the main content frame —
-     two equal columns on desktop, one column on mobile/tablet. Replaces the
-     old narrow-right-column layout that left empty space beside the text.
-     See instruction §3. */
-  .channels-frame { width: 100%; margin-top: clamp(32px, 3vw, 48px); }
-  .channels-grid {
-    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px; align-items: stretch;
-  }
-  @media (max-width: 767px) {
-    .channels-grid { grid-template-columns: 1fr; gap: 16px; }
-  }
+  /* ---- Каналы: две карточки друг под другом в правой колонке ---- */
+  .channels { display: grid; gap: 16px; }
 
   .tg-card {
     position: relative; display: flex; flex-direction: column; justify-content: space-between;
-    width: 100%; min-width: 0; height: 100%;
+    width: 100%; min-width: 0; min-height: 208px;
     border-radius: var(--radius-medium); padding: 28px 32px;
     text-decoration: none; box-shadow: var(--shadow-soft);
     transition: transform 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms ease;
@@ -350,30 +380,6 @@
     .case-floating-nav { opacity: 1; transform: translateX(-50%); }
   }
 
-  /* UI-audit fix (2026-08-28): on short viewports (e.g. 1366x768, a very
-     common laptop height) the fixed bottom .case-floating-nav dock — same
-     component as on the 4 case pages, present here too for Home/"See the
-     work" links — can sit directly over the "Что мне нравится в работе"
-     heading at scroll position 0, since the hero text column is tall
-     enough to reach that far down before any scrolling happens. The dock
-     stays fixed and always visible by design (not hidden/scroll-triggered)
-     so the fix compacts vertical rhythm above it instead, the same
-     approach used for the equivalent case-page dock-overlap fix. */
-  @media (max-height: 850px) and (min-width: 768px) {
-    .about-page-wrap { padding-top: 112px; }
-    .about-story { margin-top: 28px; }
-    .about-likelead { margin-top: 28px; }
-    .about-hero h2, .about-outside h2 { margin-bottom: 16px; }
-    .about-hero p + p, .about-outside p + p { margin-top: 14px; }
-  }
-  @media (max-height: 740px) and (min-width: 768px) {
-    .about-page-wrap { padding-top: 92px; }
-    .about-story { margin-top: 20px; }
-    .about-likelead { margin-top: 20px; }
-    .about-hero h2, .about-outside h2 { margin-bottom: 12px; }
-    .about-hero p + p, .about-outside p + p { margin-top: 10px; }
-  }
-
 </style>
   <link rel="stylesheet" href="assets/typography.css">
 </head>
@@ -388,29 +394,18 @@
   </nav>
 
   <div class="page">
-    <div class="about-page-wrap">
+    <div class="about-page">
 
-      <div class="about-hero">
-        <div class="about-hero-text">
+      <div class="about-grid about-intro">
+        <header class="about-header about-intro__head">
           <h1 class="about-title"><span data-lang="ru">Мадина Рашидова</span><span data-lang="en">Madina Rashidova</span></h1>
-          <p class="about-dek"><span data-lang="ru">Продуктовый дизайнер. Разбираюсь в сложных системах и стараюсь оставлять их сложность внутри продукта, а не на экране пользователя.</span><span data-lang="en">Product designer. I get to the bottom of complex systems and try to keep their complexity inside the product, not on the user’s screen.</span></p>
+          <p class="about-role"><span data-lang="ru">Продуктовый дизайнер</span><span data-lang="en">Product designer</span></p>
+          <blockquote class="about-motto">
+            <p><span data-lang="ru">«Разбираюсь в сложных системах и стараюсь оставлять их сложность внутри продукта, а не на экране пользователя»</span><span data-lang="en">“I get to the bottom of complex systems and try to keep their complexity inside the product, not on the user’s screen”</span></p>
+          </blockquote>
+        </header>
 
-          <section class="about-story">
-            <h2><span data-lang="ru">Из поддержки в продуктовый дизайн</span><span data-lang="en">From support into product design</span></h2>
-            <p><span data-lang="ru">Я пришла в дизайн через колл-центр и отдел партнёров Alif. Там я видела процессы не на красивых схемах, а в работе: с повторными звонками, ручными проверками и данными, которые приходилось вводить несколько раз.</span><span data-lang="en">I came into design through Alif’s call center and partner department. There I saw processes not on neat diagrams but at work: with repeat calls, manual checks, and data that had to be entered more than once.</span></p>
-            <p><span data-lang="ru">Так появился довольно практичный интерес к дизайну. Я уже знала, где люди ошибаются, что приходится объяснять по телефону и почему одно простое действие иногда требует пяти вкладок и терпения модератора.</span><span data-lang="en">That’s how a fairly practical interest in design showed up. I already knew where people made mistakes, what had to be explained over the phone, and why one simple action sometimes needed five tabs and a moderator’s patience.</span></p>
-            <p><span data-lang="ru">Сейчас я проектирую личные кабинеты, административные интерфейсы и продукты с нуля. Начинаю с пользователей и процессов, затем собираю логику, проверяю решения и сопровождаю их вместе с разработчиками.</span><span data-lang="en">Now I design personal dashboards, admin interfaces, and products from scratch. I start with users and processes, then put the logic together, test solutions, and see them through together with developers.</span></p>
-          </section>
-
-          <section class="about-likelead">
-            <h2><span data-lang="ru">Что мне нравится в работе</span><span data-lang="en">What I like about the work</span></h2>
-            <p><span data-lang="ru">Больше всего я люблю момент, когда большая схема с ролями, статусами и исключениями превращается в понятный сценарий.</span><span data-lang="en">What I love most is the moment when a big diagram full of roles, statuses, and exceptions turns into a clear scenario.</span></p>
-            <p><span data-lang="ru">Мне близки задачи, где нужно не просто нарисовать экран, а разобраться, как устроен продукт, выбрать главное и убрать из интерфейса всё, что пользователь не обязан держать в голове.</span><span data-lang="en">I’m drawn to tasks where you can’t just draw a screen. You have to figure out how the product works, choose what matters most, and clear out everything the user shouldn’t have to keep in their head.</span></p>
-            <p class="about-quote"><span data-lang="ru">«Если интерфейс приходится долго объяснять по телефону, у дизайна ещё есть работа»</span><span data-lang="en">"If an interface still needs a long phone call to explain, design still has work to do"</span></p>
-          </section>
-        </div>
-
-        <div class="about-collage-wrap">
+        <div class="about-collage-wrap about-intro__media">
           <div class="about-collage">
             <figure class="collage-photo collage-main">
               <div class="collage-photo__frame">
@@ -449,39 +444,54 @@
             <span class="collage-caption collage-caption--graphite collage-caption--main"><span data-lang="ru">это я</span><span data-lang="en">this is me</span></span>
           </div>
         </div>
+
+        <div class="about-intro__flow">
+          <section class="about-text about-story">
+            <h2><span data-lang="ru">Из поддержки в продуктовый дизайн</span><span data-lang="en">From support into product design</span></h2>
+            <p><span data-lang="ru">Я пришла в дизайн через колл-центр и отдел партнёров Alif. Там я видела процессы не на красивых схемах, а в работе: с повторными звонками, ручными проверками и данными, которые приходилось вводить несколько раз.</span><span data-lang="en">I came into design through Alif’s call center and partner department. There I saw processes not on neat diagrams but at work: with repeat calls, manual checks, and data that had to be entered more than once.</span></p>
+            <p><span data-lang="ru">Так появился довольно практичный интерес к дизайну. Я уже знала, где люди ошибаются, что приходится объяснять по телефону и почему одно простое действие иногда требует пяти вкладок и терпения модератора.</span><span data-lang="en">That’s how a fairly practical interest in design showed up. I already knew where people made mistakes, what had to be explained over the phone, and why one simple action sometimes needed five tabs and a moderator’s patience.</span></p>
+            <p><span data-lang="ru">Сейчас я проектирую личные кабинеты, административные интерфейсы и продукты с нуля. Начинаю с пользователей и процессов, затем собираю логику, проверяю решения и сопровождаю их вместе с разработчиками.</span><span data-lang="en">Now I design personal dashboards, admin interfaces, and products from scratch. I start with users and processes, then put the logic together, test solutions, and see them through together with developers.</span></p>
+          </section>
+
+          <section class="about-text about-likelead">
+            <h2><span data-lang="ru">Что мне нравится в работе</span><span data-lang="en">What I like about the work</span></h2>
+            <p><span data-lang="ru">Больше всего я люблю момент, когда большая схема с ролями, статусами и исключениями превращается в понятный сценарий.</span><span data-lang="en">What I love most is the moment when a big diagram full of roles, statuses, and exceptions turns into a clear scenario.</span></p>
+            <p><span data-lang="ru">Мне близки задачи, где нужно не просто нарисовать экран, а разобраться, как устроен продукт, выбрать главное и убрать из интерфейса всё, что пользователь не обязан держать в голове.</span><span data-lang="en">I’m drawn to tasks where you can’t just draw a screen. You have to figure out how the product works, choose what matters most, and clear out everything the user shouldn’t have to keep in their head.</span></p>
+            <blockquote class="about-quote">
+              <p><span data-lang="ru">«Если интерфейс приходится долго объяснять по телефону, у дизайна ещё есть работа»</span><span data-lang="en">“If an interface still needs a long phone call to explain, design still has work to do”</span></p>
+            </blockquote>
+          </section>
+        </div>
       </div>
 
-      <section class="about-outside">
-        <h2><span data-lang="ru">За пределами макетов</span><span data-lang="en">Outside the mockups</span></h2>
-        <div class="outside-text">
+      <section class="about-block about-grid about-split about-outside">
+        <div class="about-text about-col-6">
+          <h2><span data-lang="ru">За пределами макетов</span><span data-lang="en">Outside the mockups</span></h2>
           <p><span data-lang="ru">После работы я переключаюсь на музыку, прогулки, природу и занятия, где не нужно согласовывать финальный макет. Люблю знакомиться с людьми и слушать их истории. Возможно, поэтому интервью остаются одной из любимых частей моей работы.</span><span data-lang="en">After work I switch to music, walks, nature, and activities where nobody needs to sign off on the final layout. I love meeting people and listening to their stories. Maybe that’s why interviews stay one of my favorite parts of the job.</span></p>
           <p><span data-lang="ru">Часть находок сохраняю в Telegram: в Earworm собираю музыку и личные истории, а в «Дезигнере» держу работы, наблюдения и разборы интерфейсов.</span><span data-lang="en">Some of what I find, I save in Telegram: in Earworm I collect music and personal stories, and in "Дезигнер" I keep projects, observations, and interface breakdowns.</span></p>
         </div>
+        <div class="channels about-col-6">
+          <a class="tg-card tg-card--earworm" href="https://t.me/Earworm_me" target="_blank" rel="noopener noreferrer" aria-label="Earworm: музыка, истории и странные совпадения. Открыть канал в Telegram" data-aria-ru="Earworm: музыка, истории и странные совпадения. Открыть канал в Telegram" data-aria-en="Earworm: music, stories and odd coincidences. Open the channel in Telegram">
+            <div class="tg-card__top">
+              <svg class="tg-card__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M21.5 3.5L2.7 10.9c-1.2.5-1.2 1.2-.2 1.5l4.8 1.5 1.8 5.6c.2.6.4.8.8.8.4 0 .6-.2.9-.5l2.2-2.1 4.6 3.4c.8.5 1.4.2 1.6-.8l3-14c.3-1.3-.4-1.9-1.4-1.5zM8 15.1l9-5.7c.4-.3.8-.1.5.2l-7.7 7-.3 3.1-1.5-4.6z"/>
+              </svg>
+              <div class="tg-card__name">Earworm</div>
+              <p class="tg-card__body"><span data-lang="ru">Музыка, истории и странные совпадения.</span><span data-lang="en">Music, stories, and strange coincidences.</span></p>
+            </div>
+            <span class="tg-card__cta"><span data-lang="ru">Слушать и читать</span><span data-lang="en">Listen and read</span><span class="tg-card__arrow" aria-hidden="true">→</span></span>
+          </a>
 
-        <div class="channels-frame">
-          <div class="channels-grid">
-            <a class="tg-card tg-card--earworm" href="https://t.me/Earworm_me" target="_blank" rel="noopener noreferrer" aria-label="Earworm: музыка, истории и странные совпадения. Открыть канал в Telegram" data-aria-ru="Earworm: музыка, истории и странные совпадения. Открыть канал в Telegram" data-aria-en="Earworm: music, stories and odd coincidences. Open the channel in Telegram">
-              <div class="tg-card__top">
-                <svg class="tg-card__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M21.5 3.5L2.7 10.9c-1.2.5-1.2 1.2-.2 1.5l4.8 1.5 1.8 5.6c.2.6.4.8.8.8.4 0 .6-.2.9-.5l2.2-2.1 4.6 3.4c.8.5 1.4.2 1.6-.8l3-14c.3-1.3-.4-1.9-1.4-1.5zM8 15.1l9-5.7c.4-.3.8-.1.5.2l-7.7 7-.3 3.1-1.5-4.6z"/>
-                </svg>
-                <div class="tg-card__name">Earworm</div>
-                <p class="tg-card__body"><span data-lang="ru">Музыка, истории и странные совпадения.</span><span data-lang="en">Music, stories, and strange coincidences.</span></p>
-              </div>
-              <span class="tg-card__cta"><span data-lang="ru">Слушать и читать</span><span data-lang="en">Listen and read</span><span class="tg-card__arrow" aria-hidden="true">→</span></span>
-            </a>
-
-            <a class="tg-card tg-card--designer" href="https://t.me/rashidenko_tut" target="_blank" rel="noopener noreferrer" aria-label="Дезигнер: работы, разборы интерфейсов и заметки о профессии. Открыть канал в Telegram" data-aria-ru="Дезигнер: работы, разборы интерфейсов и заметки о профессии. Открыть канал в Telegram" data-aria-en="Designer: work, interface breakdowns and notes on the profession. Open the channel in Telegram">
-              <div class="tg-card__top">
-                <svg class="tg-card__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M21.5 3.5L2.7 10.9c-1.2.5-1.2 1.2-.2 1.5l4.8 1.5 1.8 5.6c.2.6.4.8.8.8.4 0 .6-.2.9-.5l2.2-2.1 4.6 3.4c.8.5 1.4.2 1.6-.8l3-14c.3-1.3-.4-1.9-1.4-1.5zM8 15.1l9-5.7c.4-.3.8-.1.5.2l-7.7 7-.3 3.1-1.5-4.6z"/>
-                </svg>
-                <div class="tg-card__name"><span data-lang="ru">Дезигнер</span><span data-lang="en">Дезигнер</span></div>
-                <p class="tg-card__body"><span data-lang="ru">Работы, разборы интерфейсов и заметки о профессии.</span><span data-lang="en">Projects, interface breakdowns, and notes on the profession.</span></p>
-              </div>
-              <span class="tg-card__cta"><span data-lang="ru">Заглянуть в канал</span><span data-lang="en">Take a look</span><span class="tg-card__arrow" aria-hidden="true">→</span></span>
-            </a>
-          </div>
+          <a class="tg-card tg-card--designer" href="https://t.me/rashidenko_tut" target="_blank" rel="noopener noreferrer" aria-label="Дезигнер: работы, разборы интерфейсов и заметки о профессии. Открыть канал в Telegram" data-aria-ru="Дезигнер: работы, разборы интерфейсов и заметки о профессии. Открыть канал в Telegram" data-aria-en="Designer: work, interface breakdowns and notes on the profession. Open the channel in Telegram">
+            <div class="tg-card__top">
+              <svg class="tg-card__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M21.5 3.5L2.7 10.9c-1.2.5-1.2 1.2-.2 1.5l4.8 1.5 1.8 5.6c.2.6.4.8.8.8.4 0 .6-.2.9-.5l2.2-2.1 4.6 3.4c.8.5 1.4.2 1.6-.8l3-14c.3-1.3-.4-1.9-1.4-1.5zM8 15.1l9-5.7c.4-.3.8-.1.5.2l-7.7 7-.3 3.1-1.5-4.6z"/>
+              </svg>
+              <div class="tg-card__name"><span data-lang="ru">Дезигнер</span><span data-lang="en">Дезигнер</span></div>
+              <p class="tg-card__body"><span data-lang="ru">Работы, разборы интерфейсов и заметки о профессии.</span><span data-lang="en">Projects, interface breakdowns, and notes on the profession.</span></p>
+            </div>
+            <span class="tg-card__cta"><span data-lang="ru">Заглянуть в канал</span><span data-lang="en">Take a look</span><span class="tg-card__arrow" aria-hidden="true">→</span></span>
+          </a>
         </div>
       </section>
     </div>
@@ -502,7 +512,7 @@
   </div>
 
   <footer class="page-footer">
-    <div class="page">handmade with claude code · last update: 15.07.2026 · v2.0</div>
+    <div class="page">handmade with claude code · last update: 26.09.2026 · v2.0</div>
   </footer>
 
   <script src="assets/i18n.js"></script>

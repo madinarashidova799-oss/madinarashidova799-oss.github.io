@@ -473,17 +473,8 @@
   }
   .compare-slider__stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center; display: block; margin: 0; border-radius: 0; pointer-events: none; }
   .compare-slider__overlay { position: absolute; inset: 0; clip-path: inset(0 calc((100 - var(--pos)) * 1%) 0 0); }
-  .compare-slider__tag {
-    position: absolute; top: 16px; z-index: 2;
-    background: var(--surface); border: 1px solid var(--line); color: var(--case-accent);
-    font-family: var(--mono); font-size: var(--font-size-label); text-transform: uppercase; letter-spacing: 0.04em;
-    padding: 6px 14px; border-radius: var(--radius-pill);
-  }
-  .compare-slider__tag--left { left: 16px; }
-  .compare-slider__tag--right { right: 16px; }
   @media (max-width: 480px) {
-    .compare-slider__tag--right { top: auto; bottom: 16px; }
-  }
+    }
   .compare-slider__handle {
     position: absolute; top: 0; bottom: 0; left: calc(var(--pos) * 1%); width: 2px;
     background: rgba(255,255,255,0.9); box-shadow: 0 0 0 1px var(--line);
@@ -795,18 +786,6 @@
     font-size: 13px; line-height: 1.5; color: var(--text-dim);
   }
   .case-fig__text { max-width: 62ch; }
-  .case-fig__open {
-    font: inherit; font-size: 12px; color: var(--case-mark-text);
-    background: none; border: 0; padding: 2px 0; cursor: pointer;
-    text-decoration: underline; text-underline-offset: 3px; white-space: nowrap;
-  }
-  .case-fig__open:hover { text-decoration-thickness: 2px; }
-  /* Строка подписи высотой 22 px — слишком мелкая цель для пальца. Сама
-     строка остаётся прежней, растёт только область нажатия: 44 px по
-     вертикали. Подпись лежит в той же flex-строке слева, перекрытия нет. */
-  .case-fig__open { position: relative; }
-  .case-fig__open::after { content: ''; position: absolute; inset: -11px -6px; }
-  .case-fig__open:focus-visible { outline: 2px solid var(--case-mark-text); outline-offset: 3px; border-radius: 4px; }
 
   /* Два экрана одного сценария — друг под другом внутри своей колонки. */
   .case-figs--stack { display: flex; flex-direction: column; gap: clamp(20px, 2.2vw, 28px); }
@@ -971,22 +950,75 @@
   /* Экспорты обрезаны по содержимому, пропорция набора изменилась. */
   .compare-slider__stage { aspect-ratio: 2700 / 1768; }
 
-  /* Кнопки «крупно» под слайдером тем: сам слайдер показывает сравнение,
-     а рассмотреть экран целиком можно в лайтбоксе. */
   .compare-slider__frame { padding: clamp(12px, 1.2vw, 18px); }
   .compare-slider__tools {
     display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
     gap: 12px; margin-top: 12px;
   }
   .compare-slider__hint { font-size: 13px; line-height: 1.45; color: var(--text-dim-2); }
-  .compare-slider__zooms { display: flex; gap: 8px; flex-wrap: wrap; }
-  .compare-slider__zoom {
-    font: inherit; font-size: 13px; cursor: pointer;
-    background: var(--bg); border: 1px solid var(--line-strong); color: var(--text);
-    border-radius: var(--radius-pill); padding: 9px 16px; min-height: 44px;
+
+
+
+
+
+  /* ===== Редакция 3.3: единая левая ось =====
+     Заголовок, вводный абзац и вывод стоят на одной левой оси и не шире
+     6 колонок основной сетки. Таблицы и схемы шире, но от того же края:
+     сравнительные таблицы — 10 колонок, схемы — 8. Центрированных
+     блоков, которые начинаются в третьей колонке, больше нет.
+     Ширину 6 колонок считаем от контейнера страницы в cqi:
+     (100cqi − 11 зазоров) / 2 + 5 зазоров = 50cqi − ½ зазора. */
+  .case-page { container-type: inline-size; }
+  .col-10 { grid-column: 1 / span 10; }
+  @media (max-width: 767px) { .case-grid > .col-10 { grid-column: span 4; } }
+
+  @media (min-width: 1100px) {
+    .case-page { --measure-6: calc(50cqi - var(--grid-gutter) / 2); }
+    .detail-block .detail-head h2 { max-width: var(--measure-6); }
+    .detail-block > p,
+    .detail-block > .case-subhead,
+    .case-results__panel > p,
+    .case-results__panel > .case-subhead { max-width: min(60ch, var(--measure-6)); }
   }
-  .compare-slider__zoom:hover { border-color: var(--case-mark); }
-  .compare-slider__zoom:focus-visible { outline: 2px solid var(--case-mark-text); outline-offset: 2px; }
+
+  /* Широкий материал под вступлением: заметный, но не оторванный отступ. */
+  .case-grid.case-wide { margin-top: clamp(8px, 1vw, 16px); }
+  .case-wide .case-artifact-cap:first-child { margin-top: 0; }
+  .case-aside .col-8 > .case-artifact-cap:first-child { margin-top: 0; }
+  .case-aside .col-8 > .compare-table-wrap:last-of-type { margin-bottom: 0; }
+
+  /* Вывод под таблицей — в тех же 6 колонках, что и вступление.
+     Первый абзац — что показало исследование, второй — решение. */
+  .case-takeaway { margin-top: clamp(40px, 3.6vw, 56px); padding-left: 0; border-left: 0; }
+  .detail-block .case-takeaway p { max-width: 60ch; }
+  .detail-block .case-takeaway p + p { margin-top: clamp(12px, 1.2vw, 16px); }
+  .case-takeaway .case-subhead { margin: 0 0 8px; }
+  /* Новая часть секции после материала и вывода — отдельный абзац воздуха. */
+  .detail-block > .case-grid + .case-subhead { margin-top: clamp(56px, 5vw, 80px); }
+  .detail-block .case-takeaway p + .case-subhead { margin-top: clamp(28px, 2.6vw, 36px); }
+
+  /* Короткая таблица решений в текстовой колонке рядом с визуалом. */
+  .case-split-text .case-table-wrap--compact { margin: clamp(24px, 2.4vw, 32px) 0 0; max-width: none; }
+  .case-table-wrap--compact .case-table { min-width: 0; }
+  .case-table-wrap--compact .case-table th,
+  .case-table-wrap--compact .case-table td { padding: 12px clamp(12px, 1.2vw, 16px); }
+  .case-table-wrap--compact .case-table tbody th { position: static; min-width: 0; }
+
+  /* Схема структуры на телефоне: в 335 px мелкие подписи сжимались до ~5 px.
+     Схема держит 600 px и прокручивается внутри своего блока, подписи
+     остаются читаемыми; нажатие по-прежнему открывает её целиком. */
+  @media (max-width: 767px) {
+    .case-split .case-fig--plain { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .case-split .case-fig--plain .case-shot { width: 600px; max-width: none; }
+  }
+
+  /* Кадр с интерфейсом — настоящая кнопка: мышь, касание, Enter, пробел. */
+  button.case-shot {
+    font: inherit; color: inherit; text-align: inherit;
+    -webkit-appearance: none; appearance: none;
+  }
+  button.case-shot:focus-visible { outline: 2px solid var(--case-mark-text); outline-offset: 3px; }
+  /* ===== конец блока редакции 3.3 ===== */
 
   /* ===== конец блока редакции 3.2 ===== */
 </style>
@@ -1028,49 +1060,40 @@
       </div>
 
       <div class="detail-block" id="namaste-scope">
-        <div class="detail-head">
-          <h2><span data-lang="ru">Сначала определила, как помочь пользователю начать практику</span><span data-lang="en">First I worked out how to help someone start practising</span></h2>
-        </div>
-        <div class="case-grid">
-          <div class="case-split-text col-6">
+        <div class="case-grid case-split case-aside">
+          <div class="case-split-text col-4">
+            <h2 class="case-lead-title"><span data-lang="ru">Сначала определила, как помочь пользователю начать практику</span><span data-lang="en">First I worked out how to help someone start practising</span></h2>
             <p><span data-lang="ru">До проектирования экранов нужно было понять, как помочь человеку выбрать подходящее направление и перейти к первой тренировке без сложной настройки. Я изучила приложения для йоги и осознанности: сравнила онбординг, персонализацию, структуру занятий и модели подписки.</span><span data-lang="en">Before designing any screens I had to understand how to help a person choose a direction that suits them and reach their first workout without a complicated setup. I studied yoga and mindfulness apps and compared onboarding, personalization, class structure and subscription models.</span></p>
           </div>
-        </div>
-        <div class="case-grid">
-          <div class="col-8-center">
+          <div class="col-8">
             <figure class="case-fig">
-              <div class="case-shot" data-lightbox-for="fig-na-01-16">
-                <img id="fig-na-01-16" data-src-ru="assets/namaste/Research-ru.webp" data-src-en="assets/namaste/Research.webp" data-alt-ru="Сравнение приложений" data-alt-en="App comparison" alt="Сравнение приложений" loading="lazy" width="3828" height="2213">
-              </div>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Исходный анализ приложений для тренировок. Материал исследования на этапе проекта.</span><span data-lang="en">The original analysis of workout apps. Research material from the project.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-na-01-16"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+              <button type="button" class="case-shot" data-lightbox-for="fig-na-01-16">
+                <img id="fig-na-01-16" data-src-ru="assets/namaste/Research-ru.webp" data-src-en="assets/namaste/Research.webp" data-alt-ru="Сравнение приложений" data-alt-en="App comparison" alt="Сравнение приложений" loading="lazy" width="3600" height="1871">
+              </button>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Исходный анализ приложений для тренировок. Материал исследования на этапе проекта.</span><span data-lang="en">The original analysis of workout apps. Research material from the project.</span></span></figcaption>
             </figure>
-          </div>
-        </div>
-        <div class="case-grid">
-          <div class="col-8-center">
             <div class="case-takeaway">
-              <p><span data-lang="ru">Исследование показало два подхода. В одних приложениях пользователь быстро начинал тренировку, но почти не мог настроить опыт под себя. В других персонализация была глубже, но старт перегружали вопросами. Для Namaste выбрала промежуточный сценарий: короткий опрос помогает определить направление, уровень и формат занятий, после чего пользователь переходит к подходящей программе.</span><span data-lang="en">The research showed two approaches. In some apps a person started a workout quickly but could barely tailor the experience. In others the personalization went deeper, but the start was overloaded with questions. For Namaste I chose something in between: a short survey establishes the direction, the level and the class format, and then the user moves on to a programme that fits.</span></p>
+              <h3 class="case-subhead"><span data-lang="ru">Что показало сравнение</span><span data-lang="en">What the comparison showed</span></h3>
+              <p><span data-lang="ru">Исследование показало два подхода. В одних приложениях пользователь быстро начинал тренировку, но почти не мог настроить опыт под себя. В других персонализация была глубже, но старт перегружали вопросами.</span><span data-lang="en">The research showed two approaches. In some apps a person started a workout quickly but could barely tailor the experience. In others the personalization went deeper, but the start was overloaded with questions.</span></p>
+              <h3 class="case-subhead"><span data-lang="ru">Решение для Namaste</span><span data-lang="en">The decision for Namaste</span></h3>
+              <p><span data-lang="ru">Для Namaste выбрала промежуточный сценарий: короткий опрос помогает определить направление, уровень и формат занятий, после чего пользователь переходит к подходящей программе.</span><span data-lang="en">For Namaste I chose something in between: a short survey establishes the direction, the level and the class format, and then the user moves on to a programme that fits.</span></p>
             </div>
           </div>
         </div>
       </div>
 
       <div class="detail-block" id="namaste-structure">
-        <div class="detail-head">
-          <h2><span data-lang="ru">Структура приложения</span><span data-lang="en">The app’s structure</span></h2>
-        </div>
-        <div class="case-grid">
-          <div class="case-split-text col-6">
+        <div class="case-grid case-split">
+          <div class="case-split-text col-4">
+            <h2 class="case-lead-title"><span data-lang="ru">Структура приложения</span><span data-lang="en">The app’s structure</span></h2>
             <p><span data-lang="ru">Структуру приложения собрала вокруг одного цикла: пользователь выбирает направление, проходит занятие и возвращается к следующей тренировке. Health-функции дополняют основной сценарий, но не конкурируют с тренировками на главном экране.</span><span data-lang="en">I built the app’s structure around a single cycle: a person chooses a direction, takes a class and comes back for the next workout. The health features support the core scenario without competing with the workouts on the main screen.</span></p>
           </div>
-        </div>
-        <div class="case-grid">
-          <div class="col-8-center">
+          <div class="col-8">
             <figure class="case-fig case-fig--plain">
-              <div class="case-shot" data-lightbox-for="fig-na-02-17">
+              <button type="button" class="case-shot" data-lightbox-for="fig-na-02-17">
                 <img id="fig-na-02-17" data-src-ru="assets/Userflow-ru.webp" data-src-en="assets/Userflow.webp" data-alt-ru="Схема структуры" data-alt-en="Structure diagram" alt="Схема структуры" loading="lazy" width="2856" height="2190">
-              </div>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Структура приложения и основные разделы.</span><span data-lang="en">The app’s structure and its main sections.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-na-02-17"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+              </button>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Структура приложения и основные разделы.</span><span data-lang="en">The app’s structure and its main sections.</span></span></figcaption>
             </figure>
           </div>
         </div>
@@ -1085,21 +1108,15 @@
           <div class="col-8">
             <div class="compare-slider__frame">
               <div class="compare-slider__stage" data-compare-slider>
-                <img class="compare-slider__base" id="theme-уровень-light" data-src-ru="assets/namaste/уровень-white-ru.webp" data-src-en="assets/namaste/уровень-white.webp" data-alt-ru="Как пользователь выбирает занятие, светлая тема" data-alt-en="How a user picks a class, light theme" alt="Как пользователь выбирает занятие, светлая тема" loading="lazy" width="4050" height="2652">
+                <img class="compare-slider__base" id="theme-уровень-light" data-src-ru="assets/namaste/уровень-white-ru.webp" data-src-en="assets/namaste/уровень-white.webp" data-alt-ru="Как пользователь выбирает занятие, светлая тема" data-alt-en="How a user picks a class, light theme" alt="Как пользователь выбирает занятие, светлая тема" loading="lazy" width="3600" height="2357">
                 <div class="compare-slider__overlay">
-                  <img id="theme-уровень-dark" data-src-ru="assets/namaste/уровень-dark-ru.webp" data-src-en="assets/namaste/уровень-dark.webp" data-alt-ru="Как пользователь выбирает занятие, тёмная тема" data-alt-en="How a user picks a class, dark theme" alt="Как пользователь выбирает занятие, тёмная тема" loading="lazy" width="4050" height="2652">
+                  <img id="theme-уровень-dark" data-src-ru="assets/namaste/уровень-dark-ru.webp" data-src-en="assets/namaste/уровень-dark.webp" data-alt-ru="Как пользователь выбирает занятие, тёмная тема" data-alt-en="How a user picks a class, dark theme" alt="Как пользователь выбирает занятие, тёмная тема" loading="lazy" width="3600" height="2357">
                 </div>
-                <span class="compare-slider__tag compare-slider__tag--left"><span data-lang="ru">Светлая</span><span data-lang="en">Light</span></span>
-                <span class="compare-slider__tag compare-slider__tag--right"><span data-lang="ru">Тёмная</span><span data-lang="en">Dark</span></span>
                 <div class="compare-slider__handle"><span class="compare-slider__grip" aria-hidden="true">‹›</span></div>
                 <input class="compare-slider__range" type="range" min="0" max="100" value="50" step="1" aria-label="Как пользователь выбирает занятие: сравнение светлой и тёмной темы" data-aria-ru="Как пользователь выбирает занятие: сравнение светлой и тёмной темы" data-aria-en="How a user picks a class: light and dark theme comparison">
               </div>
               <div class="compare-slider__tools">
                 <span class="compare-slider__hint"><span data-lang="ru">Перетащите разделитель или используйте стрелки</span><span data-lang="en">Drag the divider or use the arrow keys</span></span>
-                <span class="compare-slider__zooms">
-                  <button type="button" class="compare-slider__zoom" data-lightbox-for="theme-уровень-light"><span data-lang="ru">Светлая крупно</span><span data-lang="en">Light, full size</span></button>
-                  <button type="button" class="compare-slider__zoom" data-lightbox-for="theme-уровень-dark"><span data-lang="ru">Тёмная крупно</span><span data-lang="en">Dark, full size</span></button>
-                </span>
               </div>
             </div>
           </div>
@@ -1115,21 +1132,15 @@
           <div class="col-8">
             <div class="compare-slider__frame">
               <div class="compare-slider__stage" data-compare-slider>
-                <img class="compare-slider__base" id="theme-Финал-light" data-src-ru="assets/namaste/Финал-white-ru.webp" data-src-en="assets/namaste/Финал-white.webp" data-alt-ru="От списка к тренировке, светлая тема" data-alt-en="From the list to the workout, light theme" alt="От списка к тренировке, светлая тема" loading="lazy" width="4050" height="2652">
+                <img class="compare-slider__base" id="theme-Финал-light" data-src-ru="assets/namaste/Финал-white-ru.webp" data-src-en="assets/namaste/Финал-white.webp" data-alt-ru="От списка к тренировке, светлая тема" data-alt-en="From the list to the workout, light theme" alt="От списка к тренировке, светлая тема" loading="lazy" width="3600" height="2357">
                 <div class="compare-slider__overlay">
-                  <img id="theme-Финал-dark" data-src-ru="assets/namaste/Финал-dark-ru.webp" data-src-en="assets/namaste/Финал-dark.webp" data-alt-ru="От списка к тренировке, тёмная тема" data-alt-en="From the list to the workout, dark theme" alt="От списка к тренировке, тёмная тема" loading="lazy" width="4050" height="2652">
+                  <img id="theme-Финал-dark" data-src-ru="assets/namaste/Финал-dark-ru.webp" data-src-en="assets/namaste/Финал-dark.webp" data-alt-ru="От списка к тренировке, тёмная тема" data-alt-en="From the list to the workout, dark theme" alt="От списка к тренировке, тёмная тема" loading="lazy" width="3600" height="2357">
                 </div>
-                <span class="compare-slider__tag compare-slider__tag--left"><span data-lang="ru">Светлая</span><span data-lang="en">Light</span></span>
-                <span class="compare-slider__tag compare-slider__tag--right"><span data-lang="ru">Тёмная</span><span data-lang="en">Dark</span></span>
                 <div class="compare-slider__handle"><span class="compare-slider__grip" aria-hidden="true">‹›</span></div>
                 <input class="compare-slider__range" type="range" min="0" max="100" value="50" step="1" aria-label="От списка к тренировке: сравнение светлой и тёмной темы" data-aria-ru="От списка к тренировке: сравнение светлой и тёмной темы" data-aria-en="From the list to the workout: light and dark theme comparison">
               </div>
               <div class="compare-slider__tools">
                 <span class="compare-slider__hint"><span data-lang="ru">Перетащите разделитель или используйте стрелки</span><span data-lang="en">Drag the divider or use the arrow keys</span></span>
-                <span class="compare-slider__zooms">
-                  <button type="button" class="compare-slider__zoom" data-lightbox-for="theme-Финал-light"><span data-lang="ru">Светлая крупно</span><span data-lang="en">Light, full size</span></button>
-                  <button type="button" class="compare-slider__zoom" data-lightbox-for="theme-Финал-dark"><span data-lang="ru">Тёмная крупно</span><span data-lang="en">Dark, full size</span></button>
-                </span>
               </div>
             </div>
           </div>
@@ -1141,39 +1152,33 @@
           <div class="case-split-text col-4">
             <h2 class="case-lead-title"><span data-lang="ru">Что делать с health-функциями</span><span data-lang="en">What to do about the health features</span></h2>
             <p><span data-lang="ru">После основного сценария вернулись к дополнительным функциям. Сравнивали их ценность, сложность разработки и возможности монетизации. В первую версию включили сон и воду. Счётчик КБЖУ отложили, а для шагомера и активности требовалась проверка интеграций.</span><span data-lang="en">After the core scenario we came back to the extra features. We compared their value, the development effort and the monetization options. Sleep and water went into the first version. The calorie counter was postponed, and the pedometer and activity tracking needed their integrations checked.</span></p>
+            <div class="case-table-wrap case-table-wrap--compact" tabindex="0" role="region" aria-label="Что делать с health-функциями: таблица" data-aria-ru="Что делать с health-функциями: таблица" data-aria-en="What to do about the health features: table">
+              <table class="case-table">
+                <thead><tr><th scope="col"><span data-lang="ru">Функция</span><span data-lang="en">Feature</span></th><th scope="col"><span data-lang="ru">Решение</span><span data-lang="en">Decision</span></th></tr></thead>
+                <tbody>
+                  <tr><th scope="row"><span data-lang="ru">Трекер сна</span><span data-lang="en">Sleep tracker</span></th><td><span data-lang="ru">В MVP</span><span data-lang="en">In the MVP</span></td></tr>
+                  <tr><th scope="row"><span data-lang="ru">Учёт воды</span><span data-lang="en">Water tracking</span></th><td><span data-lang="ru">В MVP</span><span data-lang="en">In the MVP</span></td></tr>
+                  <tr><th scope="row"><span data-lang="ru">Счётчик КБЖУ</span><span data-lang="en">Calorie counter</span></th><td><span data-lang="ru">После MVP</span><span data-lang="en">After the MVP</span></td></tr>
+                  <tr><th scope="row"><span data-lang="ru">Шагомер и активность</span><span data-lang="en">Pedometer and activity</span></th><td><span data-lang="ru">После проверки интеграций</span><span data-lang="en">After the integrations are checked</span></td></tr>
+                </tbody>
+              </table>
+            </div>
           </div>
           <div class="col-8">
             <div class="compare-slider__frame">
               <div class="compare-slider__stage" data-compare-slider>
-                <img class="compare-slider__base" id="theme-фокус-light" data-src-ru="assets/namaste/фокус-white-ru.webp" data-src-en="assets/namaste/фокус-white.webp" data-alt-ru="Что делать с health-функциями, светлая тема" data-alt-en="What to do about the health features, light theme" alt="Что делать с health-функциями, светлая тема" loading="lazy" width="4050" height="2652">
+                <img class="compare-slider__base" id="theme-фокус-light" data-src-ru="assets/namaste/фокус-white-ru.webp" data-src-en="assets/namaste/фокус-white.webp" data-alt-ru="Что делать с health-функциями, светлая тема" data-alt-en="What to do about the health features, light theme" alt="Что делать с health-функциями, светлая тема" loading="lazy" width="3600" height="2357">
                 <div class="compare-slider__overlay">
-                  <img id="theme-фокус-dark" data-src-ru="assets/namaste/фокус-dark-ru.webp" data-src-en="assets/namaste/фокус-dark.webp" data-alt-ru="Что делать с health-функциями, тёмная тема" data-alt-en="What to do about the health features, dark theme" alt="Что делать с health-функциями, тёмная тема" loading="lazy" width="4050" height="2652">
+                  <img id="theme-фокус-dark" data-src-ru="assets/namaste/фокус-dark-ru.webp" data-src-en="assets/namaste/фокус-dark.webp" data-alt-ru="Что делать с health-функциями, тёмная тема" data-alt-en="What to do about the health features, dark theme" alt="Что делать с health-функциями, тёмная тема" loading="lazy" width="3600" height="2357">
                 </div>
-                <span class="compare-slider__tag compare-slider__tag--left"><span data-lang="ru">Светлая</span><span data-lang="en">Light</span></span>
-                <span class="compare-slider__tag compare-slider__tag--right"><span data-lang="ru">Тёмная</span><span data-lang="en">Dark</span></span>
                 <div class="compare-slider__handle"><span class="compare-slider__grip" aria-hidden="true">‹›</span></div>
                 <input class="compare-slider__range" type="range" min="0" max="100" value="50" step="1" aria-label="Что делать с health-функциями: сравнение светлой и тёмной темы" data-aria-ru="Что делать с health-функциями: сравнение светлой и тёмной темы" data-aria-en="What to do about the health features: light and dark theme comparison">
               </div>
               <div class="compare-slider__tools">
                 <span class="compare-slider__hint"><span data-lang="ru">Перетащите разделитель или используйте стрелки</span><span data-lang="en">Drag the divider or use the arrow keys</span></span>
-                <span class="compare-slider__zooms">
-                  <button type="button" class="compare-slider__zoom" data-lightbox-for="theme-фокус-light"><span data-lang="ru">Светлая крупно</span><span data-lang="en">Light, full size</span></button>
-                  <button type="button" class="compare-slider__zoom" data-lightbox-for="theme-фокус-dark"><span data-lang="ru">Тёмная крупно</span><span data-lang="en">Dark, full size</span></button>
-                </span>
               </div>
             </div>
           </div>
-        </div>
-        <div class="case-table-wrap case-table-wrap--narrow" tabindex="0" role="region" aria-label="Что делать с health-функциями: таблица" data-aria-ru="Что делать с health-функциями: таблица" data-aria-en="What to do about the health features: table">
-          <table class="case-table">
-            <thead><tr><th scope="col"><span data-lang="ru">Функция</span><span data-lang="en">Feature</span></th><th scope="col"><span data-lang="ru">Решение</span><span data-lang="en">Decision</span></th></tr></thead>
-            <tbody>
-              <tr><th scope="row"><span data-lang="ru">Трекер сна</span><span data-lang="en">Sleep tracker</span></th><td><span data-lang="ru">В MVP</span><span data-lang="en">In the MVP</span></td></tr>
-              <tr><th scope="row"><span data-lang="ru">Учёт воды</span><span data-lang="en">Water tracking</span></th><td><span data-lang="ru">В MVP</span><span data-lang="en">In the MVP</span></td></tr>
-              <tr><th scope="row"><span data-lang="ru">Счётчик КБЖУ</span><span data-lang="en">Calorie counter</span></th><td><span data-lang="ru">После MVP</span><span data-lang="en">After the MVP</span></td></tr>
-              <tr><th scope="row"><span data-lang="ru">Шагомер и активность</span><span data-lang="en">Pedometer and activity</span></th><td><span data-lang="ru">После проверки интеграций</span><span data-lang="en">After the integrations are checked</span></td></tr>
-            </tbody>
-          </table>
         </div>
       </div>
 

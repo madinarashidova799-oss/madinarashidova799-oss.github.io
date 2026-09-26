@@ -497,20 +497,11 @@
   }
   .compare-slider__stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center; display: block; margin: 0; border-radius: 0; pointer-events: none; }
   .compare-slider__overlay { position: absolute; inset: 0; clip-path: inset(0 calc((100 - var(--pos)) * 1%) 0 0); }
-  .compare-slider__tag {
-    position: absolute; top: 16px; z-index: 2;
-    background: var(--surface); border: 1px solid var(--line); color: var(--case-accent);
-    font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;
-    padding: 6px 14px; border-radius: var(--radius-pill);
-  }
-  .compare-slider__tag--left { left: 16px; }
-  .compare-slider__tag--right { right: 16px; }
   /* Narrow stages can't fit both labels on one row (each pill is ~150-170px);
      moving the right tag to the opposite corner keeps them from ever
      colliding regardless of label length or stage width. */
   @media (max-width: 480px) {
-    .compare-slider__tag--right { top: auto; bottom: 16px; }
-  }
+    }
   .compare-slider__handle {
     position: absolute; top: 0; bottom: 0; left: calc(var(--pos) * 1%); width: 2px;
     background: rgba(255,255,255,0.9); box-shadow: 0 0 0 1px var(--line);
@@ -798,18 +789,6 @@
     font-size: 13px; line-height: 1.5; color: var(--text-dim);
   }
   .case-fig__text { max-width: 62ch; }
-  .case-fig__open {
-    font: inherit; font-size: 12px; color: var(--case-mark-text);
-    background: none; border: 0; padding: 2px 0; cursor: pointer;
-    text-decoration: underline; text-underline-offset: 3px; white-space: nowrap;
-  }
-  .case-fig__open:hover { text-decoration-thickness: 2px; }
-  /* Строка подписи высотой 22 px — слишком мелкая цель для пальца. Сама
-     строка остаётся прежней, растёт только область нажатия: 44 px по
-     вертикали. Подпись лежит в той же flex-строке слева, перекрытия нет. */
-  .case-fig__open { position: relative; }
-  .case-fig__open::after { content: ''; position: absolute; inset: -11px -6px; }
-  .case-fig__open:focus-visible { outline: 2px solid var(--case-mark-text); outline-offset: 3px; border-radius: 4px; }
 
   /* Два экрана одного сценария — друг под другом внутри своей колонки. */
   .case-figs--stack { display: flex; flex-direction: column; gap: clamp(20px, 2.2vw, 28px); }
@@ -973,6 +952,69 @@
 
   /* Экспорты обрезаны по содержимому, пропорция набора изменилась. */
   .compare-slider__stage { aspect-ratio: 2700 / 1768; }
+
+
+
+
+  /* ===== Редакция 3.3: единая левая ось =====
+     Заголовок, вводный абзац и вывод стоят на одной левой оси и не шире
+     6 колонок основной сетки. Таблицы и схемы шире, но от того же края:
+     сравнительные таблицы — 10 колонок, схемы — 8. Центрированных
+     блоков, которые начинаются в третьей колонке, больше нет.
+     Ширину 6 колонок считаем от контейнера страницы в cqi:
+     (100cqi − 11 зазоров) / 2 + 5 зазоров = 50cqi − ½ зазора. */
+  .case-page { container-type: inline-size; }
+  .col-10 { grid-column: 1 / span 10; }
+  @media (max-width: 767px) { .case-grid > .col-10 { grid-column: span 4; } }
+
+  @media (min-width: 1100px) {
+    .case-page { --measure-6: calc(50cqi - var(--grid-gutter) / 2); }
+    .detail-block .detail-head h2 { max-width: var(--measure-6); }
+    .detail-block > p,
+    .detail-block > .case-subhead,
+    .case-results__panel > p,
+    .case-results__panel > .case-subhead { max-width: min(60ch, var(--measure-6)); }
+  }
+
+  /* Широкий материал под вступлением: заметный, но не оторванный отступ. */
+  .case-grid.case-wide { margin-top: clamp(8px, 1vw, 16px); }
+  .case-wide .case-artifact-cap:first-child { margin-top: 0; }
+  .case-aside .col-8 > .case-artifact-cap:first-child { margin-top: 0; }
+  .case-aside .col-8 > .compare-table-wrap:last-of-type { margin-bottom: 0; }
+
+  /* Вывод под таблицей — в тех же 6 колонках, что и вступление.
+     Первый абзац — что показало исследование, второй — решение. */
+  .case-takeaway { margin-top: clamp(40px, 3.6vw, 56px); padding-left: 0; border-left: 0; }
+  .detail-block .case-takeaway p { max-width: 60ch; }
+  .detail-block .case-takeaway p + p { margin-top: clamp(12px, 1.2vw, 16px); }
+  .case-takeaway .case-subhead { margin: 0 0 8px; }
+  /* Новая часть секции после материала и вывода — отдельный абзац воздуха. */
+  .detail-block > .case-grid + .case-subhead { margin-top: clamp(56px, 5vw, 80px); }
+  .detail-block .case-takeaway p + .case-subhead { margin-top: clamp(28px, 2.6vw, 36px); }
+
+  /* Короткая таблица решений в текстовой колонке рядом с визуалом. */
+  .case-split-text .case-table-wrap--compact { margin: clamp(24px, 2.4vw, 32px) 0 0; max-width: none; }
+  .case-table-wrap--compact .case-table { min-width: 0; }
+  .case-table-wrap--compact .case-table th,
+  .case-table-wrap--compact .case-table td { padding: 12px clamp(12px, 1.2vw, 16px); }
+  .case-table-wrap--compact .case-table tbody th { position: static; min-width: 0; }
+
+  /* Схема структуры на телефоне: в 335 px мелкие подписи сжимались до ~5 px.
+     Схема держит 600 px и прокручивается внутри своего блока, подписи
+     остаются читаемыми; нажатие по-прежнему открывает её целиком. */
+  @media (max-width: 767px) {
+    .case-split .case-fig--plain { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .case-split .case-fig--plain .case-shot { width: 600px; max-width: none; }
+  }
+
+  /* Кадр с интерфейсом — настоящая кнопка: мышь, касание, Enter, пробел. */
+  button.case-shot {
+    font: inherit; color: inherit; text-align: inherit;
+    -webkit-appearance: none; appearance: none;
+  }
+  button.case-shot:focus-visible { outline: 2px solid var(--case-mark-text); outline-offset: 3px; }
+  /* ===== конец блока редакции 3.3 ===== */
+
   /* ===== конец блока редакции 3.2 ===== */
 </style>
   <link rel="stylesheet" href="assets/typography.css">
@@ -1042,10 +1084,10 @@
           </div>
           <div class="col-8">
             <figure class="case-fig">
-              <div class="case-shot" data-lightbox-for="fig-ea-01-9">
-                <img id="fig-ea-01-9" data-src-ru="assets/process/eaj-research-ru.webp" data-src-en="assets/process/eaj-research.webp" data-alt-ru="Таблица типов пользователей" data-alt-en="User types table" alt="Таблица типов пользователей" loading="lazy" width="4135" height="2237">
-              </div>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Сравнение сценариев разных типов трейдеров. Материал исследования на этапе проекта.</span><span data-lang="en">A comparison of the scenarios of different trader types. Research material from the project.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-ea-01-9"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+              <button type="button" class="case-shot" data-lightbox-for="fig-ea-01-9">
+                <img id="fig-ea-01-9" data-src-ru="assets/process/eaj-research-ru.webp" data-src-en="assets/process/eaj-research.webp" data-alt-ru="Таблица типов пользователей" data-alt-en="User types table" alt="Таблица типов пользователей" loading="lazy" width="3600" height="1420">
+              </button>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Сравнение сценариев разных типов трейдеров. Материал исследования на этапе проекта.</span><span data-lang="en">A comparison of the scenarios of different trader types. Research material from the project.</span></span></figcaption>
             </figure>
           </div>
         </div>
@@ -1059,10 +1101,10 @@
           </div>
           <div class="col-6">
             <figure class="case-fig">
-              <div class="case-shot" data-lightbox-for="fig-ea-02-10">
-                <img id="fig-ea-02-10" data-src-ru="assets/process/eaj-home-ru.webp" data-src-en="assets/process/eaj-home.webp" data-alt-ru="Главная" data-alt-en="Main screen" alt="Главная" loading="lazy" width="5440" height="6184">
-              </div>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Обзор средств и входы в основные операции.</span><span data-lang="en">An overview of funds and the entry points to the core operations.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-ea-02-10"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+              <button type="button" class="case-shot" data-lightbox-for="fig-ea-02-10">
+                <img id="fig-ea-02-10" data-src-ru="assets/process/eaj-home-ru.webp" data-src-en="assets/process/eaj-home.webp" data-alt-ru="Главная" data-alt-en="Main screen" alt="Главная" loading="lazy" width="3600" height="4092">
+              </button>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Обзор средств и входы в основные операции.</span><span data-lang="en">An overview of funds and the entry points to the core operations.</span></span></figcaption>
             </figure>
           </div>
         </div>
@@ -1078,19 +1120,19 @@
           <div class="case-figs__item col-6">
             <p class="case-figs__label"><span data-lang="ru">Концепт 2 · Карточки</span><span data-lang="en">Concept 2 · Card view</span></p>
             <figure class="case-fig">
-              <div class="case-shot" data-lightbox-for="fig-ea-07-11">
-                <img id="fig-ea-07-11" data-src-ru="assets/process/eaj-concept1-ru.webp" data-src-en="assets/process/eaj-concept1.webp" data-alt-ru="Карточные счета, концепт 2" data-alt-en="Accounts as cards, concept 2" alt="Карточные счета, концепт 2" loading="lazy" width="3888" height="2124">
-              </div>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Концепт 2. Карточное представление счетов.</span><span data-lang="en">Concept 2. Accounts shown as cards.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-ea-07-11"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+              <button type="button" class="case-shot" data-lightbox-for="fig-ea-07-11">
+                <img id="fig-ea-07-11" data-src-ru="assets/process/eaj-concept1-ru.webp" data-src-en="assets/process/eaj-concept1.webp" data-alt-ru="Карточные счета, концепт 2" data-alt-en="Accounts as cards, concept 2" alt="Карточные счета, концепт 2" loading="lazy" width="3600" height="1967">
+              </button>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Концепт 2. Карточное представление счетов.</span><span data-lang="en">Concept 2. Accounts shown as cards.</span></span></figcaption>
             </figure>
           </div>
           <div class="case-figs__item col-6">
             <p class="case-figs__label"><span data-lang="ru">Концепт 1 · Таблица</span><span data-lang="en">Concept 1 · Table view</span></p>
             <figure class="case-fig">
-              <div class="case-shot" data-lightbox-for="fig-ea-06-12">
-                <img id="fig-ea-06-12" data-src-ru="assets/process/eaj-concept2-ru.webp" data-src-en="assets/process/eaj-concept2.webp" data-alt-ru="Табличные счета, концепт 1" data-alt-en="Accounts as a table, concept 1" alt="Табличные счета, концепт 1" loading="lazy" width="3888" height="2136">
-              </div>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Концепт 1. Табличное представление счетов.</span><span data-lang="en">Concept 1. Accounts shown as a table.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-ea-06-12"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+              <button type="button" class="case-shot" data-lightbox-for="fig-ea-06-12">
+                <img id="fig-ea-06-12" data-src-ru="assets/process/eaj-concept2-ru.webp" data-src-en="assets/process/eaj-concept2.webp" data-alt-ru="Табличные счета, концепт 1" data-alt-en="Accounts as a table, concept 1" alt="Табличные счета, концепт 1" loading="lazy" width="3600" height="1978">
+              </button>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Концепт 1. Табличное представление счетов.</span><span data-lang="en">Concept 1. Accounts shown as a table.</span></span></figcaption>
             </figure>
           </div>
         </div>
@@ -1104,10 +1146,10 @@
           </div>
           <div class="col-8">
             <figure class="case-fig">
-              <div class="case-shot" data-lightbox-for="fig-ea-03-13">
-                <img id="fig-ea-03-13" data-src-ru="assets/process/eaj-funding-2-ru.webp" data-src-en="assets/process/eaj-funding-2.webp" data-alt-ru="Funding" data-alt-en="Funding" alt="Funding" loading="lazy" width="5184" height="2640">
-              </div>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Пополнение, вывод и внутренние переводы в одном разделе.</span><span data-lang="en">Deposits, withdrawals and internal transfers in one section.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-ea-03-13"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+              <button type="button" class="case-shot" data-lightbox-for="fig-ea-03-13">
+                <img id="fig-ea-03-13" data-src-ru="assets/process/eaj-funding-2-ru.webp" data-src-en="assets/process/eaj-funding-2.webp" data-alt-ru="Funding" data-alt-en="Funding" alt="Funding" loading="lazy" width="3600" height="1833">
+              </button>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Пополнение, вывод и внутренние переводы в одном разделе.</span><span data-lang="en">Deposits, withdrawals and internal transfers in one section.</span></span></figcaption>
             </figure>
           </div>
         </div>
@@ -1122,16 +1164,16 @@
           <div class="col-8">
             <div class="case-figs case-figs--stack">
               <figure class="case-fig">
-                <div class="case-shot" data-lightbox-for="fig-ea-04-14">
-                  <img id="fig-ea-04-14" data-src-ru="assets/process/eaj-claims-list-ru.webp" data-src-en="assets/process/eaj-claims-list.webp" data-alt-ru="Список обращений" data-alt-en="Support request list" alt="Список обращений" loading="lazy" width="3888" height="3684">
-                </div>
-                <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Обращения и их текущие статусы.</span><span data-lang="en">Support requests and their current statuses.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-ea-04-14"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+                <button type="button" class="case-shot" data-lightbox-for="fig-ea-04-14">
+                  <img id="fig-ea-04-14" data-src-ru="assets/process/eaj-claims-list-ru.webp" data-src-en="assets/process/eaj-claims-list.webp" data-alt-ru="Список обращений" data-alt-en="Support request list" alt="Список обращений" loading="lazy" width="3600" height="3411">
+                </button>
+                <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Обращения и их текущие статусы.</span><span data-lang="en">Support requests and their current statuses.</span></span></figcaption>
               </figure>
               <figure class="case-fig">
-                <div class="case-shot" data-lightbox-for="fig-ea-05-15">
-                  <img id="fig-ea-05-15" data-src-ru="assets/process/eaj-claims-detail-ru.webp" data-src-en="assets/process/eaj-claims-detail.webp" data-alt-ru="Диалог обращения" data-alt-en="Support request conversation" alt="Диалог обращения" loading="lazy" width="3888" height="3252">
-                </div>
-                <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Переписка по выбранному обращению.</span><span data-lang="en">The conversation for the selected support request.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-ea-05-15"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+                <button type="button" class="case-shot" data-lightbox-for="fig-ea-05-15">
+                  <img id="fig-ea-05-15" data-src-ru="assets/process/eaj-claims-detail-ru.webp" data-src-en="assets/process/eaj-claims-detail.webp" data-alt-ru="Диалог обращения" data-alt-en="Support request conversation" alt="Диалог обращения" loading="lazy" width="3600" height="3011">
+                </button>
+                <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Переписка по выбранному обращению.</span><span data-lang="en">The conversation for the selected support request.</span></span></figcaption>
               </figure>
             </div>
           </div>

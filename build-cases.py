@@ -50,7 +50,6 @@ TABLE_FOR_ASSET = {"TR-07": 0, "TR-08": 1}
 TRACKER_TABLES = (ROOT / "tracker_tables.html").read_text().split("\n<!--SPLIT-->\n")
 
 META_EN = {"Срок": "Duration", "Роль": "Role", "Платформы": "Platforms", "Команда": "Team"}
-OPEN = ("Открыть изображение", "Open image")
 MEASURE = ("Влияние оценивали по", "Impact was evaluated using")
 CTX = (("context", "Контекст", "Context"), ("task", "Задача", "Task"))
 
@@ -81,10 +80,10 @@ _fig_n = [0]
 
 def figure(rf, ef, indent, extra=""):
     """Кадр с интерфейсом. Подпись вынесена из белого контейнера: она идёт
-    строкой под ним и не увеличивает его высоту. Сам контейнер кликабелен
-    мышью, а в табуляцию попадает одна подписанная кнопка «Открыть
-    изображение» — так у клавиатуры на каждую картинку ровно один понятный
-    элемент управления вместо безымянной кнопки-картинки."""
+    строкой под ним и не увеличивает его высоту. Сам кадр — настоящая
+    <button>: открывается мышью, касанием, Enter и пробелом. Отдельную
+    ссылку «Открыть изображение» под кадром убрали: она дублировала
+    нажатие на картинку. Имя кнопке ставит lightbox.js по alt картинки."""
     _fig_n[0] += 1
     fid = f'fig-{rf["asset"].lower()}-{_fig_n[0]}'
     ru_src, en_src = srcs(ASSETS[rf["asset"]])
@@ -92,15 +91,14 @@ def figure(rf, ef, indent, extra=""):
     p = " " * indent
     cls = "case-fig" + (f" {extra}" if extra else "")
     return (f'{p}<figure class="{cls}">\n'
-            f'{p}  <div class="case-shot" data-lightbox-for="{fid}">\n'
+            f'{p}  <button type="button" class="case-shot" data-lightbox-for="{fid}">\n'
             f'{p}    <img id="{fid}" data-src-ru="{ru_src}" data-src-en="{en_src}"'
             f' data-alt-ru="{esc(rf["alt"])}" data-alt-en="{esc(ef["alt"])}"'
             f' alt="{esc(rf["alt"])}" loading="lazy" width="{w}" height="{h}">\n'
-            f'{p}  </div>\n'
+            f'{p}  </button>\n'
             f'{p}  <figcaption class="case-fig__cap">'
             f'<span class="case-fig__text">{bl(esc(rf["caption"]), esc(ef["caption"]))}</span>'
-            f'<button type="button" class="case-fig__open" data-lightbox-for="{fid}">'
-            f'{bl(*OPEN)}</button></figcaption>\n'
+            f'</figcaption>\n'
             f'{p}</figure>')
 
 def aspect(rf):
@@ -116,7 +114,7 @@ def split_cols(rf):
     if a < 1.8:  return "col-5", "col-7"
     return "col-4", "col-8"
 
-def table_html(rt, et, indent, narrow=False, label=None):
+def table_html(rt, et, indent, narrow=False, label=None, compact=False):
     p = " " * indent
     head = "".join(f'<th scope="col">{bl(esc(r), esc(e))}</th>'
                    for r, e in zip(rt["headers"], et["headers"]))
@@ -125,7 +123,7 @@ def table_html(rt, et, indent, narrow=False, label=None):
         cells = f'<th scope="row">{bl(esc(rr[0]), esc(er[0]))}</th>'
         cells += "".join(f"<td>{bl(esc(a), esc(b))}</td>" for a, b in zip(rr[1:], er[1:]))
         rows += f"\n{p}      <tr>{cells}</tr>"
-    cls = "case-table-wrap" + (" case-table-wrap--narrow" if narrow else "")
+    cls = "case-table-wrap" + (" case-table-wrap--narrow" if narrow else "") + (" case-table-wrap--compact" if compact else "")
     # role="region" без имени — безымянная область в дереве доступности. Имя
     # берём из заголовка секции; aria-label — атрибут, пары <span data-lang>
     # в него не положить, поэтому язык переключает i18n.js по data-aria-*.
@@ -155,8 +153,6 @@ def slider(pair, rf_alt, ef_alt, indent):
       f' data-alt-ru="{esc(rf_alt)}, тёмная тема" data-alt-en="{esc(ef_alt)}, dark theme"'
       f' alt="{esc(rf_alt)}, тёмная тема" loading="lazy" width="{ww}" height="{wh}">',
       f'{p}    </div>',
-      f'{p}    <span class="compare-slider__tag compare-slider__tag--left">{bl("Светлая", "Light")}</span>',
-      f'{p}    <span class="compare-slider__tag compare-slider__tag--right">{bl("Тёмная", "Dark")}</span>',
       f'{p}    <div class="compare-slider__handle"><span class="compare-slider__grip" aria-hidden="true">‹›</span></div>',
       f'{p}    <input class="compare-slider__range" type="range" min="0" max="100" value="50" step="1"'
       f' aria-label="{esc(rf_alt)}: сравнение светлой и тёмной темы"'
@@ -165,10 +161,6 @@ def slider(pair, rf_alt, ef_alt, indent):
       f'{p}  </div>',
       f'{p}  <div class="compare-slider__tools">',
       f'{p}    <span class="compare-slider__hint">{bl("Перетащите разделитель или используйте стрелки", "Drag the divider or use the arrow keys")}</span>',
-      f'{p}    <span class="compare-slider__zooms">',
-      f'{p}      <button type="button" class="compare-slider__zoom" data-lightbox-for="{sid}-light">{bl("Светлая крупно", "Light, full size")}</button>',
-      f'{p}      <button type="button" class="compare-slider__zoom" data-lightbox-for="{sid}-dark">{bl("Тёмная крупно", "Dark, full size")}</button>',
-      f'{p}    </span>',
       f'{p}  </div>',
       f'{p}</div>'])
 
@@ -243,8 +235,15 @@ def render_block(rb, eb, L, state):
         layout = rb.get("layout", "even")
 
         def after_paras(indent):
-            return [f'{" " * indent}<p>{bl(esc(a), esc(b))}</p>'
-                    for a, b in zip(rb.get("after", []), eb.get("after", []))]
+            """Вывод под материалом. Пункт с label — подзаголовок и абзац:
+            так факт исследования и решение по продукту читаются раздельно."""
+            out, p = [], " " * indent
+            for a, b in zip(rb.get("after", []), eb.get("after", [])):
+                if isinstance(a, dict):
+                    out.append(f'{p}<h3 class="case-subhead">{bl(esc(a["label"]), esc(b["label"]))}</h3>')
+                    a, b = a["text"], b["text"]
+                out.append(f'{p}<p>{bl(esc(a), esc(b))}</p>')
+            return out
 
         def media(indent, extra=""):
             out = []
@@ -256,8 +255,31 @@ def render_block(rb, eb, L, state):
                 out.append(figure(*figs[0], indent, extra=extra))
             return out
 
-        if layout == "center8":
-            # Вступление в 6 колонок, таблица или схема — в 8 по центру.
+        if layout == "aside":
+            # Исследование: заголовок и вступление — колонка 4 слева,
+            # таблицы, подписи и вывод — колонка 8 справа. Левая колонка
+            # короче правой и на десктопе стоит на месте, пока читатель
+            # проходит таблицы; вывод идёт после материала.
+            L.append('        <div class="case-grid case-split case-aside">')
+            L.append('          <div class="case-split-text col-4">')
+            L += subhead(12) + paragraphs(12)
+            L.append('          </div>')
+            L.append('          <div class="col-8">')
+            L += media(12)
+            for rf, ef in tables:
+                L.append(f'            <p class="case-artifact-cap">{bl(esc(rf["caption"]), esc(ef["caption"]))}</p>')
+                L.append(TRACKER_TABLES[TABLE_FOR_ASSET[rf["asset"]]].rstrip("\n"))
+            if rb.get("after"):
+                L.append('            <div class="case-takeaway">')
+                L += after_paras(14)
+                L.append('            </div>')
+            L.append('          </div>')
+            L.append('        </div>')
+        elif layout == "center8":
+            # Единая левая ось: вступление и вывод — 6 колонок от левого края,
+            # таблица или схема — шире, но от того же края. Сравнительным
+            # таблицам нужно место под колонки (10 из 12), схеме хватает 8.
+            wide = "col-8" if rb.get("plain") else "col-10"
             state.pop("head_in_column", None)
             if rb.get("subhead") or rb.get("paragraphs"):
                 L.append('        <div class="case-grid">')
@@ -267,8 +289,8 @@ def render_block(rb, eb, L, state):
                 L.append('        </div>')
             plain = " case-fig--plain" if rb.get("plain") else ""
             if figs or tables:
-                L.append('        <div class="case-grid">')
-                L.append('          <div class="col-8-center">')
+                L.append('        <div class="case-grid case-wide">')
+                L.append(f'          <div class="{wide}">')
                 L += media(12, extra=plain.strip())
                 for rf, ef in tables:
                     L.append(f'            <p class="case-artifact-cap">{bl(esc(rf["caption"]), esc(ef["caption"]))}</p>')
@@ -276,14 +298,14 @@ def render_block(rb, eb, L, state):
                 L.append('          </div>')
                 L.append('        </div>')
             if "table" in rb:
-                L.append('        <div class="case-grid">')
-                L.append('          <div class="col-8-center">')
+                L.append('        <div class="case-grid case-wide">')
+                L.append(f'          <div class="{wide}">')
                 L.append(table_html(rb["table"], eb["table"], 12, label=(state["sec_title_ru"], state["sec_title_en"])))
                 L.append('          </div>')
                 L.append('        </div>')
             if rb.get("after"):
                 L.append('        <div class="case-grid">')
-                L.append('          <div class="col-8-center">')
+                L.append('          <div class="col-6">')
                 L.append('            <div class="case-takeaway">')
                 L += after_paras(14)
                 L.append('            </div>')
@@ -298,7 +320,7 @@ def render_block(rb, eb, L, state):
             L += subhead(12) + paragraphs(12) + points(12)
             L.append('          </div>')
             L.append(f'          <div class="{mc}">')
-            L += media(12)
+            L += media(12, extra="case-fig--plain" if rb.get("plain") else "")
             if rb.get("captions"):
                 L.append('            <ul class="case-shot-labels" style="--cols: %d">'
                          % len(rb["captions"]))
@@ -356,13 +378,16 @@ def render_block(rb, eb, L, state):
                  + (' case-split--flip' if rb.get("media_first") else '') + '">')
         L.append('          <div class="case-split-text col-4">')
         L += subhead(12) + paragraphs(12)
+        # Короткая таблица решений (две колонки, четыре строки) продолжает
+        # абзац, поэтому стоит в той же колонке. Отдельной строкой под
+        # слайдером она занимала половину ширины, вторая половина пустовала.
+        if "table" in rb:
+            L.append(table_html(rb["table"], eb["table"], 12, compact=True, label=(state["sec_title_ru"], state["sec_title_en"])))
         L.append('          </div>')
         L.append('          <div class="col-8">')
         L.append(slider(rb["pair"], state["sec_title_ru"], state["sec_title_en"], 12))
         L.append('          </div>')
         L.append('        </div>')
-        if "table" in rb:
-            L.append(table_html(rb["table"], eb["table"], 8, narrow=True, label=(state["sec_title_ru"], state["sec_title_en"])))
 
     elif t == "table":
         L.append(table_html(rb, eb, 8, label=(state["sec_title_ru"], state["sec_title_en"])))
@@ -417,7 +442,7 @@ def build(rc):
         # своего же описания.
         first = rs["blocks"][0]
         in_column = (not results and first["type"] in ("split", "theme")
-                     and first.get("layout") in (None, "even", "accent"))
+                     and first.get("layout") in (None, "even", "accent", "aside"))
         state["head_in_column"] = in_column
         L.append(f'\n      <div class="detail-block{" case-results" if results else ""}" id="{rs["id"]}">')
         if results:

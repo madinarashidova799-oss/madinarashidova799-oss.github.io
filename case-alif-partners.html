@@ -765,18 +765,6 @@
     font-size: 13px; line-height: 1.5; color: var(--text-dim);
   }
   .case-fig__text { max-width: 62ch; }
-  .case-fig__open {
-    font: inherit; font-size: 12px; color: var(--case-mark-text);
-    background: none; border: 0; padding: 2px 0; cursor: pointer;
-    text-decoration: underline; text-underline-offset: 3px; white-space: nowrap;
-  }
-  .case-fig__open:hover { text-decoration-thickness: 2px; }
-  /* Строка подписи высотой 22 px — слишком мелкая цель для пальца. Сама
-     строка остаётся прежней, растёт только область нажатия: 44 px по
-     вертикали. Подпись лежит в той же flex-строке слева, перекрытия нет. */
-  .case-fig__open { position: relative; }
-  .case-fig__open::after { content: ''; position: absolute; inset: -11px -6px; }
-  .case-fig__open:focus-visible { outline: 2px solid var(--case-mark-text); outline-offset: 3px; border-radius: 4px; }
 
   /* Два экрана одного сценария — друг под другом внутри своей колонки. */
   .case-figs--stack { display: flex; flex-direction: column; gap: clamp(20px, 2.2vw, 28px); }
@@ -940,6 +928,69 @@
 
   /* Экспорты обрезаны по содержимому, пропорция набора изменилась. */
   .compare-slider__stage { aspect-ratio: 2700 / 1768; }
+
+
+
+
+  /* ===== Редакция 3.3: единая левая ось =====
+     Заголовок, вводный абзац и вывод стоят на одной левой оси и не шире
+     6 колонок основной сетки. Таблицы и схемы шире, но от того же края:
+     сравнительные таблицы — 10 колонок, схемы — 8. Центрированных
+     блоков, которые начинаются в третьей колонке, больше нет.
+     Ширину 6 колонок считаем от контейнера страницы в cqi:
+     (100cqi − 11 зазоров) / 2 + 5 зазоров = 50cqi − ½ зазора. */
+  .case-page { container-type: inline-size; }
+  .col-10 { grid-column: 1 / span 10; }
+  @media (max-width: 767px) { .case-grid > .col-10 { grid-column: span 4; } }
+
+  @media (min-width: 1100px) {
+    .case-page { --measure-6: calc(50cqi - var(--grid-gutter) / 2); }
+    .detail-block .detail-head h2 { max-width: var(--measure-6); }
+    .detail-block > p,
+    .detail-block > .case-subhead,
+    .case-results__panel > p,
+    .case-results__panel > .case-subhead { max-width: min(60ch, var(--measure-6)); }
+  }
+
+  /* Широкий материал под вступлением: заметный, но не оторванный отступ. */
+  .case-grid.case-wide { margin-top: clamp(8px, 1vw, 16px); }
+  .case-wide .case-artifact-cap:first-child { margin-top: 0; }
+  .case-aside .col-8 > .case-artifact-cap:first-child { margin-top: 0; }
+  .case-aside .col-8 > .compare-table-wrap:last-of-type { margin-bottom: 0; }
+
+  /* Вывод под таблицей — в тех же 6 колонках, что и вступление.
+     Первый абзац — что показало исследование, второй — решение. */
+  .case-takeaway { margin-top: clamp(40px, 3.6vw, 56px); padding-left: 0; border-left: 0; }
+  .detail-block .case-takeaway p { max-width: 60ch; }
+  .detail-block .case-takeaway p + p { margin-top: clamp(12px, 1.2vw, 16px); }
+  .case-takeaway .case-subhead { margin: 0 0 8px; }
+  /* Новая часть секции после материала и вывода — отдельный абзац воздуха. */
+  .detail-block > .case-grid + .case-subhead { margin-top: clamp(56px, 5vw, 80px); }
+  .detail-block .case-takeaway p + .case-subhead { margin-top: clamp(28px, 2.6vw, 36px); }
+
+  /* Короткая таблица решений в текстовой колонке рядом с визуалом. */
+  .case-split-text .case-table-wrap--compact { margin: clamp(24px, 2.4vw, 32px) 0 0; max-width: none; }
+  .case-table-wrap--compact .case-table { min-width: 0; }
+  .case-table-wrap--compact .case-table th,
+  .case-table-wrap--compact .case-table td { padding: 12px clamp(12px, 1.2vw, 16px); }
+  .case-table-wrap--compact .case-table tbody th { position: static; min-width: 0; }
+
+  /* Схема структуры на телефоне: в 335 px мелкие подписи сжимались до ~5 px.
+     Схема держит 600 px и прокручивается внутри своего блока, подписи
+     остаются читаемыми; нажатие по-прежнему открывает её целиком. */
+  @media (max-width: 767px) {
+    .case-split .case-fig--plain { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .case-split .case-fig--plain .case-shot { width: 600px; max-width: none; }
+  }
+
+  /* Кадр с интерфейсом — настоящая кнопка: мышь, касание, Enter, пробел. */
+  button.case-shot {
+    font: inherit; color: inherit; text-align: inherit;
+    -webkit-appearance: none; appearance: none;
+  }
+  button.case-shot:focus-visible { outline: 2px solid var(--case-mark-text); outline-offset: 3px; }
+  /* ===== конец блока редакции 3.3 ===== */
+
   /* ===== конец блока редакции 3.2 ===== */
 </style>
   <link rel="stylesheet" href="assets/typography.css">
@@ -1018,10 +1069,10 @@
           </div>
           <div class="col-8">
             <figure class="case-fig">
-              <div class="case-shot" data-lightbox-for="fig-al-01-1">
-                <img id="fig-al-01-1" data-src-ru="assets/process/alif-research-table-ru.webp" data-src-en="assets/process/alif-research-table.webp" data-alt-ru="Таблица ответов на интервью" data-alt-en="Interview answers table" alt="Таблица ответов на интервью" loading="lazy" width="4608" height="5346">
-              </div>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Ответы партнёров о работе с каталогом, заявками и доставкой. Материал исследования на этапе проекта.</span><span data-lang="en">Partners’ answers about working with the catalogue, requests and delivery. Research material from the project.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-al-01-1"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+              <button type="button" class="case-shot" data-lightbox-for="fig-al-01-1">
+                <img id="fig-al-01-1" data-src-ru="assets/process/alif-research-table-ru.webp" data-src-en="assets/process/alif-research-table.webp" data-alt-ru="Таблица ответов на интервью" data-alt-en="Interview answers table" alt="Таблица ответов на интервью" loading="lazy" width="3600" height="4177">
+              </button>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Ответы партнёров о работе с каталогом, заявками и доставкой. Материал исследования на этапе проекта.</span><span data-lang="en">Partners’ answers about working with the catalogue, requests and delivery. Research material from the project.</span></span></figcaption>
             </figure>
           </div>
         </div>
@@ -1035,10 +1086,10 @@
           </div>
           <div class="col-8">
             <figure class="case-fig">
-              <div class="case-shot" data-lightbox-for="fig-al-02-2">
+              <button type="button" class="case-shot" data-lightbox-for="fig-al-02-2">
                 <img id="fig-al-02-2" data-src-ru="assets/process/alif-admin-structure-ru.webp" data-src-en="assets/process/alif-admin-structure.webp" data-alt-ru="Верхняя навигация" data-alt-en="Top navigation" alt="Верхняя навигация" loading="lazy" width="2640" height="405">
-              </div>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Разделы кабинета партнёра и модератора.</span><span data-lang="en">Sections of the partner and moderator workspace.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-al-02-2"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+              </button>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Разделы кабинета партнёра и модератора.</span><span data-lang="en">Sections of the partner and moderator workspace.</span></span></figcaption>
             </figure>
           </div>
         </div>
@@ -1056,10 +1107,10 @@
             </div>
             <div class="col-8">
               <figure class="case-fig">
-                <div class="case-shot" data-lightbox-for="fig-al-05-3">
-                  <img id="fig-al-05-3" data-src-ru="assets/process/alif-product-search-ru.webp" data-src-en="assets/process/alif-product-search.webp" data-alt-ru="Поиск товара" data-alt-en="Product search" alt="Поиск товара" loading="lazy" width="3678" height="1800">
-                </div>
-                <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Поиск существующего товара при добавлении предложения.</span><span data-lang="en">Searching for an existing product while adding an offer.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-al-05-3"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+                <button type="button" class="case-shot" data-lightbox-for="fig-al-05-3">
+                  <img id="fig-al-05-3" data-src-ru="assets/process/alif-product-search-ru.webp" data-src-en="assets/process/alif-product-search.webp" data-alt-ru="Поиск товара" data-alt-en="Product search" alt="Поиск товара" loading="lazy" width="3600" height="1762">
+                </button>
+                <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Поиск существующего товара при добавлении предложения.</span><span data-lang="en">Searching for an existing product while adding an offer.</span></span></figcaption>
               </figure>
             </div>
           </li>
@@ -1071,10 +1122,10 @@
             </div>
             <div class="col-8">
               <figure class="case-fig">
-                <div class="case-shot" data-lightbox-for="fig-al-06-4">
-                  <img id="fig-al-06-4" data-src-ru="assets/process/alif-price-insight-ru.webp" data-src-en="assets/process/alif-price-insight.webp" data-alt-ru="Цены аналогов" data-alt-en="Prices of similar products" alt="Цены аналогов" loading="lazy" width="3225" height="1419">
-                </div>
-                <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Цены других продавцов в форме создания предложения.</span><span data-lang="en">Other sellers’ prices in the offer form.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-al-06-4"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+                <button type="button" class="case-shot" data-lightbox-for="fig-al-06-4">
+                  <img id="fig-al-06-4" data-src-ru="assets/process/alif-price-insight-ru.webp" data-src-en="assets/process/alif-price-insight.webp" data-alt-ru="Цены аналогов" data-alt-en="Prices of similar products" alt="Цены аналогов" loading="lazy" width="3600" height="1386">
+                </button>
+                <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Цены других продавцов в форме создания предложения.</span><span data-lang="en">Other sellers’ prices in the offer form.</span></span></figcaption>
               </figure>
             </div>
           </li>
@@ -1089,10 +1140,10 @@
           </div>
           <div class="col-6">
             <figure class="case-fig">
-              <div class="case-shot" data-lightbox-for="fig-al-04-5">
-                <img id="fig-al-04-5" data-src-ru="assets/process/alif-notifications-ru.webp" data-src-en="assets/process/alif-notifications.webp" data-alt-ru="Уведомления" data-alt-en="Notifications" alt="Уведомления" loading="lazy" width="2160" height="3123">
-              </div>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Уведомления о заявках, доставке и остатках.</span><span data-lang="en">Notifications about requests, delivery and stock.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-al-04-5"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+              <button type="button" class="case-shot" data-lightbox-for="fig-al-04-5">
+                <img id="fig-al-04-5" data-src-ru="assets/process/alif-notifications-ru.webp" data-src-en="assets/process/alif-notifications.webp" data-alt-ru="Уведомления" data-alt-en="Notifications" alt="Уведомления" loading="lazy" width="2880" height="2208">
+              </button>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Уведомления о заявках, доставке и остатках.</span><span data-lang="en">Notifications about requests, delivery and stock.</span></span></figcaption>
             </figure>
           </div>
         </div>
@@ -1103,10 +1154,10 @@
           </div>
           <div class="col-8">
             <figure class="case-fig">
-              <div class="case-shot" data-lightbox-for="fig-al-07-6">
-                <img id="fig-al-07-6" data-src-ru="assets/process/alif-delivery-ru.webp" data-src-en="assets/process/alif-delivery.webp" data-alt-ru="Карточки доставки" data-alt-en="Delivery cards" alt="Карточки доставки" loading="lazy" width="3678" height="3060">
-              </div>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Заказы в разделе доставки.</span><span data-lang="en">Orders in the delivery section.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-al-07-6"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+              <button type="button" class="case-shot" data-lightbox-for="fig-al-07-6">
+                <img id="fig-al-07-6" data-src-ru="assets/process/alif-delivery-ru.webp" data-src-en="assets/process/alif-delivery.webp" data-alt-ru="Карточки доставки" data-alt-en="Delivery cards" alt="Карточки доставки" loading="lazy" width="3600" height="2995">
+              </button>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Заказы в разделе доставки.</span><span data-lang="en">Orders in the delivery section.</span></span></figcaption>
             </figure>
           </div>
         </div>
@@ -1120,10 +1171,10 @@
           </div>
           <div class="col-6">
             <figure class="case-fig">
-              <div class="case-shot" data-lightbox-for="fig-al-03-7">
-                <img id="fig-al-03-7" data-src-ru="assets/process/alif-chat-ru.webp" data-src-en="assets/process/alif-chat.webp" data-alt-ru="Чат" data-alt-en="Chat" alt="Чат" loading="lazy" width="3600" height="3237">
-              </div>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Чат с банком внутри кабинета.</span><span data-lang="en">A chat with the bank inside the workspace.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-al-03-7"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+              <button type="button" class="case-shot" data-lightbox-for="fig-al-03-7">
+                <img id="fig-al-03-7" data-src-ru="assets/process/alif-chat-ru.webp" data-src-en="assets/process/alif-chat.webp" data-alt-ru="Чат" data-alt-en="Chat" alt="Чат" loading="lazy" width="3600" height="2886">
+              </button>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Чат с банком внутри кабинета.</span><span data-lang="en">A chat with the bank inside the workspace.</span></span></figcaption>
             </figure>
           </div>
         </div>
@@ -1137,10 +1188,10 @@
           </div>
           <div class="col-8">
             <figure class="case-fig">
-              <div class="case-shot" data-lightbox-for="fig-al-09-8">
-                <img id="fig-al-09-8" data-src-ru="assets/process/alif-mobile-ru.webp" data-src-en="assets/process/alif-mobile.webp" data-alt-ru="Мобильные уведомления, товар, доставка" data-alt-en="Mobile notifications, products and delivery" alt="Мобильные уведомления, товар, доставка" loading="lazy" width="3894" height="2423">
-              </div>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Работа с уведомлениями, товаром и доставкой с телефона.</span><span data-lang="en">Handling notifications, products and delivery from a phone.</span></span><button type="button" class="case-fig__open" data-lightbox-for="fig-al-09-8"><span data-lang="ru">Открыть изображение</span><span data-lang="en">Open image</span></button></figcaption>
+              <button type="button" class="case-shot" data-lightbox-for="fig-al-09-8">
+                <img id="fig-al-09-8" data-src-ru="assets/process/alif-mobile-ru.webp" data-src-en="assets/process/alif-mobile.webp" data-alt-ru="Мобильные уведомления, товар, доставка" data-alt-en="Mobile notifications, products and delivery" alt="Мобильные уведомления, товар, доставка" loading="lazy" width="3600" height="2240">
+              </button>
+              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Работа с уведомлениями, товаром и доставкой с телефона.</span><span data-lang="en">Handling notifications, products and delivery from a phone.</span></span></figcaption>
             </figure>
           </div>
         </div>

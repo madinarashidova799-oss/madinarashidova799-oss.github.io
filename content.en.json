@@ -497,9 +497,16 @@
          "alt": "App comparison"
         }
        ],
-       "layout": "center8",
+       "layout": "aside",
        "after": [
-        "The research showed two approaches. In some apps a person started a workout quickly but could barely tailor the experience. In others the personalization went deeper, but the start was overloaded with questions. For Namaste I chose something in between: a short survey establishes the direction, the level and the class format, and then the user moves on to a programme that fits."
+        {
+         "label": "What the comparison showed",
+         "text": "The research showed two approaches. In some apps a person started a workout quickly but could barely tailor the experience. In others the personalization went deeper, but the start was overloaded with questions."
+        },
+        {
+         "label": "The decision for Namaste",
+         "text": "For Namaste I chose something in between: a short survey establishes the direction, the level and the class format, and then the user moves on to a programme that fits."
+        }
        ]
       }
      ]
@@ -510,7 +517,7 @@
      "blocks": [
       {
        "type": "split",
-       "layout": "center8",
+       "layout": "accent",
        "paragraphs": [
         "I built the app’s structure around a single cycle: a person chooses a direction, takes a class and comes back for the next workout. The health features support the core scenario without competing with the workouts on the main screen."
        ],
@@ -687,10 +694,22 @@
      "title": "How it started",
      "blocks": [
       {
-       "type": "lede",
+       "type": "split",
+       "layout": "aside",
        "paragraphs": [
-        "First we discussed the product’s goals with the stakeholders. Then I compared Kids360, Kid Security, iSharing and Family Tracker: how each handles the map, geofences, notifications, trip history and the subscription.",
-        "The first version included the map, the family circle, statuses, geofences and the connection between members. Complex analytics and extended settings were postponed."
+        "First we discussed the product’s goals with the stakeholders. Then I compared Kids360, Kid Security, iSharing and Family Tracker: how each handles the map, geofences, notifications, trip history and the subscription."
+       ],
+       "figures": [
+        {
+         "asset": "TR-07",
+         "caption": "Family tracker features. Material from the project.",
+         "alt": "Family tracker feature comparison"
+        },
+        {
+         "asset": "TR-08",
+         "caption": "Subscription models. Material from the project.",
+         "alt": "Subscription model comparison"
+        }
        ]
       },
       {
@@ -713,26 +732,6 @@
          "text": "A group chat and private conversations."
         }
        ]
-      },
-      {
-       "type": "split",
-       "subhead": "What I compared",
-       "paragraphs": [
-        "The map, geofences, notifications, trip history and the approaches to a subscription. Below is the analysis material from the project."
-       ],
-       "figures": [
-        {
-         "asset": "TR-07",
-         "caption": "A comparison of family tracker features. Material from the project.",
-         "alt": "Family tracker feature comparison"
-        },
-        {
-         "asset": "TR-08",
-         "caption": "A comparison of subscription models. Material from the project.",
-         "alt": "Subscription model comparison"
-        }
-       ],
-       "layout": "center8"
       }
      ]
     },
@@ -742,7 +741,7 @@
      "blocks": [
       {
        "type": "split",
-       "layout": "center8",
+       "layout": "accent",
        "paragraphs": [
         "I built the app’s structure around the family circle. Once people have been added, the user sees them on the map, gets notifications about the events that matter and can turn to the trip history when needed."
        ],
@@ -798,7 +797,7 @@
          "alt": "A notification with the actions Message and Location next to the map"
         }
        ],
-       "layout": "even"
+       "layout": "accent"
       }
      ]
     },

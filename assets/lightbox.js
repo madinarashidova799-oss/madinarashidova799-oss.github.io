@@ -38,10 +38,10 @@
 
   function applyLabels() {
     triggers.forEach(function (trigger) {
-      // The slider's zoom buttons carry their own visible RU/EN label; an
-      // aria-label would silently replace it, so only unlabelled triggers
-      // (the bare image buttons) get one.
-      if (trigger.hasAttribute('data-lightbox-for')) return;
+      // A trigger with its own visible text keeps it; an aria-label would
+      // silently replace it. Only the bare image buttons (the image frames
+      // in case figures) get a generated "open full-size image" name.
+      if (trigger.textContent.trim()) return;
       trigger.setAttribute('aria-label', labelFor(trigger));
     });
     if (closeBtn) closeBtn.setAttribute('aria-label', LABELS[currentLang()].close);
