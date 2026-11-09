@@ -348,7 +348,7 @@
     scroll-margin-top: var(--fixed-nav-top-safe-area, 120px);
   }
   .projects-stage-wrap.js-stage-active {
-    height: 700vh; height: 700svh;
+    height: 880vh; height: 880svh;
   }
   .projects-stage {
     position: static;
@@ -372,9 +372,10 @@
      properties. z-index climbs with arrival order so each later (incoming)
      scene paints over the ones already resting underneath it. */
   .project-showcase--alif { --ty: 0%; --media-o: 1; --header-o: 1; --desc-o: 1; --cta-o: 1; z-index: 1; }
-  .project-showcase--eaj { z-index: 2; }
-  .project-showcase--namaste { z-index: 3; }
-  .project-showcase--tracker { z-index: 4; }
+  .project-showcase--sber { z-index: 2; }
+  .project-showcase--eaj { z-index: 3; }
+  .project-showcase--namaste { z-index: 4; }
+  .project-showcase--tracker { z-index: 5; }
   .project-showcase__media { position: absolute; inset: 0; overflow: hidden; background: var(--nav-bg); }
   .project-showcase__media img {
     position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
@@ -413,6 +414,33 @@
         linear-gradient(0deg, rgba(8,8,10,.66) 0%, rgba(8,8,10,0) 44%);
     }
   }
+  /* Sber: white design-canvas cover (dark ink text on a light scrim, inverse dark CTA),
+     mirrors the Namaste light-scene exception. */
+  .project-showcase--sber { background: #FFFFFF; }
+  .project-showcase--sber .project-showcase__media { background: #FFFFFF; }
+  .project-showcase--sber .project-showcase__media img { object-position: 78% center; }
+  .project-showcase--sber .project-showcase__scrim {
+    background:
+      linear-gradient(90deg, rgba(255,255,255,.88) 0%, rgba(255,255,255,.5) 30%, rgba(255,255,255,0) 46%);
+  }
+  .project-showcase--sber .project-showcase__content { justify-content: flex-end; }
+  .project-showcase--sber .project-showcase__index,
+  .project-showcase--sber .project-showcase__meta { color: rgba(23,17,17,.64); }
+  .project-showcase--sber .project-showcase__title { color: #171717; }
+  .project-showcase--sber .project-showcase__desc { color: rgba(23,17,17,.82); }
+  .project-showcase--sber .project-showcase__cta {
+    background: rgba(23, 17, 14, 0.84); color: #f8f8f8;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(14px) saturate(120%); -webkit-backdrop-filter: blur(14px) saturate(120%);
+  }
+  .projects-stage-wrap .project-showcase--sber:hover .project-showcase__cta,
+  .projects-stage-wrap .project-showcase--sber:focus-visible .project-showcase__cta {
+    background: rgba(38, 31, 27, 0.92); color: #f8f8f8; box-shadow: var(--shadow-soft);
+  }
+  .projects-stage-wrap .project-showcase--sber:active .project-showcase__cta {
+    background: rgba(15, 11, 9, 0.96); color: #f8f8f8; box-shadow: none; transform: translateY(0);
+  }
+  .project-showcase--sber:focus-visible { outline-color: #171717; }
   /* EAJ abandons the shared full-bleed-photo-with-overlay-text pattern the
      other three scenes use. The earlier version of this cover cropped the
      laptop under `object-fit: cover` no matter how the crop point was tuned
@@ -551,6 +579,8 @@
      overlay), so there's no photo underneath it left to run across — the
      cap here is just readable line length within the ~38%-wide column. */
   .project-showcase--eaj .project-showcase__body { max-width: 440px; }
+  /* Sber — glass receipt sits right of centre; keep the left column modest. */
+  .project-showcase--sber .project-showcase__body { max-width: min(460px, 34vw); }
   /* Namaste — phone is centered; keep the left column clear of its frame. */
   .project-showcase--namaste .project-showcase__body { max-width: min(460px, 34vw); }
   /* Tracker — phone + both portrait pins sit center-left; keep the right
@@ -676,6 +706,8 @@
       transform: none !important;
     }
     .project-showcase--namaste .project-showcase__media img { object-position: center 12%; }
+    .project-showcase--sber .project-showcase__media { height: auto; aspect-ratio: 5 / 4; }
+    .project-showcase--sber .project-showcase__media img { object-position: 100% center; }
     .project-showcase--tracker .project-showcase__media img { object-position: 42% 22%; }
     /* EAJ keeps the same no-crop requirement on mobile as desktop — contain,
        not cover, so the laptop is never cut off in the top image band. */
@@ -888,6 +920,27 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
               <div class="project-showcase__meta"><span data-lang="ru">B2B fintech · Web + Mobile</span><span data-lang="en">B2B fintech · Web + Mobile</span></div>
             </div>
             <p class="project-showcase__desc"><span data-lang="ru">Редизайн админ-панели для партнёрской сети Alif Bank: снизили нагрузку на колл-центр и модераторов, партнёры стали самостоятельнее в ключевых операциях.</span><span data-lang="en">Redesigned the partner admin panel for Alif Bank’s fast-growing network: cut the load on the call center and moderators, and gave partners more independence in key operations.</span></p>
+            <span class="project-showcase__cta-wrap">
+              <span class="project-showcase__cta"><span data-lang="ru">Подробнее</span><span data-lang="en">See details</span><span class="arrow" aria-hidden="true">→</span></span>
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <a class="project-showcase project-showcase--sber" href="case-sber-split.html" data-showcase>
+        <div class="project-showcase__media">
+          <img src="assets/sber-showcase.webp" data-alt-ru="Телефон с экраном разделения счёта и карточка «Ужин в Sempre» на светлом фоне" data-alt-en="A phone with the bill-splitting screen and a “Dinner at Sempre” card on a light background" alt="Телефон с экраном разделения счёта и карточка «Ужин в Sempre» на светлом фоне" loading="lazy" width="2400" height="1600">
+        </div>
+        <div class="project-showcase__scrim" aria-hidden="true"></div>
+        <div class="project-showcase__content">
+          <div class="project-showcase__body">
+            <div class="project-showcase__header">
+              <div class="project-showcase__row">
+                <h2 class="project-showcase__title"><span data-lang="ru">Разделение счёта</span><span data-lang="en">Bill Splitting</span></h2>
+              </div>
+              <div class="project-showcase__meta"><span data-lang="ru">Финтех · iOS · СберБанк Онлайн</span><span data-lang="en">Fintech · iOS · SberBank Online</span></div>
+            </div>
+            <p class="project-showcase__desc"><span data-lang="ru">Сценарий разделения ресторанного счёта в СберБанк Онлайн: от оплаченной операции до возврата денег каждому участнику.</span><span data-lang="en">A bill-splitting flow for SberBank Online: from the paid transaction to every friend paying back their share.</span></p>
             <span class="project-showcase__cta-wrap">
               <span class="project-showcase__cta"><span data-lang="ru">Подробнее</span><span data-lang="en">See details</span><span class="arrow" aria-hidden="true">→</span></span>
             </span>
@@ -1229,7 +1282,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
     // stacked reveal made navigation unclear on phones (cards visually
     // overlapping, no obvious cue that scrolling continues the reveal), so
     // below that width the cards stay in their plain, fully-visible,
-    // stacked-document baseline (four ordinary sections, no motion, no
+    // stacked-document baseline (five ordinary sections, no motion, no
     // `.js-stage-active`) — see the matching `@media (max-width: 767px)`
     // CSS block above, which also forces this layout defensively even if
     // the class is somehow present. `prefers-reduced-motion: reduce` skips
@@ -1238,27 +1291,31 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       var wrap = document.querySelector('.projects-stage-wrap');
       if (!wrap) return;
+      var sberEl = wrap.querySelector('.project-showcase--sber');
       var eajEl = wrap.querySelector('.project-showcase--eaj');
       var namasteEl = wrap.querySelector('.project-showcase--namaste');
       var trackerEl = wrap.querySelector('.project-showcase--tracker');
-      if (!eajEl || !namasteEl || !trackerEl) return;
-      var sceneEls = [eajEl, namasteEl, trackerEl];
+      if (!sberEl || !eajEl || !namasteEl || !trackerEl) return;
+      var sceneEls = [sberEl, eajEl, namasteEl, trackerEl];
       var sceneVarNames = ['--ty', '--scale', '--media-o', '--header-o', '--desc-o', '--cta-o'];
 
       // Budget, in "percent of one viewport height" scrolled while the stage
-      // is pinned — must match the wrapper's CSS height (700svh = 100svh
-      // pinned view + 600svh of scroll-through, i.e. 600 of these units):
+      // is pinned — must match the wrapper's CSS height (880svh = 100svh
+      // pinned view + 780svh of scroll-through, i.e. 780 of these units):
       //   0–60    hold on Alif (scene 0, static — never touched below)
-      //   60–180  EAJ rises over Alif                 (120-unit transition)
-      //   180–240 hold, EAJ settled
-      //   240–360 Namaste rises over EAJ               (120-unit transition)
-      //   360–420 hold, Namaste settled
-      //   420–540 360 Tracker rises over Namaste        (120-unit transition)
-      //   540–600 hold, Tracker settled
+      //   60–180  Sber rises over Alif                 (120-unit transition)
+      //   180–240 hold, Sber settled
+      //   240–360 EAJ rises over Sber                  (120-unit transition)
+      //   360–420 hold, EAJ settled
+      //   420–540 Namaste rises over EAJ               (120-unit transition)
+      //   540–600 hold, Namaste settled
+      //   600–720 360 Tracker rises over Namaste       (120-unit transition)
+      //   720–780 hold, Tracker settled
       var transitions = [
-        { el: eajEl, start: 60, end: 180 },
-        { el: namasteEl, start: 240, end: 360 },
-        { el: trackerEl, start: 420, end: 540 }
+        { el: sberEl, start: 60, end: 180 },
+        { el: eajEl, start: 240, end: 360 },
+        { el: namasteEl, start: 420, end: 540 },
+        { el: trackerEl, start: 600, end: 720 }
       ];
 
       function clamp01(x) { return Math.min(1, Math.max(0, x)); }

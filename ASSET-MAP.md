@@ -107,3 +107,37 @@ AL-04 (уведомления, теперь три карточки в гори�
 
 Файлы не переименованы: исправление вне задачи пересборки и может задеть другие
 ссылки. Решение за Мадиной.
+
+## Sber · Разделение счёта
+
+Папка `assets/sber/`. Источник: `~/Desktop/Сбер ТЗ/`. Экраны есть только на русском, поэтому EN-версия страницы использует те же файлы с английским alt-текстом.
+
+| Файл | Источник |
+| --- | --- |
+| `screen-operation.webp` | `Сбер ТЗ.pptx` → `ppt/media/image-6-3.png` |
+| `screen-participants.webp` | pptx → `image-6-1.png` |
+| `screen-add-items.webp` | pptx → `image-6-2.png` |
+| `screen-check-items.webp` | pptx → `image-7-2.png` |
+| `screen-split.webp` | pptx → `image-7-1.png` |
+| `screen-notification.webp` | pptx → `image-8-3.png` |
+| `screen-request.webp` | pptx → `image-8-1.png` |
+| `screen-request-items.webp` | pptx → `image-8-2.png` |
+| `scenario-creator.webp` | `Сценарии/Основной сценарий/Создатель сбора.pdf` |
+| `scenario-recipient.webp` | `Сценарии/Основной сценарий/Участник сбора.pdf` |
+| `scenario-split-items.webp` | `Сценарии/Разделить счет по позициям.pdf` |
+| `scenario-split-manual.webp` | `Сценарии/Разделить счет вручную.pdf` |
+| `scenario-add-manual.webp` | `Сценарии/Добавить позиции вручную.pdf` |
+| `research-cjm-creator.webp` | `Исследование/User Journey Map/Создатель счёта.pdf` |
+| `research-cjm-recipient.webp` | `Исследование/User Journey Map/Получатель счёта.pdf` |
+| `research-flow-creator.webp` | `Исследование/User Flow · Роль_ Создатель.pdf` |
+| `research-flow-recipient.webp` | `Исследование/User Flow · Участник сбора.pdf` |
+| `research-comparison.webp` | `Исследование/Сравнительная таблица.pdf` |
+| `research-tbank.webp` | `Исследование/Т‑Банк Анализ.pdf` |
+| `research-alfa.webp` | `Исследование/Альфа банк Анализ.pdf` |
+| `research-vtb.webp` | `Исследование/ВТБ Анализ.pdf` |
+| `research-interviews.webp` | `Исследование/Симуляция интервью.pdf` |
+
+Обновление: `screen-*.webp` пересозданы из векторных PDF сценариев (~937 px шириной, прозрачные скруглённые углы, без обводок-подсветок и коннекторов, видимых на досках). Создатель: `operation`, `participants`, `add-items`, `check-items`, `split` из `Создатель сбора.pdf`; получатель: `request`, `request-items`, `notification` из `Участник сбора.pdf`. `screen-check-items` выше остальных (полный экран с «Итого»). Доски `scenario-creator` (до 6000 px) и `research-*` (tbank, alfa, vtb, cjm-*, comparison, interviews, до 4800 px) отрендерены в повышенном разрешении, q78.
+
+### Обновление (v3, 2026-11-08)
+Страница кейса использует только `assets/sber/research-comparison.webp`, экраны и фото из `assets/sber/v3/` (список и размеры в `assets/sber/v3/screens.json`; фото сгенерированы в Figma, промпты в соседних `.json`). Файлы v1/v2 (screen-*, scenario-*, research-* кроме сравнительной таблицы, cover.webp) удалены.

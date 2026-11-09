@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>(function(){if(localStorage.getItem('site-lang')==='en')document.documentElement.classList.add('lang-en');})();</script>
+<title data-ru="Разделение ресторанного счёта · СберБанк Онлайн · Мадина Рашидова" data-en="Splitting a Restaurant Bill · Sber Online · Madina Rashidova">Разделение ресторанного счёта · СберБанк Онлайн · Мадина Рашидова</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<meta name="description" content="Разделение ресторанного счёта в СберБанк Онлайн: сбор, который связывает общий чек с возвратом каждой доли. Проблема, исследование, гипотеза, решения, калькулятор, дерево метрик." data-ru="Разделение ресторанного счёта в СберБанк Онлайн: сбор, который связывает общий чек с возвратом каждой доли. Проблема, исследование, гипотеза, решения, калькулятор, дерево метрик." data-en="Splitting a restaurant bill in Sber Online: a collection that links the shared receipt to the return of each share. Problem, research, hypothesis, decisions, calculator, metric tree.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
+<script>try{if(!/[?&]settled\b/.test(location.search)&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("mo")}catch(e){}</script>
+<style>
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+
+  .case-floating-nav {
+    position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom));
+    transform: translateX(-50%) translateY(12px);
+    z-index: 110; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 16px;
+    width: max-content; max-width: calc(100vw - 32px);
+    opacity: 0;
+    transition: opacity 0.5s cubic-bezier(0.22,1,0.36,1), transform 0.5s cubic-bezier(0.22,1,0.36,1);
+  }
+  .case-floating-nav.is-inview { opacity: 1; transform: translateX(-50%) translateY(0); }
+  body.lightbox-open .case-floating-nav { opacity: 0; pointer-events: none; }
+
+  .case-next, .case-prev {
+    background: rgba(255, 255, 255, 0.62);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    box-shadow:
+      0 10px 32px rgba(15, 13, 12, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    border-radius: var(--radius-pill);
+  }
+
+  .case-prev {
+    display: flex; align-items: center; gap: 12px;
+    padding-inline: 24px; min-height: 56px;
+    max-width: min(360px, 60vw);
+    transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s cubic-bezier(0.22,1,0.36,1);
+  }
+  .case-prev:hover, .case-prev:focus-visible { background: rgba(255,255,255,0.88); box-shadow: var(--shadow-control); transform: translateY(-2px); }
+  .case-prev:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 2px; }
+  .case-prev:active { transform: translateY(0); }
+  .case-prev__label { font-family: var(--mono); font-size: var(--font-size-nav-label); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+  .case-prev__title-row { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
+  .case-prev__arrow { flex-shrink: 0; color: #171717; transition: transform 0.25s cubic-bezier(0.22,1,0.36,1); }
+  .case-prev__title { font-family: var(--display); font-weight: 700; font-size: var(--font-size-nav-title); color: #171717; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .case-prev:hover .case-prev__arrow, .case-prev:focus-visible .case-prev__arrow { transform: translateX(-5px); }
+
+  .case-next {
+    display: flex; align-items: center; gap: 12px;
+    padding-inline: 24px; min-height: 56px;
+    max-width: min(360px, 60vw);
+    transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s cubic-bezier(0.22,1,0.36,1);
+  }
+  .case-next:hover, .case-next:focus-visible { background: rgba(255,255,255,0.88); box-shadow: var(--shadow-control); transform: translateY(-2px); }
+  .case-next:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 2px; }
+  .case-next:active { transform: translateY(0); }
+  .case-next__label { font-family: var(--mono); font-size: var(--font-size-nav-label); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+  .case-next__title-row { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
+  .case-next__title { font-family: var(--display); font-weight: 700; font-size: var(--font-size-nav-title); color: #171717; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .case-next__arrow { flex-shrink: 0; color: #171717; transition: transform 0.25s cubic-bezier(0.22,1,0.36,1); }
+  .case-next:hover .case-next__arrow, .case-next:focus-visible .case-next__arrow { transform: translateX(5px); }
+
+  @media (max-width: 720px) {
+    .case-floating-nav { bottom: max(14px, env(safe-area-inset-bottom)); gap: 16px; }
+    .case-next, .case-prev { min-height: 48px; padding-inline: 16px; max-width: min(220px, 52vw); }
+    .case-next__label, .case-prev__label {
+      position: absolute; width: 1px; height: 1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .case-floating-nav { transition: none; opacity: 1; transform: translateX(-50%); }
+    .case-next__arrow, .case-prev__arrow, .case-next, .case-prev { transition: none; }
+  }
+/* ===== Sber case v13: «холст» (design-canvas page): grid, ruler, stickies, selection frames, calm book column ===== */
+:root{
+  --paper:#FFFFFF; --ink:#151515; --ink2:#5E605C; --mute:#9A9C97; --grid:rgba(20,20,20,.045); --hair:#E6E6E2; --plate:#F4F4F1; --panel:#F4F4F1;
+  --green:#21A038; --gt:#137A26; --deep:#0D5F21;
+  --n-mint:#CFEFD8; --n-lime:#E7F59B; --n-peach:#F8D9C4; --n-sky:#CFE6F7; --chosen:#F3E3A3;
+  --serif:"EB Garamond",Georgia,"Times New Roman",serif; --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif; --sans2:var(--sans);
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace; --hand:Caveat,"Segoe Print","Comic Sans MS",cursive;
+  --radius-pill:999px; --shadow-control:0 8px 20px rgba(23,17,14,.08); --font-size-nav-label:.72rem; --font-size-nav-title:1.05rem;
+  --display:var(--sans); --text-strong:#151515; --text-dim:#5E605C;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[data-lang="en"]{display:none}
+html.lang-en [data-lang="ru"]{display:none}
+html.lang-en [data-lang="en"]{display:inline}
+html{background:#fff}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;margin:8px 0 0;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:100px 100px}
+body{margin:0}
+main{overflow-x:clip}
+img{display:block;max-width:100%}
+a{color:var(--gt)}
+:focus-visible{outline:2px solid var(--gt);outline-offset:3px}
+::selection{background:rgba(19,122,38,.2);color:var(--ink)}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+/* top: centred nav pill + ruler */
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--hair)}
+.navrow{display:flex;justify-content:center;padding-block:10px;padding-inline:8px}
+.site-nav{position:static;transform:none;display:flex;align-items:center;gap:2px;padding:4px 4px 4px 18px;border-radius:999px;border:1px solid var(--hair);background:#fff;box-shadow:none;font-size:13.5px;max-width:100%}
+.site-nav.is-nav-hidden{transform:none;opacity:1;pointer-events:auto}
+.site-nav a{text-decoration:none}
+.site-nav .nav-name{font:600 13.5px/1.2 var(--sans);color:var(--ink);margin:0 12px 0 0;white-space:nowrap;padding:0}
+.site-nav a.nav-link{font:400 13.5px/1.2 var(--sans);color:var(--ink2);padding:7px 12px;border-radius:999px;white-space:nowrap;position:relative}
+.site-nav a.nav-link::after{content:"";position:absolute;inset:-7px 0}
+.site-nav a.nav-link:hover,.site-nav a.nav-link:focus-visible{background:var(--plate);color:var(--ink)}
+.site-nav .lang-toggle{all:unset;box-sizing:border-box;cursor:pointer;position:relative;font:400 13.5px/1.2 var(--sans);background:var(--plate);color:var(--ink);padding:7px 12px;border-radius:999px;margin:0}
+.site-nav .lang-toggle::after{content:"";position:absolute;inset:-7px -2px}
+.site-nav .lang-toggle:hover{background:#EAEAE6}
+.site-nav .lang-toggle:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.ruler{height:16px;position:relative;overflow:hidden;font:500 9px var(--mono);color:var(--mute);background:repeating-linear-gradient(90deg,rgba(20,20,20,.18) 0 1px,transparent 1px 10px) left bottom/100% 4px no-repeat,repeating-linear-gradient(90deg,rgba(20,20,20,.25) 0 1px,transparent 1px 100px) left bottom/100% 8px no-repeat}
+.ruler span{position:absolute;top:1px}
+.ticks{position:fixed;left:max(10px,env(safe-area-inset-left,0px));top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:9px;z-index:15}
+.ticks i{display:block;width:10px;height:1px;background:var(--mute);transition:width .3s,background .3s}
+.ticks i.on{width:22px;background:var(--ink)}
+/* type */
+.lab{font:500 11.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+h1{font:600 clamp(28px,3vw,40px)/1.12 var(--sans);letter-spacing:-.02em;text-wrap:balance;margin:.67em 0}
+h2{font:600 clamp(22px,2vw,27px)/1.2 var(--sans);letter-spacing:-.015em;text-wrap:balance;margin:.83em 0}
+h3{font:600 clamp(18px,1.5vw,21px)/1.25 var(--sans);letter-spacing:-.01em;margin:1em 0}
+p{margin:1em 0}
+figure{margin:1em 40px}
+ul{margin:1em 0;padding-left:40px}
+.read{font:400 clamp(17px,1.35vw,19px)/1.6 var(--serif);color:#262626;max-width:36em}
+.read+.read{margin-top:14px}
+.cap{font:italic 400 16px/1.4 var(--serif);color:var(--ink2);margin-top:12px}
+.hand{font:600 1.45em/1 var(--hand);color:var(--gt);position:relative;white-space:nowrap}
+.hand::after{content:"";position:absolute;left:0;right:0;bottom:-.08em;height:.12em;background:currentColor;border-radius:4px;transform-origin:0 50%;transform:scaleX(0);transition:transform .9s .2s cubic-bezier(.2,.7,.2,1)}
+.vis .hand::after{transform:scaleX(1)}
+.arrow{display:flex;gap:12px;align-items:baseline;margin-top:18px;font:400 18px/1.5 var(--serif)}
+.arrow::before{content:"↳";font-family:var(--sans);color:#D9A21B}
+.tag{display:inline-flex;align-items:center;height:26px;padding:0 10px;font:500 11px var(--mono);letter-spacing:.05em;text-transform:uppercase;position:relative;border-radius:0 4px 4px 4px}
+.tag::before{content:"";position:absolute;left:0;top:-6px;width:40%;height:7px;background:inherit;border-radius:4px 4px 0 0;clip-path:polygon(0 100%,0 0,78% 0,100% 100%)}
+.chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:999px;font:500 11px var(--mono);letter-spacing:.05em;text-transform:uppercase}
+.c-prob{background:#E8456B;color:#fff}.c-dec{background:#ECECE8;color:var(--ink)}.c-res{background:var(--n-sky)}.c-hyp{background:var(--n-lime)}
+.sb{font-family:var(--sans);font-size:15px}
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:48px;align-items:center;padding-block:72px 40px}
+.hero .meta{display:flex;align-items:center;gap:10px}
+.hero .meta i{width:8px;height:8px;border-radius:50%;background:var(--ink)}
+.hero h1{margin-top:18px}
+.hero .read{margin-top:16px;max-width:30em}
+.tags{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.notes{position:relative;height:300px}
+.note{position:absolute;width:200px;padding:14px 16px 16px;box-shadow:0 10px 24px rgba(20,20,20,.08);transform:rotate(var(--r)) translateY(24px);opacity:0;transition:transform .8s cubic-bezier(.2,.8,.2,1.2),opacity .5s}
+.vis .note,.note.vis{transform:rotate(var(--r));opacity:1}
+.note .lab{color:var(--ink)}
+.note p{margin-top:8px;font-size:14.5px;line-height:1.4}
+/* figures: grey plate + selection frame */
+.fig{margin-top:28px}
+.plate{position:relative;background:var(--plate);padding:clamp(28px,4vw,56px) 16px;display:flex;justify-content:center;align-items:flex-start;gap:clamp(12px,2.5vw,28px);flex-wrap:wrap}
+.sel{position:relative}
+.sel>.h1x{position:absolute;inset:-11.5px;border:1.5px solid var(--sel,#2F7BF6);pointer-events:none}
+.sel>.h1x::before,.sel>.h1x::after,.sel>.h1x>i{content:"";position:absolute;width:9px;height:9px;background:#fff;border:1.5px solid var(--sel,#2F7BF6)}
+.sel>.h1x::before{left:-5px;top:-5px}.sel>.h1x::after{right:-5px;top:-5px}
+.sel>.h1x>i:first-child{left:-5px;bottom:-5px}.sel>.h1x>i:last-child{right:-5px;bottom:-5px}
+.sel .sz{position:absolute;left:50%;bottom:-36px;transform:translateX(-50%);font:500 10px var(--mono);color:#fff;background:var(--sel,#2F7BF6);padding:2px 6px;border-radius:3px;white-space:nowrap}
+.stick{position:absolute;padding:8px 12px;font-size:13px;box-shadow:0 8px 18px rgba(20,20,20,.08);transform:rotate(var(--r,-3deg));z-index:2;max-width:200px;line-height:1.3}
+.phone{width:var(--pw,210px);padding:calc(var(--pw,210px)*.032);border-radius:calc(var(--pw,210px)*.165);background:#151517;box-shadow:0 22px 44px rgba(0,0,0,.16);flex:none}
+.phone img{width:100%;height:auto;aspect-ratio:937/2026;border-radius:calc(var(--pw,210px)*.135);background:#fff}
+/* sections */
+.sec{padding-top:clamp(80px,9vw,128px)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start}
+.sec h2{margin-top:14px}
+.stat{display:flex;align-items:baseline;gap:14px;margin-top:22px;padding:16px 18px;background:#fff;border:1px solid var(--hair)}
+.stat b{font:600 30px/1 var(--sans);color:var(--gt);font-variant-numeric:tabular-nums}
+.stat .t{font-size:14px;line-height:1.45;color:var(--ink2)}
+.task{margin-top:22px;padding:16px 18px;background:var(--n-mint);font:400 18px/1.5 var(--serif)}
+.task b{font-family:var(--sans);font-weight:600;font-size:15px}
+.quote{text-align:center;font:italic 400 clamp(18px,1.6vw,21px)/1.5 var(--serif);color:#2a2a2a;max-width:30em;margin:clamp(60px,7vw,96px) auto 0}
+.wave{display:block;width:100%;height:40px;margin-top:clamp(60px,7vw,90px)}
+.wave path{stroke-dasharray:1400;stroke-dashoffset:1400;transition:stroke-dashoffset 2s cubic-bezier(.2,.7,.2,1)}
+.wave.vis path{stroke-dashoffset:0}
+table{width:100%;border-collapse:collapse;margin-top:22px;font-size:14.5px;background:#fff}
+th{font:500 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);text-align:left;padding:10px 12px;border-bottom:1px solid var(--ink)}
+td{padding:12px;border-bottom:1px solid var(--hair);vertical-align:top;line-height:1.45}
+td:first-child{font-weight:600;white-space:nowrap}
+.tbl{overflow-x:auto}
+/* artifacts: thumbnails that open the full image in the zoom viewer */
+.arts{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.art{all:unset;box-sizing:border-box;cursor:pointer;display:block;width:100%;background:#fff;border:1px solid var(--hair);padding:10px;transition:border-color .2s,box-shadow .2s}
+.art:hover{border-color:#BDBDB7;box-shadow:0 8px 22px rgba(20,20,20,.07)}
+.art:focus-visible{outline:2px solid var(--gt);outline-offset:3px}
+.art .th{display:block;position:relative}
+.art img{width:100%;height:auto;aspect-ratio:1000/720;object-fit:contain;background:var(--plate)}
+.art .tt{display:block;margin-top:8px;font-size:13px;color:var(--ink)}
+.art .open{position:absolute;right:8px;bottom:8px;display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:999px;background:rgba(21,21,21,.86);color:#fff;font:500 12px var(--sans)}
+.art .open svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.art:hover .open{background:var(--gt)}
+/* hypothesis toggle */
+.seg{display:inline-flex;padding:3px;border-radius:999px;background:#fff;border:1px solid var(--hair);margin-top:20px}
+.seg button{all:unset;cursor:pointer;padding:7px 14px;border-radius:999px;font-size:13px;color:var(--ink2)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.seg button:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.seg .new{font:500 9px var(--mono);background:#F39A3D;color:#fff;padding:1px 5px;border-radius:999px;margin-left:6px;vertical-align:2px}
+.swap{position:relative}
+.swap img{transition:opacity .4s}
+.chain{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:22px}
+.chain>span{padding:8px 12px;border:1px solid var(--hair);background:#fff;font-size:13.5px}
+.chain>span.on{background:var(--n-lime);border-color:transparent}
+.chain em{font-style:normal;color:var(--mute)}
+/* decisions */
+.dec{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start;padding-top:clamp(64px,7vw,96px)}
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.opt{display:grid;grid-template-columns:18px 1fr;gap:12px;padding:14px 16px;border:1px solid var(--hair);background:#fff;border-radius:10px}
+.opt .ic{position:relative;width:16px;height:16px;border-radius:50%;border:1.5px dashed var(--mute);margin-top:2px}
+.opt .lab{font-size:10.5px;color:var(--mute)}
+.opt p{margin-top:6px;font-size:14.5px;line-height:1.45;color:#2b2b2b}
+.opt.chosen{background:var(--chosen);border-color:#E5CC6C}
+.opt.chosen .ic{border:1.5px solid #B48A12}
+.opt .ic::after{content:"";position:absolute;inset:2.5px;border-radius:50%;background:#B48A12;transform:scale(0)}
+.opt.chosen .ic::after{transform:scale(1)}
+.opt:not(.chosen){opacity:.55}
+.opt:not(.chosen) p{color:#111;text-decoration:line-through;text-decoration-color:rgba(21,21,21,.4);text-decoration-thickness:1px}
+.opt.chosen .lab{color:var(--ink)}
+/* calculator window */
+.win{background:#fff;border:1px solid var(--hair);border-radius:12px;overflow:hidden;box-shadow:0 18px 40px rgba(20,20,20,.06)}
+.win .bar{display:flex;gap:6px;padding:10px 12px;border-bottom:1px solid var(--hair);background:#FAFAF8}
+.win .bar i{width:10px;height:10px;border-radius:50%;background:#E8655A}.win .bar i:nth-child(2){background:#E9B840}.win .bar i:nth-child(3){background:#61C454}
+.modes{display:flex;gap:4px;padding:4px;margin:16px 20px 0;width:max-content;max-width:calc(100% - 40px);border-radius:999px;background:var(--plate);border:1px solid var(--hair)}
+.modes button{all:unset;box-sizing:border-box;cursor:pointer;padding:8px 16px;border-radius:999px;font:500 13.5px/1.2 var(--sans);color:var(--ink2);white-space:nowrap;transition:background-color .2s,color .2s}
+.modes button[aria-selected="true"]{background:#151515;color:#fff}
+.modes button:not([aria-selected="true"]):hover{color:var(--ink)}
+.modes button:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0}
+.calc>div{padding:20px}
+.calc .l{border-right:1px solid var(--hair)}
+.calc .l>.pane{animation:paneIn .3s ease both}
+@keyframes paneIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.item{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;column-gap:14px;padding:7px 0;border-bottom:1px solid #F0F0EC;font-size:14px;min-height:42px}
+.item i{font-style:normal;color:var(--ink2);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right;min-width:62px}
+.item.warn{background:linear-gradient(90deg,rgba(179,38,30,.06),transparent)}
+.avs{display:inline-flex;gap:4px}
+.av1{all:unset;box-sizing:border-box;cursor:pointer;width:28px;height:28px;border-radius:50%;display:inline-grid;place-items:center;font:600 12px/1 var(--sans);border:1.5px solid var(--hair);color:var(--mute);background:#fff;transition:background-color .2s,color .2s,border-color .2s;position:relative}
+.av1::after{content:"";position:absolute;inset:-4px -2px}
+.av1[aria-pressed="true"]{background:var(--pc);border-color:var(--pc);color:#fff}
+.av1:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.sub{margin-top:18px}
+.note-u{margin-top:10px;font-size:13px;font-weight:500;color:#9A3412}
+.people{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.people button{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 13px;border-radius:999px;border:1px solid var(--hair);font-size:13px;position:relative}
+.people button::after{content:"";position:absolute;inset:-4px -2px}
+.people button[aria-pressed="true"]{border-color:var(--ink)}
+.people button[aria-pressed="false"]{color:var(--mute)}
+.people button:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.people b{width:8px;height:8px;border-radius:50%;background:var(--pc)}
+.people button[aria-pressed="false"] b{background:#ccc}
+.mrow{display:flex;align-items:center;gap:12px;margin-top:10px}
+.mrow label{flex:1;display:flex;align-items:center;gap:8px;font-size:14px}
+.mrow label b{width:8px;height:8px;border-radius:50%;background:var(--pc);flex:none}
+.mrow .in{position:relative;width:150px;flex:none}
+.mrow input{all:unset;box-sizing:border-box;width:100%;height:40px;padding:0 30px 0 12px;border:1px solid #C9C9C4;border-radius:8px;background:#fff;font:500 15px/1 var(--sans);font-variant-numeric:tabular-nums;text-align:right;color:var(--ink)}
+.mrow input:focus{border-color:var(--ink);box-shadow:0 0 0 3px rgba(21,21,21,.08)}
+.mrow input:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.mrow .in::after{content:"₽";position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--ink2);font-size:14px;pointer-events:none}
+.btn2{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;margin-top:14px;height:36px;padding:0 14px;align-items:center;border-radius:10px;border:1px solid #C9C9C4;font:500 13.5px/1 var(--sans);color:var(--ink)}
+.btn2:hover{border-color:var(--ink)}
+.btn2:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.calc .r{display:flex;flex-direction:column}
+.share{display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #F0F0EC;font-size:14.5px}
+.share u{width:10px;height:10px;border-radius:3px;background:var(--pc)}
+.share b{font-variant-numeric:tabular-nums;font-weight:600}
+.share.off{color:var(--mute)}
+.share.off u{background:#ccc}
+.sbar{display:flex;height:10px;margin:12px 0 8px;border-radius:4px;overflow:hidden;background:var(--plate)}
+.sbar i{flex:0 0 0;min-width:0;background:var(--pc);transition:flex-grow .5s cubic-bezier(.2,.7,.2,1);box-shadow:-2px 0 0 #fff}
+.sbar i:first-child{box-shadow:none}
+.sbar i.rest{background:repeating-linear-gradient(135deg,#E3E3DF 0 4px,#EDEDE9 4px 8px)}
+.status{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:13.5px;font-weight:500;min-height:20px;color:var(--ink2)}
+.status.ok{color:var(--gt)}
+.status.warn{color:#9A3412}
+.btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;margin-top:16px;height:40px;padding:0 16px;align-items:center;justify-content:center;border-radius:10px;background:#137A26;color:#fff;font-size:14px;font-weight:600;align-self:flex-start;transition:opacity .2s}
+.btn[aria-disabled="true"]{opacity:.38;cursor:not-allowed}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.big{font:600 30px var(--sans);margin-top:8px;font-variant-numeric:tabular-nums}
+/* metric canvas */
+.canvas{position:relative;background:#fff;border:1px solid var(--hair);border-radius:12px;padding:28px;background-image:radial-gradient(rgba(20,20,20,.12) 1px,transparent 1.2px);background-size:16px 16px;min-height:340px}
+.canvas svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.node{position:absolute;background:#fff;border:1px solid var(--hair);border-radius:8px;padding:10px 12px;font-size:13.5px;box-shadow:0 4px 10px rgba(20,20,20,.05);max-width:36%;line-height:1.3}
+.node[data-n=d],.node[data-n=e]{max-width:29%}
+.node .lab{font-size:9.5px;display:block;margin-bottom:4px}
+.node.root{border-color:var(--ink)}
+.node.lit{background:var(--n-lime);border-color:transparent}
+.next{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+.next li{display:flex;gap:12px;align-items:baseline;padding:12px 14px;background:#fff;border:1px solid var(--hair);font:400 17px/1.45 var(--serif)}
+.next li::before{content:"";flex:none;width:8px;height:8px;background:var(--green);transform:translateY(-2px)}
+.dec .plate{flex-wrap:nowrap;--pw:190px}.dec .phone{--pw:inherit}
+.f1{--pw:200px}
+.end{height:120px}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.vis{opacity:1;transform:none}
+.case-floating-nav.is-held{opacity:0!important;pointer-events:none;visibility:hidden}
+@media (max-width:900px){
+  .hero,.two,.dec{grid-template-columns:minmax(0,1fr);gap:28px}
+  .hero{padding-block:44px 24px}
+  .notes{height:auto;display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:6px}
+  .note{position:relative;width:auto;left:auto!important;top:auto!important}
+  .arts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .calc{grid-template-columns:minmax(0,1fr)}.calc .l{border-right:0;border-bottom:1px solid var(--hair)}
+  .ticks{display:none}
+  .phone,.f1{--pw:150px}
+  .plate>.f1{display:none}
+  .stick{left:8px!important;right:auto!important;top:8px!important;bottom:auto!important;font-size:12px}
+  .plate{padding-top:52px}
+  .arrow{display:block}.arrow::before{margin-right:8px}
+  .seg button{white-space:nowrap}
+  table,thead,tbody,tr,td{display:block}thead{display:none}tr{padding:10px 0;border-bottom:1px solid var(--hair)}td{border:0;padding:3px 12px}.dec .plate{--pw:140px}
+  .site-nav .nav-name{display:none}
+  .site-nav{padding-left:4px}
+  figure{margin-inline:0}
+  .canvas{min-height:460px}
+  .node,.node[data-n=d],.node[data-n=e]{max-width:none}
+  .art .tt{font-size:12px}
+  .node[data-n=root]{left:4%!important;top:4%!important}.node[data-n=a]{left:16%!important;top:23%!important}
+  .node[data-n=d]{left:30%!important;top:40%!important}.node[data-n=e]{left:30%!important;top:54%!important}
+  .node[data-n=b]{left:16%!important;top:70%!important}.node[data-n=c]{left:16%!important;top:85%!important}
+}
+@media (max-width:560px){
+  .calc>div{padding:16px}
+  .modes{margin:14px 16px 0;max-width:calc(100% - 32px);width:auto}
+  .modes button{flex:1;text-align:center;padding:9px 6px;font-size:13px}
+  .item{grid-template-columns:minmax(0,1fr) auto;row-gap:6px;padding:9px 0}
+  .item .avs{grid-column:1/-1;grid-row:2}
+  .av1{width:32px;height:32px}
+  .mrow{flex-wrap:wrap;gap:6px}
+  .mrow label{flex:1 1 100%}
+  .mrow .in{width:100%}
+}
+.pc0,.sbar i:nth-child(1){--pc:#137A26}.pc1,.sbar i:nth-child(2){--pc:#2563D6}.pc2,.sbar i:nth-child(3){--pc:#A86A00}.pc3,.sbar i:nth-child(4){--pc:#C73259}
+/* ruler marker */
+.rmark{position:absolute;left:0;bottom:0;width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:7px solid var(--green);margin-left:-5px;will-change:transform}
+/* artifacts hover cue */
+.arts li{will-change:auto}
+.art{transition:border-color .2s,box-shadow .2s,transform .25s cubic-bezier(.2,.7,.2,1)}
+.art:hover,.art:focus-visible{transform:translateY(-3px)}
+@media (hover:hover){
+  .art .open{opacity:0;transform:translateY(8px);transition:opacity .2s,transform .25s cubic-bezier(.2,.7,.2,1),background-color .2s}
+  .art:hover .open,.art:focus-visible .open{opacity:1;transform:none}
+}
+/* ===== motion (only with html.mo: no ?settled, no reduced motion, JS running) ===== */
+.mo .p-hero:not(.go)>.phone,.mo .p-hero:not(.go)>.sel{opacity:0;transform:translateY(32px)}
+.mo .p-hero>.phone,.mo .p-hero>.sel{transition:opacity .7s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.mo .p-hero>:nth-child(2){transition-delay:.14s}.mo .p-hero>:nth-child(3){transition-delay:.28s}
+.mo .p-hero:not(.go)>.stick{opacity:0}
+.mo .p-hero>.stick{transition:opacity .5s 1.7s}
+.mo .plate:not(.go) .h1x,.mo .dec:not(.go) .h1x{opacity:0;transform:scale(.94)}
+.mo .plate .h1x,.mo .dec .h1x{transition:opacity .45s ease var(--fd,.35s),transform .6s cubic-bezier(.2,.8,.2,1) var(--fd,.35s)}
+.mo .plate:not(.go) .h1x>i,.mo .plate:not(.go) .h1x::before,.mo .plate:not(.go) .h1x::after,.mo .dec:not(.go) .h1x>i,.mo .dec:not(.go) .h1x::before,.mo .dec:not(.go) .h1x::after{transform:scale(0)}
+.mo .plate .h1x>i,.mo .plate .h1x::before,.mo .plate .h1x::after,.mo .dec .h1x>i,.mo .dec .h1x::before,.mo .dec .h1x::after{transition:transform .35s cubic-bezier(.3,1.7,.5,1) calc(var(--fd,.35s) + .3s)}
+.mo .p-hero{--fd:.95s}
+.mo .dec{--fd:2.3s}
+.mo .plate:not(.go) .sz{opacity:0;transform:translate(-50%,10px)}
+.mo .sz{transition:opacity .4s ease 1.6s,transform .5s cubic-bezier(.2,.8,.2,1) 1.6s}
+/* chips */
+.mo .chip:not(.pop){opacity:0;transform:scale(.8)}
+.mo .chip{transition:opacity .35s ease,transform .5s cubic-bezier(.3,1.6,.5,1)}
+/* artifacts stagger */
+.mo .arts:not(.go) li{opacity:0;transform:translateY(26px)}
+.mo .arts li{transition:opacity .6s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.mo .arts li:nth-child(2){transition-delay:.08s}.mo .arts li:nth-child(3){transition-delay:.16s}.mo .arts li:nth-child(4){transition-delay:.24s}.mo .arts li:nth-child(5){transition-delay:.32s}.mo .arts li:nth-child(6){transition-delay:.4s}
+/* hypothesis chain */
+.chain>span{transition:background-color .35s,border-color .35s}
+/* decisions sequence */
+.mo .dec:not(.go) .opt:not(.chosen){opacity:0}
+.mo .dec.go .opt:not(.chosen){animation:optA 1.5s ease both}
+@keyframes optA{0%{opacity:0;transform:translateY(10px)}30%{opacity:1;transform:none}62%{opacity:1}100%{opacity:.55}}
+.mo .dec.go .opt:not(.chosen) p{animation:strike .5s ease 1s both}
+@keyframes strike{from{text-decoration-color:transparent}to{text-decoration-color:rgba(21,21,21,.4)}}
+.mo .dec:not(.go) .opt:not(.chosen) p{text-decoration-color:transparent}
+.mo .dec:not(.go) .opt.chosen{opacity:0}
+.mo .dec.go .opt.chosen{animation:slideB .6s cubic-bezier(.2,.8,.2,1) 1.5s both}
+@keyframes slideB{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+.mo .dec:not(.go) .opt.chosen .ic::after{transform:scale(0)}
+.mo .dec.go .opt.chosen .ic::after{animation:dot .35s cubic-bezier(.3,1.7,.5,1) 2s both}
+@keyframes dot{from{transform:scale(0)}to{transform:scale(1)}}
+.dec .phone{transform:translate3d(0,var(--py,0px),0)}
+.mo .dec .phone{will-change:transform}
+/* metric tree */
+.mo #tree:not(.go) .node{opacity:0}
+.mo #tree .node{transition:opacity .5s ease}
+.mo #tree .node[data-n=a]{transition-delay:.12s}.mo #tree .node[data-n=b]{transition-delay:.2s}.mo #tree .node[data-n=c]{transition-delay:.28s}.mo #tree .node[data-n=d]{transition-delay:.36s}.mo #tree .node[data-n=e]{transition-delay:.44s}
+.mo #treeSvg path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .7s cubic-bezier(.4,0,.2,1)}
+.mo #tree.go #treeSvg path{stroke-dashoffset:0}
+/* next list */
+.mo .next:not(.go) li{opacity:0;transform:translateY(14px)}
+.mo .next li{transition:opacity .5s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
+.mo .next li:nth-child(2){transition-delay:.12s}.mo .next li:nth-child(3){transition-delay:.24s}
+
+@media (prefers-reduced-motion:reduce){.reveal,.note{opacity:1!important;transform:rotate(var(--r,0deg))!important;transition:none}.reveal{transform:none!important}.wave path{stroke-dashoffset:0;transition:none}.hand::after{transform:scaleX(1);transition:none}.sbar i{transition:none}.swap img{transition:none}.ticks i{transition:none}.art,.art .open,.modes button,.btn,.chain>span,.sbar i{transition:none!important}.calc .l>.pane{animation:none}}
+
+.av{position:fixed;inset:0;z-index:300;background:#fff;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .2s ease}
+.av.is-open{opacity:1;pointer-events:auto}
+.av[hidden]{display:none}
+.av-bar{display:flex;align-items:center;gap:12px;padding:10px clamp(12px,2vw,24px);border-bottom:1px solid var(--hair);background:#fff;flex:none}
+.av-title{flex:1;min-width:0;font:500 15px/1.3 var(--sans2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink);margin:0}
+.av-ctl{display:flex;align-items:center;gap:6px}
+.av-btn{all:unset;box-sizing:border-box;cursor:pointer;min-width:44px;height:44px;padding:0 12px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #D6D6D3;border-radius:6px;font:500 18px/1 var(--sans2);color:var(--ink);background:#fff}
+.av-btn:hover{background:var(--panel)}
+.av-btn:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.av-btn.txt{font-size:14px;padding:0 16px}
+.av-zoom{min-width:56px;text-align:center;font:14px var(--sans2);color:var(--ink2);font-variant-numeric:tabular-nums}
+.av-stage{position:relative;flex:1;overflow:hidden;touch-action:none;cursor:grab;background:var(--panel)}
+.av-stage.is-drag{cursor:grabbing}
+.av-stage img{position:absolute;left:0;top:0;max-width:none;transform-origin:0 0;user-select:none;-webkit-user-drag:none;will-change:transform;background:#fff;border:1px solid var(--hair)}
+.av-hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);padding:8px 14px;background:#fff;border:1px solid var(--hair);font:13px var(--sans2);color:var(--ink2);pointer-events:none;white-space:nowrap;transition:opacity .4s}
+.av-hint.is-gone{opacity:0}
+body.av-open{overflow:hidden}
+body.av-open .case-floating-nav,body.av-open .site-nav{opacity:0;pointer-events:none}
+
+</style>
+<link rel="stylesheet" href="assets/typography.css">
+</head>
+<body>
+  <div class="top"><div class="navrow"><nav class="site-nav">
+    <a href="index.html" class="nav-name"><span data-lang="ru">Мадина Рашидова</span><span data-lang="en">Madina Rashidova</span></a>
+    <a href="index.html#work" class="nav-link"><span data-lang="ru">Работы</span><span data-lang="en">Work</span></a>
+    <a href="about.html" class="nav-link"><span data-lang="ru">Обо мне</span><span data-lang="en">About</span></a>
+    <a href="cv.pdf" data-href-ru="cv.pdf" data-href-en="cv-en.pdf" class="nav-link" target="_blank" rel="noopener">CV</a>
+    <button type="button" class="lang-toggle" data-lang-toggle aria-label="Switch to English">EN</button>
+  </nav></div><div class="ruler" id="ruler" aria-hidden="true"></div></div>
+
+<div class="ticks" id="ticks" aria-hidden="true"></div>
+
+<main id="main">
+<header class="wrap hero" id="hero" data-tick>
+  <div class="reveal">
+    <div class="meta"><i></i><span class="lab"><span data-lang="ru">Кейс · СберБанк Онлайн</span><span data-lang="en">Case · Sber Online</span></span></div>
+    <h1><span data-lang="ru">Разделение ресторанного счёта</span><span data-lang="en">Splitting a restaurant bill</span></h1>
+    <p class="read"><span data-lang="ru">Спроектировала путь от оплаченной покупки до последнего перевода: участник видит, из чего его сумма, а тот, кто оплатил ужин, видит, кто уже вернул деньги.</span><span data-lang="en">I designed the path from a paid purchase to the last transfer: a participant sees what their amount is made of, and the person who paid for dinner sees who has already paid them back.</span></p>
+    <div class="tags"><span class="tag" style="background:#ECECE8"><span data-lang="ru">Финтех</span><span data-lang="en">Fintech</span></span><span class="tag" style="background:#E3B84C"><span data-lang="ru">Продуктовый дизайн</span><span data-lang="en">Product design</span></span></div>
+  </div>
+  <div class="notes reveal">
+    <div class="note" style="--r:-3deg;left:6%;top:6%;background:var(--n-sky);transition-delay:.1s"><span class="lab"><span data-lang="ru">Роль</span><span data-lang="en">Role</span></span><p><span data-lang="ru">Продуктовый дизайнер, от исследования до прототипа</span><span data-lang="en">Product designer, from research to prototype</span></p></div>
+    <div class="note" style="--r:2.5deg;left:52%;top:0;background:var(--n-lime);transition-delay:.2s"><span class="lab"><span data-lang="ru">Платформа</span><span data-lang="en">Platform</span></span><p><span data-lang="ru">iOS, СберБанк Онлайн</span><span data-lang="en">iOS, Sber Online</span></p></div>
+    <div class="note" style="--r:2deg;left:4%;top:50%;background:var(--n-mint);transition-delay:.3s"><span class="lab"><span data-lang="ru">Пользователи</span><span data-lang="en">Users</span></span><p><span data-lang="ru">Тот, кто оплатил счёт, и остальные участники</span><span data-lang="en">The person who paid the bill and the other participants</span></p></div>
+    <div class="note" style="--r:-2deg;left:52%;top:44%;background:var(--n-peach);transition-delay:.4s"><span class="lab"><span data-lang="ru">Пример в прототипе</span><span data-lang="en">Example in the prototype</span></span><p><span data-lang="ru">Ужин в Sempre, 8 400 ₽, четыре человека</span><span data-lang="en">Dinner at Sempre, 8,400 ₽, four people</span></p></div>
+  </div>
+</header>
+
+<section class="wrap reveal">
+  <figure class="fig"><div class="plate p-hero">
+    <div class="phone f1"><img src="assets/sber/v3/creator-01-operation.webp" width="937" height="2026" data-alt-ru="Экран операции с кнопкой «Разделить»" data-alt-en="Transaction screen with the “Split” button" alt="Экран операции с кнопкой «Разделить»" decoding="async"></div>
+    <div class="sel" style="--sel:#2F7BF6"><span class="h1x"><i></i><i></i></span><div class="phone f1"><img src="assets/sber/v3/recipient-03-items.webp" width="936" height="2026" data-alt-ru="Запрос участника с позициями чека" data-alt-en="Participant request with receipt items" alt="Запрос участника с позициями чека" decoding="async" fetchpriority="high"></div><span class="sz"><span data-lang="ru">Запрос участнику</span><span data-lang="en">Participant request</span></span></div>
+    <div class="phone f1"><img src="assets/sber/v3/creator-11-collection-status.webp" width="937" height="2027" data-alt-ru="Статус сбора: кто перевёл и кнопка «Напомнить»" data-alt-en="Collection status: who has transferred and the “Remind” button" alt="Статус сбора: кто перевёл и кнопка «Напомнить»" decoding="async"></div>
+    <span class="stick" style="right:6%;top:18%;background:var(--chosen);--r:4deg"><span data-lang="ru">Ключевой экран кейса</span><span data-lang="en">The key screen of the case</span></span>
+  </div><figcaption class="cap"><span data-lang="ru">Рис. 1. Покупка, запрос участнику и статус сбора. Данные примера.</span><span data-lang="en">Fig. 1. The purchase, the participant request and the collection status. Example data.</span></figcaption></figure>
+</section>
+
+<section class="wrap sec two reveal" data-tick>
+  <div><span class="lab"><span data-lang="ru">Что это за продукт</span><span data-lang="en">What the product is</span></span><h2><span data-lang="ru">Сбор в банке, который связывает чек с переводами</span><span data-lang="en">A collection in the bank that ties the receipt to the transfers</span></h2></div>
+  <div><p class="read"><span data-lang="ru">Сбор создаётся прямо из оплаченной покупки. Сумму делят поровну, по позициям или вручную, и каждый получает запрос со своей долей. Участник видит, за что платит, а оплативший видит, кто уже перевёл.</span><span data-lang="en">A collection starts right from a paid purchase. The amount is split equally, by item or by hand, and everyone gets a request with their share. Participants see what they are paying for, and the person who paid sees who has already transferred.</span></p></div>
+</section>
+
+<svg class="wave wrap reveal" viewBox="0 0 1100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 C 180 10, 320 34, 520 22 S 860 6, 1100 18" fill="none" stroke="#9A9C97" stroke-width="1.2"/></svg>
+
+<section class="wrap sec two reveal" data-tick id="problem">
+  <div>
+    <span class="chip c-prob"><span data-lang="ru">Проблема</span><span data-lang="en">Problem</span></span>
+    <h2><span data-lang="ru">Ресторану заплатили. Между собой ещё нужно рассчитаться</span><span data-lang="en">The restaurant is paid. The friends still have to settle up</span></h2>
+    <p class="read" style="margin-top:16px"><span data-lang="ru">Я заметила знакомую ситуацию: один человек платит за весь ужин, а потом у него начинается вторая работа. Нужно поделить счёт, разослать каждому его сумму, ответить на вопросы и проверить, кто уже перевёл. Я решила разобраться, почему вернуть свои деньги так хлопотно и что здесь может сделать банк.</span><span data-lang="en">I noticed a familiar situation: one person pays for the whole dinner, and then a second job begins. They have to split the bill, send everyone their amount, answer questions and check who has already transferred. I decided to find out why getting your money back is so tedious and what a bank can do about it.</span></p>
+    <p class="arrow"><span data-lang="ru">Участник открывает запрос с одним вопросом: <span class="hand">из чего моя сумма?</span></span><span data-lang="en">A participant opens the request with one question: <span class="hand">what is my amount made of?</span></span></p>
+  </div>
+  <div>
+    <div class="stat"><b>55%</b><span class="t"><span data-lang="ru">в последний раз расплачивались в кафе именно так: один платит, остальные переводят ему. Исследование Т‑Банка, июнь 2025, более 3 000 респондентов. <a href="https://rfinance.ru/live/news?id=33349&amp;tid=4" target="_blank" rel="noopener">Публикация</a></span><span data-lang="en">paid for their last café visit exactly this way: one person pays, the others transfer to them. T‑Bank research, June 2025, more than 3,000 respondents. <a href="https://rfinance.ru/live/news?id=33349&amp;tid=4" target="_blank" rel="noopener">Source</a></span></span></div>
+    <div class="task"><span data-lang="ru"><b>Задача.</b> Связать чек, доли и возвраты в одном месте внутри банка.</span><span data-lang="en"><b>Task.</b> Tie the receipt, the shares and the repayments together in one place inside the bank.</span></div>
+    <p class="read" style="margin-top:18px"><span data-lang="ru"><b class="sb">Бизнес-цель:</b> чтобы функцией разделения пользовалось больше клиентов. Если сервис помог вернуть деньги, следующий общий счёт клиент поделит в нём же.</span><span data-lang="en"><b class="sb">Business goal:</b> more customers using the split feature. If the service helped someone get their money back, they will split the next shared bill in it too.</span></p>
+  </div>
+</section>
+
+<p class="wrap quote reveal"><span data-lang="ru">Сумма в запросе понятна только тогда, когда видно, из чего она сложилась.</span><span data-lang="en">An amount in a request is clear only when you can see what it is made of.</span></p>
+
+<section class="wrap sec reveal" data-tick id="research">
+  <span class="chip c-res"><span data-lang="ru">Исследование</span><span data-lang="en">Research</span></span>
+  <h2><span data-lang="ru">Что умеют конкуренты</span><span data-lang="en">What competitors can do</span></h2>
+  <p class="read" style="margin-top:14px"><span data-lang="ru">Я прошла сценарии Т‑Банка, Альфа‑Банка и ВТБ в двух ролях: создавала запрос на одном телефоне и открывала на другом.</span><span data-lang="en">I walked through the flows of T‑Bank, Alfa‑Bank and VTB in two roles: creating a request on one phone and opening it on another.</span></p>
+  <div class="tbl"><table>
+    <thead><tr><th><span data-lang="ru">Сервис</span><span data-lang="en">Service</span></th><th><span data-lang="ru">Что работает</span><span data-lang="en">What works</span></th><th><span data-lang="ru">Где спотыкаешься</span><span data-lang="en">Where you stumble</span></th></tr></thead>
+    <tbody>
+      <tr><td><span data-lang="ru">Т‑Банк</span><span data-lang="en">T‑Bank</span></td><td><span data-lang="ru">Вход из операции, контакты, фото чека, QR</span><span data-lang="en">Entry from a transaction, contacts, receipt photo, QR</span></td><td><span data-lang="ru">Запрос теряется в истории операций</span><span data-lang="en">The request gets lost in the transaction history</span></td></tr>
+      <tr><td><span data-lang="ru">Альфа‑Банк</span><span data-lang="en">Alfa‑Bank</span></td><td><span data-lang="ru">Вход из операции</span><span data-lang="en">Entry from a transaction</span></td><td><span data-lang="ru">Один получатель за раз, связь с покупкой пропадает</span><span data-lang="en">One recipient at a time, the link to the purchase disappears</span></td></tr>
+      <tr><td><span data-lang="ru">ВТБ</span><span data-lang="en">VTB</span></td><td><span data-lang="ru">Своя доля, выбор счёта</span><span data-lang="en">Your own share, choice of account</span></td><td><span data-lang="ru">Номера вручную, режимы «Со всех» и «С каждого» путают</span><span data-lang="en">Numbers typed by hand, the “From all” and “From each” modes are confusing</span></td></tr>
+      <tr><td>Splitwise, Tricount</td><td><span data-lang="ru">Учёт долей; позиции чека в Splitwise Pro</span><span data-lang="en">Tracking shares; receipt items in Splitwise Pro</span></td><td><span data-lang="ru">Отдельный сервис, платежи идут мимо него</span><span data-lang="en">A separate service, payments bypass it</span></td></tr>
+    </tbody></table></div>
+  <p class="arrow"><span><span data-lang="ru"><b class="sb">Вывод.</b> Банки удобно начинают расчёт из операции, но после отправки запрос живёт сам по себе. Нужен сбор: одно место, где связаны чек, доли и оплаты.</span><span data-lang="en"><b class="sb">Conclusion.</b> Banks conveniently start the settlement from a transaction, but once sent, the request lives on its own. What is needed is a collection: one place that ties the receipt, the shares and the payments together.</span></span></p>
+  <p class="read" style="margin-top:18px"><span data-lang="ru">Потом с помощью нейросети я смоделировала шесть ситуаций: компании до 15 человек, общие блюда, спорные суммы, друзья из других банков. Так заранее нашла сложные случаи и собрала карты пути для обеих ролей.</span><span data-lang="en">Then, with the help of a neural network, I simulated six situations: groups of up to 15 people, shared dishes, disputed amounts, friends from other banks. That let me find the hard cases in advance and build journey maps for both roles.</span></p>
+  <figure class="fig"><ul class="arts">
+    <li><button type="button" class="art" data-av data-full="assets/sber/v4/comparison.webp" data-title-ru="Сравнительная таблица" data-title-en="Comparison table"><span class="th"><img src="assets/sber/v4/comparison-t.webp" width="1000" height="720" alt="" loading="lazy" decoding="async"><span class="open"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M9.5 2.5h4v4M13.5 2.5l-5 5M6.5 13.5h-4v-4M2.5 13.5l5-5"/></svg><span data-lang="ru">Открыть</span><span data-lang="en">Open</span></span></span><span class="tt"><span data-lang="ru">Сравнительная таблица</span><span data-lang="en">Comparison table</span></span></button></li>
+    <li><button type="button" class="art" data-av data-full="assets/sber/v4/tbank.webp" data-title-ru="Разбор Т‑Банка" data-title-en="T‑Bank breakdown"><span class="th"><img src="assets/sber/v4/tbank-t.webp" width="1000" height="720" alt="" loading="lazy" decoding="async"><span class="open"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M9.5 2.5h4v4M13.5 2.5l-5 5M6.5 13.5h-4v-4M2.5 13.5l5-5"/></svg><span data-lang="ru">Открыть</span><span data-lang="en">Open</span></span></span><span class="tt"><span data-lang="ru">Разбор Т‑Банка</span><span data-lang="en">T‑Bank breakdown</span></span></button></li>
+    <li><button type="button" class="art" data-av data-full="assets/sber/v4/alfa.webp" data-title-ru="Разбор Альфа‑Банка" data-title-en="Alfa‑Bank breakdown"><span class="th"><img src="assets/sber/v4/alfa-t.webp" width="1000" height="680" alt="" loading="lazy" decoding="async"><span class="open"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M9.5 2.5h4v4M13.5 2.5l-5 5M6.5 13.5h-4v-4M2.5 13.5l5-5"/></svg><span data-lang="ru">Открыть</span><span data-lang="en">Open</span></span></span><span class="tt"><span data-lang="ru">Разбор Альфа‑Банка</span><span data-lang="en">Alfa‑Bank breakdown</span></span></button></li>
+    <li><button type="button" class="art" data-av data-full="assets/sber/v4/vtb.webp" data-title-ru="Разбор ВТБ" data-title-en="VTB breakdown"><span class="th"><img src="assets/sber/v4/vtb-t.webp" width="1000" height="566" alt="" loading="lazy" decoding="async"><span class="open"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M9.5 2.5h4v4M13.5 2.5l-5 5M6.5 13.5h-4v-4M2.5 13.5l5-5"/></svg><span data-lang="ru">Открыть</span><span data-lang="en">Open</span></span></span><span class="tt"><span data-lang="ru">Разбор ВТБ</span><span data-lang="en">VTB breakdown</span></span></button></li>
+    <li><button type="button" class="art" data-av data-full="assets/sber/v4/cjm-creator.webp" data-title-ru="Карта пути создателя" data-title-en="Creator journey map"><span class="th"><img src="assets/sber/v4/cjm-creator-t.webp" width="1000" height="674" alt="" loading="lazy" decoding="async"><span class="open"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M9.5 2.5h4v4M13.5 2.5l-5 5M6.5 13.5h-4v-4M2.5 13.5l5-5"/></svg><span data-lang="ru">Открыть</span><span data-lang="en">Open</span></span></span><span class="tt"><span data-lang="ru">Карта пути создателя</span><span data-lang="en">Creator journey map</span></span></button></li>
+    <li><button type="button" class="art" data-av data-full="assets/sber/v4/cjm-recipient.webp" data-title-ru="Карта пути участника" data-title-en="Participant journey map"><span class="th"><img src="assets/sber/v4/cjm-recipient-t.webp" width="1000" height="720" alt="" loading="lazy" decoding="async"><span class="open"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M9.5 2.5h4v4M13.5 2.5l-5 5M6.5 13.5h-4v-4M2.5 13.5l5-5"/></svg><span data-lang="ru">Открыть</span><span data-lang="en">Open</span></span></span><span class="tt"><span data-lang="ru">Карта пути участника</span><span data-lang="en">Participant journey map</span></span></button></li>
+  </ul><figcaption class="cap"><span data-lang="ru">Рис. 2. Артефакты исследования. Нажмите, чтобы открыть с зумом.</span><span data-lang="en">Fig. 2. Research artifacts. Tap to open with zoom.</span></figcaption></figure>
+</section>
+
+<section class="wrap sec two reveal" data-tick id="hypothesis">
+  <div>
+    <span class="chip c-hyp"><span data-lang="ru">Гипотеза</span><span data-lang="en">Hypothesis</span></span>
+    <h2><span data-lang="ru">Показать участнику, за что он платит</span><span data-lang="en">Show the participant what they are paying for</span></h2>
+    <p class="read" style="margin-top:14px"><span data-lang="ru">Если получателям запросов по ресторанному счёту показать их позиции и долю в общих блюдах перед оплатой, им будет проще проверить сумму без обращения к создателю. Ожидаю роста конверсии из открытия запроса в успешную оплату и сокращения времени до оплаты.</span><span data-lang="en">If recipients of restaurant bill requests see their items and their share of shared dishes before paying, it will be easier for them to check the amount without asking the creator. I expect a higher conversion from opening a request to a successful payment and a shorter time to pay.</span></p>
+    <div class="chain" role="group" aria-label="Цепочка эффекта" data-aria-ru="Цепочка эффекта" data-aria-en="Chain of effect"><span class="on"><span data-lang="ru">Понятная сумма</span><span data-lang="en">Clear amount</span></span><em aria-hidden="true">→</em><span><span data-lang="ru">Оплаченный запрос</span><span data-lang="en">Paid request</span></span><em aria-hidden="true">→</em><span><span data-lang="ru">Закрытый сбор</span><span data-lang="en">Closed collection</span></span><em aria-hidden="true">→</em><span><span data-lang="ru">Повторное использование</span><span data-lang="en">Repeat use</span></span></div>
+  </div>
+  <figure class="fig" style="margin-top:0"><div class="plate" style="flex-direction:column;align-items:center">
+    <div class="seg" role="group" aria-label="Вариант запроса" data-aria-ru="Вариант запроса" data-aria-en="Request variant"><button type="button" aria-pressed="false" data-v="a"><span data-lang="ru">Только итог</span><span data-lang="en">Total only</span></button><button type="button" aria-pressed="true" data-v="b"><span data-lang="ru">С детализацией</span><span data-lang="en">With details</span><span class="new"><span data-lang="ru">НОВОЕ</span><span data-lang="en">NEW</span></span></button></div>
+    <div class="sel swap" style="--sel:#2F7BF6;margin-top:30px"><span class="h1x"><i></i><i></i></span><div class="phone" style="--pw:210px"><img id="abimg" src="assets/sber/v3/recipient-03-items.webp" width="936" height="2026" data-alt-ru="Запрос участника с позициями чека" data-alt-en="Participant request with receipt items" alt="Запрос участника с позициями чека" decoding="async" loading="lazy"></div></div>
+  </div><figcaption class="cap"><span data-lang="ru">Рис. 3. Тот же запрос: только итог или итог с позициями.</span><span data-lang="en">Fig. 3. The same request: the total only, or the total with items.</span></figcaption></figure>
+</section>
+
+<section class="wrap sec reveal" data-tick id="solutions">
+  <span class="chip c-dec"><span data-lang="ru">Решения</span><span data-lang="en">Decisions</span></span>
+  <h2><span data-lang="ru">Четыре решения и почему именно они</span><span data-lang="en">Four decisions and why these ones</span></h2>
+  <p class="read" style="margin-top:14px"><span data-lang="ru">Для каждого решения было как минимум два варианта. Ниже то, что я выбрала, и почему.</span><span data-lang="en">Each decision had at least two options. Below is the one I chose, and why.</span></p>
+
+  <article class="dec reveal">
+    <div><span class="chip c-dec"><span data-lang="ru">Решение 01</span><span data-lang="en">Decision 01</span></span><h3 style="margin-top:12px"><span data-lang="ru">Сумму можно проверить прямо в запросе</span><span data-lang="en">The amount can be checked right in the request</span></h3>
+      <div class="opts">
+        <div class="opt"><span class="ic"></span><div><span class="lab"><span data-lang="ru">Вариант A: только итог</span><span data-lang="en">Option A: total only</span></span><p><span data-lang="ru">Как у большинства банков. Просто, но вопрос «за что столько?» уходит в чат.</span><span data-lang="en">Like most banks. Simple, but the question “why this much?” goes to a chat.</span></p></div></div>
+        <div class="opt chosen"><span class="ic"></span><div><span class="lab"><span data-lang="ru">Выбрано: B, детализация</span><span data-lang="en">Chosen: B, details</span></span><p><span data-lang="ru">Участник видит свои позиции и долю в общих блюдах и платит на том же экране. Если что-то не так, нажимает «Оспорить» у нужной позиции.</span><span data-lang="en">The participant sees their items and their share of shared dishes and pays on the same screen. If something is off, they tap “Dispute” on the right item.</span></p></div></div>
+      </div></div>
+    <figure class="fig" style="margin-top:0"><div class="plate"><div class="phone"><img src="assets/sber/v3/recipient-02-request.webp" width="936" height="2027" data-alt-ru="Запрос участника только на итоговую сумму 1 675 ₽" data-alt-en="Participant request for the total of 1,675 ₽ only" alt="Запрос участника только на итоговую сумму 1 675 ₽" decoding="async" loading="lazy"></div><div class="sel"><span class="h1x"><i></i><i></i></span><div class="phone"><img src="assets/sber/v3/recipient-03-items.webp" width="936" height="2026" data-alt-ru="Запрос участника с позициями чека" data-alt-en="Participant request with receipt items" alt="Запрос участника с позициями чека" decoding="async" loading="lazy"></div></div><span class="stick" style="left:4%;bottom:10%;background:var(--n-lime);--r:-4deg"><span data-lang="ru">«Оспорить» у позиции</span><span data-lang="en">“Dispute” on an item</span></span></div><figcaption class="cap"><span data-lang="ru">Рис. 4. Запрос и детализация до оплаты.</span><span data-lang="en">Fig. 4. The request and the details before paying.</span></figcaption></figure>
+  </article>
+
+  <article class="dec reveal">
+    <div><span class="chip c-dec"><span data-lang="ru">Решение 02</span><span data-lang="en">Decision 02</span></span><h3 style="margin-top:12px"><span data-lang="ru">Сбор создаётся из покупки</span><span data-lang="en">A collection is created from the purchase</span></h3>
+      <div class="opts">
+        <div class="opt"><span class="ic"></span><div><span class="lab"><span data-lang="ru">Вариант A: подробный чек всегда</span><span data-lang="en">Option A: a detailed receipt every time</span></span><p><span data-lang="ru">Точнее для участника, но каждое деление становится долгим.</span><span data-lang="en">More precise for the participant, but every split becomes slow.</span></p></div></div>
+        <div class="opt chosen"><span class="ic"></span><div><span class="lab"><span data-lang="ru">Выбрано: B, позиции по желанию</span><span data-lang="en">Chosen: B, items optional</span></span><p><span data-lang="ru">Сумма, дата и заведение уже заполнены. Позиции можно добавить фото или вручную, а можно пропустить и разделить поровну.</span><span data-lang="en">The amount, date and venue are already filled in. Items can be added by photo or by hand, or skipped to split equally.</span></p></div></div>
+      </div></div>
+    <figure class="fig" style="margin-top:0"><div class="plate"><div class="phone"><img src="assets/sber/v3/creator-01-operation.webp" width="937" height="2026" data-alt-ru="Экран операции с кнопкой «Разделить»" data-alt-en="Transaction screen with the “Split” button" alt="Экран операции с кнопкой «Разделить»" decoding="async" loading="lazy"></div><div class="sel"><span class="h1x"><i></i><i></i></span><div class="phone"><img src="assets/sber/v3/creator-09-split-equal.webp" width="937" height="2026" data-alt-ru="Экран деления счёта поровну между участниками" data-alt-en="Screen for splitting the bill equally between participants" alt="Экран деления счёта поровну между участниками" decoding="async" loading="lazy"></div></div></div><figcaption class="cap"><span data-lang="ru">Рис. 5. Из покупки в деление за пару шагов.</span><span data-lang="en">Fig. 5. From a purchase to a split in a couple of steps.</span></figcaption></figure>
+  </article>
+
+  <article class="dec reveal">
+    <div><span class="chip c-dec"><span data-lang="ru">Решение 03</span><span data-lang="en">Decision 03</span></span><h3 style="margin-top:12px"><span data-lang="ru">Чек заполняется сам по фото</span><span data-lang="en">The receipt fills itself in from a photo</span></h3>
+      <div class="opts">
+        <div class="opt"><span class="ic"></span><div><span class="lab"><span data-lang="ru">Вариант A: подставлять суммы сразу</span><span data-lang="en">Option A: fill in the amounts at once</span></span><p><span data-lang="ru">Быстрее, но ошибка распознавания тихо уходит в чужие доли.</span><span data-lang="en">Faster, but a recognition error quietly ends up in other people’s shares.</span></p></div></div>
+        <div class="opt chosen"><span class="ic"></span><div><span class="lab"><span data-lang="ru">Выбрано: B, чек как черновик</span><span data-lang="en">Chosen: B, the receipt as a draft</span></span><p><span data-lang="ru">ИИ переносит позиции и цены, неуверенные позиции подсвечены, их можно поправить. Расхождение с суммой покупки видно сразу.</span><span data-lang="en">AI carries over the items and prices, uncertain items are highlighted and can be corrected. A mismatch with the purchase amount is visible at once.</span></p></div></div>
+      </div></div>
+    <figure class="fig" style="margin-top:0"><div class="plate"><div class="phone"><img src="assets/sber/v3/creator-04-scan.webp" width="937" height="2026" data-alt-ru="Экран съёмки чека" data-alt-en="Receipt scanning screen" alt="Экран съёмки чека" decoding="async" loading="lazy"></div><div class="sel" style="--sel:#E39A1E"><span class="h1x"><i></i><i></i></span><div class="phone"><img src="assets/sber/v3/creator-06-check-flagged.webp" width="937" height="2026" data-alt-ru="Проверка позиций: позиция с пометкой «проверьте»" data-alt-en="Item review: one item flagged “check”" alt="Проверка позиций: позиция с пометкой «проверьте»" decoding="async" loading="lazy"></div></div><span class="stick" style="right:4%;top:12%;background:var(--n-peach);--r:3deg"><span data-lang="ru">Позиция на проверке</span><span data-lang="en">Item to check</span></span></div><figcaption class="cap"><span data-lang="ru">Рис. 6. Скан и черновик с подсвеченной позицией.</span><span data-lang="en">Fig. 6. The scan and a draft with a highlighted item.</span></figcaption></figure>
+  </article>
+
+  <article class="dec reveal">
+    <div><span class="chip c-dec"><span data-lang="ru">Решение 04</span><span data-lang="en">Decision 04</span></span><h3 style="margin-top:12px"><span data-lang="ru">Видно, кто уже перевёл</span><span data-lang="en">You can see who has already transferred</span></h3>
+      <div class="opts">
+        <div class="opt"><span class="ic"></span><div><span class="lab"><span data-lang="ru">Вариант A: отдельные запросы</span><span data-lang="en">Option A: separate requests</span></span><p><span data-lang="ru">Как сейчас у конкурентов. Каждый запрос живёт сам по себе, общего статуса нет.</span><span data-lang="en">As competitors do now. Each request lives on its own, there is no shared status.</span></p></div></div>
+        <div class="opt chosen"><span class="ic"></span><div><span class="lab"><span data-lang="ru">Выбрано: B, один сбор</span><span data-lang="en">Chosen: B, one collection</span></span><p><span data-lang="ru">Покупка получает отметку «Разделено» и ведёт к сбору: кто перевёл, сколько осталось и напоминание в одно касание.</span><span data-lang="en">The purchase gets a “Split” mark and leads to the collection: who has transferred, how much is left and a one-tap reminder.</span></p></div></div>
+      </div></div>
+    <figure class="fig" style="margin-top:0"><div class="plate"><div class="sel"><span class="h1x"><i></i><i></i></span><div class="phone"><img src="assets/sber/v3/creator-11-collection-status.webp" width="937" height="2027" data-alt-ru="Статус сбора: кто перевёл и кнопка «Напомнить»" data-alt-en="Collection status: who has transferred and the “Remind” button" alt="Статус сбора: кто перевёл и кнопка «Напомнить»" decoding="async" loading="lazy"></div></div><div class="phone"><img src="assets/sber/v3/creator-10-transaction-split.webp" width="937" height="2026" data-alt-ru="Операция после создания сбора с пометкой «Разделено»" data-alt-en="Transaction after the collection is created, marked “Split”" alt="Операция после создания сбора с пометкой «Разделено»" decoding="async" loading="lazy"></div></div><figcaption class="cap"><span data-lang="ru">Рис. 7. Статус сбора и отметка в покупке.</span><span data-lang="en">Fig. 7. The collection status and the mark on the purchase.</span></figcaption></figure>
+  </article>
+</section>
+
+<section class="wrap sec reveal" data-tick id="calc">
+  <span class="lab"><span data-lang="ru">Попробуйте</span><span data-lang="en">Try it</span></span>
+  <h2 style="margin-top:12px"><span data-lang="ru">Калькулятор деления</span><span data-lang="en">Split calculator</span></h2>
+  <p class="read" style="margin-top:12px"><span data-lang="ru">Тот же чек на 8 400 ₽ тремя способами: поровну, по позициям и вручную. Доли пересчитываются сразу, а запросы не отправить, пока сумма не сойдётся с покупкой.</span><span data-lang="en">The same 8,400 ₽ bill three ways: equally, by item and by hand. Shares recalculate at once, and requests cannot be sent until the amount matches the purchase.</span></p>
+  <figure class="fig"><div class="win"><div class="bar" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="modes" id="modes" role="tablist" aria-label="Способ деления" data-aria-ru="Способ деления" data-aria-en="Split method">
+      <button type="button" role="tab" id="tab-eq" data-m="eq" aria-selected="true" aria-controls="calcPanel" tabindex="0"><span data-lang="ru">Поровну</span><span data-lang="en">Equally</span></button>
+      <button type="button" role="tab" id="tab-it" data-m="it" aria-selected="false" aria-controls="calcPanel" tabindex="-1"><span data-lang="ru">По позициям</span><span data-lang="en">By item</span></button>
+      <button type="button" role="tab" id="tab-ma" data-m="ma" aria-selected="false" aria-controls="calcPanel" tabindex="-1"><span data-lang="ru">Вручную</span><span data-lang="en">Manually</span></button>
+    </div>
+    <div class="calc" id="calcPanel" role="tabpanel" aria-labelledby="tab-eq">
+      <div class="l" id="calcL"></div>
+      <div class="r">
+        <div class="lab"><span data-lang="ru">Ужин в Sempre</span><span data-lang="en">Dinner at Sempre</span></div>
+        <div class="big" id="total">8 400 ₽</div>
+        <div class="sbar" id="sbar" aria-hidden="true"><i></i><i></i><i></i><i></i><i class="rest"></i></div>
+        <div id="shares"></div>
+        <div class="status" id="status" aria-live="polite"></div>
+        <button class="btn" id="send" type="button" aria-disabled="false"><span data-lang="ru">Отправить запросы</span><span data-lang="en">Send requests</span></button>
+      </div>
+    </div></div><figcaption class="cap"><span data-lang="ru">Рис. 8. Калькулятор: тот же чек тремя способами, данные примера.</span><span data-lang="en">Fig. 8. The calculator: the same bill three ways, example data.</span></figcaption></figure>
+</section>
+
+<section class="wrap sec two reveal" data-tick id="metrics">
+  <div>
+    <span class="lab"><span data-lang="ru">Дерево метрик</span><span data-lang="en">Metric tree</span></span>
+    <h2 style="margin-top:12px"><span data-lang="ru">Главная метрика: доля клиентов, которые создают сборы</span><span data-lang="en">Main metric: the share of customers who create collections</span></h2>
+    <p class="read" style="margin-top:14px"><span data-lang="ru">Создатели за месяц к MAU приложения. Участников считаю отдельно, чтобы приглашения не выдавать за рост. Новых создателей делю на тех, кто раньше был участником, и тех, кто не был: так видно, приводит ли чужой сбор к своему.</span><span data-lang="en">Creators per month relative to the app’s MAU. I count participants separately, so invitations are not passed off as growth. I split new creators into those who used to be a participant and those who were not: that shows whether someone else’s collection leads to one of their own.</span></p>
+  </div>
+  <figure class="fig" style="margin-top:0"><div class="canvas" id="tree">
+    <svg id="treeSvg" aria-hidden="true"></svg>
+    <div class="node root" data-n="root" style="left:4%;top:42%"><span class="lab"><span data-lang="ru">Метрика</span><span data-lang="en">Metric</span></span><span data-lang="ru">Создатели за месяц</span><span data-lang="en">Creators per month</span></div>
+    <div class="node" data-n="a" data-p="root" style="left:43%;top:12%"><span data-lang="ru">Новые</span><span data-lang="en">New</span></div>
+    <div class="node" data-n="b" data-p="root" style="left:43%;top:44%"><span data-lang="ru">Удержанные</span><span data-lang="en">Retained</span></div>
+    <div class="node" data-n="c" data-p="root" style="left:43%;top:76%"><span data-lang="ru">Вернувшиеся</span><span data-lang="en">Returning</span></div>
+    <div class="node lit" data-n="d" data-p="a" style="left:69%;top:2%"><span data-lang="ru">После чужого сбора</span><span data-lang="en">After someone else’s collection</span></div>
+    <div class="node" data-n="e" data-p="a" style="left:69%;top:27%"><span data-lang="ru">Без опыта участника</span><span data-lang="en">Without participant experience</span></div>
+  </div><figcaption class="cap"><span data-lang="ru">Рис. 9. Дерево метрик на холсте.</span><span data-lang="en">Fig. 9. The metric tree on a canvas.</span></figcaption></figure>
+</section>
+
+<section class="wrap sec two reveal" data-tick id="result">
+  <div><span class="lab"><span data-lang="ru">Итог</span><span data-lang="en">Outcome</span></span><h2 style="margin-top:12px"><span data-lang="ru">Чек, доли и переводы живут в одном сборе</span><span data-lang="en">The receipt, the shares and the transfers live in one collection</span></h2></div>
+  <div>
+    <p class="read"><span data-lang="ru">Участник видит, из чего сложилась его сумма, и сразу платит. Тот, кто оплатил ужин, видит, кто уже перевёл, и не сверяет переводы вручную.</span><span data-lang="en">The participant sees what their amount is made of and pays right away. The person who paid for dinner sees who has already transferred and does not reconcile the transfers by hand.</span></p>
+    <p class="read"><span data-lang="ru">Детализация есть в момент оплаты, но при создании она по желанию, поэтому простой расчёт остаётся коротким. Для банка это повод вернуться: удачный расчёт ведёт к следующему сбору.</span><span data-lang="en">The details are there at the moment of payment, but optional when creating, so a simple split stays short. For the bank it is a reason to come back: a successful settlement leads to the next collection.</span></p>
+    <span class="lab" style="display:block;margin-top:28px"><span data-lang="ru">Дальше</span><span data-lang="en">Next</span></span>
+    <ul class="next"><li><span data-lang="ru">Интервью и тест прототипа, затем A/B‑тест в пилоте.</span><span data-lang="en">Interviews and a prototype test, then an A/B test in a pilot.</span></li><li><span data-lang="ru">Правила для округления, расхождения чека с покупкой и частичной оплаты.</span><span data-lang="en">Rules for rounding, for a receipt that does not match the purchase, and for partial payment.</span></li><li><span data-lang="ru">Межбанковский путь по СБП для друзей из других банков.</span><span data-lang="en">An interbank path through the Faster Payments System (SBP) for friends from other banks.</span></li></ul>
+  </div>
+</section>
+<div class="end"></div>
+</main>
+
+  <nav class="case-floating-nav">
+    <a class="case-prev" href="case-alif-partners.html">
+      <span class="case-prev__arrow" aria-hidden="true">←</span>
+      <span class="case-prev__title-row">
+        <span class="case-prev__label"><span data-lang="ru">Предыдущий кейс</span><span data-lang="en">Previous case</span></span>
+        <span class="case-prev__title">Alif Partners</span>
+      </span>
+    </a>
+    <a class="case-next" href="case-eaj-trader.html">
+      <span class="case-next__label"><span data-lang="ru">Следующий кейс</span><span data-lang="en">Next case</span></span>
+      <span class="case-next__title-row">
+        <span class="case-next__title">EAJ Trader</span>
+        <span class="case-next__arrow" aria-hidden="true">→</span>
+      </span>
+    </a>
+  </nav>
+
+
+  <div class="av" id="av" role="dialog" aria-modal="true" aria-labelledby="avTitle" hidden>
+    <div class="av-bar">
+      <h2 class="av-title" id="avTitle"></h2>
+      <div class="av-ctl" role="group" aria-label="Масштаб" data-aria-ru="Масштаб" data-aria-en="Zoom">
+        <button type="button" class="av-btn" data-z="out" aria-label="Уменьшить" data-aria-ru="Уменьшить" data-aria-en="Zoom out">&#8722;</button>
+        <span class="av-zoom" id="avZoom" aria-live="polite">100%</span>
+        <button type="button" class="av-btn" data-z="in" aria-label="Увеличить" data-aria-ru="Увеличить" data-aria-en="Zoom in">+</button>
+        <button type="button" class="av-btn txt" data-z="fit" aria-label="По ширине" data-aria-ru="По ширине" data-aria-en="Fit to width"><span data-lang="ru">По ширине</span><span data-lang="en">Fit</span></button>
+        <button type="button" class="av-btn av-close" aria-label="Закрыть" data-aria-ru="Закрыть" data-aria-en="Close">&#215;</button>
+      </div>
+    </div>
+    <div class="av-stage"><img id="avImg" alt="" draggable="false" src="data:image/gif;base64,R0lGODlhAQABAAAAACw="><p class="av-hint"><span data-lang="ru">Колесо или щипок для масштаба, перетаскивание для сдвига, Esc закрывает</span><span data-lang="en">Scroll or pinch to zoom, drag to pan, Esc to close</span></p></div>
+  </div>
+<script src="assets/i18n.js"></script>
+  <script src="assets/typography.js"></script>
+  <script src="assets/case-nav.js"></script>
+<script>
+(function () {
+  'use strict';
+  var doc = document;
+  function $(s, c) { return (c || doc).querySelector(s); }
+  function $$(s, c) { return Array.prototype.slice.call((c || doc).querySelectorAll(s)); }
+  function isEn() { return doc.documentElement.classList.contains('lang-en'); }
+  function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+  var RM = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var NS = 'http://www.w3.org/2000/svg';
+  var QS = {};
+  location.search.replace(/^\?/, '').split('&').forEach(function (kv) { if (kv) { var p = kv.split('='); QS[p[0]] = p[1] || ''; } });
+
+  /* ---------- floating case nav: show only once the reader reaches the outcome ---------- */
+  var cnav = $('.case-floating-nav'), endEl = $('#result');
+  if (cnav && endEl) {
+    var held = function () { cnav.classList.toggle('is-held', endEl.getBoundingClientRect().top > innerHeight * 0.75); };
+    held(); addEventListener('scroll', held, { passive: true }); addEventListener('resize', held);
+  }
+
+  /* ---------- artifact viewer ---------- */
+  var av = $('#av');
+  if (av) {
+    var stageEl = $('.av-stage', av), img = $('#avImg'), titleEl = $('#avTitle'), zoomEl = $('#avZoom'), hint = $('.av-hint', av);
+    var S = { s: 1, x: 0, y: 0, fit: 1, min: .1, max: 2, nw: 0, nh: 0 }, opener = null, pts = {}, pinch = null, drag = null;
+    function sw() { return stageEl.clientWidth; } function sh() { return stageEl.clientHeight; }
+    function clampPos() {
+      var w = S.nw * S.s, h = S.nh * S.s;
+      S.x = w <= sw() ? (sw() - w) / 2 : clamp(S.x, sw() - w, 0);
+      S.y = h <= sh() ? (sh() - h) / 2 : clamp(S.y, sh() - h, 0);
+    }
+    function apply() {
+      clampPos();
+      img.style.transform = 'translate(' + S.x + 'px,' + S.y + 'px) scale(' + S.s + ')';
+      zoomEl.textContent = Math.round(S.s / S.fit * 100) + '%';
+    }
+    function setFit() {
+      if (!S.nw) return;
+      S.fit = sw() / S.nw; S.min = Math.min(S.fit, sh() / S.nh) * .9; S.max = Math.max(2, S.fit * 4);
+      S.s = S.fit; S.x = 0; S.y = 0; apply();
+    }
+    function zoomTo(ns, cx, cy) {
+      ns = clamp(ns, S.min, S.max);
+      var k = ns / S.s; S.x = cx - (cx - S.x) * k; S.y = cy - (cy - S.y) * k; S.s = ns; apply();
+    }
+    function zoomBy(f) { zoomTo(S.s * f, sw() / 2, sh() / 2); }
+    function open(btn) {
+      opener = btn;
+      var src = btn.getAttribute('data-full');
+      titleEl.innerHTML = '<span data-lang="ru">' + btn.getAttribute('data-title-ru') + '</span><span data-lang="en">' + btn.getAttribute('data-title-en') + '</span>';
+      img.alt = isEn() ? btn.getAttribute('data-title-en') : btn.getAttribute('data-title-ru');
+      S.nw = 0; img.style.transform = 'translate(0,0) scale(1)'; img.style.opacity = 0;
+      img.onload = function () { S.nw = img.naturalWidth; S.nh = img.naturalHeight; img.style.width = S.nw + 'px'; img.style.height = S.nh + 'px'; img.style.opacity = 1; setFit(); };
+      img.src = src;
+      av.hidden = false; av.getBoundingClientRect(); av.classList.add('is-open'); doc.body.classList.add('av-open');
+      hint.classList.remove('is-gone'); setTimeout(function () { hint.classList.add('is-gone'); }, 4000);
+      $('.av-close', av).focus();
+    }
+    function close() {
+      av.classList.remove('is-open'); doc.body.classList.remove('av-open');
+      setTimeout(function () { if (!av.classList.contains('is-open')) av.hidden = true; }, 260);
+      if (opener) opener.focus();
+    }
+    $$('[data-av]').forEach(function (b) { b.addEventListener('click', function () { open(b); }); });
+    $('.av-close', av).addEventListener('click', close);
+    $('[data-z="in"]', av).addEventListener('click', function () { zoomBy(1.35); });
+    $('[data-z="out"]', av).addEventListener('click', function () { zoomBy(1 / 1.35); });
+    $('[data-z="fit"]', av).addEventListener('click', setFit);
+    stageEl.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      var r = stageEl.getBoundingClientRect(), f = Math.exp(-e.deltaY * (e.ctrlKey ? .01 : .0016));
+      zoomTo(S.s * f, e.clientX - r.left, e.clientY - r.top);
+    }, { passive: false });
+    stageEl.addEventListener('pointerdown', function (e) {
+      stageEl.setPointerCapture(e.pointerId); pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      var ids = Object.keys(pts);
+      if (ids.length === 1) { drag = { x: e.clientX, y: e.clientY, ox: S.x, oy: S.y }; stageEl.classList.add('is-drag'); }
+      else if (ids.length === 2) { var a = pts[ids[0]], b = pts[ids[1]]; pinch = { d: Math.hypot(a.x - b.x, a.y - b.y), s: S.s }; drag = null; }
+    });
+    stageEl.addEventListener('pointermove', function (e) {
+      if (!pts[e.pointerId]) return; pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      var ids = Object.keys(pts);
+      if (pinch && ids.length === 2) {
+        var a = pts[ids[0]], b = pts[ids[1]], r = stageEl.getBoundingClientRect();
+        zoomTo(pinch.s * Math.hypot(a.x - b.x, a.y - b.y) / pinch.d, (a.x + b.x) / 2 - r.left, (a.y + b.y) / 2 - r.top);
+      } else if (drag) { S.x = drag.ox + e.clientX - drag.x; S.y = drag.oy + e.clientY - drag.y; apply(); }
+    });
+    function up(e) {
+      delete pts[e.pointerId]; pinch = null; var ids = Object.keys(pts);
+      if (ids.length === 1) { var p = pts[ids[0]]; drag = { x: p.x, y: p.y, ox: S.x, oy: S.y }; } else { drag = null; stageEl.classList.remove('is-drag'); }
+    }
+    stageEl.addEventListener('pointerup', up); stageEl.addEventListener('pointercancel', up);
+    stageEl.addEventListener('dblclick', function (e) {
+      var r = stageEl.getBoundingClientRect();
+      if (S.s > S.fit * 1.4) setFit(); else zoomTo(S.fit * 2.4, e.clientX - r.left, e.clientY - r.top);
+    });
+    av.addEventListener('keydown', function (e) {
+      var k = e.key, step = 80;
+      if (k === 'Escape') { e.preventDefault(); close(); return; }
+      if (k === 'Tab') {
+        var f = $$('button', av).filter(function (b) { return !b.disabled && b.offsetParent !== null; });
+        if (!f.length) return;
+        var i = f.indexOf(doc.activeElement);
+        if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); }
+        else if (!e.shiftKey && (i === f.length - 1 || i < 0)) { e.preventDefault(); f[0].focus(); }
+        return;
+      }
+      var inBtn = doc.activeElement && doc.activeElement.tagName === 'BUTTON' && (k === 'Enter' || k === ' ');
+      if (inBtn) return;
+      if (k === '+' || k === '=') { e.preventDefault(); zoomBy(1.25); }
+      else if (k === '-' || k === '_') { e.preventDefault(); zoomBy(.8); }
+      else if (k === '0') { e.preventDefault(); setFit(); }
+      else if (k === 'ArrowLeft') { e.preventDefault(); S.x += step; apply(); }
+      else if (k === 'ArrowRight') { e.preventDefault(); S.x -= step; apply(); }
+      else if (k === 'ArrowUp') { e.preventDefault(); S.y += step; apply(); }
+      else if (k === 'ArrowDown') { e.preventDefault(); S.y -= step; apply(); }
+    });
+    window.addEventListener('resize', function () { if (av.classList.contains('is-open')) { var f = S.s / S.fit; setFit(); if (f > 1.01) zoomTo(S.fit * f, sw() / 2, sh() / 2); } });
+    window.__av = S;
+  }
+})();
+
+(function () {
+  'use strict';
+  var doc = document;
+  var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var settled = /[?&]settled\b/.test(location.search);
+  function $(s) { return doc.querySelector(s); }
+  function $$(s) { return Array.prototype.slice.call(doc.querySelectorAll(s)); }
+  function isEn() { return doc.documentElement.classList.contains('lang-en'); }
+  function L(ru, en) { return isEn() ? en : ru; }
+
+  /* ruler numbers */
+  var ruler = $('#ruler');
+  if (ruler) for (var x = 0; x < 3000; x += 100) { var s = doc.createElement('span'); s.style.left = (x + 3) + 'px'; s.textContent = x; ruler.appendChild(s); }
+
+  /* reveal on scroll; ?settled (and no-IO browsers) show everything */
+  var revealEls = $$('.reveal,.wave');
+  if (settled || !('IntersectionObserver' in window)) {
+    revealEls.concat($$('.note')).forEach(function (el) { el.classList.add('vis'); });
+  } else {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); } });
+    }, { threshold: .15 });
+    revealEls.forEach(function (el) { io.observe(el); });
+  }
+
+  /* left ticks = sections */
+  var secs = $$('[data-tick]'), ticks = $('#ticks');
+  if (ticks) {
+    secs.forEach(function () { ticks.appendChild(doc.createElement('i')); });
+    var tk = Array.prototype.slice.call(ticks.children);
+    var onScroll = function () {
+      var cur = 0; secs.forEach(function (s, i) { if (s.getBoundingClientRect().top < innerHeight * .45) cur = i; });
+      tk.forEach(function (t, i) { t.classList.toggle('on', i === cur); });
+    };
+    addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  }
+
+  /* A/B toggle in the hypothesis */
+  var ab = $('#abImg') || $('#abimg');
+  if (ab) {
+    var A = { a: ['assets/sber/v3/recipient-02-request.webp', 'Запрос участника только на итоговую сумму 1 675 ₽', 'Participant request for the total of 1,675 ₽ only'],
+              b: ['assets/sber/v3/recipient-03-items.webp', 'Запрос участника с позициями чека', 'Participant request with receipt items'] };
+    var segBtns = $$('.seg button');
+    segBtns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        if (b.getAttribute('aria-pressed') === 'true') return;
+        segBtns.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        var v = A[b.getAttribute('data-v')];
+        ab.style.opacity = 0;
+        setTimeout(function () {
+          ab.src = v[0]; ab.setAttribute('data-alt-ru', v[1]); ab.setAttribute('data-alt-en', v[2]); ab.alt = L(v[1], v[2]); ab.style.opacity = 1;
+        }, RM ? 0 : 200);
+      });
+    });
+  }
+
+  /* calculator: three split modes over one fixed receipt */
+  var TOTAL = 8400;
+  var ITEMS = [['Паста с морепродуктами', 'Seafood pasta', 1650], ['Стейк', 'Steak', 2300], ['Салат с томатами', 'Tomato salad', 1050], ['Пицца Маргарита', 'Margherita pizza', 1400], ['Тирамису', 'Tiramisu', 900], ['Вода', 'Water', 500], ['Сервисный сбор', 'Service charge', 600]];
+  var P = [['Вы', 'You', 'В', 'Y'], ['Адиба', 'Adiba', 'А', 'A'], ['Самад', 'Samad', 'С', 'S'], ['Алмаз', 'Almaz', 'А', 'A']];
+  var mode = 'eq';
+  var on = [1, 1, 1, 1];
+  var asg = [[1, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1], [1, 1, 1, 1], [1, 0, 0, 0], [1, 1, 0, 0], [1, 1, 1, 1]];
+  var man = ['', '', '', ''];
+  var cur = [2100, 2100, 2100, 2100], raf = 0;
+  var NB = ' ';
+  function grp(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, isEn() ? ',' : NB); }
+  function fmt(n) { return grp(n) + NB + '₽'; }
+  function fmtNum(n) { return n ? grp(n) : ''; }
+  var leftEl = $('#calcL'), shEl = $('#shares'), totalEl = $('#total'), stEl = $('#status'), sendEl = $('#send'), modesEl = $('#modes'), panelEl = $('#calcPanel');
+  var bars = $$('#sbar i');
+  function split(amount, idx) { /* exact integer split, remainder rubles go to the first people */
+    var out = {}, k = idx.length, base = Math.floor(amount / k), rem = amount - base * k;
+    idx.forEach(function (p, j) { out[p] = base + (j < rem ? 1 : 0); });
+    return out;
+  }
+  function compute() {
+    var amt = [0, 0, 0, 0], unas = 0, diff = 0, ok = false, sum = 0;
+    if (mode === 'eq') {
+      var idx = []; on.forEach(function (o, i) { if (o) idx.push(i); });
+      var r = split(TOTAL, idx); idx.forEach(function (i) { amt[i] = r[i]; });
+      ok = true;
+    } else if (mode === 'it') {
+      ITEMS.forEach(function (it, n) {
+        var ix = []; asg[n].forEach(function (o, i) { if (o) ix.push(i); });
+        if (!ix.length) { unas += it[2]; return; }
+        var r2 = split(it[2], ix); ix.forEach(function (i) { amt[i] += r2[i]; });
+      });
+      ok = unas === 0;
+    } else {
+      man.forEach(function (v, i) { amt[i] = parseInt(v, 10) || 0; });
+      sum = amt.reduce(function (a, b) { return a + b; }, 0);
+      diff = TOTAL - sum; ok = diff === 0;
+    }
+    return { amt: amt, unas: unas, diff: diff, ok: ok };
+  }
+  function itemsHtml(interactive) {
+    return ITEMS.map(function (it, n) {
+      var avs = '';
+      if (interactive) avs = '<span class="avs" role="group" aria-label="' + L(it[0], it[1]) + '">' + P.map(function (p, i) {
+        return '<button type="button" class="av1 pc' + i + '" data-n="' + n + '" data-i="' + i + '" aria-pressed="' + (asg[n][i] ? 'true' : 'false') + '" aria-label="' + L(p[0], p[1]) + '" title="' + L(p[0], p[1]) + '">' + L(p[2], p[3]) + '</button>';
+      }).join('') + '</span>';
+      return '<div class="item" data-row="' + n + '"><span>' + L(it[0], it[1]) + '</span>' + avs + '<i>' + fmt(it[2]) + '</i></div>';
+    }).join('');
+  }
+  function renderLeft(anim) {
+    var h = '<div class="pane"' + (anim ? '' : ' style="animation:none"') + '><div class="lab">' + L('Кафе Sempre · 8' + NB + '400' + NB + '₽', 'Café Sempre · 8,400' + NB + '₽') + '</div><div style="margin-top:10px" id="items">' + itemsHtml(mode === 'it') + '</div>';
+    if (mode === 'eq') {
+      h += '<div class="lab sub">' + L('Кто делит счёт', 'Who splits the bill') + '</div><div class="people" id="people" role="group" aria-label="' + L('Участники сбора', 'Collection participants') + '">' +
+        P.map(function (n, i) { return '<button type="button" class="pc' + i + '" aria-pressed="' + (on[i] ? 'true' : 'false') + '" data-i="' + i + '"><b aria-hidden="true"></b>' + L(n[0], n[1]) + '</button>'; }).join('') + '</div>';
+    } else if (mode === 'it') {
+      h += '<div class="note-u" id="unNote"></div>';
+    } else {
+      h += '<div class="lab sub">' + L('Кто сколько платит', 'Who pays how much') + '</div>' + P.map(function (n, i) {
+        return '<div class="mrow pc' + i + '"><label for="man' + i + '"><b aria-hidden="true"></b>' + L(n[0], n[1]) + '</label><span class="in"><input id="man' + i + '" data-i="' + i + '" type="text" inputmode="numeric" autocomplete="off" placeholder="0" value="' + fmtNum(parseInt(man[i], 10) || 0) + '"></span></div>';
+      }).join('') + '<button type="button" class="btn2" id="fillEx">' + L('Заполнить пример', 'Fill the example') + '</button>';
+    }
+    leftEl.innerHTML = h + '</div>';
+  }
+  function renderShares() {
+    shEl.innerHTML = P.map(function (n, i) { return '<div class="share pc' + i + '"><u aria-hidden="true"></u><span>' + L(n[0], n[1]) + '</span><b>' + fmt(cur[i]) + '</b></div>'; }).join('');
+    totalEl.textContent = fmt(TOTAL);
+  }
+  function statusFor(c) {
+    if (c.ok) return ['ok', L('✓ Сумма сходится с покупкой', '✓ The amount matches the purchase')];
+    if (mode === 'it') return ['warn', L('Не распределено: ', 'Unassigned: ') + fmt(c.unas)];
+    if (c.diff > 0) return ['', L('Осталось распределить ' + fmt(c.diff), fmt(c.diff) + ' left to assign')];
+    return ['warn', L('Лишние ' + fmt(-c.diff), fmt(-c.diff) + ' over')];
+  }
+  var lastStatus = '';
+  function applyState(tween) {
+    var c = compute(), rows = Array.prototype.slice.call(shEl.children);
+    var tot = c.amt.reduce(function (a, b) { return a + b; }, 0);
+    bars.forEach(function (b, i) { b.style.flexGrow = i < 4 ? c.amt[i] : Math.max(0, TOTAL - tot); });
+    rows.forEach(function (r, i) { r.classList.toggle('off', mode === 'eq' && !on[i]); });
+    var st = statusFor(c), key = st[0] + '|' + st[1];
+    if (key !== lastStatus) { stEl.className = 'status ' + st[0]; stEl.textContent = st[1]; lastStatus = key; }
+    sendEl.setAttribute('aria-disabled', c.ok ? 'false' : 'true');
+    var un = $('#unNote'); if (un) un.textContent = c.unas ? L('Не распределено: ', 'Unassigned: ') + fmt(c.unas) : '';
+    $$('#items .item').forEach(function (r, n) { r.classList.toggle('warn', mode === 'it' && !asg[n].some(Boolean)); });
+    var from = cur.slice(), t = c.amt, t0 = performance.now();
+    cancelAnimationFrame(raf);
+    var step = function (now) {
+      var p = (RM || !tween) ? 1 : Math.min(1, (now - t0) / 400), e = 1 - Math.pow(1 - p, 3);
+      rows.forEach(function (r, i) { r.querySelector('b').textContent = fmt(Math.round(from[i] + (t[i] - from[i]) * e)); });
+      if (p < 1) raf = requestAnimationFrame(step);
+      else { cur = t.slice(); rows.forEach(function (r, i) { r.querySelector('b').textContent = fmt(t[i]); }); }
+    };
+    if (RM || !tween) step(t0 + 1e6); else raf = requestAnimationFrame(step);
+  }
+  function setMode(m, focus) {
+    mode = m;
+    $$('#modes [role=tab]').forEach(function (b) {
+      var s = b.getAttribute('data-m') === m;
+      b.setAttribute('aria-selected', s ? 'true' : 'false'); b.tabIndex = s ? 0 : -1;
+      if (s) { panelEl.setAttribute('aria-labelledby', b.id); if (focus) b.focus(); }
+    });
+    renderLeft(true); applyState(true);
+  }
+  if (leftEl && shEl && modesEl) {
+    renderLeft(false); renderShares(); applyState(false);
+    modesEl.addEventListener('click', function (e) { var b = e.target.closest('[role=tab]'); if (b) setMode(b.getAttribute('data-m')); });
+    modesEl.addEventListener('keydown', function (e) {
+      var tabs = $$('#modes [role=tab]'), i = tabs.indexOf(doc.activeElement), d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (e.key === 'Home') d = -i; else if (e.key === 'End') d = tabs.length - 1 - i;
+      if (!d || i < 0) return;
+      e.preventDefault();
+      setMode(tabs[(i + d + tabs.length) % tabs.length].getAttribute('data-m'), true);
+    });
+    leftEl.addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      if (b.id === 'fillEx') {
+        man = ['2100', '2100', '2100', '2100'];
+        $$('#calcL input').forEach(function (inp) { inp.value = fmtNum(2100); });
+        applyState(true); return;
+      }
+      var i = +b.getAttribute('data-i');
+      if (b.classList.contains('av1')) {
+        var n = +b.getAttribute('data-n'); asg[n][i] = asg[n][i] ? 0 : 1;
+        b.setAttribute('aria-pressed', asg[n][i] ? 'true' : 'false'); applyState(true); return;
+      }
+      if (mode === 'eq' && b.closest('#people')) {
+        if (on[i] && on.filter(Boolean).length === 1) return;
+        on[i] = on[i] ? 0 : 1; b.setAttribute('aria-pressed', on[i] ? 'true' : 'false'); applyState(true);
+      }
+    });
+    leftEl.addEventListener('input', function (e) {
+      var inp = e.target; if (!inp.matches || !inp.matches('input[data-i]')) return;
+      var pos = inp.selectionStart, before = inp.value.slice(0, pos).replace(/\D/g, '').length;
+      var digits = inp.value.replace(/\D/g, '').replace(/^0+/, '').slice(0, 7), f = fmtNum(parseInt(digits, 10) || 0);
+      inp.value = f; man[+inp.getAttribute('data-i')] = digits;
+      var np = 0, seen = 0; while (np < f.length && seen < before) { if (/\d/.test(f[np])) seen++; np++; }
+      try { inp.setSelectionRange(np, np); } catch (er) { /* ignore */ }
+      applyState(true);
+    });
+    sendEl.addEventListener('click', function (e) { if (sendEl.getAttribute('aria-disabled') === 'true') e.preventDefault(); });
+    doc.addEventListener('langchange', function () {
+      cancelAnimationFrame(raf); lastStatus = ''; renderLeft(false); cur = compute().amt; renderShares(); applyState(false);
+    });
+  }
+
+  /* metric tree connectors */
+  var tree = $('#tree'), svg = $('#treeSvg');
+  if (tree && svg) {
+    var NS = 'http://www.w3.org/2000/svg';
+    var drawTree = function () {
+      var tr = tree.getBoundingClientRect(), ds = [];
+      $$('#tree [data-p]').forEach(function (n) {
+        var p = tree.querySelector('[data-n="' + n.getAttribute('data-p') + '"]');
+        var a = p.getBoundingClientRect(), b = n.getBoundingClientRect(), d;
+        var x1, y1, x2, y2;
+        if (window.innerWidth <= 900) {
+          /* stacked layout: leave the parent bottom edge near its left, enter the child from the left */
+          x1 = a.left - tr.left + 14; y1 = a.bottom - tr.top; x2 = b.left - tr.left; y2 = b.top + b.height / 2 - tr.top;
+          d = 'M' + x1 + ' ' + y1 + ' V' + (y2 - 8) + ' Q' + x1 + ' ' + y2 + ' ' + (x1 + 8) + ' ' + y2 + ' H' + x2;
+        } else {
+          x1 = a.right - tr.left; y1 = a.top + a.height / 2 - tr.top; x2 = b.left - tr.left; y2 = b.top + b.height / 2 - tr.top;
+          var mx = (x1 + x2) / 2;
+          d = 'M' + x1 + ' ' + y1 + ' C ' + mx + ' ' + y1 + ', ' + mx + ' ' + y2 + ', ' + x2 + ' ' + y2;
+        }
+        ds.push([d, n.getAttribute('data-p') === 'root' ? 0 : 1]);
+      });
+      svg.setAttribute('viewBox', '0 0 ' + tr.width + ' ' + tr.height);
+      svg.textContent = '';
+      var cnt = [0, 0];
+      ds.forEach(function (it) {
+        var path = doc.createElementNS(NS, 'path');
+        path.setAttribute('d', it[0]); path.setAttribute('fill', 'none'); path.setAttribute('stroke', '#7a7c78'); path.setAttribute('stroke-width', '1.2'); path.setAttribute('pathLength', '1');
+        path.style.transitionDelay = (.85 + it[1] * .45 + cnt[it[1]]++ * .1).toFixed(2) + 's';
+        svg.appendChild(path);
+      });
+    };
+    var rt, sched = function () { cancelAnimationFrame(rt); rt = requestAnimationFrame(drawTree); };
+    drawTree();
+    addEventListener('resize', sched);
+    addEventListener('load', sched);
+    doc.addEventListener('langchange', sched);
+    if (window.ResizeObserver) new ResizeObserver(sched).observe(tree);
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(sched);
+  }
+
+  /* motion: IntersectionObserver entries, one rAF scroll handler (ruler marker + phone parallax) */
+  var MO = doc.documentElement.classList.contains('mo');
+  var rmark = doc.createElement('i'); rmark.className = 'rmark';
+  if (ruler) ruler.appendChild(rmark);
+  var phones = $$('.dec .phone'), ticking = false;
+  function frame() {
+    ticking = false;
+    var max = Math.max(1, doc.documentElement.scrollHeight - innerHeight), pr = Math.min(1, Math.max(0, (window.pageYOffset || doc.documentElement.scrollTop) / max));
+    if (ruler) rmark.style.transform = 'translate3d(' + (pr * (ruler.clientWidth - 10) + 5) + 'px,0,0)';
+    if (MO) phones.forEach(function (ph, k) {
+      var r = ph.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > innerHeight + 200) return;
+      var c = ((r.top + r.height / 2) - innerHeight / 2) / innerHeight, f = k % 2 ? 1 : .6;
+      ph.style.setProperty('--py', Math.max(-16, Math.min(16, -c * 24 * f)).toFixed(1) + 'px');
+    });
+  }
+  function req() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+  addEventListener('scroll', req, { passive: true }); addEventListener('resize', req); req();
+
+  function once(sel, opts, fn) {
+    var els = $$(sel); if (!els.length) return;
+    if (!MO || !('IntersectionObserver' in window)) { els.forEach(function (el) { fn(el, true); }); return; }
+    var o = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { o.unobserve(e.target); fn(e.target, false); } });
+    }, opts);
+    els.forEach(function (el) { o.observe(el); });
+  }
+  var go = function (el) { el.classList.add('go'); };
+  once('.plate', { threshold: .3 }, function (el) { if (!el.closest('.dec')) go(el); });
+  once('.dec', { threshold: .25 }, function (el) { go(el); var p = el.querySelector('.plate'); if (p) go(p); });
+  once('.arts', { threshold: .2 }, go);
+  once('.next', { threshold: .3 }, go);
+  once('#tree', { threshold: .35 }, go);
+  once('.chip', { threshold: .6 }, function (el) { el.classList.add('pop'); });
+  if (!MO || !('IntersectionObserver' in window)) {
+    doc.documentElement.classList.remove('mo');
+    $$('.plate,.dec,.arts,.next,#tree').forEach(go);
+  }
+
+  /* 55% counts up when the stat enters */
+  var cnt = $('.stat b');
+  if (cnt && MO && 'IntersectionObserver' in window) {
+    cnt.textContent = '0%';
+    var co = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return; co.disconnect();
+      var t0 = performance.now(), d = 1100;
+      (function tick(n) {
+        var p = Math.min(1, (n - t0) / d), e = 1 - Math.pow(1 - p, 3);
+        cnt.textContent = Math.round(55 * e) + '%';
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    }, { threshold: .8 });
+    co.observe(cnt);
+  }
+
+  /* hypothesis chain lights up node by node once, then rests on the first */
+  var chain = $('.chain');
+  if (chain && MO && 'IntersectionObserver' in window) {
+    var nodes = Array.prototype.slice.call(chain.children).filter(function (n) { return n.tagName === 'SPAN'; });
+    var cho = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return; cho.disconnect();
+      nodes.forEach(function (n, i) {
+        setTimeout(function () { nodes.forEach(function (x, j) { x.classList.toggle('on', i === j); }); }, 500 + i * 480);
+      });
+      setTimeout(function () { nodes.forEach(function (x, j) { x.classList.toggle('on', j === 0); }); }, 500 + nodes.length * 480 + 250);
+    }, { threshold: .9 });
+    cho.observe(chain);
+  }
+})();
+
+</script>
+</body>
+</html>

@@ -17,7 +17,7 @@ Both groups are doing the same job: deciding, from the case studies and experien
 
 ## Product Purpose
 
-A personal portfolio site for Madina Rashidova, a product designer with experience in fintech, banking, and mobile products (Alif Bank, Профинанс/FIBO Group, Foreesco Group). It exists to get her hired or hired-as-contractor by demonstrating real project work through detailed case studies (Alif Partners, EAJ Trader, 360 Tracker, Namaste), plus an About page and CV. Success is a recruiter or client callback driven by what they read here.
+A personal portfolio site for Madina Rashidova, a product designer with experience in fintech, banking, and mobile products (Alif Bank, Профинанс/FIBO Group, Foreesco Group). It exists to get her hired or hired-as-contractor by demonstrating real project work through detailed case studies (Alif Partners, Sber Bill Splitting, EAJ Trader, 360 Tracker, Namaste), plus an About page and CV. Success is a recruiter or client callback driven by what they read here. The Sber case («Разделение счёта» / Bill Splitting) is a concept, not a shipped product. Present it as a regular case that opens with the problem (never as a «test assignment»), and keep one honest note inside the case that it has not been validated with users yet.
 
 ## Positioning
 
@@ -33,7 +33,7 @@ The mechanism the site argues for is **end-to-end ownership**: she doesn't just 
 
 - **Stack:** static, no-build multi-page site — plain HTML/CSS/JS, no framework or bundler, deployed to GitHub Pages. No shared includes/partials exist yet: nav, language toggle, and shared scripts are duplicated per page, so any shared-chrome change must be repeated by hand across all pages.
 - **i18n is load-bearing, not cosmetic:** every user-facing string ships as paired `<span data-lang="ru">` / `<span data-lang="en">` siblings, toggled via `assets/i18n.js`. New copy must always ship both languages together — never RU-only or EN-only.
-- **Pages:** `index.html` (home: hero, work grid, experience, footer), `about.html`, `case-alif-partners.html`, `case-eaj-trader.html`, `case-360-tracker.html`, `case-namaste.html`.
+- **Pages:** `index.html` (home: hero, work grid, experience, footer), `about.html`, `case-alif-partners.html`, `case-sber-split.html`, `case-eaj-trader.html`, `case-360-tracker.html`, `case-namaste.html`.
 - Only `case-alif-partners.html` currently has the fuller case-study copy (facts block, hypothesis section, split result/metrics/conclusion); the other three case pages carry the newer visual grid but older, shorter copy. Expanding them to match is a known open task, not to be done speculatively without being asked.
 - No custom illustration assets exist yet beyond the current tool-icon set and photos already in `assets/`; a spec for new illustrations (logo marks, case hero banners, square crops, mobile screens) was given to Madina but nothing has been delivered — don't assume new asset files exist without checking `assets/`.
 

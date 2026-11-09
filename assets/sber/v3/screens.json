@@ -1,0 +1,202 @@
+[
+ {
+  "file": "creator-01-operation.webp",
+  "width": 937,
+  "height": 2026,
+  "title_ru": "Операция до разделения: баланс, «Разделить»",
+  "source_pdf": "Основной сценарий-Создатель сбора.pdf",
+  "index": 1
+ },
+ {
+  "file": "creator-02-participants.webp",
+  "width": 937,
+  "height": 2026,
+  "title_ru": "Добавить участников: контакты и ссылка-приглашение",
+  "source_pdf": "Основной сценарий-Создатель сбора.pdf",
+  "index": 2
+ },
+ {
+  "file": "creator-03-items-source.webp",
+  "width": 937,
+  "height": 2026,
+  "title_ru": "Позиции счета: фото чека, вручную или пропустить",
+  "source_pdf": "Основной сценарий-Создатель сбора.pdf",
+  "index": 3
+ },
+ {
+  "file": "creator-04-scan.webp",
+  "width": 937,
+  "height": 2026,
+  "title_ru": "Сканирование чека камерой",
+  "source_pdf": "Основной сценарий-Создатель сбора.pdf",
+  "index": 4
+ },
+ {
+  "file": "creator-05-recognizing.webp",
+  "width": 937,
+  "height": 2026,
+  "title_ru": "Распознаём чек: загрузка",
+  "source_pdf": "Основной сценарий-Создатель сбора.pdf",
+  "index": 5
+ },
+ {
+  "file": "creator-06-check-flagged.webp",
+  "width": 937,
+  "height": 2026,
+  "title_ru": "Проверка позиций: позиция с пометкой «проверьте»",
+  "source_pdf": "Основной сценарий-Создатель сбора.pdf",
+  "index": 6
+ },
+ {
+  "file": "creator-07-edit.webp",
+  "width": 937,
+  "height": 2026,
+  "title_ru": "Редактирование позиции (шторка)",
+  "source_pdf": "Основной сценарий-Создатель сбора.pdf",
+  "index": 7
+ },
+ {
+  "file": "creator-08-check-total.webp",
+  "width": 937,
+  "height": 2026,
+  "title_ru": "Проверка позиций: итог 8 400 ₽ сходится",
+  "source_pdf": "Основной сценарий-Создатель сбора.pdf",
+  "index": 8
+ },
+ {
+  "file": "creator-09-split-equal.webp",
+  "width": 937,
+  "height": 2026,
+  "title_ru": "Разделить счет поровну, создать сбор",
+  "source_pdf": "Основной сценарий-Создатель сбора.pdf",
+  "index": 9
+ },
+ {
+  "file": "creator-10-transaction-split.webp",
+  "width": 937,
+  "height": 2026,
+  "title_ru": "Операция со статусом «Разделено»",
+  "source_pdf": "Основной сценарий-Создатель сбора.pdf",
+  "index": 10
+ },
+ {
+  "file": "creator-11-collection-status.webp",
+  "width": 937,
+  "height": 2027,
+  "title_ru": "Раздельный чек: 0 ₽ из 8 400 ₽ собрано, «Напомнить»",
+  "source_pdf": "Основной сценарий-Создатель сбора.pdf",
+  "index": 11
+ },
+ {
+  "file": "recipient-01-notification.webp",
+  "width": 936,
+  "height": 2027,
+  "title_ru": "Уведомление: запрос на оплату",
+  "source_pdf": "Основной сценарий-Участник сбора.pdf",
+  "index": 1
+ },
+ {
+  "file": "recipient-02-request.webp",
+  "width": 936,
+  "height": 2027,
+  "title_ru": "Запрос на оплату 1 675 ₽",
+  "source_pdf": "Основной сценарий-Участник сбора.pdf",
+  "index": 2
+ },
+ {
+  "file": "recipient-03-items.webp",
+  "width": 936,
+  "height": 2026,
+  "title_ru": "Позиции чека (шторка)",
+  "source_pdf": "Основной сценарий-Участник сбора.pdf",
+  "index": 3
+ },
+ {
+  "file": "recipient-04-success.webp",
+  "width": 937,
+  "height": 2027,
+  "title_ru": "Перевод выполнен",
+  "source_pdf": "Основной сценарий-Участник сбора.pdf",
+  "index": 4
+ },
+ {
+  "file": "split-items-01-list.webp",
+  "width": 936,
+  "height": 2027,
+  "title_ru": "Разделить по позициям: позиции не назначены",
+  "source_pdf": "Разделить счет по позициям.pdf",
+  "index": 1
+ },
+ {
+  "file": "split-items-02-participants.webp",
+  "width": 936,
+  "height": 2027,
+  "title_ru": "Выбор участников для позиции (шторка)",
+  "source_pdf": "Разделить счет по позициям.pdf",
+  "index": 2
+ },
+ {
+  "file": "split-items-03-assigned.webp",
+  "width": 936,
+  "height": 2027,
+  "title_ru": "Позиции назначены, «Создать сбор»",
+  "source_pdf": "Разделить счет по позициям.pdf",
+  "index": 3
+ },
+ {
+  "file": "split-manual-01-empty.webp",
+  "width": 936,
+  "height": 2027,
+  "title_ru": "Разделить вручную: пустые суммы",
+  "source_pdf": "Разделить счет вручную.pdf",
+  "index": 1
+ },
+ {
+  "file": "split-manual-02-filled.webp",
+  "width": 936,
+  "height": 2027,
+  "title_ru": "Разделить вручную: суммы введены, 8 400 ₽",
+  "source_pdf": "Разделить счет вручную.pdf",
+  "index": 2
+ },
+ {
+  "file": "add-manual-01-source.webp",
+  "width": 936,
+  "height": 2027,
+  "title_ru": "Позиции счета: добавить вручную",
+  "source_pdf": "Добавить позиции вручную.pdf",
+  "index": 1
+ },
+ {
+  "file": "add-manual-02-mismatch.webp",
+  "width": 936,
+  "height": 2027,
+  "title_ru": "Проверка: сумма не совпадает с чеком",
+  "source_pdf": "Добавить позиции вручную.pdf",
+  "index": 2
+ },
+ {
+  "file": "add-manual-03-form-empty.webp",
+  "width": 936,
+  "height": 2027,
+  "title_ru": "Добавить позицию: пустая форма",
+  "source_pdf": "Добавить позиции вручную.pdf",
+  "index": 3
+ },
+ {
+  "file": "add-manual-04-form-filled.webp",
+  "width": 937,
+  "height": 2027,
+  "title_ru": "Добавить позицию: форма заполнена",
+  "source_pdf": "Добавить позиции вручную.pdf",
+  "index": 4
+ },
+ {
+  "file": "add-manual-05-delete.webp",
+  "width": 937,
+  "height": 2027,
+  "title_ru": "Удалить позицию? подтверждение",
+  "source_pdf": "Добавить позиции вручную.pdf",
+  "index": 5
+ }
+]
