@@ -233,7 +233,7 @@ td:first-child{font-weight:600;white-space:nowrap}
 .modes button{all:unset;box-sizing:border-box;cursor:pointer;padding:8px 16px;border-radius:999px;font:500 13.5px/1.2 var(--sans);color:var(--ink2);white-space:nowrap;transition:background-color .2s,color .2s}
 .modes button[aria-selected="true"]{background:#151515;color:#fff}
 .modes button:not([aria-selected="true"]):hover{color:var(--ink)}
-.modes button:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.modes button:focus-visible{outline:2px solid rgba(21,21,21,.35);outline-offset:2px}
 .calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0}
 .calc>div{padding:20px}
 .calc .l{border-right:1px solid var(--hair)}
@@ -245,7 +245,7 @@ td:first-child{font-weight:600;white-space:nowrap}
 .avs{display:inline-flex;gap:4px}
 .av1{all:unset;box-sizing:border-box;cursor:pointer;width:28px;height:28px;border-radius:50%;display:inline-grid;place-items:center;font:600 12px/1 var(--sans);border:1.5px solid var(--hair);color:var(--mute);background:#fff;transition:background-color .2s,color .2s,border-color .2s;position:relative}
 .av1::after{content:"";position:absolute;inset:-4px -2px}
-.av1[aria-pressed="true"]{background:var(--pc);border-color:var(--pc);color:#fff}
+.av1[aria-pressed="true"]{background:var(--pc);border-color:var(--pd);color:#151515}
 .av1:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .sub{margin-top:18px}
 .note-u{margin-top:10px;font-size:13px;font-weight:500;color:#9A3412}
@@ -255,11 +255,11 @@ td:first-child{font-weight:600;white-space:nowrap}
 .people button[aria-pressed="true"]{border-color:var(--ink)}
 .people button[aria-pressed="false"]{color:var(--mute)}
 .people button:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
-.people b{width:8px;height:8px;border-radius:50%;background:var(--pc)}
+.people b{width:9px;height:9px;border-radius:50%;background:var(--pc);box-shadow:inset 0 0 0 1px var(--pd)}
 .people button[aria-pressed="false"] b{background:#ccc}
 .mrow{display:flex;align-items:center;gap:12px;margin-top:10px}
 .mrow label{flex:1;display:flex;align-items:center;gap:8px;font-size:14px}
-.mrow label b{width:8px;height:8px;border-radius:50%;background:var(--pc);flex:none}
+.mrow label b{width:9px;height:9px;border-radius:50%;background:var(--pc);box-shadow:inset 0 0 0 1px var(--pd);flex:none}
 .mrow .in{position:relative;width:150px;flex:none}
 .mrow input{all:unset;box-sizing:border-box;width:100%;height:40px;padding:0 30px 0 12px;border:1px solid #C9C9C4;border-radius:8px;background:#fff;font:500 15px/1 var(--sans);font-variant-numeric:tabular-nums;text-align:right;color:var(--ink)}
 .mrow input:focus{border-color:var(--ink);box-shadow:0 0 0 3px rgba(21,21,21,.08)}
@@ -270,7 +270,7 @@ td:first-child{font-weight:600;white-space:nowrap}
 .btn2:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
 .calc .r{display:flex;flex-direction:column}
 .share{display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #F0F0EC;font-size:14.5px}
-.share u{width:10px;height:10px;border-radius:3px;background:var(--pc)}
+.share u{width:10px;height:10px;border-radius:3px;background:var(--pc);box-shadow:inset 0 0 0 1px var(--pd)}
 .share b{font-variant-numeric:tabular-nums;font-weight:600}
 .share.off{color:var(--mute)}
 .share.off u{background:#ccc}
@@ -338,7 +338,7 @@ td:first-child{font-weight:600;white-space:nowrap}
   .mrow label{flex:1 1 100%}
   .mrow .in{width:100%}
 }
-.pc0,.sbar i:nth-child(1){--pc:#137A26}.pc1,.sbar i:nth-child(2){--pc:#2563D6}.pc2,.sbar i:nth-child(3){--pc:#A86A00}.pc3,.sbar i:nth-child(4){--pc:#C73259}
+.pc0,.sbar i:nth-child(1){--pc:#BFE6CB;--pd:#7FC495}.pc1,.sbar i:nth-child(2){--pc:#C4DDF2;--pd:#86B4DE}.pc2,.sbar i:nth-child(3){--pc:#DDEE8C;--pd:#B3C94A}.pc3,.sbar i:nth-child(4){--pc:#F2CDB4;--pd:#DDA27E}
 /* ruler marker */
 .rmark{position:absolute;left:0;bottom:0;width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:7px solid var(--green);margin-left:-5px;will-change:transform}
 /* artifacts hover cue */
@@ -451,11 +451,11 @@ body.av-open .case-floating-nav,body.av-open .site-nav{opacity:0;pointer-events:
 
 <section class="wrap reveal">
   <figure class="fig"><div class="plate p-hero">
-    <div class="phone f1"><img src="assets/sber/v3/creator-01-operation.webp" width="937" height="2026" data-alt-ru="Экран операции с кнопкой «Разделить»" data-alt-en="Transaction screen with the “Split” button" alt="Экран операции с кнопкой «Разделить»" decoding="async"></div>
-    <div class="sel" style="--sel:#2F7BF6"><span class="h1x"><i></i><i></i></span><div class="phone f1"><img src="assets/sber/v3/recipient-03-items.webp" width="936" height="2026" data-alt-ru="Запрос участника с позициями чека" data-alt-en="Participant request with receipt items" alt="Запрос участника с позициями чека" decoding="async" fetchpriority="high"></div><span class="sz"><span data-lang="ru">Запрос участнику</span><span data-lang="en">Participant request</span></span></div>
+    <div class="phone f1"><img src="assets/sber/v3/recipient-02-request.webp" width="936" height="2027" data-alt-ru="Запрос участнику на 1 675 ₽" data-alt-en="Participant request for 1,675 ₽" alt="Запрос участнику на 1 675 ₽" decoding="async"></div>
+    <div class="sel" style="--sel:#2F7BF6"><span class="h1x"><i></i><i></i></span><div class="phone f1"><img src="assets/sber/v3/split-items-03-assigned.webp" width="936" height="2027" data-alt-ru="Деление счёта по позициям: у каждого блюда видно, кто его делит и по сколько" data-alt-en="Splitting the bill by item: each dish shows who shares it and how much each pays" alt="Деление счёта по позициям: у каждого блюда видно, кто его делит и по сколько" decoding="async" fetchpriority="high"></div><span class="sz"><span data-lang="ru">Деление по позициям</span><span data-lang="en">Split by item</span></span></div>
     <div class="phone f1"><img src="assets/sber/v3/creator-11-collection-status.webp" width="937" height="2027" data-alt-ru="Статус сбора: кто перевёл и кнопка «Напомнить»" data-alt-en="Collection status: who has transferred and the “Remind” button" alt="Статус сбора: кто перевёл и кнопка «Напомнить»" decoding="async"></div>
-    <span class="stick" style="right:6%;top:18%;background:var(--chosen);--r:4deg"><span data-lang="ru">Ключевой экран кейса</span><span data-lang="en">The key screen of the case</span></span>
-  </div><figcaption class="cap"><span data-lang="ru">Рис. 1. Покупка, запрос участнику и статус сбора. Данные примера.</span><span data-lang="en">Fig. 1. The purchase, the participant request and the collection status. Example data.</span></figcaption></figure>
+    <span class="stick" style="right:6%;top:18%;background:var(--n-lime);--r:4deg"><span data-lang="ru">3 способа деления в одном сборе</span><span data-lang="en">3 ways to split in one collection</span></span>
+  </div><figcaption class="cap"><span data-lang="ru">Рис. 1. Запрос участнику, деление по позициям и статус сбора. Данные примера.</span><span data-lang="en">Fig. 1. The participant request, the split by item and the collection status. Example data.</span></figcaption></figure>
 </section>
 
 <section class="wrap sec two reveal" data-tick>
