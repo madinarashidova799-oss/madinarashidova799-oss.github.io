@@ -262,8 +262,7 @@ td:first-child{font-weight:600;white-space:nowrap}
 .mrow label b{width:9px;height:9px;border-radius:50%;background:var(--pc);box-shadow:inset 0 0 0 1px var(--pd);flex:none}
 .mrow .in{position:relative;width:150px;flex:none}
 .mrow input{all:unset;box-sizing:border-box;width:100%;height:40px;padding:0 30px 0 12px;border:1px solid #C9C9C4;border-radius:8px;background:#fff;font:500 15px/1 var(--sans);font-variant-numeric:tabular-nums;text-align:right;color:var(--ink)}
-.mrow input:focus{border-color:var(--ink);box-shadow:0 0 0 3px rgba(21,21,21,.08)}
-.mrow input:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.mrow input:focus,.mrow input:focus-visible{outline:none;border-color:var(--gt);box-shadow:inset 0 0 0 1px var(--gt)}
 .mrow .in::after{content:"₽";position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--ink2);font-size:14px;pointer-events:none}
 .btn2{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;margin-top:14px;height:36px;padding:0 14px;align-items:center;border-radius:10px;border:1px solid #C9C9C4;font:500 13.5px/1 var(--sans);color:var(--ink)}
 .btn2:hover{border-color:var(--ink)}
