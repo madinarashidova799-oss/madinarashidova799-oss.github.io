@@ -9,7 +9,7 @@
 <meta name="description" content="Разделение ресторанного счёта в СберБанк Онлайн: сбор, который связывает общий чек с возвратом каждой доли. Проблема, исследование, гипотеза, решения, калькулятор, дерево метрик." data-ru="Разделение ресторанного счёта в СберБанк Онлайн: сбор, который связывает общий чек с возвратом каждой доли. Проблема, исследование, гипотеза, решения, калькулятор, дерево метрик." data-en="Splitting a restaurant bill in Sber Online: a collection that links the shared receipt to the return of each share. Problem, research, hypothesis, decisions, calculator, metric tree.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Golos+Text:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Caveat:wght@600&display=swap" rel="stylesheet">
 <script>document.documentElement.classList.add('js');</script>
 <script>try{if(!/[?&]settled\b/.test(location.search)&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("mo")}catch(e){}</script>
 <style>
@@ -417,6 +417,14 @@ td:first-child{font-weight:600;white-space:nowrap}
 body.av-open{overflow:hidden}
 body.av-open .case-floating-nav,body.av-open .site-nav{opacity:0;pointer-events:none}
 
+
+/* body text: Golos Text */
+:root{--body:"Golos Text",Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+.read,.arrow,.task,.next li,.steps li,.flow p,.opt p,.impact,.stat .t,.note p,.tbl td{font-family:var(--body)}
+.read{font-size:clamp(16px,1.15vw,17.5px);line-height:1.68;color:#2e2e2e;letter-spacing:0}
+.arrow{font-size:16.5px;line-height:1.6}
+.task{font-size:16.5px;line-height:1.55}
+.next li{font-size:15.5px;line-height:1.5}
 </style>
 <link rel="stylesheet" href="assets/typography.css">
 </head>

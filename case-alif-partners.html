@@ -6,545 +6,13 @@
 <script>(function(){if(localStorage.getItem('site-lang')==='en')document.documentElement.classList.add('lang-en');})();</script>
 <title data-ru="Alif Partners · Мадина Рашидова" data-en="Alif Partners · Madina Rashidova">Alif Partners · Мадина Рашидова</title>
 <link rel="icon" type="image/png" href="favicon.png">
-<meta name="description" content="Alif Partners. Редизайн админ-панели для партнёрской сети Alif Bank. Разбор процесса: исследование, решение, итоги." data-ru="Alif Partners. Редизайн админ-панели для партнёрской сети Alif Bank. Разбор процесса: исследование, решение, итоги." data-en="Alif Partners. A redesign of the admin panel for Alif Bank’s partner network. Process breakdown: research, solution, results.">
+<meta name="description" content="Alif Partners: личный кабинет для самостоятельной работы партнёров Alif Shop. Проблема, исследование, гипотеза, северная звезда, решения и итог." data-ru="Alif Partners: личный кабинет для самостоятельной работы партнёров Alif Shop. Проблема, исследование, гипотеза, северная звезда, решения и итог." data-en="Alif Partners: a self-service account for Alif Shop partners. Problem, research, hypothesis, North Star, decisions and outcome.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Golos+Text:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
+<script>try{if(!/[?&]settled\b/.test(location.search)&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("mo")}catch(e){}</script>
 <style>
-  :root {
-    --bg: #f8f8f8;
-    --surface: #ffffff;
-    --surface-translucent: rgba(255, 255, 255, 0.65);
-    --line: #ececec;
-    --line-strong: #eaeaea;
-    --line-soft: #f1f1f1;
-    --line-faint: #f5f5f5;
-    --text: #171717;
-    --text-strong: #231e1b;
-    --text-dim: #62605d;
-    --text-dim-2: #6e6c68;
-    --text-inverse: #f8f8f8;
-    --accent: #231e1b;
-    --live: #2f6b52;
-    --nav-bg: #17110e;
-    --nav-bg-hover: #261f1b;
-    --nav-control: #302925;
-    --radius-small: 12px;
-    --radius-medium: 20px;
-    --radius-large: 32px;
-    --radius-pill: 999px;
-    --shadow-soft: 0 8px 24px rgba(23,17,14,0.06), 0 20px 50px rgba(23,17,14,0.05);
-    --shadow-control: 0 8px 20px rgba(23,17,14,0.08);
-    --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 24px;
-    --space-6: 32px; --space-7: 48px; --space-8: 64px; --space-9: 96px; --space-10: 128px;
-    --mono: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --display: var(--sans);
-    /* Unified type scale — same tokens copy-pasted across about.html and all
-       4 case pages (no shared includes on this static site, see PRODUCT.md). */
-    --font-size-h1: clamp(40px, 5vw, 72px);
-    --font-size-h2: clamp(24px, 2vw, 30px);
-    --font-size-h3: clamp(20px, 1.5vw, 24px);
-    --font-size-h4: clamp(19px, 1.6vw, 23px);
-    --font-size-body: clamp(16px, 1.1vw, 18px);
-    --font-size-label: 14px;
-    /* UI-audit fix (2026-08-28): named tokens for values that were
-       previously repeated as bare 0.72rem/1.05rem literals across the
-       case-nav prev/next controls and the result-card metric — same
-       computed sizes, now backed by a token instead of ad-hoc numbers. */
-    --font-size-nav-label: 0.72rem;
-    --font-size-nav-title: 1.05rem;
-    --font-weight-heading: 600;
-    --line-height-h1: 1.05;
-    --line-height-heading: 1.2;
-    --line-height-body: 1.55;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    line-height: 1.55;
-    -webkit-font-smoothing: antialiased;
-  }
-  a { color: inherit; text-decoration: none; }
-  .page { max-width: 1680px; margin: 0 auto; padding: 0 clamp(24px, 7vw, 128px); }
-
-  .site-nav {
-    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-    z-index: 100; display: flex; align-items: center;
-    background: var(--nav-bg); border-radius: 100px; padding: 8px 8px 8px 22px;
-    box-shadow: var(--shadow-control);
-    transition: transform 0.28s cubic-bezier(0.22,1,0.36,1), opacity 0.28s cubic-bezier(0.22,1,0.36,1);
-  }
-  .site-nav.is-nav-hidden { transform: translateX(-50%) translateY(-140%); opacity: 0; pointer-events: none; }
-  .site-nav .nav-name {
-    font-family: var(--mono); font-size: 0.85rem; font-weight: 500;
-    color: #fff; margin-right: 8px; white-space: nowrap;
-  }
-  .site-nav a.nav-link {
-    font-family: var(--sans); font-size: 0.85rem; font-weight: 500;
-    color: rgba(255,255,255,0.68); padding: 9px 16px; border-radius: 100px;
-    white-space: nowrap; transition: background 0.2s ease, color 0.2s ease;
-  }
-  .site-nav a.nav-link:hover, .site-nav a.nav-link:focus-visible { background: rgba(255,255,255,0.12); color: #fff; }
-  .lang-toggle {
-    font-family: var(--mono); font-size: 0.8rem; font-weight: 500;
-    color: rgba(255,255,255,0.68); background: rgba(255,255,255,0.08);
-    border: none; padding: 9px 14px; border-radius: 100px; cursor: pointer;
-    margin-left: 4px; transition: background 0.2s ease, color 0.2s ease;
-  }
-  .lang-toggle:hover, .lang-toggle:focus-visible { background: rgba(255,255,255,0.16); color: #fff; }
-  /* ===== область нажатия верхней навигации =====
-     Ссылки были 35 px высотой, переключатель языка 38x31 — меньше цели
-     44x44. Видимая плашка не меняется: увеличена только область нажатия,
-     по вертикали, чтобы соседние ссылки не перекрывали друг друга. */
-  .site-nav a.nav-link, .lang-toggle { position: relative; }
-  .site-nav a.nav-link::after { content: ''; position: absolute; inset: -5px 0; }
-  .site-nav a.nav-name { position: relative; }
-  .site-nav a.nav-name::after { content: ''; position: absolute; inset: -12px 0; }
-  .lang-toggle::after { content: ''; position: absolute; inset: -7px -4px; }
-  /* ===== конец блока области нажатия ===== */
-  @media (max-width: 560px) {
-    .site-nav { padding: 6px 6px 6px 14px; }
-    .site-nav .nav-name { display: none; }
-    .site-nav a.nav-link { padding: 8px 10px; font-size: 0.76rem; }
-    .lang-toggle { padding: 8px 11px; font-size: 0.74rem; }
-  }
-
-  [data-lang="en"] { display: none; }
-  html.lang-en [data-lang="ru"] { display: none; }
-  html.lang-en [data-lang="en"] { display: inline; }
-
-  /* lightbox (shared across every page that shows process images) */
-  .lightbox {
-    position: fixed; inset: 0; z-index: 200;
-    background: rgba(10, 10, 10, 0.94);
-    display: flex; align-items: center; justify-content: center;
-    padding: 48px; opacity: 0; pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  .lightbox.open { opacity: 1; pointer-events: all; }
-  .lightbox img {
-    max-width: 100%; max-height: 100%; border-radius: var(--radius-large);
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
-    transform: scale(0.96); transition: transform 0.3s ease;
-  }
-  .lightbox.open img { transform: scale(1); }
-  .lightbox-close {
-    position: absolute; top: 28px; right: 32px;
-    width: 44px; height: 44px; border-radius: 50%;
-    background: var(--surface); border: 1px solid var(--line);
-    color: var(--text); font-size: 1.3rem; line-height: 1; cursor: pointer;
-  }
-
-</style>
-<style>
-  :root { --case-accent: var(--text-strong); --case-accent-2: #FBBF02; --case-accent-2-text: #8A6400; --grid-gutter: 28px; }
-  .case-page { padding: 128px 0 160px; max-width: 1400px; margin: 0 auto; }
-  .case-header { margin-bottom: 48px; }
-
-  /* Invisible 12-column authoring grid — every split section, the context
-     cards, and the merged result cards align to these lines. Not visible
-     to the user; used only to keep text/media widths and edges consistent.
-     Desktop ≥1280px: 12 cols, 24-32px gutter (.page already gives ≥48px
-     side margins at this width via its own clamp()). Tablet 768-1279px:
-     same 12 logical columns, tighter gutter. Mobile <768px: 4 columns. */
-  .case-grid { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--grid-gutter); align-items: start; }
-  .col-4 { grid-column: span 4; }
-  .col-6 { grid-column: span 6; }
-  .col-8 { grid-column: span 8; }
-  .col-12 { grid-column: span 12; }
-  @media (max-width: 1279px) { .case-grid { column-gap: 20px; } }
-  @media (max-width: 767px) {
-    .case-grid { grid-template-columns: repeat(4, 1fr); row-gap: 20px; }
-    .case-grid > .col-4, .case-grid > .col-6, .case-grid > .col-8 { grid-column: span 4; }
-  }
-
-  /* Context/Task cards — replace the hero's old subtitle+dek paragraphs.
-     Sit right after the facts block, two cards side by side on the grid. */
-  .case-context-cards { margin-top: clamp(80px, 8vw, 112px); align-items: stretch; }
-  .case-context-card {
-    background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: none;
-    padding: clamp(28px, 2.6vw, 36px); display: flex; flex-direction: column; gap: 10px; height: 100%;
-  }
-  .case-context-card__label {
-    display: flex; align-items: center; gap: 7px;
-    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--text-dim); margin: 0 0 2px;
-  }
-  .case-context-card__label::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--case-accent-2); flex-shrink: 0; }
-  .case-context-card__title {
-    font-family: var(--display); font-weight: var(--font-weight-heading); font-size: var(--font-size-h4);
-    line-height: 1.3; color: var(--text);
-  }
-  .case-context-card__text { font-size: var(--font-size-body); color: var(--text-dim); line-height: var(--line-height-body); max-width: none; }
-
-  /* Split section: related text + image side by side, top-aligned, on the
-     12-col grid — replaces the old fixed 5fr/7fr .detail-pair. */
-  .case-split { margin-top: clamp(32px, 3vw, 40px); margin-bottom: 18px; }
-  .case-split-text p { margin-bottom: 0; max-width: none; }
-  .case-split-text p + p { margin-top: 16px; }
-  .case-split-media {
-    border-radius: var(--radius-large); overflow: hidden; background: var(--surface); border: 1px solid var(--line);
-    padding: clamp(20px, 3vw, 32px);
-  }
-  .case-split-media, .detail-media-frame {
-    transition: transform 0.25s cubic-bezier(.22,1,.36,1), box-shadow 0.25s ease;
-  }
-  .case-split-media:hover, .detail-media-frame:hover {
-    transform: translateY(-6px); box-shadow: 0 16px 32px rgba(23,17,14,0.09);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .case-split-media, .detail-media-frame { transition: none; }
-  }
-  .case-split-media img { margin: 0; border-radius: var(--radius-medium); object-fit: contain; }
-
-  /* ===== Крупная подача экранов (.case-shot / .case-steps) =====
-     Веб-интерфейс нечитаем в половине колонки: при окне 1440 .case-split-media
-     отдаёт картинке 539px, а пара в --mosaic-row — по 262px. Два режима вместо
-     этого, оба держат картинку ~912px и оба уже колонки, чтобы экран не
-     распластывался во всю страницу:
-       .case-shot  — одиночный экран в кадре ≤1000px по центру;
-       .case-steps — бывшая пара, разведённая по вертикали: каждый шаг в том же
-                     кадре и с подписью, номера совпадают с шагами сценария.
-     Текст в обоих режимах идёт над картинкой во всю колонку, а не сбоку. */
-  .case-shot {
-    max-width: 1000px; margin: clamp(32px, 3vw, 40px) auto;
-    background: var(--surface); border: 1px solid var(--line);
-    border-radius: var(--radius-large); padding: clamp(24px, 3.4vw, 44px);
-    transition: transform 0.25s cubic-bezier(.22,1,.36,1), box-shadow 0.25s ease;
-  }
-  .case-shot:hover { transform: translateY(-6px); box-shadow: 0 16px 32px rgba(23,17,14,0.09); }
-  @media (prefers-reduced-motion: reduce) { .case-shot { transition: none; } }
-  .case-shot .case-image-trigger { display: block; }
-  .case-shot .case-image-trigger:focus-visible { outline-offset: -3px; }
-  .case-shot img { display: block; width: 100%; height: auto; margin: 0; border-radius: var(--radius-medium); }
-
-  .case-steps { display: flex; flex-direction: column; gap: clamp(28px, 3vw, 40px); margin: clamp(32px, 3vw, 40px) 0; }
-  .case-step { max-width: 1000px; width: 100%; margin-inline: auto; }
-  .case-step .case-shot { margin-block: 0; }
-  .case-step__cap {
-    display: flex; gap: 10px; align-items: baseline; max-width: none;
-    font-size: var(--font-size-label); line-height: 1.5; color: var(--text-dim);
-    margin: 0 0 12px; padding-inline: clamp(24px, 3.4vw, 44px);
-  }
-  .case-step__num { font-family: var(--mono); font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; flex: none; }
-
-  /* ===== Формы подачи блока =====
-     Раньше каждый блок выглядел одинаково: заголовок, абзацы во всю колонку,
-     под ними картинка на 910px. Шесть блоков подряд с одним ритмом читаются
-     как список, а не как рассказ. Форма теперь выбирается по содержанию:
-
-       .case-rail   — текст без картинки, который является последовательностью
-                      (предположили → проверили → изменили). Номер несёт смысл,
-                      поэтому он здесь заслужен, а не декоративен.
-       .case-stats  — выборка исследования: числа, которые в прозе теряются.
-       .case-split  — один абзац и одна вертикальная картинка рядом (уже было).
-       .case-figs   — две связанные картинки в ряд.
-       .case-shot   — широкий экран во всю колонку кадра (уже было).
-       .result-card — итоги карточками (уже было).
-  */
-
-  /* Шаги по горизонтали: номер на линии, под ним заголовок и текст. */
-  .case-rail {
-    display: grid; grid-template-columns: repeat(var(--rail-cols, 3), minmax(0, 1fr));
-    column-gap: clamp(20px, 2.4vw, 40px); row-gap: 32px;
-    margin: clamp(32px, 3.5vw, 48px) 0 clamp(28px, 3vw, 40px);
-  }
-  .case-rail__step { position: relative; padding-top: 54px; min-width: 0; }
-  /* Соединительная линия тянется от номера к следующему шагу. */
-  .case-rail__step::before {
-    content: ''; position: absolute; top: 17px; left: 42px;
-    right: calc(-1 * clamp(20px, 2.4vw, 40px)); height: 1px;
-    background: var(--line-strong);
-  }
-  .case-rail__step:last-child::before { display: none; }
-  .case-rail__num {
-    position: absolute; top: 0; left: 0; width: 34px; height: 34px; border-radius: 50%;
-    background: var(--nav-bg); color: var(--text-inverse);
-    display: grid; place-items: center;
-    font-family: var(--mono); font-size: 13px; font-weight: 500; line-height: 1;
-    font-variant-numeric: tabular-nums;
-  }
-  .case-rail__title {
-    font-family: var(--display); font-weight: var(--font-weight-heading);
-    font-size: var(--font-size-h3); line-height: 1.25; color: var(--text);
-    margin: 0 0 10px; text-wrap: balance;
-  }
-  .case-rail__text {
-    font-size: var(--font-size-body); line-height: var(--line-height-body);
-    color: var(--text-dim); margin: 0; max-width: 42ch; text-wrap: pretty;
-  }
-  @media (max-width: 900px) {
-    .case-rail { grid-template-columns: 1fr; row-gap: 28px; }
-    .case-rail__step { padding-top: 0; padding-left: 52px; }
-    .case-rail__step::before {
-      top: 42px; bottom: -28px; left: 17px; right: auto; width: 1px; height: auto;
-    }
-    .case-rail__text { max-width: none; }
-  }
-
-  /* Выборка исследования. Числа из утверждённого текста, не пересчитаны. */
-  .case-stats {
-    display: flex; flex-wrap: wrap; gap: clamp(24px, 4vw, 64px);
-    margin: clamp(28px, 3vw, 40px) 0;
-    padding: clamp(18px, 2vw, 24px) 0;
-    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-  }
-  .case-stats__item { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-  .case-stats__num {
-    font-family: var(--display); font-weight: var(--font-weight-heading);
-    font-size: clamp(26px, 2.8vw, 36px); line-height: 1; color: var(--text);
-    font-variant-numeric: tabular-nums;
-  }
-  .case-stats__label { font-size: var(--font-size-label); line-height: 1.45; color: var(--text-dim); }
-
-  /* Две связанные картинки в ряд. */
-  /* Пара картинок во всю ширину колонки, а не в суженном кадре: две
-     половины по ~600px читаются, две по 454px — уже нет. */
-  .case-figs {
-    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(20px, 2.4vw, 32px); align-items: start;
-    margin: clamp(32px, 3vw, 40px) 0;
-  }
-  .case-figs .case-shot { margin: 0; max-width: none; }
-  @media (max-width: 860px) { .case-figs { grid-template-columns: 1fr; } }
-
-  /* Картинка внутри половины сетки — тот же кадр, без собственной ширины. */
-  .case-split .case-shot { margin: 0; max-width: none; }
-  .case-split-text p + p { margin-top: 16px; }
-
-  /* Закрывающая строка блока итогов: что проверять дальше. */
-  .case-next-step {
-    margin-top: clamp(28px, 3vw, 40px); padding-top: clamp(18px, 2vw, 24px);
-    border-top: 1px solid var(--line);
-    display: flex; flex-direction: column; gap: 6px;
-  }
-  .case-next-step__label {
-    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--text-dim);
-  }
-  .case-next-step p { margin: 0; max-width: 62ch; }
-
-  /* Подпись под иллюстрацией. В HTML, а не внутри растра, и не дублирует alt. */
-  .case-shot { margin-inline: auto; }
-  .case-shot__cap {
-    margin: 14px 0 0; font-size: var(--font-size-label); line-height: 1.5;
-    color: var(--text-dim); max-width: 62ch;
-  }
-
-  /* «Дополнительные экраны»: материалы реестра с placement: gallery.
-     <details> вместо самодельного аккордеона — работает с клавиатуры
-     и без JS, состояние читается скринридером. */
-  .case-gallery {
-    margin-top: clamp(56px, 6vw, 88px);
-    border-top: 1px solid var(--line); padding-top: clamp(20px, 2vw, 28px);
-  }
-  .case-gallery__summary {
-    cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 10px;
-    font-family: var(--display); font-weight: 600; font-size: var(--font-size-h3);
-    color: var(--text); padding: 6px 2px; border-radius: var(--radius-small);
-  }
-  .case-gallery__summary::-webkit-details-marker { display: none; }
-  .case-gallery__summary::after {
-    content: '+'; font-family: var(--mono); font-weight: 500; font-size: 0.8em;
-    color: var(--text-dim); transition: transform 0.2s ease;
-  }
-  .case-gallery[open] .case-gallery__summary::after { content: '\2212'; }
-  .case-gallery__summary:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 3px; }
-  .case-gallery__body { display: flex; flex-direction: column; gap: clamp(28px, 3vw, 40px); margin-top: 24px; }
-  @media (prefers-reduced-motion: reduce) { .case-gallery__summary::after { transition: none; } }
-
-  /* B1 — подзаголовок и строка о роли/результате под H1 (спека §1, блок B1).
-     DESIGN.md упоминает .case-headline как общий компонент всех четырёх
-     кейсов, но в разметке его не было ни на одной странице — заводим здесь. */
-  .case-headline {
-    font-family: var(--display); font-weight: var(--font-weight-heading);
-    font-size: var(--font-size-h4); line-height: 1.3; color: var(--text);
-    margin: 14px 0 0; max-width: 34ch; text-wrap: pretty;
-  }
-  .case-lede {
-    font-size: var(--font-size-body); line-height: var(--line-height-body);
-    color: var(--text-dim); margin: 12px 0 0; max-width: 58ch; text-wrap: pretty;
-  }
-
-  /* B4 — таблица сценария «как было / что изменилось». Тот же ритм, что у
-     .compare-table в 360 Tracker и .health-table в Namaste: реальная
-     <table>, горизонтальный скролл внутри своего контейнера, первая
-     колонка липкая, чтобы шаг не терялся при прокрутке на узком экране. */
-  .case-table-wrap {
-    margin-top: clamp(24px, 2.5vw, 32px); margin-bottom: clamp(20px, 2vw, 24px); overflow-x: auto;
-    border: 1px solid var(--line); border-radius: var(--radius-medium); background: var(--surface);
-    width: 100%; min-width: 0; max-width: 100%;
-  }
-  .case-table-wrap:focus-visible { outline: 2px solid var(--text-strong); outline-offset: -2px; }
-  .case-table { width: 100%; min-width: 680px; border-collapse: collapse; }
-  .case-table th, .case-table td {
-    padding: clamp(14px, 1.6vw, 20px) clamp(16px, 2vw, 24px); text-align: left;
-    font-size: var(--font-size-label); line-height: 1.5; color: var(--text-dim);
-    border-bottom: 1px solid var(--line); white-space: normal; vertical-align: top;
-  }
-  .case-table thead th {
-    font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em;
-    color: var(--text-dim-2); font-weight: 500; background: var(--surface);
-  }
-  .case-table tbody th {
-    font-family: var(--display); font-weight: 600; color: var(--text);
-    position: sticky; left: 0; background: var(--surface); min-width: 150px;
-  }
-  .case-table tbody tr:last-child th, .case-table tbody tr:last-child td { border-bottom: 0; }
-  .case-table .was { color: var(--text-dim-2); }
-  .case-split-media--mosaic { display: flex; flex-direction: column; gap: 16px; }
-  .case-split-media--mosaic .case-image-trigger { display: block; }
-  .case-split-media .case-image-trigger:focus-visible { outline-offset: -3px; }
-
-  .detail-block.reveal-pending {
-    opacity: 0; transform: translateY(22px);
-    transition: opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1);
-  }
-  .detail-block.reveal-pending.in-view { opacity: 1; transform: none; }
-  @media (prefers-reduced-motion: reduce) { .detail-block.reveal-pending { opacity: 1; transform: none; transition: none; } }
-  /* Two related screenshots shown side by side instead of stacked. */
-  .case-split-media--mosaic-row { display: flex; flex-direction: row; gap: 16px; }
-  .case-split-media--mosaic-row .case-image-trigger { flex: 1; min-width: 0; }
-  /* A caption sitting above its own image, paired with a twin column so two
-     photo+caption pairs read side by side instead of each getting a full row. */
-  .case-split-pair { display: flex; flex-direction: column; }
-  .case-split-pair .case-split-text { margin-bottom: 14px; }
-  @media (max-width: 767px) { .case-split-media--mosaic-row { flex-direction: column; } }
-  .case-meta-group { display: flex; flex-direction: column; gap: 16px; margin-top: 10px; }
-  .case-meta-line {
-    font-family: var(--mono); font-size: var(--font-size-label); text-transform: uppercase;
-    letter-spacing: 0.03em; color: var(--text-dim);
-  }
-  .case-name { color: var(--text); font-weight: 700; }
-  /* Project name is the one h1 on the page — see typography-hierarchy
-     instruction §1. Shares --font-size-h1 with every other page's H1. */
-  h1.case-title {
-    font-family: var(--display); font-size: var(--font-size-h1); font-weight: var(--font-weight-heading);
-    line-height: var(--line-height-h1); letter-spacing: -0.02em;
-  }
-  .case-tags { display: flex; gap: 8px; flex-wrap: wrap; font-size: var(--font-size-label); }
-  .case-tags span { background: rgba(251, 191, 2, 0.14); border: 1px solid rgba(251, 191, 2, 0.4); color: var(--case-accent-2-text); padding: 5px 12px; border-radius: 999px; }
-  .case-facts {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px 24px;
-    margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line);
-  }
-  .case-facts dt { font-family: var(--mono); font-size: var(--font-size-label); text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim-2); margin-bottom: 4px; }
-  .case-facts dd { font-size: var(--font-size-label); color: var(--text); line-height: 1.4; }
-
-  /* Research findings — three compact blocks instead of a dry numbered
-     list. Light surface, black type, yellow number as the one accent —
-     see visual-revision instruction §4. */
-  .problem-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5);
-    margin-top: clamp(24px, 2.5vw, 32px); margin-bottom: clamp(24px, 2.5vw, 32px);
-  }
-  .problem-item {
-    background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: none;
-    padding: clamp(28px, 2.6vw, 36px);
-  }
-  .problem-num {
-    display: block; font-family: var(--mono); font-weight: 700; font-size: 0.85rem;
-    color: var(--case-accent-2); margin-bottom: 10px;
-  }
-  .problem-grid .problem-item p { font-size: 0.92rem; margin-bottom: 6px; max-width: none; }
-  .problem-item p:last-child { margin-bottom: 0; }
-  .problem-item .problem-name { color: var(--text); font-weight: 700; }
-  @media (max-width: 860px) { .problem-grid { grid-template-columns: 1fr; } }
-
-  /* Merged "Результат и критерии успеха" section — one intro paragraph on
-     what actually shipped, then four cards that each tie a product result
-     to the metric it was judged by (no more separate Результат/Как
-     оценивали эффект grids). Calm accent-tinted glass, no dark shadow. */
-  .result-cards {
-    margin-top: clamp(32px, 3vw, 40px); row-gap: 22px; align-items: stretch;
-  }
-  .result-card {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    box-shadow: none;
-    border-radius: 20px;
-    min-height: 200px;
-    padding: clamp(28px, 2.6vw, 36px);
-    display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 8px; min-width: 0;
-  }
-  /* Descendant-scoped (.result-card ...) so these beat .detail-block p's
-     (class+element) specificity — a bare .result-card__label class alone
-     was losing that cascade fight and silently falling back to body-text
-     color/size/margin. See visual-audit finding P0. */
-  .result-card .result-card__label {
-    display: flex; align-items: center; gap: 7px;
-    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--text-dim); margin: 0 0 2px;
-  }
-  .result-card .result-card__label::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--case-accent-2); flex-shrink: 0; }
-  .result-card .result-card__metric { font-family: var(--display); font-weight: 600; font-size: var(--font-size-nav-title); color: var(--text); line-height: 1.35; margin: 0; max-width: none; }
-  .result-card .result-card__desc { font-size: var(--font-size-label); color: var(--text-dim); line-height: 1.55; margin: 0; max-width: none; }
-  .result-card .result-card__desc strong { color: var(--text); font-weight: 600; }
-
-  /* Between major sections — 80-120px desktop, 56-72px mobile, distinct
-     from the 24-32px heading→text rhythm inside one section. No border
-     here: the section's own divider (below its heading) does that job,
-     so sections aren't fenced on both ends. */
-  .detail-block { margin-top: clamp(80px, 8vw, 120px); padding-top: var(--space-7); }
-  @media (max-width: 720px) { .detail-block { margin-top: clamp(56px, 10vw, 72px); } }
-  /* Short 1-3 word section title, then (where the section has one) the
-     longer descriptive takeaway as a plain subtitle underneath — title
-     carries the category, subtitle carries the specific content. A plain
-     rule under the pair separates heading from body. */
-  .detail-head {
-    margin-bottom: clamp(24px, 2.4vw, 32px);
-  }
-  .detail-block:last-child .detail-head { margin-bottom: clamp(32px, 3.4vw, 44px); }
-  .detail-head h2 {
-    font-family: var(--display); font-size: var(--font-size-h2); line-height: var(--line-height-heading);
-    font-weight: 700; letter-spacing: -0.01em; text-wrap: balance; color: var(--text-strong);
-  }
-  .detail-dek {
-    font-family: var(--sans); font-weight: 500; font-size: var(--font-size-h4);
-    line-height: 1.35; color: var(--text-dim); margin: 8px 0 0; max-width: 46ch; text-wrap: pretty;
-  }
-  .detail-block p { color: var(--text-dim); font-size: var(--font-size-body); line-height: var(--line-height-body); max-width: 60ch; margin-bottom: clamp(20px, 2vw, 24px); text-wrap: pretty; }
-  .detail-block p.inline-subhead {
-    font-family: var(--display); font-weight: 700; font-size: var(--font-size-h4);
-    color: var(--text-strong); margin-bottom: 10px;
-  }
-  .detail-block > p:last-child { margin-bottom: 0; }
-  .detail-block img { display: block; width: 100%; height: auto; border-radius: var(--radius-large); margin-bottom: 18px; object-fit: contain; }
-  .case-image-trigger {
-    display: block; width: 100%; padding: 0; margin: 0; border: 0; background: none;
-    cursor: pointer; font: inherit; color: inherit; text-align: inherit;
-  }
-  .case-image-trigger:focus-visible {
-    outline: 3px solid #080808; outline-offset: 3px; border-radius: var(--radius-large);
-  }
-  /* Every replacement screenshot ships with a transparent background (real
-     window-capture crops, drop shadow baked into the alpha edge) — a bare
-     `<img>` on the page's own #f8f8f8 would let that shadow float with
-     nothing under it. `--surface` + padding gives it the same card-on-page
-     treatment `.detail-pair-media` already uses for the two-column rows,
-     so the image's own transparent margin reads as intentional, not empty. */
-  .detail-media-frame {
-    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-large);
-    padding: clamp(20px, 3vw, 32px); margin-top: clamp(32px, 3vw, 40px); margin-bottom: clamp(32px, 3vw, 40px);
-  }
-  .detail-media-frame .case-image-trigger { display: block; }
-  .detail-media-frame img { margin-bottom: 0; border-radius: var(--radius-medium); }
-
-  .problem-statement { padding: 8px 0; }
-  .problem-statement .quote-mark {
-    display: block; font-family: var(--display); font-weight: 700; font-size: clamp(3rem, 6vw, 4.5rem);
-    line-height: 0.5; color: var(--case-accent); opacity: 0.4; margin-bottom: 8px;
-  }
-  .problem-statement p { font-size: clamp(1.15rem, 2.2vw, 1.5rem); font-weight: 600; font-style: italic; color: var(--text); line-height: 1.4; max-width: 42ch; }
-
-
-  /* ===== Case floating dock (like + next case) — shared across all case pages =====
-     Two independent glass controls, fixed to the viewport like the top nav —
-     see DESIGN.md § Floating case controls. Never a full-width panel. */
   .sr-only {
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
@@ -561,36 +29,29 @@
   .case-floating-nav.is-inview { opacity: 1; transform: translateX(-50%) translateY(0); }
   body.lightbox-open .case-floating-nav { opacity: 0; pointer-events: none; }
 
-  .case-next, .case-home {
+  .case-next, .case-prev {
     background: rgba(255, 255, 255, 0.62);
     border: 1px solid rgba(255, 255, 255, 0.72);
     box-shadow:
       0 10px 32px rgba(15, 13, 12, 0.12),
       inset 0 1px 0 rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px) saturate(125%);
-    -webkit-backdrop-filter: blur(20px) saturate(125%);
     border-radius: var(--radius-pill);
   }
-  @supports not (backdrop-filter: blur(1px)) {
-    .case-next, .case-home { background: rgba(248, 248, 248, 0.94); }
-  }
 
-  /* Icon-less text pill — the "icon" is the same plain arrow glyph the site
-     already uses for directional links (nav labels, .case-next__arrow), not
-     a new SVG. */
-  .case-home {
-    display: inline-flex; align-items: center; gap: 10px;
-    font-family: var(--sans); font-size: 0.92rem; font-weight: 600; color: #171717;
-    padding-inline: 20px; min-height: 56px;
-    flex-shrink: 0;
+  .case-prev {
+    display: flex; align-items: center; gap: 12px;
+    padding-inline: 24px; min-height: 56px;
+    max-width: min(360px, 60vw);
     transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s cubic-bezier(0.22,1,0.36,1);
   }
-  .case-home:hover { background: rgba(255,255,255,0.85); box-shadow: var(--shadow-control); }
-  .case-home:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 2px; }
-  .case-home:active { transform: scale(0.96); }
-  .case-home__arrow { font-family: var(--mono); color: var(--text-dim); transition: transform 0.2s cubic-bezier(0.22,1,0.36,1); }
-  .case-home:hover .case-home__arrow, .case-home:focus-visible .case-home__arrow { transform: translateX(-4px); }
-  .case-home__label { white-space: nowrap; }
+  .case-prev:hover, .case-prev:focus-visible { background: rgba(255,255,255,0.88); box-shadow: var(--shadow-control); transform: translateY(-2px); }
+  .case-prev:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 2px; }
+  .case-prev:active { transform: translateY(0); }
+  .case-prev__label { font-family: var(--mono); font-size: var(--font-size-nav-label); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+  .case-prev__title-row { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
+  .case-prev__arrow { flex-shrink: 0; color: #171717; transition: transform 0.25s cubic-bezier(0.22,1,0.36,1); }
+  .case-prev__title { font-family: var(--display); font-weight: 700; font-size: var(--font-size-nav-title); color: #171717; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .case-prev:hover .case-prev__arrow, .case-prev:focus-visible .case-prev__arrow { transform: translateX(-5px); }
 
   .case-next {
     display: flex; align-items: center; gap: 12px;
@@ -609,9 +70,8 @@
 
   @media (max-width: 720px) {
     .case-floating-nav { bottom: max(14px, env(safe-area-inset-bottom)); gap: 16px; }
-    .case-home { min-height: 48px; padding-inline: 16px; }
-    .case-next { min-height: 48px; padding-inline: 16px; max-width: min(220px, 52vw); }
-    .case-next__label, .case-home__label {
+    .case-next, .case-prev { min-height: 48px; padding-inline: 16px; max-width: min(220px, 52vw); }
+    .case-next__label, .case-prev__label {
       position: absolute; width: 1px; height: 1px; overflow: hidden;
       clip: rect(0,0,0,0); white-space: nowrap;
     }
@@ -619,673 +79,1146 @@
 
   @media (prefers-reduced-motion: reduce) {
     .case-floating-nav { transition: none; opacity: 1; transform: translateX(-50%); }
-    .case-next__arrow, .case-next, .case-home, .case-home__arrow { transition: none; }
+    .case-next__arrow, .case-prev__arrow, .case-next, .case-prev { transition: none; }
   }
-  /* On short viewports (common laptop heights, e.g. 1280x720/1366x768) the
-     hero+facts+context-cards stack can reach as far down as the fixed
-     bottom case-floating-nav dock at scroll position 0. The dock stays
-     fixed and always visible by design (see DESIGN.md §13.3) — it is not
-     hidden or scroll-triggered — so the fix compacts the vertical rhythm
-     above the fold instead, just enough to clear the dock's reserved
-     ~76px-tall zone at the bottom of the viewport. */
-  @media (max-height: 850px) and (min-width: 768px) {
-    .case-page { padding-top: 108px; }
-    .case-facts { margin-top: 20px; padding-top: 20px; }
-    .case-context-cards { margin-top: 56px; }
-    .case-context-card { padding: clamp(20px, 2.2vw, 28px); }
-  }
-  @media (max-height: 760px) and (min-width: 768px) {
-    .case-page { padding-top: 84px; }
-    .case-meta-group { gap: 10px; margin-top: 8px; }
-    .case-facts { margin-top: 8px; padding-top: 8px; }
-    .case-context-cards { margin-top: 16px; }
-    .case-context-card { padding: clamp(12px, 1.5vw, 18px); }
-  }
+/* ===== Sber case v13: «холст» (design-canvas page): grid, ruler, stickies, selection frames, calm book column ===== */
+:root{
+  --paper:#FFFFFF; --ink:#151515; --ink2:#5E605C; --mute:#9A9C97; --grid:rgba(20,20,20,.045); --hair:#E6E6E2; --plate:#F4F4F1; --panel:#F4F4F1;
+  --green:#21A038; --gt:#137A26; --deep:#0D5F21;
+  --n-mint:#CFEFD8; --n-lime:#E7F59B; --n-peach:#F8D9C4; --n-sky:#CFE6F7; --chosen:#F3E3A3;
+  --serif:"EB Garamond",Georgia,"Times New Roman",serif; --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif; --sans2:var(--sans);
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace; --hand:Caveat,"Segoe Print","Comic Sans MS",cursive;
+  --radius-pill:999px; --shadow-control:0 8px 20px rgba(23,17,14,.08); --font-size-nav-label:.72rem; --font-size-nav-title:1.05rem;
+  --display:var(--sans); --text-strong:#151515; --text-dim:#5E605C;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[data-lang="en"]{display:none}
+html.lang-en [data-lang="ru"]{display:none}
+html.lang-en [data-lang="en"]{display:inline}
+html{background:#fff}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;margin:8px 0 0;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:100px 100px}
+body{margin:0}
+main{overflow-x:clip}
+img{display:block;max-width:100%}
+a{color:var(--gt)}
+:focus-visible{outline:2px solid var(--gt);outline-offset:3px}
+::selection{background:rgba(19,122,38,.2);color:var(--ink)}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+/* top: centred nav pill + ruler */
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--hair)}
+.navrow{display:flex;justify-content:center;padding-block:10px;padding-inline:8px}
+.site-nav{position:static;transform:none;display:flex;align-items:center;gap:2px;padding:4px 4px 4px 18px;border-radius:999px;border:1px solid var(--hair);background:#fff;box-shadow:none;font-size:13.5px;max-width:100%}
+.site-nav.is-nav-hidden{transform:none;opacity:1;pointer-events:auto}
+.site-nav a{text-decoration:none}
+.site-nav .nav-name{font:600 13.5px/1.2 var(--sans);color:var(--ink);margin:0 12px 0 0;white-space:nowrap;padding:0}
+.site-nav a.nav-link{font:400 13.5px/1.2 var(--sans);color:var(--ink2);padding:7px 12px;border-radius:999px;white-space:nowrap;position:relative}
+.site-nav a.nav-link::after{content:"";position:absolute;inset:-7px 0}
+.site-nav a.nav-link:hover,.site-nav a.nav-link:focus-visible{background:var(--plate);color:var(--ink)}
+.site-nav .lang-toggle{all:unset;box-sizing:border-box;cursor:pointer;position:relative;font:400 13.5px/1.2 var(--sans);background:var(--plate);color:var(--ink);padding:7px 12px;border-radius:999px;margin:0}
+.site-nav .lang-toggle::after{content:"";position:absolute;inset:-7px -2px}
+.site-nav .lang-toggle:hover{background:#EAEAE6}
+.site-nav .lang-toggle:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.ruler{height:16px;position:relative;overflow:hidden;font:500 9px var(--mono);color:var(--mute);background:repeating-linear-gradient(90deg,rgba(20,20,20,.18) 0 1px,transparent 1px 10px) left bottom/100% 4px no-repeat,repeating-linear-gradient(90deg,rgba(20,20,20,.25) 0 1px,transparent 1px 100px) left bottom/100% 8px no-repeat}
+.ruler span{position:absolute;top:1px}
+.ticks{position:fixed;left:max(10px,env(safe-area-inset-left,0px));top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:9px;z-index:15}
+.ticks i{display:block;width:10px;height:1px;background:var(--mute);transition:width .3s,background .3s}
+.ticks i.on{width:22px;background:var(--ink)}
+/* type */
+.lab{font:500 11.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+h1{font:600 clamp(28px,3vw,40px)/1.12 var(--sans);letter-spacing:-.02em;text-wrap:balance;margin:.67em 0}
+h2{font:600 clamp(22px,2vw,27px)/1.2 var(--sans);letter-spacing:-.015em;text-wrap:balance;margin:.83em 0}
+h3{font:600 clamp(18px,1.5vw,21px)/1.25 var(--sans);letter-spacing:-.01em;margin:1em 0}
+p{margin:1em 0}
+figure{margin:1em 40px}
+ul{margin:1em 0;padding-left:40px}
+.read{font:400 clamp(17px,1.35vw,19px)/1.6 var(--serif);color:#262626;max-width:36em}
+.read+.read{margin-top:14px}
+.cap{font:italic 400 16px/1.4 var(--serif);color:var(--ink2);margin-top:12px}
+.hand{font:600 1.45em/1 var(--hand);color:var(--gt);position:relative;white-space:nowrap}
+.hand::after{content:"";position:absolute;left:0;right:0;bottom:-.08em;height:.12em;background:currentColor;border-radius:4px;transform-origin:0 50%;transform:scaleX(0);transition:transform .9s .2s cubic-bezier(.2,.7,.2,1)}
+.vis .hand::after{transform:scaleX(1)}
+.arrow{display:flex;gap:12px;align-items:baseline;margin-top:18px;font:400 18px/1.5 var(--serif)}
+.arrow::before{content:"↳";font-family:var(--sans);color:#D9A21B}
+.tag{display:inline-flex;align-items:center;height:26px;padding:0 10px;font:500 11px var(--mono);letter-spacing:.05em;text-transform:uppercase;position:relative;border-radius:0 4px 4px 4px}
+.tag::before{content:"";position:absolute;left:0;top:-6px;width:40%;height:7px;background:inherit;border-radius:4px 4px 0 0;clip-path:polygon(0 100%,0 0,78% 0,100% 100%)}
+.chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:999px;font:500 11px var(--mono);letter-spacing:.05em;text-transform:uppercase}
+.c-prob{background:#E8456B;color:#fff}.c-dec{background:#ECECE8;color:var(--ink)}.c-res{background:var(--n-sky)}.c-hyp{background:var(--n-lime)}
+.sb{font-family:var(--sans);font-size:15px}
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:48px;align-items:center;padding-block:72px 40px}
+.hero .meta{display:flex;align-items:center;gap:10px}
+.hero h1{margin-top:18px}
+.hero .read{margin-top:16px;max-width:30em}
+.tags{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.notes{position:relative;height:300px}
+.note{position:absolute;width:200px;padding:14px 16px 16px;box-shadow:0 10px 24px rgba(20,20,20,.08);transform:rotate(var(--r)) translateY(24px);opacity:0;transition:transform .8s cubic-bezier(.2,.8,.2,1.2),opacity .5s}
+.vis .note,.note.vis{transform:rotate(var(--r));opacity:1}
+.note .lab{color:var(--ink)}
+.note p{margin-top:8px;font-size:14.5px;line-height:1.4}
+/* figures: grey plate + selection frame */
+.fig{margin-top:28px}
+.plate{position:relative;background:var(--plate);padding:clamp(28px,4vw,56px) 16px;display:flex;justify-content:center;align-items:flex-start;gap:clamp(12px,2.5vw,28px);flex-wrap:wrap}
+.sel{position:relative}
+.sel>.h1x{position:absolute;inset:-11.5px;border:1.5px solid var(--sel,#2F7BF6);pointer-events:none}
+.sel>.h1x::before,.sel>.h1x::after,.sel>.h1x>i{content:"";position:absolute;width:9px;height:9px;background:#fff;border:1.5px solid var(--sel,#2F7BF6)}
+.sel>.h1x::before{left:-5px;top:-5px}.sel>.h1x::after{right:-5px;top:-5px}
+.sel>.h1x>i:first-child{left:-5px;bottom:-5px}.sel>.h1x>i:last-child{right:-5px;bottom:-5px}
+.sel .sz{position:absolute;left:50%;bottom:-36px;transform:translateX(-50%);font:500 10px var(--mono);color:#fff;background:var(--sel,#2F7BF6);padding:2px 6px;border-radius:3px;white-space:nowrap}
+.stick{position:absolute;padding:8px 12px;font-size:13px;box-shadow:0 8px 18px rgba(20,20,20,.08);transform:rotate(var(--r,-3deg));z-index:2;max-width:200px;line-height:1.3}
+.phone{width:var(--pw,210px);padding:calc(var(--pw,210px)*.032);border-radius:calc(var(--pw,210px)*.165);background:#151517;box-shadow:0 22px 44px rgba(0,0,0,.16);flex:none}
+.phone img{width:100%;height:auto;aspect-ratio:937/2026;border-radius:calc(var(--pw,210px)*.135);background:#fff}
+/* sections */
+.sec{padding-top:clamp(80px,9vw,128px)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start}
+.sec h2{margin-top:14px}
+.stat{display:flex;align-items:baseline;gap:14px;margin-top:22px;padding:16px 18px;background:#fff;border:1px solid var(--hair)}
+.stat b{font:600 30px/1 var(--sans);color:var(--gt);font-variant-numeric:tabular-nums}
+.stat .t{font-size:14px;line-height:1.45;color:var(--ink2)}
+.task{margin-top:22px;padding:16px 18px;background:var(--n-mint);font:400 18px/1.5 var(--serif)}
+.task b{font-family:var(--sans);font-weight:600;font-size:15px}
+.quote{text-align:center;font:italic 400 clamp(18px,1.6vw,21px)/1.5 var(--serif);color:#2a2a2a;max-width:30em;margin:clamp(60px,7vw,96px) auto 0}
+.wave{display:block;width:100%;height:40px;margin-top:clamp(60px,7vw,90px)}
+.wave path{stroke-dasharray:1400;stroke-dashoffset:1400;transition:stroke-dashoffset 2s cubic-bezier(.2,.7,.2,1)}
+.wave.vis path{stroke-dashoffset:0}
+table{width:100%;border-collapse:collapse;margin-top:22px;font-size:14.5px;background:#fff}
+th{font:500 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);text-align:left;padding:10px 12px;border-bottom:1px solid var(--ink)}
+td{padding:12px;border-bottom:1px solid var(--hair);vertical-align:top;line-height:1.45}
+td:first-child{font-weight:600;white-space:nowrap}
+.tbl{overflow-x:auto}
+/* artifacts: thumbnails that open the full image in the zoom viewer */
+.arts{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.art{all:unset;box-sizing:border-box;cursor:pointer;display:block;width:100%;background:#fff;border:1px solid var(--hair);padding:10px;transition:border-color .2s,box-shadow .2s}
+.art:hover{border-color:#BDBDB7;box-shadow:0 8px 22px rgba(20,20,20,.07)}
+.art:focus-visible{outline:2px solid var(--gt);outline-offset:3px}
+.art .th{display:block;position:relative}
+.art img{width:100%;height:auto;aspect-ratio:1000/720;object-fit:contain;background:var(--plate)}
+.art .tt{display:block;margin-top:8px;font-size:13px;color:var(--ink)}
+.art .open{position:absolute;right:8px;bottom:8px;display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:999px;background:rgba(21,21,21,.86);color:#fff;font:500 12px var(--sans)}
+.art .open svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.art:hover .open{background:var(--gt)}
+/* hypothesis toggle */
+.seg{display:inline-flex;padding:3px;border-radius:999px;background:#fff;border:1px solid var(--hair);margin-top:20px}
+.seg button{all:unset;cursor:pointer;padding:7px 14px;border-radius:999px;font-size:13px;color:var(--ink2)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.seg button:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.seg .new{font:500 9px var(--mono);background:#F39A3D;color:#fff;padding:1px 5px;border-radius:999px;margin-left:6px;vertical-align:2px}
+.swap{position:relative}
+.swap img{transition:opacity .4s}
+.chain{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:22px}
+.chain>span{padding:8px 12px;border:1px solid var(--hair);background:#fff;font-size:13.5px}
+.chain>span.on{background:var(--n-lime);border-color:transparent}
+.chain em{font-style:normal;color:var(--mute)}
+/* decisions */
+.dec{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start;padding-top:clamp(64px,7vw,96px)}
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.opt{display:grid;grid-template-columns:18px 1fr;gap:12px;padding:14px 16px;border:1px solid var(--hair);background:#fff;border-radius:10px}
+.opt .ic{position:relative;width:16px;height:16px;border-radius:50%;border:1.5px dashed var(--mute);margin-top:2px}
+.opt .lab{font-size:10.5px;color:var(--mute)}
+.opt p{margin-top:6px;font-size:14.5px;line-height:1.45;color:#2b2b2b}
+.opt.chosen{background:var(--chosen);border-color:#E5CC6C}
+.opt.chosen .ic{border:1.5px solid #B48A12}
+.opt .ic::after{content:"";position:absolute;inset:2.5px;border-radius:50%;background:#B48A12;transform:scale(0)}
+.opt.chosen .ic::after{transform:scale(1)}
+.opt:not(.chosen){opacity:.55}
+.opt:not(.chosen) p{color:#111;text-decoration:line-through;text-decoration-color:rgba(21,21,21,.4);text-decoration-thickness:1px}
+.opt.chosen .lab{color:var(--ink)}
+/* calculator window */
+.win{background:#fff;border:1px solid var(--hair);border-radius:12px;overflow:hidden;box-shadow:0 18px 40px rgba(20,20,20,.06)}
+.win .bar{display:flex;gap:6px;padding:10px 12px;border-bottom:1px solid var(--hair);background:#FAFAF8}
+.win .bar i{width:10px;height:10px;border-radius:50%;background:#E8655A}.win .bar i:nth-child(2){background:#E9B840}.win .bar i:nth-child(3){background:#61C454}
+.modes{display:flex;gap:4px;padding:4px;margin:16px 20px 0;width:max-content;max-width:calc(100% - 40px);border-radius:999px;background:var(--plate);border:1px solid var(--hair)}
+.modes button{all:unset;box-sizing:border-box;cursor:pointer;padding:8px 16px;border-radius:999px;font:500 13.5px/1.2 var(--sans);color:var(--ink2);white-space:nowrap;transition:background-color .2s,color .2s}
+.modes button[aria-selected="true"]{background:#151515;color:#fff}
+.modes button:not([aria-selected="true"]):hover{color:var(--ink)}
+.modes button:focus-visible{outline:2px solid rgba(21,21,21,.35);outline-offset:2px}
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0}
+.calc>div{padding:20px}
+.calc .l{border-right:1px solid var(--hair)}
+.calc .l>.pane{animation:paneIn .3s ease both}
+@keyframes paneIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.item{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;column-gap:14px;padding:7px 0;border-bottom:1px solid #F0F0EC;font-size:14px;min-height:42px}
+.item i{font-style:normal;color:var(--ink2);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right;min-width:62px}
+.item.warn{background:linear-gradient(90deg,rgba(179,38,30,.06),transparent)}
+.avs{display:inline-flex;gap:4px}
+.av1{all:unset;box-sizing:border-box;cursor:pointer;width:28px;height:28px;border-radius:50%;display:inline-grid;place-items:center;font:600 12px/1 var(--sans);border:1.5px solid var(--hair);color:var(--mute);background:#fff;transition:background-color .2s,color .2s,border-color .2s;position:relative}
+.av1::after{content:"";position:absolute;inset:-4px -2px}
+.av1[aria-pressed="true"]{background:var(--pc);border-color:var(--pd);color:#151515}
+.av1:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.sub{margin-top:18px}
+.note-u{margin-top:10px;font-size:13px;font-weight:500;color:#9A3412}
+.people{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.people button{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 13px;border-radius:999px;border:1px solid var(--hair);font-size:13px;position:relative}
+.people button::after{content:"";position:absolute;inset:-4px -2px}
+.people button[aria-pressed="true"]{border-color:var(--ink)}
+.people button[aria-pressed="false"]{color:var(--mute)}
+.people button:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.people b{width:9px;height:9px;border-radius:50%;background:var(--pc);box-shadow:inset 0 0 0 1px var(--pd)}
+.people button[aria-pressed="false"] b{background:#ccc}
+.mrow{display:flex;align-items:center;gap:12px;margin-top:10px}
+.mrow label{flex:1;display:flex;align-items:center;gap:8px;font-size:14px}
+.mrow label b{width:9px;height:9px;border-radius:50%;background:var(--pc);box-shadow:inset 0 0 0 1px var(--pd);flex:none}
+.mrow .in{position:relative;width:150px;flex:none}
+.mrow input{all:unset;box-sizing:border-box;width:100%;height:40px;padding:0 30px 0 12px;border:1px solid #C9C9C4;border-radius:8px;background:#fff;font:500 15px/1 var(--sans);font-variant-numeric:tabular-nums;text-align:right;color:var(--ink)}
+.mrow input:focus,.mrow input:focus-visible{outline:none;border-color:var(--gt);box-shadow:inset 0 0 0 1px var(--gt)}
+.mrow .in::after{content:"₽";position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--ink2);font-size:14px;pointer-events:none}
+.btn2{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;margin-top:14px;height:36px;padding:0 14px;align-items:center;border-radius:10px;border:1px solid #C9C9C4;font:500 13.5px/1 var(--sans);color:var(--ink)}
+.btn2:hover{border-color:var(--ink)}
+.btn2:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.calc .r{display:flex;flex-direction:column}
+.share{display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #F0F0EC;font-size:14.5px}
+.share u{width:10px;height:10px;border-radius:3px;background:var(--pc);box-shadow:inset 0 0 0 1px var(--pd)}
+.share b{font-variant-numeric:tabular-nums;font-weight:600}
+.share.off{color:var(--mute)}
+.share.off u{background:#ccc}
+.sbar{display:flex;height:10px;margin:12px 0 8px;border-radius:4px;overflow:hidden;background:var(--plate)}
+.sbar i{flex:0 0 0;min-width:0;background:var(--pc);transition:flex-grow .5s cubic-bezier(.2,.7,.2,1);box-shadow:-2px 0 0 #fff}
+.sbar i:first-child{box-shadow:none}
+.sbar i.rest{background:repeating-linear-gradient(135deg,#E3E3DF 0 4px,#EDEDE9 4px 8px)}
+.status{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:13.5px;font-weight:500;min-height:20px;color:var(--ink2)}
+.status.ok{color:var(--gt)}
+.status.warn{color:#9A3412}
+.btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;margin-top:16px;height:40px;padding:0 16px;align-items:center;justify-content:center;border-radius:10px;background:#137A26;color:#fff;font-size:14px;font-weight:600;align-self:flex-start;transition:opacity .2s}
+.btn[aria-disabled="true"]{opacity:.38;cursor:not-allowed}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.big{font:600 30px var(--sans);margin-top:8px;font-variant-numeric:tabular-nums}
+/* metric canvas */
+.canvas{position:relative;background:#fff;border:1px solid var(--hair);border-radius:12px;padding:28px;background-image:radial-gradient(rgba(20,20,20,.12) 1px,transparent 1.2px);background-size:16px 16px;min-height:340px}
+.canvas svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.node{position:absolute;background:#fff;border:1px solid var(--hair);border-radius:8px;padding:10px 12px;font-size:13.5px;box-shadow:0 4px 10px rgba(20,20,20,.05);max-width:36%;line-height:1.3}
+.node[data-n=d],.node[data-n=e]{max-width:29%}
+.node .lab{font-size:9.5px;display:block;margin-bottom:4px}
+.node.root{border-color:var(--ink)}
+.node.lit{background:var(--n-lime);border-color:transparent}
+.next{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+.next li{display:flex;gap:12px;align-items:baseline;padding:12px 14px;background:#fff;border:1px solid var(--hair);font:400 17px/1.45 var(--serif)}
+.next li::before{content:"";flex:none;width:8px;height:8px;background:var(--green);transform:translateY(-2px)}
+.dec .plate{flex-wrap:nowrap;--pw:190px}.dec .phone{--pw:inherit}
+.f1{--pw:200px}
+.end{height:120px}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.vis{opacity:1;transform:none}
+.case-floating-nav.is-held{opacity:0!important;pointer-events:none;visibility:hidden}
+@media (max-width:900px){
+  .hero,.two,.dec{grid-template-columns:minmax(0,1fr);gap:28px}
+  .hero{padding-block:44px 24px}
+  .notes{height:auto;display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:6px}
+  .note{position:relative;width:auto;left:auto!important;top:auto!important}
+  .arts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .calc{grid-template-columns:minmax(0,1fr)}.calc .l{border-right:0;border-bottom:1px solid var(--hair)}
+  .ticks{display:none}
+  .phone,.f1{--pw:150px}
+  .plate>.f1{display:none}
+  .stick{left:8px!important;right:auto!important;top:8px!important;bottom:auto!important;font-size:12px}
+  .plate{padding-top:52px}
+  .arrow{display:block}.arrow::before{margin-right:8px}
+  .seg button{white-space:nowrap}
+  table,thead,tbody,tr,td{display:block}thead{display:none}tr{padding:10px 0;border-bottom:1px solid var(--hair)}td{border:0;padding:3px 12px}.dec .plate{--pw:140px}
+  .site-nav .nav-name{display:none}
+  .site-nav{padding-left:4px}
+  figure{margin-inline:0}
+  .canvas{min-height:460px}
+  .node,.node[data-n=d],.node[data-n=e]{max-width:none}
+  .art .tt{font-size:12px}
+  .node[data-n=root]{left:4%!important;top:4%!important}.node[data-n=a]{left:16%!important;top:23%!important}
+  .node[data-n=d]{left:30%!important;top:40%!important}.node[data-n=e]{left:30%!important;top:54%!important}
+  .node[data-n=b]{left:16%!important;top:70%!important}.node[data-n=c]{left:16%!important;top:85%!important}
+}
+@media (max-width:560px){
+  .calc>div{padding:16px}
+  .modes{margin:14px 16px 0;max-width:calc(100% - 32px);width:auto}
+  .modes button{flex:1;text-align:center;padding:9px 6px;font-size:13px}
+  .item{grid-template-columns:minmax(0,1fr) auto;row-gap:6px;padding:9px 0}
+  .item .avs{grid-column:1/-1;grid-row:2}
+  .av1{width:32px;height:32px}
+  .mrow{flex-wrap:wrap;gap:6px}
+  .mrow label{flex:1 1 100%}
+  .mrow .in{width:100%}
+}
+.pc0,.sbar i:nth-child(1){--pc:#BFE6CB;--pd:#7FC495}.pc1,.sbar i:nth-child(2){--pc:#C4DDF2;--pd:#86B4DE}.pc2,.sbar i:nth-child(3){--pc:#DDEE8C;--pd:#B3C94A}.pc3,.sbar i:nth-child(4){--pc:#F2CDB4;--pd:#DDA27E}
+/* ruler marker */
+.rmark{position:absolute;left:0;bottom:0;width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:7px solid var(--green);margin-left:-5px;will-change:transform}
+/* artifacts hover cue */
+.arts li{will-change:auto}
+.art{transition:border-color .2s,box-shadow .2s,transform .25s cubic-bezier(.2,.7,.2,1)}
+.art:hover,.art:focus-visible{transform:translateY(-3px)}
+@media (hover:hover){
+  .art .open{opacity:0;transform:translateY(8px);transition:opacity .2s,transform .25s cubic-bezier(.2,.7,.2,1),background-color .2s}
+  .art:hover .open,.art:focus-visible .open{opacity:1;transform:none}
+}
+/* ===== motion (only with html.mo: no ?settled, no reduced motion, JS running) ===== */
+.mo .p-hero:not(.go)>.phone,.mo .p-hero:not(.go)>.sel{opacity:0;transform:translateY(32px)}
+.mo .p-hero>.phone,.mo .p-hero>.sel{transition:opacity .7s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.mo .p-hero>:nth-child(2){transition-delay:.14s}.mo .p-hero>:nth-child(3){transition-delay:.28s}
+.mo .p-hero:not(.go)>.stick{opacity:0}
+.mo .p-hero>.stick{transition:opacity .5s 1.7s}
+.mo .plate:not(.go) .h1x,.mo .dec:not(.go) .h1x{opacity:0;transform:scale(.94)}
+.mo .plate .h1x,.mo .dec .h1x{transition:opacity .45s ease var(--fd,.35s),transform .6s cubic-bezier(.2,.8,.2,1) var(--fd,.35s)}
+.mo .plate:not(.go) .h1x>i,.mo .plate:not(.go) .h1x::before,.mo .plate:not(.go) .h1x::after,.mo .dec:not(.go) .h1x>i,.mo .dec:not(.go) .h1x::before,.mo .dec:not(.go) .h1x::after{transform:scale(0)}
+.mo .plate .h1x>i,.mo .plate .h1x::before,.mo .plate .h1x::after,.mo .dec .h1x>i,.mo .dec .h1x::before,.mo .dec .h1x::after{transition:transform .35s cubic-bezier(.3,1.7,.5,1) calc(var(--fd,.35s) + .3s)}
+.mo .p-hero{--fd:.95s}
+.mo .dec{--fd:2.3s}
+.mo .plate:not(.go) .sz{opacity:0;transform:translate(-50%,10px)}
+.mo .sz{transition:opacity .4s ease 1.6s,transform .5s cubic-bezier(.2,.8,.2,1) 1.6s}
+/* chips */
+.mo .chip:not(.pop){opacity:0;transform:scale(.8)}
+.mo .chip{transition:opacity .35s ease,transform .5s cubic-bezier(.3,1.6,.5,1)}
+/* artifacts stagger */
+.mo .arts:not(.go) li{opacity:0;transform:translateY(26px)}
+.mo .arts li{transition:opacity .6s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.mo .arts li:nth-child(2){transition-delay:.08s}.mo .arts li:nth-child(3){transition-delay:.16s}.mo .arts li:nth-child(4){transition-delay:.24s}.mo .arts li:nth-child(5){transition-delay:.32s}.mo .arts li:nth-child(6){transition-delay:.4s}
+/* hypothesis chain */
+.chain>span{transition:background-color .35s,border-color .35s}
+/* decisions sequence */
+.mo .dec:not(.go) .opt:not(.chosen){opacity:0}
+.mo .dec.go .opt:not(.chosen){animation:optA 1.5s ease both}
+@keyframes optA{0%{opacity:0;transform:translateY(10px)}30%{opacity:1;transform:none}62%{opacity:1}100%{opacity:.55}}
+.mo .dec.go .opt:not(.chosen) p{animation:strike .5s ease 1s both}
+@keyframes strike{from{text-decoration-color:transparent}to{text-decoration-color:rgba(21,21,21,.4)}}
+.mo .dec:not(.go) .opt:not(.chosen) p{text-decoration-color:transparent}
+.mo .dec:not(.go) .opt.chosen{opacity:0}
+.mo .dec.go .opt.chosen{animation:slideB .6s cubic-bezier(.2,.8,.2,1) 1.5s both}
+@keyframes slideB{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+.mo .dec:not(.go) .opt.chosen .ic::after{transform:scale(0)}
+.mo .dec.go .opt.chosen .ic::after{animation:dot .35s cubic-bezier(.3,1.7,.5,1) 2s both}
+@keyframes dot{from{transform:scale(0)}to{transform:scale(1)}}
+.dec .phone{transform:translate3d(0,var(--py,0px),0)}
+.mo .dec .phone{will-change:transform}
+/* metric tree */
+.mo #tree:not(.go) .node{opacity:0}
+.mo #tree .node{transition:opacity .5s ease}
+.mo #tree .node[data-n=a]{transition-delay:.12s}.mo #tree .node[data-n=b]{transition-delay:.2s}.mo #tree .node[data-n=c]{transition-delay:.28s}.mo #tree .node[data-n=d]{transition-delay:.36s}.mo #tree .node[data-n=e]{transition-delay:.44s}
+.mo #treeSvg path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .7s cubic-bezier(.4,0,.2,1)}
+.mo #tree.go #treeSvg path{stroke-dashoffset:0}
+/* next list */
+.mo .next:not(.go) li{opacity:0;transform:translateY(14px)}
+.mo .next li{transition:opacity .5s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
+.mo .next li:nth-child(2){transition-delay:.12s}.mo .next li:nth-child(3){transition-delay:.24s}
 
-  /* ===== Редакция 3.2: формы подачи блоков =====
-     Ни одна иллюстрация не шире 8 колонок из 12. Две композиции:
-       6 / 6 — обычная: текст и экран рядом, текст по центру визуала;
-       4 / 8 — редкая: группы мобильных экранов, широкие web-интерфейсы,
-               схемы процесса, сравнительные таблицы;
-       col-8-center — вступление в 6 колонок сверху, таблица или схема
-               в 8 колонках по центру контентной области.
-     .case-seq     — один сценарий по шагам, каждый шаг в той же сетке 4/8;
-     .case-cols    — параллельные наблюдения: колонка с засечкой акцента;
-     .case-results — итоги: тёмная полоса и четыре карточки 2×2.
-     Цвет кейса живёт в трёх переменных ниже и нигде больше не дублируется. */
-  :root {
-    --case-mark: #FBBF02;        /* метка: точка, номер шага, засечка колонки */
-    --case-mark-on: #17110E;       /* текст поверх метки */
-    --case-mark-text: #8A6400;   /* тот же акцент как текст на светлом фоне */
-  }
+@media (prefers-reduced-motion:reduce){.reveal,.note{opacity:1!important;transform:rotate(var(--r,0deg))!important;transition:none}.reveal{transform:none!important}.wave path{stroke-dashoffset:0;transition:none}.hand::after{transform:scaleX(1);transition:none}.sbar i{transition:none}.swap img{transition:none}.ticks i{transition:none}.art,.art .open,.modes button,.btn,.chain>span,.sbar i{transition:none!important}.calc .l>.pane{animation:none}}
 
-  .col-5 { grid-column: span 5; }
-  .col-7 { grid-column: span 7; }
-  @media (max-width: 767px) {
-    .case-grid > .col-5, .case-grid > .col-7 { grid-column: span 4; }
-  }
+.av{position:fixed;inset:0;z-index:300;background:#fff;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .2s ease}
+.av.is-open{opacity:1;pointer-events:auto}
+.av[hidden]{display:none}
+.av-bar{display:flex;align-items:center;gap:12px;padding:10px clamp(12px,2vw,24px);border-bottom:1px solid var(--hair);background:#fff;flex:none}
+.av-title{flex:1;min-width:0;font:500 15px/1.3 var(--sans2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink);margin:0}
+.av-ctl{display:flex;align-items:center;gap:6px}
+.av-btn{all:unset;box-sizing:border-box;cursor:pointer;min-width:44px;height:44px;padding:0 12px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #D6D6D3;border-radius:6px;font:500 18px/1 var(--sans2);color:var(--ink);background:#fff}
+.av-btn:hover{background:var(--panel)}
+.av-btn:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.av-btn.txt{font-size:14px;padding:0 16px}
+.av-zoom{min-width:56px;text-align:center;font:14px var(--sans2);color:var(--ink2);font-variant-numeric:tabular-nums}
+.av-stage{position:relative;flex:1;overflow:hidden;touch-action:none;cursor:grab;background:var(--panel)}
+.av-stage.is-drag{cursor:grabbing}
+.av-stage img{position:absolute;left:0;top:0;max-width:none;transform-origin:0 0;user-select:none;-webkit-user-drag:none;will-change:transform;background:#fff;border:1px solid var(--hair)}
+.av-hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);padding:8px 14px;background:#fff;border:1px solid var(--hair);font:13px var(--sans2);color:var(--ink2);pointer-events:none;white-space:nowrap;transition:opacity .4s}
+.av-hint.is-gone{opacity:0}
+body.av-open{overflow:hidden}
+body.av-open .case-floating-nav,body.av-open .site-nav{opacity:0;pointer-events:none}
 
-  /* Сторону визуала выбирает содержание, а не автоматическое чередование:
-     основной путь — текст слева, продолжение сценария — визуал слева.
-     В разметке всегда сначала текст, поэтому на мобильном порядок
-     сбрасывается и текст снова идёт первым. */
-  .case-split--flip > :last-child { order: -1; }
-  @media (max-width: 767px) { .case-split--flip > * { order: 0; } }
-  /* Выравнивание по верхнему краю: заголовок и абзац стоят рядом с верхом
-     визуала, а не разъезжаются по высоте картинки. */
-  .case-split { align-items: start; }
-  /* Оптическая поправка: у заголовка есть выносная линия, у рамки кадра нет. */
-  .case-split-text { padding-top: 6px; }
-  .case-split .compare-slider__frame { margin-top: 0; margin-bottom: 0; }
+/* ---- Alif Partners additions ---- */
+.p-shot{align-items:center}
+.p-shot>.sel{width:100%;max-width:900px}
+.shot{display:block;width:100%;max-width:900px;height:auto;border-radius:12px;box-shadow:0 18px 40px rgba(20,20,20,.08)}
+.sel>.shot{max-width:none}
+.shot.wide{max-width:1000px;box-shadow:none}
+.p-col{flex-direction:column;flex-wrap:nowrap}
+.dec .plate.p-shot{padding:clamp(28px,3vw,40px) clamp(18px,2.4vw,32px)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.stats .stat{margin-top:0;flex-direction:column;align-items:flex-start;gap:8px}
+.stats .stat b{font-size:clamp(24px,2.2vw,30px);white-space:nowrap}
+.hcard{padding:18px 20px;background:var(--n-lime)}
+.hcard .lab{color:var(--ink)}
+.hcard .read{margin-top:10px;font-size:18px}
+.steps{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:10px;counter-reset:st}
+.steps li{position:relative;padding:14px 16px 14px 52px;background:#fff;border:1px solid var(--hair);font:400 16px/1.45 var(--serif);color:#2b2b2b;counter-increment:st}
+.steps li::before{content:counter(st,decimal-leading-zero);position:absolute;left:16px;top:15px;font:500 11px var(--mono);color:var(--ink2)}
+.steps li b{display:block;margin-bottom:4px;font:600 14.5px/1.3 var(--sans);color:var(--ink)}
+.impact{margin-top:14px;padding:10px 14px;border-left:2px solid var(--gt);background:#fff;font-size:14px;line-height:1.45;color:#2b2b2b}
+.impact b{font-weight:600}
+.arts-1{grid-template-columns:minmax(0,1fr);max-width:760px}
+.arts-1 .art img{aspect-ratio:16/9;object-fit:cover;object-position:top center}
+/* ecosystem scheme */
+.eco-plate{flex-direction:column;align-items:center;padding-bottom:clamp(60px,6vw,84px)}
+.eco{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);align-items:center;width:100%;max-width:1000px;row-gap:0}
+.eco .en{position:relative;background:#fff;border:1px solid var(--hair);border-radius:10px;padding:16px 12px;text-align:center;font:600 16px/1.2 var(--sans);box-shadow:0 6px 16px rgba(20,20,20,.05)}
+.eco .en small{display:block;margin-top:6px;font:400 12.5px/1.3 var(--sans);color:var(--ink2)}
+.eco .en.on{background:var(--n-lime);border-color:transparent}
+.eco>.sel .sz{bottom:auto;top:-38px}
+.ea{position:relative;width:clamp(64px,8vw,112px);height:1.5px;background:#9A9C97;margin:0 6px}
+.ea::after{content:"";position:absolute;right:-2px;top:-4px;border-style:solid;border-width:4.75px 0 4.75px 8px;border-color:transparent transparent transparent #9A9C97}
+.ea>span{position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:max-content;max-width:110px;text-align:center;font:500 10px/1.25 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--ink2)}
+.eb{position:relative;height:34px}
+.eb.l{grid-column:1}.eb.m{grid-column:2/7;border-bottom:1.5px dashed #9A9C97}.eb.r{grid-column:7}
+.eb.l::before,.eb.r::before{content:"";position:absolute;top:0;bottom:0;border-bottom:1.5px dashed #9A9C97}
+.eb.l::before{left:50%;right:0;border-left:1.5px dashed #9A9C97;border-bottom-left-radius:12px}
+.eb.r::before{left:0;right:50%;border-right:1.5px dashed #9A9C97;border-bottom-right-radius:12px}
+.eb.l::after{content:"";position:absolute;left:calc(50% - 4.25px);top:-1px;border-style:solid;border-width:0 4.75px 8px 4.75px;border-color:transparent transparent #9A9C97 transparent}
+.eb.m>span{position:absolute;left:50%;top:calc(100% + 8px);transform:translateX(-50%);white-space:nowrap;font:500 10px var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--ink2)}
+.eco-m{display:none}
+/* metric tree, 8 nodes */
+.tree-al{min-height:440px}
+.tree-al .node{max-width:28%}
+.tree-al .node[data-n=g]{max-width:27%}
+@media (max-width:900px){
+  .stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .eco{grid-template-columns:minmax(0,1fr);max-width:340px}
+  .eco .ea{width:1.5px;height:44px;margin:0 auto}
+  .eco .ea::after{right:auto;left:-4px;top:auto;bottom:-2px;border-width:8px 4.75px 0 4.75px;border-color:#9A9C97 transparent transparent transparent}
+  .eco .ea>span{left:14px;bottom:50%;transform:translateY(50%);text-align:left;max-width:200px}
+  .eco>.sel{margin-top:6px}
+  .eco>.sel .sz{top:auto;bottom:-36px}
+  .eb{display:none}
+  .eco-m{display:block;margin-top:52px;max-width:340px;font-size:14px;line-height:1.45;color:var(--ink2);text-align:center}
+  .eco-st{display:none}
+  .tree-al{min-height:620px}
+  .tree-al .node,.tree-al .node[data-n=g]{max-width:none;right:4%}
+  .tree-al .node[data-n=g]{left:4%!important;top:3%!important}
+  .tree-al .node[data-n=n]{left:12%!important;top:16%!important}
+  .tree-al .node[data-n=a]{left:22%!important;top:30%!important}
+  .tree-al .node[data-n=b]{left:22%!important;top:41%!important}
+  .tree-al .node[data-n=d]{left:22%!important;top:52%!important}
+  .tree-al .node[data-n=l]{left:12%!important;top:65%!important}
+  .tree-al .node[data-n=l1]{left:22%!important;top:76%!important}
+  .tree-al .node[data-n=l2]{left:22%!important;top:88%!important}
+}
+@media (max-width:560px){
+  .stats{grid-template-columns:minmax(0,1fr)}
+  .stats .stat{flex-direction:row;align-items:baseline}
+  .tree-al{min-height:700px}
+}
+/* ---- Alif v2: neutral body font, combo hero, findings flow, zoom ---- */
+.read{font-family:var(--sans);font-size:clamp(16px,1.15vw,17.5px);line-height:1.68;color:#2e2e2e;letter-spacing:-.003em}
+.arrow{font-family:var(--sans);font-size:16.5px;line-height:1.6}
+.task{font-family:var(--sans);font-size:16.5px;line-height:1.55}
+.next li{font-family:var(--sans);font-size:15.5px;line-height:1.5}
+.steps li{font-family:var(--sans);font-size:15px;line-height:1.5}
+.hcard .read{font-size:16.5px}
+img[data-av]{cursor:zoom-in}
+img[data-av]:focus-visible{outline:2px solid var(--gt);outline-offset:4px}
+.combo{position:relative;width:100%;max-width:1000px;padding:0 13% 7% 0}
+.combo>.shot{max-width:none}
+.combo .ph{position:absolute;right:0;bottom:0;width:23%}
+.combo .ph .ph-img{display:block;width:100%;height:auto;border-radius:0;box-shadow:none;filter:drop-shadow(0 22px 30px rgba(0,0,0,.2))}
+.combo .ph .sz{bottom:-38px}
+.r-intro{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:40px;align-items:center;margin-top:14px}
+.art-mini{display:grid;grid-template-columns:132px minmax(0,1fr);gap:16px;align-items:center;padding:10px}
+.art-mini img{aspect-ratio:4/3;object-fit:cover;object-position:top left}
+.art-mini .mi{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.art-mini .tt{margin-top:0;font-size:14px;line-height:1.35}
+.art-mini .open{position:static;opacity:1!important;transform:none!important;margin-top:4px}
+.flows{list-style:none;padding:0;margin:34px 0 30px;display:grid;gap:18px;counter-reset:fl}
+.flow{display:grid;grid-template-columns:30px minmax(0,1fr) 40px minmax(0,1fr) 40px minmax(0,1fr);align-items:center;counter-increment:fl}
+.flow::before{content:counter(fl,decimal-leading-zero);font:500 11px var(--mono);color:var(--ink2)}
+.flow .lab{font-size:9.5px;display:block}
+.flow p{margin-top:6px;font-size:14.5px;line-height:1.4}
+.f-find{padding:14px 16px;box-shadow:0 8px 18px rgba(20,20,20,.07);transform:rotate(var(--r,0deg))}
+.f-find .lab{color:var(--ink)}
+.f-find p{font-weight:500;font-size:15px}
+.f-mean{padding:14px 16px;background:#fff;border:1px solid var(--hair);border-radius:10px}
+.f-mean p{color:#3a3a3a}
+.f-need{position:relative;padding:14px 16px;background:#fff;border:1.5px solid #2F7BF6}
+.f-need::before,.f-need::after{content:"";position:absolute;width:8px;height:8px;background:#fff;border:1.5px solid #2F7BF6}
+.f-need::before{left:-5px;top:-5px}.f-need::after{right:-5px;bottom:-5px}
+.f-need .lab{color:#2F7BF6}
+.f-need p{color:var(--ink);font-weight:500}
+.f-ar{position:relative;height:1.5px;background:#9A9C97;margin:0 6px}
+.f-ar::after{content:"";position:absolute;right:-2px;top:-4px;border-style:solid;border-width:4.75px 0 4.75px 8px;border-color:transparent transparent transparent #9A9C97}
+@media (max-width:900px){
+  .r-intro{grid-template-columns:minmax(0,1fr);gap:20px}
+  .flows{gap:30px}
+  .flow{grid-template-columns:minmax(0,1fr)}
+  .flow::before{margin-bottom:8px}
+  .f-ar{width:1.5px;height:22px;margin:0 auto}
+  .f-ar::after{right:auto;left:-4px;top:auto;bottom:-2px;border-width:8px 4.75px 0 4.75px;border-color:#9A9C97 transparent transparent transparent}
+  .combo{padding:0 15% 9% 0}
+  .combo .ph{width:27%}
+}
 
-  /* ---- Текстовая колонка ----
-     Заголовок и описание — один модуль: 24–32 px между ними, длина строки
-     45–70 знаков, высота колонки по содержимому, без растяжки под картинку. */
-  .case-split-text { align-self: start; }
-  .case-lead-title {
-    font-family: var(--display); font-size: var(--font-size-h2);
-    line-height: var(--line-height-heading); font-weight: 700; letter-spacing: -0.01em;
-    color: var(--text-strong); text-wrap: balance; max-width: 18ch;
-    margin: 0 0 clamp(24px, 2.2vw, 32px);
-  }
-  .case-split-text .case-subhead { max-width: 22ch; margin-bottom: clamp(20px, 1.8vw, 26px); }
-  .detail-block .case-split-text p { max-width: 56ch; margin-bottom: clamp(16px, 1.4vw, 20px); }
-  .detail-block .case-split-text p:last-child { margin-bottom: 0; }
-  .col-6.case-split-text, .col-4.case-split-text { max-width: 560px; }
-
-  /* Высокий кадр рядом с коротким абзацем оставлял от 240 до 720 px пустой
-     колонки — замерено во всех четырёх кейсах. Растягивать текст незачем,
-     увеличивать картинку нельзя, поэтому текст едет вместе с кадром: он
-     остаётся на экране, пока читатель проходит изображение, и подпись
-     работает как комментарий к тому, что видно прямо сейчас.
-     Отступ сверху уводит колонку из-под верхней навигации.
-     Ниже 900 px колонки складываются в одну и липкость выключается. */
-  @media (min-width: 900px) {
-    .case-split > .case-split-text { position: sticky; top: clamp(96px, 12vh, 132px); }
-  }
-
-  /* Два-три коротких вывода под абзацем: та же колонка, ближе к тексту,
-     чем к следующей секции. */
-  .case-points {
-    list-style: none; margin: clamp(32px, 3vw, 40px) 0 0; padding: 0;
-    display: flex; flex-direction: column; gap: clamp(18px, 1.8vw, 24px);
-  }
-  .case-points li { position: relative; padding-top: 16px; border-top: 1px solid var(--line-strong); }
-  .case-points li::before {
-    content: ''; position: absolute; top: -1px; left: 0; width: 36px; height: 2px;
-    background: var(--case-mark);
-  }
-  .detail-block .case-points__title {
-    font-family: var(--display); font-weight: 600; font-size: var(--font-size-label);
-    line-height: 1.4; color: var(--text); margin: 0 0 4px; max-width: none;
-  }
-  .detail-block .case-points__text {
-    font-size: 13px; line-height: 1.55; color: var(--text-dim); margin: 0; max-width: none;
-  }
-
-  .case-subhead {
-    font-family: var(--display); font-weight: var(--font-weight-heading);
-    font-size: var(--font-size-h3); line-height: 1.3; color: var(--text);
-    margin: 0 0 12px; text-wrap: balance;
-  }
-
-  /* Вступление перед таблицей или схемой: занимает 6 колонок сетки. */
-  .case-lede { max-width: 56ch; margin-bottom: clamp(24px, 2.4vw, 32px); }
-  .case-lede > p:last-child { margin-bottom: 0; }
-  .case-grid > .case-split-text.col-6 { margin-bottom: clamp(24px, 2.4vw, 32px); }
-  .detail-head + .case-grid .case-split-text p { margin-top: 0; }
-  .case-grid > .col-8-center + .col-8-center { margin-top: clamp(24px, 2.4vw, 32px); }
-
-  /* ---- Кадр с интерфейсом ----
-     Подпись вынесена из белого контейнера: раньше она входила в карточку и
-     добавляла ей высоты. Внутренние поля кадра сокращены, чтобы размер
-     задавал интерфейс, а не рамка вокруг него. */
-  /* Кадр всегда живёт внутри своей колонки сетки: собственной ширины у него
-     нет, режим «во всю страницу» убран. */
-  .case-fig { max-width: none; margin: 0; min-width: 0; }
-  /* Схема уже нарисована на собственной подложке — вторая рамка вокруг неё
-     читалась бы как вложенная карточка. */
-  .detail-block .case-fig--plain .case-shot { background: none; border: 0; padding: 0; }
-  .detail-block .case-fig--plain .case-shot img { border-radius: var(--radius-large); }
-  .detail-block .case-shot {
-    display: block; width: 100%; max-width: none; margin: 0;
-    background: var(--surface); border: 1px solid var(--line);
-    border-radius: var(--radius-large);
-    padding: clamp(12px, 1.2vw, 18px);
-    cursor: zoom-in; transition: border-color 0.2s ease;
-  }
-  .detail-block .case-shot:hover { transform: none; box-shadow: none; border-color: var(--line-strong); }
-  .detail-block .case-shot img {
-    display: block; width: 100%; height: auto; margin: 0;
-    border-radius: var(--radius-medium);
-  }
-  .case-fig__cap {
-    display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px;
-    margin: 18px 0 0;
-    font-size: 13px; line-height: 1.5; color: var(--text-dim);
-  }
-  .case-fig__text { max-width: 62ch; }
-
-  /* Два экрана одного сценария — друг под другом внутри своей колонки. */
-  .case-figs--stack { display: flex; flex-direction: column; gap: clamp(20px, 2.2vw, 28px); }
-
-  /* Подписи к частям одной композиции. */
-  .case-shot-labels {
-    list-style: none; display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
-    gap: clamp(16px, 2vw, 28px); margin: clamp(20px, 2vw, 26px) 0 0; padding: 0;
-  }
-  .case-shot-labels li {
-    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--text-dim);
-    padding-top: 10px; border-top: 1px solid var(--line-strong); position: relative;
-  }
-  .case-shot-labels li::before {
-    content: ''; position: absolute; top: -1px; left: 0; width: 36px; height: 2px;
-    background: var(--case-mark);
-  }
-  @media (max-width: 640px) { .case-shot-labels { grid-template-columns: 1fr; gap: 12px; } }
-
-  /* Один сценарий по шагам. <ol>: порядок действий — часть содержания. */
-  .case-seq { list-style: none; display: flex; flex-direction: column; gap: clamp(44px, 4.5vw, 72px); }
-  .case-seq__step { min-width: 0; }
-  .case-seq__head { position: relative; padding-left: 52px; }
-  .case-seq__num {
-    position: absolute; top: 1px; left: 0; width: 34px; height: 34px; border-radius: 50%;
-    background: var(--case-mark); color: var(--case-mark-on);
-    display: grid; place-items: center;
-    font-family: var(--mono); font-size: 13px; font-weight: 500; line-height: 1;
-    font-variant-numeric: tabular-nums;
-  }
-  .case-seq__head .case-subhead { margin-bottom: 10px; }
-  .case-seq__head > p:last-child { margin-bottom: 0; }
-  @media (max-width: 767px) { .case-seq__head { margin-bottom: 20px; } }
-  @media (max-width: 560px) { .case-seq__head { padding-left: 46px; } }
-
-  /* Нумерованная последовательность шагов исследования. */
-  .case-rail { list-style: none; }
-  .case-rail__num { background: var(--case-mark); color: var(--case-mark-on); }
-  .case-rail__title { font-size: var(--font-size-h4); }
-  .case-rail .case-rail__text { margin: 0; }
-
-  /* Параллельные наблюдения: не карточки, а колонки под общей линией с
-     короткой засечкой акцента. Карточка обещала бы отдельный объект. */
-  .case-cols {
-    display: grid; grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
-    gap: clamp(24px, 2.6vw, 36px) clamp(24px, 2.6vw, 40px);
-    margin: clamp(32px, 3.2vw, 44px) 0;
-  }
-  .case-col {
-    position: relative; min-width: 0;
-    padding-top: clamp(18px, 1.8vw, 22px); border-top: 1px solid var(--line-strong);
-  }
-  .case-col::before {
-    content: ''; position: absolute; top: -1px; left: 0; width: 48px; height: 2px;
-    background: var(--case-mark);
-  }
-  .case-col .case-col__label {
-    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--case-mark-text); margin: 0 0 8px; max-width: none;
-  }
-  .case-col__title {
-    font-family: var(--display); font-weight: var(--font-weight-heading);
-    font-size: var(--font-size-h4); line-height: 1.3; color: var(--text);
-    margin: 0 0 8px; text-wrap: balance;
-  }
-  .case-col .case-col__text {
-    font-size: var(--font-size-body); line-height: var(--line-height-body);
-    color: var(--text-dim); margin: 0; max-width: 44ch; text-wrap: pretty;
-  }
-  /* Компактный вариант: три колонки читаются как подводка к решению ниже. */
-  .case-cols--compact { margin-bottom: clamp(24px, 2.4vw, 32px); }
-  .case-cols--compact .case-col__title { font-size: var(--font-size-h3); }
-  .case-cols--compact .case-col__text { font-size: var(--font-size-label); line-height: 1.55; }
-  @media (max-width: 860px) {
-    .case-cols { grid-template-columns: 1fr; gap: 26px; }
-    .case-col .case-col__text { max-width: none; }
-  }
-
-  /* Вывод из исследования. Отдельная реплика после материала, не ещё один абзац. */
-  .case-takeaway {
-    margin: clamp(28px, 2.8vw, 40px) 0 0; padding-left: clamp(18px, 2vw, 26px);
-    border-left: 2px solid var(--case-mark);
-  }
-  .detail-block .case-takeaway p {
-    margin: 0; max-width: 66ch;
-    font-size: var(--font-size-body); line-height: var(--line-height-body); color: var(--text);
-  }
-
-  /* Пара концептов: у каждой картинки своя подпись-заголовок. */
-  /* Пара концептов — обычная строка сетки, по 6 колонок на концепт.
-     Собственная сетка .case-figs здесь не нужна, отступы задаёт .case-grid;
-     на мобильном каждый концепт занимает всю ширину, отсюда row-gap. */
-  .case-grid.case-figs--labelled { align-items: start; margin: clamp(32px, 3vw, 40px) 0; row-gap: clamp(24px, 2.6vw, 32px); }
-  .case-figs--labelled { align-items: start; }
-  .case-figs__item { min-width: 0; }
-  .case-figs__item .case-figs__label {
-    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--case-mark-text); margin: 0 0 12px; max-width: none;
-  }
-  .detail-block p.case-artifact-cap {
-    font-size: var(--font-size-label); line-height: 1.5; color: var(--text-dim);
-    margin: clamp(24px, 2.4vw, 32px) 0 12px; max-width: 62ch;
-  }
-  .case-table-wrap--narrow { max-width: 720px; }
-
-  /* ---- Итоги ----
-     Тёмная полоса во всю ширину экрана, контент остаётся в основном
-     контейнере. Полоса нарисована box-shadow + clip-path: это не влияет на
-     раскладку и не создаёт горизонтальной прокрутки, в отличие от 100vw. */
-  :root {
-    --results-bg: #211B18;
-    --results-card: #2C2723;
-    --results-line: rgba(255, 255, 255, 0.11);
-    --results-text: rgba(255, 255, 255, 0.68);
-    --results-dim: rgba(255, 255, 255, 0.5);
-  }
-  .detail-block.case-results { margin-top: clamp(96px, 9vw, 140px); padding-top: 0; }
-  .case-results__panel {
-    position: relative; background: var(--results-bg);
-    box-shadow: 0 0 0 100vmax var(--results-bg);
-    clip-path: inset(0 -100vmax);
-    padding: clamp(40px, 4.5vw, 72px) 0 clamp(44px, 5vw, 80px);
-  }
-  .case-results__panel .detail-head { margin-bottom: clamp(16px, 1.6vw, 20px); }
-  .case-results__panel .detail-head h2 { color: #fff; }
-  .case-results__panel p { color: var(--results-text); max-width: 62ch; }
-  .case-results__panel .case-lede { margin-bottom: 0; }
-  .case-results .result-cards { margin-top: clamp(28px, 3vw, 40px); row-gap: clamp(20px, 2vw, 28px); }
-  .case-results .result-card {
-    background: var(--results-card); border: 1px solid var(--results-line);
-    border-radius: var(--radius-medium); box-shadow: none;
-    min-height: 0; height: 100%;
-    padding: clamp(28px, 2.6vw, 40px); gap: 10px;
-  }
-  .case-results .result-card .result-card__label {
-    color: var(--results-dim); margin: 0 0 2px;
-  }
-  .case-results .result-card .result-card__label::before { background: var(--case-mark); }
-  .case-results .result-card .result-card__metric {
-    font-size: clamp(18px, 1.5vw, 22px); line-height: 1.3; color: #fff;
-  }
-  .case-results .result-card .result-card__desc { color: var(--results-text); }
-  .case-results .result-card .result-card__measure {
-    width: 100%; margin: auto 0 0; padding-top: 18px;
-    border-top: 1px solid var(--results-line);
-    font-size: 13px; line-height: 1.5; color: var(--results-text); max-width: none;
-    display: flex; flex-direction: column; gap: 4px;
-  }
-  .case-results .result-card .result-card__measure-label {
-    font-family: var(--mono); font-size: 11px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--results-dim);
-  }
-
-  /* Ритм страницы: воздух разделяет разные истории, а не связанные части
-     одной. Между самостоятельными секциями 128–176 px. */
-  .detail-block { margin-top: clamp(128px, 11vw, 176px); padding-top: 0; }
-  @media (max-width: 720px) { .detail-block { margin-top: clamp(88px, 14vw, 112px); } }
-  .detail-block .detail-head { margin-bottom: clamp(24px, 2.2vw, 32px); }
-  .detail-block:last-child .detail-head { margin-bottom: clamp(24px, 2.2vw, 32px); }
-
-  /* Экспорты обрезаны по содержимому, пропорция набора изменилась. */
-  .compare-slider__stage { aspect-ratio: 2700 / 1768; }
-
-
-
-
-  /* ===== Редакция 3.3: единая левая ось =====
-     Заголовок, вводный абзац и вывод стоят на одной левой оси и не шире
-     6 колонок основной сетки. Таблицы и схемы шире, но от того же края:
-     сравнительные таблицы — 10 колонок, схемы — 8. Центрированных
-     блоков, которые начинаются в третьей колонке, больше нет.
-     Ширину 6 колонок считаем от контейнера страницы в cqi:
-     (100cqi − 11 зазоров) / 2 + 5 зазоров = 50cqi − ½ зазора. */
-  .case-page { container-type: inline-size; }
-  .col-10 { grid-column: 1 / span 10; }
-  @media (max-width: 767px) { .case-grid > .col-10 { grid-column: span 4; } }
-
-  @media (min-width: 1100px) {
-    .case-page { --measure-6: calc(50cqi - var(--grid-gutter) / 2); }
-    .detail-block .detail-head h2 { max-width: var(--measure-6); }
-    .detail-block > p,
-    .detail-block > .case-subhead,
-    .case-results__panel > p,
-    .case-results__panel > .case-subhead { max-width: min(60ch, var(--measure-6)); }
-  }
-
-  /* Широкий материал под вступлением: заметный, но не оторванный отступ. */
-  .case-grid.case-wide { margin-top: clamp(8px, 1vw, 16px); }
-  .case-wide .case-artifact-cap:first-child { margin-top: 0; }
-  .case-aside .col-8 > .case-artifact-cap:first-child { margin-top: 0; }
-  .case-aside .col-8 > .compare-table-wrap:last-of-type { margin-bottom: 0; }
-
-  /* Вывод под таблицей — в тех же 6 колонках, что и вступление.
-     Первый абзац — что показало исследование, второй — решение. */
-  .case-takeaway { margin-top: clamp(40px, 3.6vw, 56px); padding-left: 0; border-left: 0; }
-  .detail-block .case-takeaway p { max-width: 60ch; }
-  .detail-block .case-takeaway p + p { margin-top: clamp(12px, 1.2vw, 16px); }
-  .case-takeaway .case-subhead { margin: 0 0 8px; }
-  /* Новая часть секции после материала и вывода — отдельный абзац воздуха. */
-  .detail-block > .case-grid + .case-subhead { margin-top: clamp(56px, 5vw, 80px); }
-  .detail-block .case-takeaway p + .case-subhead { margin-top: clamp(28px, 2.6vw, 36px); }
-
-  /* Короткая таблица решений в текстовой колонке рядом с визуалом. */
-  .case-split-text .case-table-wrap--compact { margin: clamp(24px, 2.4vw, 32px) 0 0; max-width: none; }
-  .case-table-wrap--compact .case-table { min-width: 0; }
-  .case-table-wrap--compact .case-table th,
-  .case-table-wrap--compact .case-table td { padding: 12px clamp(12px, 1.2vw, 16px); }
-  .case-table-wrap--compact .case-table tbody th { position: static; min-width: 0; }
-
-  /* Схема структуры на телефоне: в 335 px мелкие подписи сжимались до ~5 px.
-     Схема держит 600 px и прокручивается внутри своего блока, подписи
-     остаются читаемыми; нажатие по-прежнему открывает её целиком. */
-  @media (max-width: 767px) {
-    .case-split .case-fig--plain { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .case-split .case-fig--plain .case-shot { width: 600px; max-width: none; }
-  }
-
-  /* Кадр с интерфейсом — настоящая кнопка: мышь, касание, Enter, пробел. */
-  button.case-shot {
-    font: inherit; color: inherit; text-align: inherit;
-    -webkit-appearance: none; appearance: none;
-  }
-  button.case-shot:focus-visible { outline: 2px solid var(--case-mark-text); outline-offset: 3px; }
-  /* ===== конец блока редакции 3.3 ===== */
-
-  /* ===== конец блока редакции 3.2 ===== */
+/* body text: Golos Text */
+:root{--body:"Golos Text",Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+.read,.arrow,.task,.next li,.steps li,.flow p,.opt p,.impact,.stat .t,.note p,.tbl td{font-family:var(--body)}
+.read{font-size:clamp(16px,1.15vw,17.5px);line-height:1.68;color:#2e2e2e;letter-spacing:0}
+.arrow{font-size:16.5px;line-height:1.6}
+.task{font-size:16.5px;line-height:1.55}
+.next li{font-size:15.5px;line-height:1.5}
 </style>
-  <link rel="stylesheet" href="assets/typography.css">
+<link rel="stylesheet" href="assets/typography.css">
 </head>
 <body>
-
-  <nav class="site-nav">
+  <div class="top"><div class="navrow"><nav class="site-nav">
     <a href="index.html" class="nav-name"><span data-lang="ru">Мадина Рашидова</span><span data-lang="en">Madina Rashidova</span></a>
-    <a href="index.html#work" class="nav-link"><span data-lang="ru">Работы →</span><span data-lang="en">Work →</span></a>
-    <a href="about.html" class="nav-link"><span data-lang="ru">Обо мне →</span><span data-lang="en">About →</span></a>
-    <a href="cv.pdf" data-href-ru="cv.pdf" data-href-en="cv-en.pdf" class="nav-link" target="_blank" rel="noopener">CV →</a>
+    <a href="index.html#work" class="nav-link"><span data-lang="ru">Работы</span><span data-lang="en">Work</span></a>
+    <a href="about.html" class="nav-link"><span data-lang="ru">Обо мне</span><span data-lang="en">About</span></a>
+    <a href="cv.pdf" data-href-ru="cv.pdf" data-href-en="cv-en.pdf" class="nav-link" target="_blank" rel="noopener">CV</a>
     <button type="button" class="lang-toggle" data-lang-toggle aria-label="Switch to English">EN</button>
+  </nav></div><div class="ruler" id="ruler" aria-hidden="true"></div></div>
+
+<div class="ticks" id="ticks" aria-hidden="true"></div>
+
+<main id="main">
+<header class="wrap hero" id="hero" data-tick>
+  <div class="reveal">
+    <div class="meta"><span class="lab"><span data-lang="ru">Кейс · Alif Банк</span><span data-lang="en">Case · Alif Bank</span></span></div>
+    <h1>Alif Partners</h1>
+    <p class="read"><span data-lang="ru">Личный кабинет для самостоятельной работы партнёров Alif Shop.</span><span data-lang="en">A self‑service account for Alif Shop partners.</span></p>
+    <div class="tags"><span class="tag" style="background:#ECECE8"><span data-lang="ru">Финтех</span><span data-lang="en">Fintech</span></span><span class="tag" style="background:var(--n-sky)">B2B</span><span class="tag" style="background:#E3B84C"><span data-lang="ru">Продуктовый дизайн</span><span data-lang="en">Product design</span></span></div>
+  </div>
+  <div class="notes reveal">
+    <div class="note" style="--r:-3deg;left:6%;top:6%;background:var(--n-sky);transition-delay:.1s"><span class="lab"><span data-lang="ru">Роль</span><span data-lang="en">Role</span></span><p><span data-lang="ru">Продуктовый дизайнер: структура кабинета и сценарии</span><span data-lang="en">Product designer: account structure and flows</span></p></div>
+    <div class="note" style="--r:2.5deg;left:52%;top:0;background:var(--n-lime);transition-delay:.2s"><span class="lab"><span data-lang="ru">Платформы</span><span data-lang="en">Platforms</span></span><p><span data-lang="ru">Веб и мобильная версия</span><span data-lang="en">Web and mobile</span></p></div>
+    <div class="note" style="--r:2deg;left:4%;top:50%;background:var(--n-mint);transition-delay:.3s"><span class="lab"><span data-lang="ru">Команда</span><span data-lang="en">Team</span></span><p><span data-lang="ru">UX‑исследователь, продакт‑оунер, продуктовый дизайнер</span><span data-lang="en">UX researcher, product owner, product designer</span></p></div>
+    <div class="note" style="--r:-2deg;left:52%;top:44%;background:var(--n-peach);transition-delay:.4s"><span class="lab"><span data-lang="ru">Срок</span><span data-lang="en">Timeline</span></span><p><span data-lang="ru">4 месяца</span><span data-lang="en">4 months</span></p></div>
+  </div>
+</header>
+
+<section class="wrap reveal">
+  <figure class="fig"><div class="plate p-shot">
+    <div class="combo">
+      <img data-av tabindex="0" role="button" data-full="assets/process/alif-v2/delivery-ru.webp" data-full-ru="assets/process/alif-v2/delivery-ru.webp" data-full-en="assets/process/alif-v2/delivery.webp" data-title-ru="Раздел доставки в кабинете партнёра: заказы со статусом, адресом и временем" data-title-en="Delivery section in the partner account: orders with status, address and time slot" class="shot" src="assets/process/alif-v2/delivery-ru.webp" data-src-ru="assets/process/alif-v2/delivery-ru.webp" data-src-en="assets/process/alif-v2/delivery.webp" width="3200" height="2166" data-alt-ru="Раздел доставки в кабинете партнёра: заказы со статусом, адресом и временем" data-alt-en="Delivery section in the partner account: orders with status, address and time slot" alt="Раздел доставки в кабинете партнёра: заказы со статусом, адресом и временем" decoding="async" fetchpriority="high">
+      <div class="ph sel" style="--sel:#2F7BF6"><span class="h1x"><i></i><i></i></span><img data-av tabindex="0" role="button" data-full="assets/process/alif-v2/phone-delivery-ru.webp" data-full-ru="assets/process/alif-v2/phone-delivery-ru.webp" data-full-en="assets/process/alif-v2/phone-delivery.webp" data-title-ru="Мобильная версия: карточка доставки с оплатой, рассрочкой и статусом «Готово»" data-title-en="Mobile version: delivery card with payment, installment and the “Ready” status" class="shot ph-img" src="assets/process/alif-v2/phone-delivery-ru.webp" data-src-ru="assets/process/alif-v2/phone-delivery-ru.webp" data-src-en="assets/process/alif-v2/phone-delivery.webp" width="1254" height="2616" data-alt-ru="Мобильная версия: карточка доставки с оплатой, рассрочкой и статусом «Готово»" data-alt-en="Mobile version: delivery card with payment, installment and the “Ready” status" alt="Мобильная версия: карточка доставки с оплатой, рассрочкой и статусом «Готово»" decoding="async"><span class="sz"><span data-lang="ru">Выдача с телефона</span><span data-lang="en">Handover from a phone</span></span></div>
+    </div>
+    <span class="stick" style="left:2%;bottom:6%;background:var(--n-lime);--r:-3deg"><span data-lang="ru">Заказ без терминала и звонка в колл‑центр</span><span data-lang="en">An order without a terminal or a call‑center call</span></span>
+  </div><figcaption class="cap"><span data-lang="ru">Рис. 1. Партнёр ведёт доставку в кабинете и отмечает выдачу с телефона. Нажмите на скриншот, чтобы увеличить. Данные примера.</span><span data-lang="en">Fig. 1. The partner runs delivery in the account and records the handover from a phone. Tap a screenshot to zoom. Example data.</span></figcaption></figure>
+</section>
+
+<section class="wrap sec two reveal" data-tick id="context">
+  <div>
+    <span class="lab"><span data-lang="ru">Контекст</span><span data-lang="en">Context</span></span>
+    <h2><span data-lang="ru">Alif Shop, банк и партнёр</span><span data-lang="en">Alif Shop, the bank and the partner</span></h2>
+    <p class="read" style="margin-top:16px"><span data-lang="ru">Alif крупнейший банк Таджикистана. Он развивает рассрочку через сеть партнёрских магазинов и собственный маркетплейс Alif Shop. Магазины‑партнёры размещают ассортимент, обрабатывают заказы и передают товары покупателям. Банк отвечает за финансовую часть и сопровождение процесса.</span><span data-lang="en">Alif is the largest bank in Tajikistan. It grows installment sales through a network of partner stores and its own marketplace, Alif Shop. Partner stores list their products, process orders and hand goods over to buyers. The bank handles the financial side and supports the process.</span></p>
+  </div>
+  <div>
+    <div class="stats">
+      <div class="stat"><b>70 000+</b><span class="t"><span data-lang="ru">активных покупателей в месяц</span><span data-lang="en">active buyers a month</span></span></div>
+      <div class="stat"><b>500+</b><span class="t"><span data-lang="ru">партнёрских магазинов</span><span data-lang="en">partner stores</span></span></div>
+      <div class="stat"><b>$1 <span data-lang="ru">млрд</span><span data-lang="en">bn</span></b><span class="t"><span data-lang="ru">объём рынка BNPL, 2024</span><span data-lang="en">BNPL market size, 2024</span></span></div>
+    </div>
+    <p class="read" style="margin-top:18px"><span data-lang="ru">Я отвечала за структуру кабинета и пользовательские сценарии, работала с UX‑исследователем и продакт‑оунером, обсуждала технические ограничения с разработчиками. Опыт в колл‑центре и отделе партнёров Alif помог быстро разобраться в операционных процессах, а интервью показали, как они выглядят у пользователей.</span><span data-lang="en">I was responsible for the account structure and user flows, worked with the UX researcher and the product owner, and discussed technical constraints with developers. My experience in Alif’s call center and partner department helped me quickly understand the operational processes, and the interviews showed how they look for users.</span></p>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <figure class="fig"><div class="plate eco-plate">
+    <div class="eco" role="list" aria-label="Схема Alif: покупатель, Alif Shop, банк, партнёр" data-aria-ru="Схема Alif: покупатель, Alif Shop, банк, партнёр" data-aria-en="Alif scheme: buyer, Alif Shop, bank, partner">
+      <div class="en" role="listitem"><span data-lang="ru">Покупатель</span><span data-lang="en">Buyer</span><small><span data-lang="ru">выбирает товар</span><span data-lang="en">chooses a product</span></small></div>
+      <div class="ea" aria-hidden="true"><span><span data-lang="ru">заказ</span><span data-lang="en">order</span></span></div>
+      <div class="en" role="listitem">Alif Shop<small><span data-lang="ru">маркетплейс</span><span data-lang="en">marketplace</span></small></div>
+      <div class="ea" aria-hidden="true"><span><span data-lang="ru">заявка на рассрочку</span><span data-lang="en">installment request</span></span></div>
+      <div class="en" role="listitem"><span data-lang="ru">Alif Банк</span><span data-lang="en">Alif Bank</span><small><span data-lang="ru">одобряет рассрочку</span><span data-lang="en">approves the installment</span></small></div>
+      <div class="ea" aria-hidden="true"><span><span data-lang="ru">одобренный заказ</span><span data-lang="en">approved order</span></span></div>
+      <div class="sel" role="listitem" style="--sel:#2F7BF6"><span class="h1x"><i></i><i></i></span><div class="en on"><span data-lang="ru">Партнёр</span><span data-lang="en">Partner</span><small><span data-lang="ru">оформляет и выдаёт товар</span><span data-lang="en">processes and hands over</span></small></div><span class="sz"><span data-lang="ru">Пользователь кабинета</span><span data-lang="en">Account user</span></span></div>
+      <div class="eb l" aria-hidden="true"></div><div class="eb m" aria-hidden="true"><span><span data-lang="ru">передаёт товар покупателю</span><span data-lang="en">hands the goods to the buyer</span></span></div><div class="eb r" aria-hidden="true"></div>
+    </div>
+    <p class="eco-m"><span data-lang="ru">↺ Партнёр передаёт товар покупателю, а покупатель платит банку частями.</span><span data-lang="en">↺ The partner hands the goods to the buyer, and the buyer pays the bank in installments.</span></p>
+    <span class="stick eco-st" style="right:4%;bottom:9%;background:var(--n-peach);--r:-3deg"><span data-lang="ru">Покупатель платит банку частями</span><span data-lang="en">The buyer pays the bank in installments</span></span>
+  </div><figcaption class="cap"><span data-lang="ru">Рис. 2. Где в схеме партнёр. Банк зарабатывает на рассрочке, а ассортимент, цены и выдачу обеспечивает партнёр: от него зависит, сколько заявок станут выданными рассрочками.</span><span data-lang="en">Fig. 2. Where the partner sits. The bank earns on installments, while the partner provides the range, prices and handover: it decides how many requests turn into issued installments.</span></figcaption></figure>
+</section>
+
+<svg class="wave wrap reveal" viewBox="0 0 1100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 C 180 10, 320 34, 520 22 S 860 6, 1100 18" fill="none" stroke="#9A9C97" stroke-width="1.2"/></svg>
+
+<section class="wrap sec two reveal" data-tick id="problem">
+  <div>
+    <span class="chip c-prob"><span data-lang="ru">Проблема</span><span data-lang="en">Problem</span></span>
+    <h2><span data-lang="ru">Чтобы выполнить заказ, партнёру требовалось участие банка</span><span data-lang="en">To fulfil an order, the partner needed the bank</span></h2>
+    <p class="read" style="margin-top:16px"><span data-lang="ru">Админ‑панель создавалась для работы модераторов. Партнёры пользовались ею частично: о новой заявке узнавали от колл‑центра, оформляли заказ через терминал, а при передаче товара курьеры звонили операторам.</span><span data-lang="en">The admin panel was built for moderators. Partners used it only partly: they learned about a new request from the call center, processed the order on a terminal, and couriers called operators to hand goods over.</span></p>
+    <p class="read"><span data-lang="ru">Действия магазина зависели от того, свободны ли сотрудники и работает ли оборудование. Заказ мог задержаться между этапами, а каждый новый партнёр добавлял банку звонки и ручные операции.</span><span data-lang="en">The store’s work depended on whether staff were free and the equipment worked. An order could stall between steps, and every new partner added calls and manual work for the bank.</span></p>
+  </div>
+  <div>
+    <div class="task"><span data-lang="ru"><b>Продуктовая задача.</b> Дать партнёру самостоятельно пройти операционную часть заказа, от получения заявки до оформления и передачи товара.</span><span data-lang="en"><b>Product task:</b> let the partner complete the operational part of an order on its own, from receiving the request to processing it and handing the goods over.</span></div>
+    <p class="read" style="margin-top:18px"><span data-lang="ru"><b class="sb">Бизнес‑цель:</b> обслуживать больше партнёрских заказов без пропорционального роста затрат на сопровождение, сохранив качество данных и контроль операций.</span><span data-lang="en"><b class="sb">Business goal:</b> serve more partner orders without a proportional rise in support costs, while keeping data quality and control over operations.</span></p>
+  </div>
+</section>
+
+<section class="wrap sec reveal" data-tick id="research">
+  <span class="chip c-res"><span data-lang="ru">Исследование</span><span data-lang="en">Research</span></span>
+  <h2><span data-lang="ru">Где возникала зависимость от банка</span><span data-lang="en">Where the dependence on the bank came from</span></h2>
+  <div class="r-intro">
+    <p class="read"><span data-lang="ru">Вместе с UX‑исследователем мы провели глубинные интервью с 8 модераторами, 7 ведущими партнёрами и 2 CDO‑менеджерами. Разбирали реальные действия в системе, причины обращений и переходы между кабинетом, терминалами и сотрудниками банка.</span><span data-lang="en">Together with the UX researcher, we ran in‑depth interviews with 8 moderators, 7 leading partners and 2 CDO managers. We went through real actions in the system, the reasons for contacting the bank and the hand‑offs between the account, terminals and bank staff.</span></p>
+    <button type="button" class="art art-mini" data-av data-full="assets/process/alif-research-table-ru.webp" data-full-ru="assets/process/alif-research-table-ru.webp" data-full-en="assets/process/alif-research-table.webp" data-title-ru="Таблица интервью с партнёрами" data-title-en="Partner interview table"><span class="th"><img src="assets/process/alif-research-table-ru-t.webp" data-src-ru="assets/process/alif-research-table-ru-t.webp" data-src-en="assets/process/alif-research-table-t.webp" width="800" height="600" alt="" loading="lazy" decoding="async"></span><span class="mi"><span class="lab"><span data-lang="ru">Артефакт</span><span data-lang="en">Artifact</span></span><span class="tt"><span data-lang="ru">Таблица интервью: 5 вопросов, ответы, боли и предложения партнёров</span><span data-lang="en">Interview table: 5 questions, partner answers, pain points and suggestions</span></span><span class="open"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M9.5 2.5h4v4M13.5 2.5l-5 5M6.5 13.5h-4v-4M2.5 13.5l5-5"/></svg><span data-lang="ru">Открыть</span><span data-lang="en">Open</span></span></span></button>
+  </div>
+  <ol class="flows" aria-label="Находки исследования" data-aria-ru="Находки исследования" data-aria-en="Research findings">
+    <li class="flow"><div class="f-find" style="background:var(--n-peach);--r:-1.5deg"><span class="lab"><span data-lang="ru">Партнёры</span><span data-lang="en">Partners</span></span><p><span data-lang="ru">Ждут звонка о новой заявке</span><span data-lang="en">Wait for a call about a new request</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-mean"><span class="lab"><span data-lang="ru">Что это значит</span><span data-lang="en">What it means</span></span><p><span data-lang="ru">Обработка начинается, только когда позвонит колл‑центр</span><span data-lang="en">Processing starts only when the call center calls</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-need"><span class="lab"><span data-lang="ru">Что нужно от решения</span><span data-lang="en">What the solution needs</span></span><p><span data-lang="ru">Уведомление и доступ к заявке у партнёра</span><span data-lang="en">A notification and access to the request for the partner</span></p></div></li>
+    <li class="flow"><div class="f-find" style="background:var(--n-peach);--r:1.2deg"><span class="lab"><span data-lang="ru">Партнёры</span><span data-lang="en">Partners</span></span><p><span data-lang="ru">Терминалов мало, бывают сбои</span><span data-lang="en">There are few terminals, and they fail</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-mean"><span class="lab"><span data-lang="ru">Что это значит</span><span data-lang="en">What it means</span></span><p><span data-lang="ru">Оформление задерживается, часть заказов отменяется</span><span data-lang="en">Processing is delayed, and some orders are cancelled</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-need"><span class="lab"><span data-lang="ru">Что нужно от решения</span><span data-lang="en">What the solution needs</span></span><p><span data-lang="ru">Оформление в кабинете с той же бизнес‑логикой</span><span data-lang="en">Processing in the account with the same business logic</span></p></div></li>
+    <li class="flow"><div class="f-find" style="background:var(--n-sky);--r:-1deg"><span class="lab"><span data-lang="ru">Курьеры</span><span data-lang="en">Couriers</span></span><p><span data-lang="ru">Звонят операторам, чтобы оформить доставку</span><span data-lang="en">Call operators to arrange delivery</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-mean"><span class="lab"><span data-lang="ru">Что это значит</span><span data-lang="en">What it means</span></span><p><span data-lang="ru">В передачу товара включается лишний участник</span><span data-lang="en">An extra person joins the handover</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-need"><span class="lab"><span data-lang="ru">Что нужно от решения</span><span data-lang="en">What the solution needs</span></span><p><span data-lang="ru">Сценарий передачи для сотрудников магазина с телефона</span><span data-lang="en">A handover flow for store staff on a phone</span></p></div></li>
+    <li class="flow"><div class="f-find" style="background:var(--n-mint);--r:1.5deg"><span class="lab"><span data-lang="ru">Модераторы и партнёры</span><span data-lang="en">Moderators and partners</span></span><p><span data-lang="ru">Существующий товар вводят заново</span><span data-lang="en">Existing products are entered again</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-mean"><span class="lab"><span data-lang="ru">Что это значит</span><span data-lang="en">What it means</span></span><p><span data-lang="ru">Повторный ввод отнимает время у обеих сторон</span><span data-lang="en">Re‑entry takes time on both sides</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-need"><span class="lab"><span data-lang="ru">Что нужно от решения</span><span data-lang="en">What the solution needs</span></span><p><span data-lang="ru">Готовая карточка и отдельное предложение магазина</span><span data-lang="en">A ready product card and a separate store offer</span></p></div></li>
+    <li class="flow"><div class="f-find" style="background:var(--n-lime);--r:-1.2deg"><span class="lab"><span data-lang="ru">Модераторы</span><span data-lang="en">Moderators</span></span><p><span data-lang="ru">В доставке непонятные статусы и мало данных</span><span data-lang="en">Delivery has unclear statuses and too little data</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-mean"><span class="lab"><span data-lang="ru">Что это значит</span><span data-lang="en">What it means</span></span><p><span data-lang="ru">Разделом пользуются частично или обходят его</span><span data-lang="en">The section is used partly or bypassed</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-need"><span class="lab"><span data-lang="ru">Что нужно от решения</span><span data-lang="en">What the solution needs</span></span><p><span data-lang="ru">Раздельные самовывоз и доставка, понятный статус</span><span data-lang="en">Separate pickup and delivery, a clear status</span></p></div></li>
+  </ol>
+  <p class="arrow"><span><span data-lang="ru"><b class="sb">Вывод.</b> Стандартные действия с заказом партнёр мог выполнить только через сотрудника банка. Значит, нужно перераспределить операции: партнёр ведёт свой заказ и ассортимент, а банк оставляет за собой обязательные проверки и исключения.</span><span data-lang="en"><b class="sb">Conclusion.</b> The partner could complete standard order actions only through a bank employee. So the operations had to be redistributed: the partner runs its orders and range, and the bank keeps the mandatory checks and exceptions.</span></span></p>
+
+</section>
+
+<p class="wrap quote reveal"><span data-lang="ru">Партнёр продавал сам, но каждый шаг заказа шёл через сотрудника банка.</span><span data-lang="en">The partner sold on its own, but every step of an order went through a bank employee.</span></p>
+
+<section class="wrap sec two reveal" data-tick id="hypothesis">
+  <div>
+    <span class="chip c-hyp"><span data-lang="ru">Гипотеза</span><span data-lang="en">Hypothesis</span></span>
+    <h2><span data-lang="ru">Дать партнёру пройти заказ самому</span><span data-lang="en">Let the partner complete the order on its own</span></h2>
+    <p class="read" style="margin-top:14px"><span data-lang="ru">Если партнёр будет получать заявки напрямую и сможет оформлять заказ и передачу товара в кабинете, доля заказов, завершённых без помощи сотрудников банка, вырастет. Ручных вмешательств на заказ станет меньше, а ожидание между этапами сократится.</span><span data-lang="en">If the partner receives requests directly and can process the order and the handover in the account, the share of orders completed without help from bank staff will grow. There will be fewer manual interventions per order, and waiting between steps will shrink.</span></p>
+    <div class="chain" role="group" aria-label="Цепочка эффекта" data-aria-ru="Цепочка эффекта" data-aria-en="Chain of effect"><span class="on"><span data-lang="ru">Заявка приходит партнёру</span><span data-lang="en">The request reaches the partner</span></span><em aria-hidden="true">→</em><span><span data-lang="ru">Оформляет сам</span><span data-lang="en">Processes it alone</span></span><em aria-hidden="true">→</em><span><span data-lang="ru">Отмечает передачу</span><span data-lang="en">Marks the handover</span></span><em aria-hidden="true">→</em><span><span data-lang="ru">Банку не нужно вмешиваться</span><span data-lang="en">The bank doesn’t step in</span></span></div>
+  </div>
+  <div>
+    <div class="hcard">
+      <span class="lab"><span data-lang="ru">Отдельная гипотеза для каталога</span><span data-lang="en">A separate hypothesis for the catalog</span></span>
+      <p class="read"><span data-lang="ru">Если при добавлении существующего товара использовать готовую карточку, партнёр быстрее создаст своё предложение без потери качества данных.</span><span data-lang="en">If an existing product’s ready card is reused when it is added, the partner will create its offer faster without losing data quality.</span></p>
+    </div>
+    <span class="lab" style="display:block;margin-top:34px"><span data-lang="ru">Как проверяли</span><span data-lang="en">How we tested it</span></span>
+    <ol class="steps">
+      <li><b><span data-lang="ru">Разговоры с партнёрами</span><span data-lang="en">Talks with partners</span></b><span data-lang="ru">Обсуждали решения по ходу проектирования.</span><span data-lang="en">We discussed decisions as the design progressed.</span></li>
+      <li><b><span data-lang="ru">Коридорные тесты</span><span data-lang="en">Hallway tests</span></b><span data-lang="ru">Быстро проверяли отдельные экраны и формулировки.</span><span data-lang="en">Quick checks of individual screens and wording.</span></li>
+      <li><b><span data-lang="ru">Юзабилити‑тест прототипа</span><span data-lang="en">Prototype usability test</span></b><span data-lang="ru">Ключевые сценарии прошли целиком. С модераторами отдельно разобрали добавление товара: поиск готовой карточки убрал повторное заполнение, а для новых товаров полный путь остался.</span><span data-lang="en">Key flows were walked through end to end. With moderators we separately reviewed adding a product: searching for a ready card removed re‑entry, while new products kept the full path.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="wrap sec reveal" data-tick id="metrics">
+  <span class="lab"><span data-lang="ru">Метрики</span><span data-lang="en">Metrics</span></span>
+  <h2 style="margin-top:12px"><span data-lang="ru">Северная звезда: доля заказов, которые партнёр завершил сам</span><span data-lang="en">North Star: the share of orders the partner completed on its own</span></h2>
+  <p class="read" style="margin-top:14px"><span data-lang="ru">Сколько заказов партнёр оформил и передал покупателю сам, без сотрудника банка. Смотрим вместе с трудозатратами банка на заказ, а отмены и ошибки оформления держим как защитные метрики.</span><span data-lang="en">How many orders the partner processed and handed to the buyer on its own, without a bank employee. We read it together with the bank’s labor per order, and keep cancellations and processing errors as guardrails.</span></p>
+  <figure class="fig"><div class="canvas tree-al" id="tree">
+    <svg id="treeSvg" aria-hidden="true"></svg>
+    <div class="node root" data-n="g" style="left:2%;top:41%"><span class="lab"><span data-lang="ru">Бизнес</span><span data-lang="en">Business</span></span><span data-lang="ru">Больше заказов той же командой банка</span><span data-lang="en">More orders with the same bank team</span></div>
+    <div class="node lit" data-n="n" data-p="g" style="left:35%;top:16%"><span class="lab"><span data-lang="ru">Северная звезда</span><span data-lang="en">North Star</span></span><span data-lang="ru">Доля заказов, завершённых партнёром сам</span><span data-lang="en">Share of orders completed by the partner alone</span></div>
+    <div class="node" data-n="l" data-p="g" style="left:35%;top:70%"><span data-lang="ru">Трудозатраты банка на один заказ</span><span data-lang="en">Bank labor per order</span></div>
+    <div class="node" data-n="a" data-p="n" style="left:69%;top:2%"><span data-lang="ru">Заявка: время до первой реакции</span><span data-lang="en">Request: time to first response</span></div>
+    <div class="node" data-n="b" data-p="n" style="left:69%;top:20%"><span data-lang="ru">Оформление: доля заказов без терминала</span><span data-lang="en">Processing: share of orders without a terminal</span></div>
+    <div class="node" data-n="d" data-p="n" style="left:69%;top:38%"><span data-lang="ru">Передача: доля заказов с отметкой выдачи</span><span data-lang="en">Handover: share of orders marked as handed over</span></div>
+    <div class="node" data-n="l1" data-p="l" style="left:69%;top:62%"><span data-lang="ru">Обращения по всем каналам на 100 заказов</span><span data-lang="en">Contacts across all channels per 100 orders</span></div>
+    <div class="node" data-n="l2" data-p="l" style="left:69%;top:81%"><span data-lang="ru">Партнёры на одного модератора</span><span data-lang="en">Partners per moderator</span></div>
+  </div><figcaption class="cap"><span data-lang="ru">Рис. 3. Дерево метрик: от бизнес‑цели к северной звезде и её драйверам.</span><span data-lang="en">Fig. 3. The metric tree: from the business goal to the North Star and its drivers.</span></figcaption></figure>
+</section>
+
+<section class="wrap sec reveal" data-tick id="solutions">
+  <span class="chip c-dec"><span data-lang="ru">Решения</span><span data-lang="en">Decisions</span></span>
+  <h2><span data-lang="ru">Пять решений из пяти находок</span><span data-lang="en">Five decisions from five findings</span></h2>
+  <p class="read" style="margin-top:14px"><span data-lang="ru">Каждое решение выросло из находки исследования и влияет на свою ветку дерева метрик.</span><span data-lang="en">Each decision grew out of a research finding and moves its own branch of the metric tree.</span></p>
+
+  <article class="dec reveal">
+    <div><span class="chip c-dec"><span data-lang="ru">Решение 01</span><span data-lang="en">Decision 01</span></span><h3 style="margin-top:12px"><span data-lang="ru">Кабинет вокруг задач магазина</span><span data-lang="en">An account built around the store’s tasks</span></h3>
+      <p class="read" style="margin-top:12px"><span data-lang="ru">Структуру собрали по основным сценариям: магазины, товары, заявки, доставка и отзывы. Для модераторов выделили отдельный раздел проверки и редактирования данных. Партнёр выполняет свои операции, а модератор подключается на этапах контроля.</span><span data-lang="en">The structure follows the main flows: stores, products, requests, delivery and reviews. Moderators got a separate section for checking and editing data. The partner runs its own operations, and the moderator steps in at control points.</span></p></div>
+    <figure class="fig" style="margin-top:0"><div class="plate p-shot"><div class="sel"><span class="h1x"><i></i><i></i></span><img data-av tabindex="0" role="button" data-full="assets/process/alif-v2/admin-structure-ru.webp" data-full-ru="assets/process/alif-v2/admin-structure-ru.webp" data-full-en="assets/process/alif-v2/admin-structure.webp" data-title-ru="Верхняя навигация кабинета: магазины, товары, модерация, заявки, доставка, отзывы" data-title-en="Top navigation of the account: stores, products, moderation, requests, delivery, reviews" class="shot" src="assets/process/alif-v2/admin-structure-ru.webp" data-src-ru="assets/process/alif-v2/admin-structure-ru.webp" data-src-en="assets/process/alif-v2/admin-structure.webp" width="2640" height="264" data-alt-ru="Верхняя навигация кабинета: магазины, товары, модерация, заявки, доставка, отзывы" data-alt-en="Top navigation of the account: stores, products, moderation, requests, delivery, reviews" alt="Верхняя навигация кабинета: магазины, товары, модерация, заявки, доставка, отзывы" loading="lazy" decoding="async"></div></div><figcaption class="cap"><span data-lang="ru">Рис. 4. Разделы кабинета партнёра и модератора.</span><span data-lang="en">Fig. 4. Sections of the partner and moderator account.</span></figcaption></figure>
+  </article>
+
+  <article class="dec reveal">
+    <div><span class="chip c-dec"><span data-lang="ru">Решение 02</span><span data-lang="en">Decision 02</span></span><h3 style="margin-top:12px"><span data-lang="ru">Заявка приходит партнёру напрямую</span><span data-lang="en">The request reaches the partner directly</span></h3>
+      <div class="opts">
+        <div class="opt"><span class="ic"></span><div><span class="lab"><span data-lang="ru">Вариант A: звонок колл‑центра</span><span data-lang="en">Option A: a call from the call center</span></span><p><span data-lang="ru">Привычно, но обработка ждёт оператора.</span><span data-lang="en">Familiar, but processing waits for an operator.</span></p></div></div>
+        <div class="opt chosen"><span class="ic"></span><div><span class="lab"><span data-lang="ru">Выбрано: B, уведомление в кабинете</span><span data-lang="en">Chosen: B, a notification in the account</span></span><p><span data-lang="ru">О новых заявках и изменениях заказа партнёр узнаёт сам и сразу открывает заказ. Уведомления о низких остатках помогают не терять заказы из‑за закончившегося товара.</span><span data-lang="en">The partner learns about new requests and order changes on its own and opens the order right away. Low‑stock alerts help avoid losing orders to sold‑out products.</span></p></div></div>
+      </div>
+      <p class="impact"><span data-lang="ru"><b>Влияет на:</b> время до первой реакции и звонки о заявках.</span><span data-lang="en"><b>Moves:</b> time to first response and calls about requests.</span></p></div>
+    <figure class="fig" style="margin-top:0"><div class="plate p-shot"><div class="sel"><span class="h1x"><i></i><i></i></span><img data-av tabindex="0" role="button" data-full="assets/process/alif-v2/notifications-ru.webp" data-full-ru="assets/process/alif-v2/notifications-ru.webp" data-full-en="assets/process/alif-v2/notifications.webp" data-title-ru="Уведомления о новых заявках, доставке и остатках" data-title-en="Notifications about new requests, delivery and stock" class="shot" src="assets/process/alif-v2/notifications-ru.webp" data-src-ru="assets/process/alif-v2/notifications-ru.webp" data-src-en="assets/process/alif-v2/notifications.webp" width="2400" height="1270" data-alt-ru="Уведомления о новых заявках, доставке и остатках" data-alt-en="Notifications about new requests, delivery and stock" alt="Уведомления о новых заявках, доставке и остатках" loading="lazy" decoding="async"></div></div><figcaption class="cap"><span data-lang="ru">Рис. 5. Уведомления о заявках, доставке и остатках.</span><span data-lang="en">Fig. 5. Notifications about requests, delivery and stock.</span></figcaption></figure>
+  </article>
+
+  <article class="dec reveal">
+    <div><span class="chip c-dec"><span data-lang="ru">Решение 03</span><span data-lang="en">Decision 03</span></span><h3 style="margin-top:12px"><span data-lang="ru">Оформление и передача товара в одном процессе</span><span data-lang="en">Processing and handover in one flow</span></h3>
+      <div class="opts">
+        <div class="opt"><span class="ic"></span><div><span class="lab"><span data-lang="ru">Вариант A: один раздел доставки со статусами</span><span data-lang="en">Option A: one delivery section with statuses</span></span><p><span data-lang="ru">Так было, и разделом почти не пользовались.</span><span data-lang="en">That was the old setup, and the section was hardly used.</span></p></div></div>
+        <div class="opt chosen"><span class="ic"></span><div><span class="lab"><span data-lang="ru">Выбрано: B, раздельные самовывоз и доставка</span><span data-lang="en">Chosen: B, separate pickup and delivery</span></span><p><span data-lang="ru">Оформление из терминала перенесли в кабинет с той же бизнес‑логикой. В карточке видны статус, дата оформления и адрес. Сценарий работает на компьютере и телефоне, поэтому сотрудники магазина и курьеры оформляют выдачу прямо в точке.</span><span data-lang="en">Processing moved from the terminal to the account with the same business logic. The card shows the status, processing date and address. The flow works on desktop and phone, so store staff and couriers record the handover right on the spot.</span></p></div></div>
+      </div>
+      <p class="impact"><span data-lang="ru"><b>Влияет на:</b> долю заказов, завершённых партнёром сам, и обращения к операторам. Защитные метрики: ошибки оформления и отмены.</span><span data-lang="en"><b>Moves:</b> the share of orders the partner completes alone and contacts with operators. Guardrails: processing errors and cancellations.</span></p></div>
+    <figure class="fig" style="margin-top:0"><div class="plate p-shot"><div class="sel" style="--sel:#E39A1E"><span class="h1x"><i></i><i></i></span><img data-av tabindex="0" role="button" data-full="assets/process/alif-v2/order-detail-ru.webp" data-full-ru="assets/process/alif-v2/order-detail-ru.webp" data-full-en="assets/process/alif-v2/order-detail.webp" data-title-ru="Оформление заказа в рассрочку в кабинете: товар, подарок, срок рассрочки и SMS‑код клиенту" data-title-en="Processing an installment order in the account: product, gift, installment term and SMS code for the buyer" class="shot" src="assets/process/alif-v2/order-detail-ru.webp" data-src-ru="assets/process/alif-v2/order-detail-ru.webp" data-src-en="assets/process/alif-v2/order-detail.webp" width="3200" height="1893" data-alt-ru="Оформление заказа в рассрочку в кабинете: товар, подарок, срок рассрочки и SMS‑код клиенту" data-alt-en="Processing an installment order in the account: product, gift, installment term and SMS code for the buyer" alt="Оформление заказа в рассрочку в кабинете: товар, подарок, срок рассрочки и SMS‑код клиенту" loading="lazy" decoding="async"></div><span class="stick" style="right:4%;top:6%;background:var(--n-peach);--r:3deg"><span data-lang="ru">Раньше на терминале</span><span data-lang="en">Used to be on a terminal</span></span></div><figcaption class="cap"><span data-lang="ru">Рис. 6. Оформление заказа, перенесённое из терминала в кабинет.</span><span data-lang="en">Fig. 6. Order processing moved from the terminal to the account.</span></figcaption></figure>
+  </article>
+
+  <article class="dec reveal">
+    <div><span class="chip c-dec"><span data-lang="ru">Решение 04</span><span data-lang="en">Decision 04</span></span><h3 style="margin-top:12px"><span data-lang="ru">Готовая карточка вместо повторного заполнения</span><span data-lang="en">A ready card instead of re‑entering data</span></h3>
+      <div class="opts">
+        <div class="opt"><span class="ic"></span><div><span class="lab"><span data-lang="ru">Вариант A: заполнять каждый раз</span><span data-lang="en">Option A: fill everything in every time</span></span><p><span data-lang="ru">Основная информация, характеристики, медиа и оффер, даже если товар уже продаётся.</span><span data-lang="en">Basic info, specs, media and the offer, even when the product is already on sale.</span></p></div></div>
+        <div class="opt chosen"><span class="ic"></span><div><span class="lab"><span data-lang="ru">Выбрано: B, сначала поиск</span><span data-lang="en">Chosen: B, search first</span></span><p><span data-lang="ru">Если карточка есть на маркетплейсе, партнёр сразу переходит к медиа и предложению своего магазина. Путь сокращается с четырёх этапов до двух. Для нового товара остаётся полное заполнение.</span><span data-lang="en">If the card already exists on the marketplace, the partner goes straight to media and its store offer. The path shrinks from four steps to two. A new product keeps the full form.</span></p></div></div>
+      </div>
+      <p class="read" style="margin-top:16px"><span data-lang="ru">Партнёры рассказали, что сверяются с конкурентами, когда назначают цену. Поэтому в форму оффера добавили цены аналогичных товаров.</span><span data-lang="en">Partners told us they check competitors when setting a price, so we added prices of similar products to the offer form.</span></p></div>
+    <figure class="fig" style="margin-top:0"><div class="plate p-shot p-col"><div class="sel"><span class="h1x"><i></i><i></i></span><img data-av tabindex="0" role="button" data-full="assets/process/alif-v2/product-search-ru.webp" data-full-ru="assets/process/alif-v2/product-search-ru.webp" data-full-en="assets/process/alif-v2/product-search.webp" data-title-ru="Добавление товара начинается с поиска по Alif Shop" data-title-en="Adding a product starts with a search on Alif Shop" class="shot" src="assets/process/alif-v2/product-search-ru.webp" data-src-ru="assets/process/alif-v2/product-search-ru.webp" data-src-en="assets/process/alif-v2/product-search.webp" width="3200" height="1805" data-alt-ru="Добавление товара начинается с поиска по Alif Shop" data-alt-en="Adding a product starts with a search on Alif Shop" alt="Добавление товара начинается с поиска по Alif Shop" loading="lazy" decoding="async"></div><img data-av tabindex="0" role="button" data-full="assets/process/alif-v2/price-insight-ru.webp" data-full-ru="assets/process/alif-v2/price-insight-ru.webp" data-full-en="assets/process/alif-v2/price-insight.webp" data-title-ru="Цены аналогичных товаров у конкурентов в форме оффера" data-title-en="Competitor prices for similar products in the offer form" class="shot" src="assets/process/alif-v2/price-insight-ru.webp" data-src-ru="assets/process/alif-v2/price-insight-ru.webp" data-src-en="assets/process/alif-v2/price-insight.webp" width="3200" height="1549" data-alt-ru="Цены аналогичных товаров у конкурентов в форме оффера" data-alt-en="Competitor prices for similar products in the offer form" alt="Цены аналогичных товаров у конкурентов в форме оффера" loading="lazy" decoding="async"><span class="stick" style="left:4%;bottom:44%;background:var(--n-lime);--r:-4deg"><span data-lang="ru">4 этапа → 2</span><span data-lang="en">4 steps → 2</span></span></div><figcaption class="cap"><span data-lang="ru">Рис. 7. Поиск готовой карточки и цены аналогов в форме оффера.</span><span data-lang="en">Fig. 7. Searching for a ready card, and similar products’ prices in the offer form.</span></figcaption></figure>
+  </article>
+
+  <article class="dec reveal">
+    <div><span class="chip c-dec"><span data-lang="ru">Решение 05</span><span data-lang="en">Decision 05</span></span><h3 style="margin-top:12px"><span data-lang="ru">Помощь, когда сценарий прерывается</span><span data-lang="en">Help when a flow breaks off</span></h3>
+      <p class="read" style="margin-top:12px"><span data-lang="ru">Общий чат объединил обращения к модераторам, отделу партнёров и колл‑центру. Если партнёр не может пройти шаг сам, он пишет в одно место, не разыскивая нужный отдел.</span><span data-lang="en">A shared chat brings together requests to moderators, the partner department and the call center. If the partner can’t complete a step alone, it writes to one place instead of looking for the right department.</span></p></div>
+    <figure class="fig" style="margin-top:0"><div class="plate p-shot"><div class="sel"><span class="h1x"><i></i><i></i></span><img data-av tabindex="0" role="button" data-full="assets/process/alif-v2/chat-ru.webp" data-full-ru="assets/process/alif-v2/chat-ru.webp" data-full-en="assets/process/alif-v2/chat.webp" data-title-ru="Чат с банком внутри кабинета партнёра" data-title-en="Chat with the bank inside the partner account" class="shot" src="assets/process/alif-v2/chat-ru.webp" data-src-ru="assets/process/alif-v2/chat-ru.webp" data-src-en="assets/process/alif-v2/chat.webp" width="3200" height="2037" data-alt-ru="Чат с банком внутри кабинета партнёра" data-alt-en="Chat with the bank inside the partner account" alt="Чат с банком внутри кабинета партнёра" loading="lazy" decoding="async"></div></div><figcaption class="cap"><span data-lang="ru">Рис. 8. Один канал связи с банком.</span><span data-lang="en">Fig. 8. One channel to reach the bank.</span></figcaption></figure>
+  </article>
+
+</section>
+
+<section class="wrap sec two reveal" data-tick id="result">
+  <div><span class="lab"><span data-lang="ru">Итог</span><span data-lang="en">Outcome</span></span><h2 style="margin-top:12px"><span data-lang="ru">Стандартные операции перешли к партнёру, контроль остался у банка</span><span data-lang="en">Standard operations moved to the partner, control stayed with the bank</span></h2></div>
+  <div>
+    <p class="read"><span data-lang="ru">Оформление и передачу заказа объединили в кабинете, доступном сотрудникам магазина и курьерам с компьютера и телефона. Для существующего товара путь создания предложения сократился с четырёх этапов до двух.</span><span data-lang="en">Processing and handover now live in one account that store staff and couriers use on desktop and phone. For an existing product, creating an offer went from four steps to two.</span></p>
+    <p class="read"><span data-lang="ru">Банк передаёт партнёрам стандартные операции и сохраняет за собой контроль и исключения. Это основа для того, чтобы обслуживать больше заказов без пропорционального роста затрат на сопровождение.</span><span data-lang="en">The bank hands standard operations to partners and keeps control and exceptions. This lays the groundwork for serving more orders without a proportional rise in support costs.</span></p>
+    <span class="lab" style="display:block;margin-top:28px"><span data-lang="ru">Дальше</span><span data-lang="en">Next</span></span>
+    <ul class="next"><li><span data-lang="ru">Поэтапно подключать партнёров и отслеживать долю самостоятельных заказов, трудозатраты и качество обработки.</span><span data-lang="en">Onboard partners in stages and track the share of self‑service orders, labor and processing quality.</span></li><li><span data-lang="ru">Массово менять цены, подарки и остатки в каталоге.</span><span data-lang="en">Bulk‑edit prices, gifts and stock in the catalog.</span></li><li><span data-lang="ru">Автоматически скрывать устаревшие товары.</span><span data-lang="en">Hide outdated products automatically.</span></li></ul>
+  </div>
+</section>
+<div class="end"></div>
+</main>
+
+  <nav class="case-floating-nav">
+    <a class="case-prev" href="index.html">
+      <span class="case-prev__arrow" aria-hidden="true">←</span>
+      <span class="case-prev__title-row">
+        <span class="case-prev__label"><span data-lang="ru">Главная страница</span><span data-lang="en">Homepage</span></span>
+        <span class="case-prev__title"><span data-lang="ru">Все работы</span><span data-lang="en">All work</span></span>
+      </span>
+    </a>
+    <a class="case-next" href="case-sber-split.html">
+      <span class="case-next__label"><span data-lang="ru">Следующий кейс</span><span data-lang="en">Next case</span></span>
+      <span class="case-next__title-row">
+        <span class="case-next__title"><span data-lang="ru">Разделение счёта</span><span data-lang="en">Bill splitting</span></span>
+        <span class="case-next__arrow" aria-hidden="true">→</span>
+      </span>
+    </a>
   </nav>
 
-  <div class="page">
-    <div class="case-page">
-      <div class="case-header">
-        <h1 class="case-title">Alif Partners</h1>
-        <p class="case-headline"><span data-lang="ru">Товары, заявки и доставка в кабинете партнёра</span><span data-lang="en">Products, requests and delivery in the partner workspace</span></p>
-        <dl class="case-facts">
-          <div><dt><span data-lang="ru">Срок</span><span data-lang="en">Duration</span></dt><dd><span data-lang="ru">4 месяца</span><span data-lang="en">4 months</span></dd></div>
-          <div><dt><span data-lang="ru">Роль</span><span data-lang="en">Role</span></dt><dd><span data-lang="ru">Product Designer</span><span data-lang="en">Product Designer</span></dd></div>
-          <div><dt><span data-lang="ru">Платформы</span><span data-lang="en">Platforms</span></dt><dd><span data-lang="ru">Веб и мобильная версия</span><span data-lang="en">Web and mobile</span></dd></div>
-          <div><dt><span data-lang="ru">Команда</span><span data-lang="en">Team</span></dt><dd><span data-lang="ru">Product Designer, UX Researcher, Product Owner</span><span data-lang="en">Product Designer, UX Researcher, Product Owner</span></dd></div>
-        </dl>
-        <div class="case-grid case-context-cards">
-          <div class="case-context-card col-6">
-            <p class="case-context-card__label"><span data-lang="ru">Контекст</span><span data-lang="en">Context</span></p>
-            <h2 class="case-context-card__title"><span data-lang="ru">Партнёрская сеть росла</span><span data-lang="en">The partner network was growing</span></h2>
-            <p class="case-context-card__text"><span data-lang="ru">Alif развивает рассрочку через партнёрские магазины и маркетплейс Alif Shop. Магазины работали с заказами через админ-панель, терминалы и сотрудников банка. Вместе с количеством заказов росла нагрузка на колл-центр и модераторов.</span><span data-lang="en">Alif runs instalment plans through partner stores and the Alif Shop marketplace. Stores handled orders through an admin panel, terminals and bank employees. As the number of orders grew, so did the load on the call centre and the moderators.</span></p>
-          </div>
-          <div class="case-context-card col-6">
-            <p class="case-context-card__label"><span data-lang="ru">Задача</span><span data-lang="en">Task</span></p>
-            <h2 class="case-context-card__title"><span data-lang="ru">Больше самостоятельности для магазина</span><span data-lang="en">More independence for the store</span></h2>
-            <p class="case-context-card__text"><span data-lang="ru">Я проектировала кабинет, в котором партнёр сможет работать с товарами, заявками и доставкой. Сотрудникам банка нужно было сохранить инструменты проверки данных и помощи партнёрам.</span><span data-lang="en">I designed a workspace where a partner can handle products, requests and delivery. Bank employees had to keep their tools for checking data and helping partners.</span></p>
-          </div>
-        </div>
-      </div>
 
-      <div class="detail-block" id="alif-research">
-        <div class="detail-head">
-          <h2><span data-lang="ru">Как разобрались в работе партнёра</span><span data-lang="en">How we made sense of the partner’s work</span></h2>
-        </div>
-        <p><span data-lang="ru">До перехода в дизайн я работала в колл-центре и отделе партнёров Alif. Этот опыт помог разбирать повседневные задачи магазинов вместе с UX-исследователем.</span><span data-lang="en">Before moving into design I worked in Alif’s call centre and partner department. That experience helped me work through the stores’ everyday tasks together with a UX researcher.</span></p>
-        <ol class="case-rail" style="--rail-cols: 3">
-          <li class="case-rail__step">
-            <span class="case-rail__num" aria-hidden="true">1</span>
-            <h3 class="case-rail__title"><span data-lang="ru">Опирались на опыт</span><span data-lang="en">We drew on first-hand experience</span></h3>
-            <p class="case-rail__text"><span data-lang="ru">Я знала процесс со стороны колл-центра и отдела партнёров.</span><span data-lang="en">I knew the process from the call centre and the partner department.</span></p>
-          </li>
-          <li class="case-rail__step">
-            <span class="case-rail__num" aria-hidden="true">2</span>
-            <h3 class="case-rail__title"><span data-lang="ru">Поговорили с участниками</span><span data-lang="en">We talked to the people involved</span></h3>
-            <p class="case-rail__text"><span data-lang="ru">8 модераторов, 7 ведущих партнёров и 2 CDO-менеджера.</span><span data-lang="en">8 moderators, 7 leading partners and 2 CDO managers.</span></p>
-          </li>
-          <li class="case-rail__step">
-            <span class="case-rail__num" aria-hidden="true">3</span>
-            <h3 class="case-rail__title"><span data-lang="ru">Выделили две задачи</span><span data-lang="en">We singled out two tasks</span></h3>
-            <p class="case-rail__text"><span data-lang="ru">Подготовить предложение магазина и обработать поступивший заказ.</span><span data-lang="en">Prepare the store’s offer and handle an incoming order.</span></p>
-          </li>
-        </ol>
-        <div class="case-grid case-split">
-          <div class="case-split-text col-4">
-            <h3 class="case-subhead"><span data-lang="ru">Что услышали в интервью</span><span data-lang="en">What we heard in the interviews</span></h3>
-            <p><span data-lang="ru">В таблице собраны ответы о заявках, каталоге и доставке. Из них в работу взяли два направления, показанные ниже.</span><span data-lang="en">The table collects the answers about requests, the catalogue and delivery. Two directions came out of those answers, and both are shown below.</span></p>
-            <ul class="case-points">
-              <li>
-                <p class="case-points__title"><span data-lang="ru">Добавление товара</span><span data-lang="en">Adding a product</span></p>
-                <p class="case-points__text"><span data-lang="ru">Партнёр искал товар на Alif Shop и переносил SKU в админ-панель. В новом сценарии поиск перенесли внутрь добавления.</span><span data-lang="en">A partner looked the product up on Alif Shop and copied the SKU into the admin panel. In the new scenario the search moved inside the add-product step.</span></p>
-              </li>
-              <li>
-                <p class="case-points__title"><span data-lang="ru">Передача заказа</span><span data-lang="en">Handing over an order</span></p>
-                <p class="case-points__text"><span data-lang="ru">Было непонятно, где найти обработанную заявку и что делать при самовывозе. Для доставки и самовывоза проработали отдельные пути.</span><span data-lang="en">It was unclear where to find a processed request and what to do about self-pickup. Delivery and self-pickup got separate paths.</span></p>
-              </li>
-            </ul>
-          </div>
-          <div class="col-8">
-            <figure class="case-fig">
-              <button type="button" class="case-shot" data-lightbox-for="fig-al-01-1">
-                <img id="fig-al-01-1" data-src-ru="assets/process/alif-research-table-ru.webp" data-src-en="assets/process/alif-research-table.webp" data-alt-ru="Таблица ответов на интервью" data-alt-en="Interview answers table" alt="Таблица ответов на интервью" loading="lazy" width="3600" height="4177">
-              </button>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Ответы партнёров о работе с каталогом, заявками и доставкой. Материал исследования на этапе проекта.</span><span data-lang="en">Partners’ answers about working with the catalogue, requests and delivery. Research material from the project.</span></span></figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
 
-      <div class="detail-block" id="alif-navigation">
-        <div class="case-grid case-split">
-          <div class="case-split-text col-4">
-            <h2 class="case-lead-title"><span data-lang="ru">Разделы под задачи магазина</span><span data-lang="en">Sections built around the store’s tasks</span></h2>
-            <p><span data-lang="ru">Навигацию собрали вокруг магазинов, товаров, заявок, доставки и отзывов. Для модераторов сохранили отдельный раздел проверки данных.</span><span data-lang="en">Navigation was built around stores, products, requests, delivery and reviews. Moderators kept a separate data-checking section.</span></p>
-          </div>
-          <div class="col-8">
-            <figure class="case-fig">
-              <button type="button" class="case-shot" data-lightbox-for="fig-al-02-2">
-                <img id="fig-al-02-2" data-src-ru="assets/process/alif-admin-structure-ru.webp" data-src-en="assets/process/alif-admin-structure.webp" data-alt-ru="Верхняя навигация" data-alt-en="Top navigation" alt="Верхняя навигация" loading="lazy" width="2640" height="405">
-              </button>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Разделы кабинета партнёра и модератора.</span><span data-lang="en">Sections of the partner and moderator workspace.</span></span></figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
-
-      <div class="detail-block" id="alif-offer">
-        <div class="detail-head">
-          <h2><span data-lang="ru">Добавление товара</span><span data-lang="en">Adding a product</span></h2>
-        </div>
-        <ol class="case-seq">
-          <li class="case-seq__step case-grid">
-            <div class="case-seq__head col-4">
-              <span class="case-seq__num" aria-hidden="true">1</span>
-              <p><span data-lang="ru">Поиск стал первым шагом добавления. Если товар уже есть в каталоге, партнёр находит его внутри кабинета и указывает своё предложение: цену, остаток и условия. Переходить на Alif Shop за SKU для этого больше не нужно.</span><span data-lang="en">Search became the first step of adding a product. If the product is already in the catalogue, the partner finds it inside the workspace and sets their own offer: price, stock and terms. Going to Alif Shop for the SKU is no longer necessary.</span></p>
-            </div>
-            <div class="col-8">
-              <figure class="case-fig">
-                <button type="button" class="case-shot" data-lightbox-for="fig-al-05-3">
-                  <img id="fig-al-05-3" data-src-ru="assets/process/alif-product-search-ru.webp" data-src-en="assets/process/alif-product-search.webp" data-alt-ru="Поиск товара" data-alt-en="Product search" alt="Поиск товара" loading="lazy" width="3600" height="1762">
-                </button>
-                <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Поиск существующего товара при добавлении предложения.</span><span data-lang="en">Searching for an existing product while adding an offer.</span></span></figcaption>
-              </figure>
-            </div>
-          </li>
-          <li class="case-seq__step case-grid">
-            <div class="case-seq__head col-4">
-              <span class="case-seq__num" aria-hidden="true">2</span>
-              <h3 class="case-subhead"><span data-lang="ru">Цена рядом с предложениями других продавцов</span><span data-lang="en">Price next to other sellers’ offers</span></h3>
-              <p><span data-lang="ru">Партнёры рассказывали, что при назначении цены смотрят на конкурентов. Мы добавили цены на аналогичные товары прямо в форму создания предложения. Так сравнить варианты можно в тот момент, когда назначаешь свою цену.</span><span data-lang="en">Partners told us they look at competitors when setting a price. We added the prices of similar products right inside the offer form. That way the comparison happens at the moment you set your own price.</span></p>
-            </div>
-            <div class="col-8">
-              <figure class="case-fig">
-                <button type="button" class="case-shot" data-lightbox-for="fig-al-06-4">
-                  <img id="fig-al-06-4" data-src-ru="assets/process/alif-price-insight-ru.webp" data-src-en="assets/process/alif-price-insight.webp" data-alt-ru="Цены аналогов" data-alt-en="Prices of similar products" alt="Цены аналогов" loading="lazy" width="3600" height="1386">
-                </button>
-                <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Цены других продавцов в форме создания предложения.</span><span data-lang="en">Other sellers’ prices in the offer form.</span></span></figcaption>
-              </figure>
-            </div>
-          </li>
-        </ol>
-      </div>
-
-      <div class="detail-block" id="alif-order">
-        <div class="case-grid case-split">
-          <div class="case-split-text col-6">
-            <h2 class="case-lead-title"><span data-lang="ru">От заявки к передаче товара</span><span data-lang="en">From a request to handing over the goods</span></h2>
-            <p><span data-lang="ru">В работе с заказом маршрут другой: заметить новую заявку, открыть её и оформить передачу товара. О новых заявках партнёрам сообщал колл-центр. В кабинете для этого предусмотрели уведомления.</span><span data-lang="en">Handling an order takes a different path: spot a new request, open it and arrange the handover. Partners used to hear about new requests from the call centre. The workspace carries notifications for that.</span></p>
-          </div>
-          <div class="col-6">
-            <figure class="case-fig">
-              <button type="button" class="case-shot" data-lightbox-for="fig-al-04-5">
-                <img id="fig-al-04-5" data-src-ru="assets/process/alif-notifications-ru.webp" data-src-en="assets/process/alif-notifications.webp" data-alt-ru="Уведомления" data-alt-en="Notifications" alt="Уведомления" loading="lazy" width="2880" height="2208">
-              </button>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Уведомления о заявках, доставке и остатках.</span><span data-lang="en">Notifications about requests, delivery and stock.</span></span></figcaption>
-            </figure>
-          </div>
-        </div>
-        <div class="case-grid case-split case-split--flip">
-          <div class="case-split-text col-4">
-            <h3 class="case-subhead"><span data-lang="ru">Доставка и самовывоз</span><span data-lang="en">Delivery and self-pickup</span></h3>
-            <p><span data-lang="ru">Оформление, которое проходило через терминалы, перенесли в проектируемую панель. Доставку и самовывоз разделили, сохранив бизнес-логику. Способ передачи товара определяет дальнейшие действия сотрудника.</span><span data-lang="en">The paperwork that used to go through terminals moved into the panel I designed. Delivery and self-pickup were separated, keeping the business logic intact. The handover method determines what the employee does next.</span></p>
-          </div>
-          <div class="col-8">
-            <figure class="case-fig">
-              <button type="button" class="case-shot" data-lightbox-for="fig-al-07-6">
-                <img id="fig-al-07-6" data-src-ru="assets/process/alif-delivery-ru.webp" data-src-en="assets/process/alif-delivery.webp" data-alt-ru="Карточки доставки" data-alt-en="Delivery cards" alt="Карточки доставки" loading="lazy" width="3600" height="2995">
-              </button>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Заказы в разделе доставки.</span><span data-lang="en">Orders in the delivery section.</span></span></figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
-
-      <div class="detail-block" id="alif-chat">
-        <div class="case-grid case-split">
-          <div class="case-split-text col-6">
-            <h2 class="case-lead-title"><span data-lang="ru">Связь с банком</span><span data-lang="en">A line to the bank</span></h2>
-            <p><span data-lang="ru">В кабинет добавили чат с банком. Партнёр может обратиться за помощью во время работы с товарами и заказами.</span><span data-lang="en">A chat with the bank was added to the workspace. A partner can ask for help while working with products and orders.</span></p>
-          </div>
-          <div class="col-6">
-            <figure class="case-fig">
-              <button type="button" class="case-shot" data-lightbox-for="fig-al-03-7">
-                <img id="fig-al-03-7" data-src-ru="assets/process/alif-chat-ru.webp" data-src-en="assets/process/alif-chat.webp" data-alt-ru="Чат" data-alt-en="Chat" alt="Чат" loading="lazy" width="3600" height="2886">
-              </button>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Чат с банком внутри кабинета.</span><span data-lang="en">A chat with the bank inside the workspace.</span></span></figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
-
-      <div class="detail-block" id="alif-mobile">
-        <div class="case-grid case-split">
-          <div class="case-split-text col-4">
-            <h2 class="case-lead-title"><span data-lang="ru">Работа с телефона</span><span data-lang="en">Working from a phone</span></h2>
-            <p><span data-lang="ru">Отдельно я спроектировала мобильную версию: с уведомлениями, товарами и доставкой можно работать в магазине, на складе и на выдаче.</span><span data-lang="en">I designed the mobile version separately: notifications, products and delivery can be handled in the store, in the warehouse and at the pickup point.</span></p>
-          </div>
-          <div class="col-8">
-            <figure class="case-fig">
-              <button type="button" class="case-shot" data-lightbox-for="fig-al-09-8">
-                <img id="fig-al-09-8" data-src-ru="assets/process/alif-mobile-ru.webp" data-src-en="assets/process/alif-mobile.webp" data-alt-ru="Мобильные уведомления, товар, доставка" data-alt-en="Mobile notifications, products and delivery" alt="Мобильные уведомления, товар, доставка" loading="lazy" width="3600" height="2240">
-              </button>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Работа с уведомлениями, товаром и доставкой с телефона.</span><span data-lang="en">Handling notifications, products and delivery from a phone.</span></span></figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
-
-      <div class="detail-block case-results" id="alif-result">
-        <div class="case-results__panel">
-        <div class="detail-head">
-          <h2><span data-lang="ru">Результаты</span><span data-lang="en">Results</span></h2>
-        </div>
-        <p><span data-lang="ru">Спроектированы веб- и мобильная версии кабинета. Основные решения собраны ниже.</span><span data-lang="en">The web and mobile versions of the workspace were designed. The main decisions are collected below.</span></p>
-        <div class="case-grid result-cards">
-          <div class="result-card col-6">
-            <p class="result-card__label"><span data-lang="ru">Самостоятельность партнёра</span><span data-lang="en">Partner autonomy</span></p>
-            <h3 class="result-card__metric"><span data-lang="ru">Заказ без участия банка</span><span data-lang="en">An order without the bank stepping in</span></h3>
-            <p class="result-card__desc"><span data-lang="ru">Партнёр ведёт заказ без постоянного участия банка.</span><span data-lang="en">The partner runs the order without the bank being involved at every step.</span></p>
-            <p class="result-card__measure">
-              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
-              <span><span data-lang="ru">доле заказов, обработанных партнёром самостоятельно</span><span data-lang="en">the share of orders handled by the partner alone</span></span>
-            </p>
-          </div>
-          <div class="result-card col-6">
-            <p class="result-card__label"><span data-lang="ru">Качество процесса</span><span data-lang="en">Process quality</span></p>
-            <h3 class="result-card__metric"><span data-lang="ru">Товары, цены и условия в одном сценарии</span><span data-lang="en">Products, prices and terms in one flow</span></h3>
-            <p class="result-card__desc"><span data-lang="ru">Товары, цены и условия проверяются в одном сценарии.</span><span data-lang="en">Products, prices and terms are checked in a single flow.</span></p>
-            <p class="result-card__measure">
-              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
-              <span><span data-lang="ru">доле заявок, завершённых без отмены</span><span data-lang="en">the share of requests completed without cancellation</span></span>
-            </p>
-          </div>
-          <div class="result-card col-6">
-            <p class="result-card__label"><span data-lang="ru">Скорость обработки</span><span data-lang="en">Processing speed</span></p>
-            <h3 class="result-card__metric"><span data-lang="ru">Заказ и доставка в одном процессе</span><span data-lang="en">Order and delivery in one process</span></h3>
-            <p class="result-card__desc"><span data-lang="ru">Заказ и доставка связаны в одном рабочем процессе.</span><span data-lang="en">The order and the delivery are linked in one working process.</span></p>
-            <p class="result-card__measure">
-              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
-              <span><span data-lang="ru">медианному времени от заявки до передачи товара в доставку</span><span data-lang="en">the median time from request to handover for delivery</span></span>
-            </p>
-          </div>
-          <div class="result-card col-6">
-            <p class="result-card__label"><span data-lang="ru">Масштабирование</span><span data-lang="en">Scalability</span></p>
-            <h3 class="result-card__metric"><span data-lang="ru">Модератор — только там, где нужен контроль</span><span data-lang="en">A moderator only where control is needed</span></h3>
-            <p class="result-card__desc"><span data-lang="ru">Модераторы подключаются только к ситуациям, требующим контроля.</span><span data-lang="en">Moderators step in only where a situation needs oversight.</span></p>
-            <p class="result-card__measure">
-              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
-              <span><span data-lang="ru">количеству активных партнёров на одного модератора</span><span data-lang="en">the number of active partners per moderator</span></span>
-            </p>
-          </div>
-        </div>
-        </div>
+  <div class="av" id="av" role="dialog" aria-modal="true" aria-labelledby="avTitle" hidden>
+    <div class="av-bar">
+      <h2 class="av-title" id="avTitle"></h2>
+      <div class="av-ctl" role="group" aria-label="Масштаб" data-aria-ru="Масштаб" data-aria-en="Zoom">
+        <button type="button" class="av-btn" data-z="out" aria-label="Уменьшить" data-aria-ru="Уменьшить" data-aria-en="Zoom out">&#8722;</button>
+        <span class="av-zoom" id="avZoom" aria-live="polite">100%</span>
+        <button type="button" class="av-btn" data-z="in" aria-label="Увеличить" data-aria-ru="Увеличить" data-aria-en="Zoom in">+</button>
+        <button type="button" class="av-btn txt" data-z="fit" aria-label="По ширине" data-aria-ru="По ширине" data-aria-en="Fit to width"><span data-lang="ru">По ширине</span><span data-lang="en">Fit</span></button>
+        <button type="button" class="av-btn av-close" aria-label="Закрыть" data-aria-ru="Закрыть" data-aria-en="Close">&#215;</button>
       </div>
     </div>
-
-    <nav class="case-floating-nav">
-      <a class="case-home" href="index.html">
-        <span class="case-home__arrow" aria-hidden="true">←</span>
-        <span class="case-home__label"><span data-lang="ru">Главная страница</span><span data-lang="en">Homepage</span></span>
-      </a>
-      <a class="case-next" href="case-sber-split.html">
-        <span class="case-next__label"><span data-lang="ru">Следующий кейс</span><span data-lang="en">Next case</span></span>
-        <span class="case-next__title-row">
-          <span class="case-next__title"><span data-lang="ru">Разделение счёта</span><span data-lang="en">Bill Splitting</span></span>
-          <span class="case-next__arrow" aria-hidden="true">→</span>
-        </span>
-      </a>
-    </nav>
+    <div class="av-stage"><img id="avImg" alt="" draggable="false" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><p class="av-hint"><span data-lang="ru">Колесо или щипок для масштаба, перетаскивание для сдвига, Esc закрывает</span><span data-lang="en">Scroll or pinch to zoom, drag to pan, Esc to close</span></p></div>
   </div>
-
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" aria-label="Закрыть">×</button>
-    <img id="lightboxImg" alt="">
-  </div>
-
-  <script>
-  (function () {
-    // Only animate sections that start below the fold — anything already
-    // visible on load stays visible with no flash-of-invisible-content.
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var targets = document.querySelectorAll('.detail-block');
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
-      });
-    }, { threshold: 0, rootMargin: '0px 0px -80px 0px' });
-    targets.forEach(function (el) {
-      if (el.getBoundingClientRect().top < window.innerHeight * 0.9) return;
-      el.classList.add('reveal-pending');
-      io.observe(el);
-    });
-  })();
-</script>
 <script src="assets/i18n.js"></script>
   <script src="assets/typography.js"></script>
-  <script src="assets/lightbox.js"></script>
   <script src="assets/case-nav.js"></script>
+<script>
+(function () {
+  'use strict';
+  var doc = document;
+  function $(s, c) { return (c || doc).querySelector(s); }
+  function $$(s, c) { return Array.prototype.slice.call((c || doc).querySelectorAll(s)); }
+  function isEn() { return doc.documentElement.classList.contains('lang-en'); }
+  function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+  var RM = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var NS = 'http://www.w3.org/2000/svg';
+  var QS = {};
+  location.search.replace(/^\?/, '').split('&').forEach(function (kv) { if (kv) { var p = kv.split('='); QS[p[0]] = p[1] || ''; } });
+
+  /* ---------- floating case nav: show only once the reader reaches the outcome ---------- */
+  var cnav = $('.case-floating-nav'), endEl = $('#result');
+  if (cnav && endEl) {
+    var held = function () { cnav.classList.toggle('is-held', endEl.getBoundingClientRect().top > innerHeight * 0.75); };
+    held(); addEventListener('scroll', held, { passive: true }); addEventListener('resize', held);
+  }
+
+  /* ---------- artifact viewer ---------- */
+  var av = $('#av');
+  if (av) {
+    var stageEl = $('.av-stage', av), img = $('#avImg'), titleEl = $('#avTitle'), zoomEl = $('#avZoom'), hint = $('.av-hint', av);
+    var S = { s: 1, x: 0, y: 0, fit: 1, min: .1, max: 2, nw: 0, nh: 0 }, opener = null, pts = {}, pinch = null, drag = null;
+    function sw() { return stageEl.clientWidth; } function sh() { return stageEl.clientHeight; }
+    function clampPos() {
+      var w = S.nw * S.s, h = S.nh * S.s;
+      S.x = w <= sw() ? (sw() - w) / 2 : clamp(S.x, sw() - w, 0);
+      S.y = h <= sh() ? (sh() - h) / 2 : clamp(S.y, sh() - h, 0);
+    }
+    function apply() {
+      clampPos();
+      img.style.transform = 'translate(' + S.x + 'px,' + S.y + 'px) scale(' + S.s + ')';
+      zoomEl.textContent = Math.round(S.s / S.fit * 100) + '%';
+    }
+    function setFit() {
+      if (!S.nw) return;
+      S.fit = sw() / S.nw; S.min = Math.min(S.fit, sh() / S.nh) * .9; S.max = Math.max(2, S.fit * 4);
+      S.s = S.fit; S.x = 0; S.y = 0; apply();
+    }
+    function zoomTo(ns, cx, cy) {
+      ns = clamp(ns, S.min, S.max);
+      var k = ns / S.s; S.x = cx - (cx - S.x) * k; S.y = cy - (cy - S.y) * k; S.s = ns; apply();
+    }
+    function zoomBy(f) { zoomTo(S.s * f, sw() / 2, sh() / 2); }
+    function open(btn) {
+      opener = btn;
+      var src = (isEn() && btn.getAttribute('data-full-en')) || btn.getAttribute('data-full');
+      titleEl.innerHTML = '<span data-lang="ru">' + btn.getAttribute('data-title-ru') + '</span><span data-lang="en">' + btn.getAttribute('data-title-en') + '</span>';
+      img.alt = isEn() ? btn.getAttribute('data-title-en') : btn.getAttribute('data-title-ru');
+      S.nw = 0; img.style.transform = 'translate(0,0) scale(1)'; img.style.opacity = 0;
+      img.onload = function () { S.nw = img.naturalWidth; S.nh = img.naturalHeight; img.style.width = S.nw + 'px'; img.style.height = S.nh + 'px'; img.style.opacity = 1; setFit(); };
+      img.src = src;
+      av.hidden = false; av.getBoundingClientRect(); av.classList.add('is-open'); doc.body.classList.add('av-open');
+      hint.classList.remove('is-gone'); setTimeout(function () { hint.classList.add('is-gone'); }, 4000);
+      $('.av-close', av).focus();
+    }
+    function close() {
+      av.classList.remove('is-open'); doc.body.classList.remove('av-open');
+      setTimeout(function () { if (!av.classList.contains('is-open')) av.hidden = true; }, 260);
+      if (opener) opener.focus();
+    }
+    $$('[data-av]').forEach(function (b) { b.addEventListener('click', function () { open(b); }); });
+    $('.av-close', av).addEventListener('click', close);
+    $('[data-z="in"]', av).addEventListener('click', function () { zoomBy(1.35); });
+    $('[data-z="out"]', av).addEventListener('click', function () { zoomBy(1 / 1.35); });
+    $('[data-z="fit"]', av).addEventListener('click', setFit);
+    stageEl.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      var r = stageEl.getBoundingClientRect(), f = Math.exp(-e.deltaY * (e.ctrlKey ? .01 : .0016));
+      zoomTo(S.s * f, e.clientX - r.left, e.clientY - r.top);
+    }, { passive: false });
+    stageEl.addEventListener('pointerdown', function (e) {
+      stageEl.setPointerCapture(e.pointerId); pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      var ids = Object.keys(pts);
+      if (ids.length === 1) { drag = { x: e.clientX, y: e.clientY, ox: S.x, oy: S.y }; stageEl.classList.add('is-drag'); }
+      else if (ids.length === 2) { var a = pts[ids[0]], b = pts[ids[1]]; pinch = { d: Math.hypot(a.x - b.x, a.y - b.y), s: S.s }; drag = null; }
+    });
+    stageEl.addEventListener('pointermove', function (e) {
+      if (!pts[e.pointerId]) return; pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      var ids = Object.keys(pts);
+      if (pinch && ids.length === 2) {
+        var a = pts[ids[0]], b = pts[ids[1]], r = stageEl.getBoundingClientRect();
+        zoomTo(pinch.s * Math.hypot(a.x - b.x, a.y - b.y) / pinch.d, (a.x + b.x) / 2 - r.left, (a.y + b.y) / 2 - r.top);
+      } else if (drag) { S.x = drag.ox + e.clientX - drag.x; S.y = drag.oy + e.clientY - drag.y; apply(); }
+    });
+    function up(e) {
+      delete pts[e.pointerId]; pinch = null; var ids = Object.keys(pts);
+      if (ids.length === 1) { var p = pts[ids[0]]; drag = { x: p.x, y: p.y, ox: S.x, oy: S.y }; } else { drag = null; stageEl.classList.remove('is-drag'); }
+    }
+    stageEl.addEventListener('pointerup', up); stageEl.addEventListener('pointercancel', up);
+    stageEl.addEventListener('dblclick', function (e) {
+      var r = stageEl.getBoundingClientRect();
+      if (S.s > S.fit * 1.4) setFit(); else zoomTo(S.fit * 2.4, e.clientX - r.left, e.clientY - r.top);
+    });
+    av.addEventListener('keydown', function (e) {
+      var k = e.key, step = 80;
+      if (k === 'Escape') { e.preventDefault(); close(); return; }
+      if (k === 'Tab') {
+        var f = $$('button', av).filter(function (b) { return !b.disabled && b.offsetParent !== null; });
+        if (!f.length) return;
+        var i = f.indexOf(doc.activeElement);
+        if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); }
+        else if (!e.shiftKey && (i === f.length - 1 || i < 0)) { e.preventDefault(); f[0].focus(); }
+        return;
+      }
+      var inBtn = doc.activeElement && doc.activeElement.tagName === 'BUTTON' && (k === 'Enter' || k === ' ');
+      if (inBtn) return;
+      if (k === '+' || k === '=') { e.preventDefault(); zoomBy(1.25); }
+      else if (k === '-' || k === '_') { e.preventDefault(); zoomBy(.8); }
+      else if (k === '0') { e.preventDefault(); setFit(); }
+      else if (k === 'ArrowLeft') { e.preventDefault(); S.x += step; apply(); }
+      else if (k === 'ArrowRight') { e.preventDefault(); S.x -= step; apply(); }
+      else if (k === 'ArrowUp') { e.preventDefault(); S.y += step; apply(); }
+      else if (k === 'ArrowDown') { e.preventDefault(); S.y -= step; apply(); }
+    });
+    window.addEventListener('resize', function () { if (av.classList.contains('is-open')) { var f = S.s / S.fit; setFit(); if (f > 1.01) zoomTo(S.fit * f, sw() / 2, sh() / 2); } });
+    window.__av = S;
+  }
+})();
+
+(function () {
+  'use strict';
+  var doc = document;
+  var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var settled = /[?&]settled\b/.test(location.search);
+  function $(s) { return doc.querySelector(s); }
+  function $$(s) { return Array.prototype.slice.call(doc.querySelectorAll(s)); }
+  function isEn() { return doc.documentElement.classList.contains('lang-en'); }
+  function L(ru, en) { return isEn() ? en : ru; }
+
+  /* ruler numbers */
+  var ruler = $('#ruler');
+  if (ruler) for (var x = 0; x < 3000; x += 100) { var s = doc.createElement('span'); s.style.left = (x + 3) + 'px'; s.textContent = x; ruler.appendChild(s); }
+
+  /* reveal on scroll; ?settled (and no-IO browsers) show everything */
+  var revealEls = $$('.reveal,.wave');
+  if (settled || !('IntersectionObserver' in window)) {
+    revealEls.concat($$('.note')).forEach(function (el) { el.classList.add('vis'); });
+  } else {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); } });
+    }, { threshold: .15 });
+    revealEls.forEach(function (el) { io.observe(el); });
+  }
+
+  /* left ticks = sections */
+  var secs = $$('[data-tick]'), ticks = $('#ticks');
+  if (ticks) {
+    secs.forEach(function () { ticks.appendChild(doc.createElement('i')); });
+    var tk = Array.prototype.slice.call(ticks.children);
+    var onScroll = function () {
+      var cur = 0; secs.forEach(function (s, i) { if (s.getBoundingClientRect().top < innerHeight * .45) cur = i; });
+      tk.forEach(function (t, i) { t.classList.toggle('on', i === cur); });
+    };
+    addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  }
+
+  /* A/B toggle in the hypothesis */
+  var ab = $('#abImg') || $('#abimg');
+  if (ab) {
+    var A = { a: ['assets/sber/v3/recipient-02-request.webp', 'Запрос участника только на итоговую сумму 1 675 ₽', 'Participant request for the total of 1,675 ₽ only', 'assets/sber/v3-en/recipient-02-request.webp'],
+              b: ['assets/sber/v3/recipient-03-items.webp', 'Запрос участника с позициями чека', 'Participant request with receipt items', 'assets/sber/v3-en/recipient-03-items.webp'] };
+    var segBtns = $$('.seg button');
+    segBtns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        if (b.getAttribute('aria-pressed') === 'true') return;
+        segBtns.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        var v = A[b.getAttribute('data-v')];
+        ab.style.opacity = 0;
+        setTimeout(function () {
+          ab.setAttribute('data-src-ru', v[0]); ab.setAttribute('data-src-en', v[3]); ab.src = isEn() ? v[3] : v[0]; ab.setAttribute('data-alt-ru', v[1]); ab.setAttribute('data-alt-en', v[2]); ab.alt = L(v[1], v[2]); ab.style.opacity = 1;
+        }, RM ? 0 : 200);
+      });
+    });
+  }
+
+  /* calculator: three split modes over one fixed receipt */
+  var TOTAL = 8400;
+  var ITEMS = [['Паста с морепродуктами', 'Seafood pasta', 1650], ['Стейк', 'Steak', 2300], ['Салат с томатами', 'Tomato salad', 1050], ['Пицца Маргарита', 'Margherita pizza', 1400], ['Тирамису', 'Tiramisu', 900], ['Вода', 'Water', 500], ['Сервисный сбор', 'Service charge', 600]];
+  var P = [['Вы', 'You', 'В', 'Y'], ['Адиба', 'Adiba', 'А', 'A'], ['Самад', 'Samad', 'С', 'S'], ['Алмаз', 'Almaz', 'А', 'A']];
+  var mode = 'eq';
+  var on = [1, 1, 1, 1];
+  var asg = [[1, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1], [1, 1, 1, 1], [1, 0, 0, 0], [1, 1, 0, 0], [1, 1, 1, 1]];
+  var man = ['', '', '', ''];
+  var cur = [2100, 2100, 2100, 2100], raf = 0;
+  var NB = ' ';
+  function grp(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, isEn() ? ',' : NB); }
+  function fmt(n) { return grp(n) + NB + '₽'; }
+  function fmtNum(n) { return n ? grp(n) : ''; }
+  var leftEl = $('#calcL'), shEl = $('#shares'), totalEl = $('#total'), stEl = $('#status'), sendEl = $('#send'), modesEl = $('#modes'), panelEl = $('#calcPanel');
+  var bars = $$('#sbar i');
+  function split(amount, idx) { /* exact integer split, remainder rubles go to the first people */
+    var out = {}, k = idx.length, base = Math.floor(amount / k), rem = amount - base * k;
+    idx.forEach(function (p, j) { out[p] = base + (j < rem ? 1 : 0); });
+    return out;
+  }
+  function compute() {
+    var amt = [0, 0, 0, 0], unas = 0, diff = 0, ok = false, sum = 0;
+    if (mode === 'eq') {
+      var idx = []; on.forEach(function (o, i) { if (o) idx.push(i); });
+      var r = split(TOTAL, idx); idx.forEach(function (i) { amt[i] = r[i]; });
+      ok = true;
+    } else if (mode === 'it') {
+      ITEMS.forEach(function (it, n) {
+        var ix = []; asg[n].forEach(function (o, i) { if (o) ix.push(i); });
+        if (!ix.length) { unas += it[2]; return; }
+        var r2 = split(it[2], ix); ix.forEach(function (i) { amt[i] += r2[i]; });
+      });
+      ok = unas === 0;
+    } else {
+      man.forEach(function (v, i) { amt[i] = parseInt(v, 10) || 0; });
+      sum = amt.reduce(function (a, b) { return a + b; }, 0);
+      diff = TOTAL - sum; ok = diff === 0;
+    }
+    return { amt: amt, unas: unas, diff: diff, ok: ok };
+  }
+  function itemsHtml(interactive) {
+    return ITEMS.map(function (it, n) {
+      var avs = '';
+      if (interactive) avs = '<span class="avs" role="group" aria-label="' + L(it[0], it[1]) + '">' + P.map(function (p, i) {
+        return '<button type="button" class="av1 pc' + i + '" data-n="' + n + '" data-i="' + i + '" aria-pressed="' + (asg[n][i] ? 'true' : 'false') + '" aria-label="' + L(p[0], p[1]) + '" title="' + L(p[0], p[1]) + '">' + L(p[2], p[3]) + '</button>';
+      }).join('') + '</span>';
+      return '<div class="item" data-row="' + n + '"><span>' + L(it[0], it[1]) + '</span>' + avs + '<i>' + fmt(it[2]) + '</i></div>';
+    }).join('');
+  }
+  function renderLeft(anim) {
+    var h = '<div class="pane"' + (anim ? '' : ' style="animation:none"') + '><div class="lab">' + L('Кафе Sempre · 8' + NB + '400' + NB + '₽', 'Café Sempre · 8,400' + NB + '₽') + '</div><div style="margin-top:10px" id="items">' + itemsHtml(mode === 'it') + '</div>';
+    if (mode === 'eq') {
+      h += '<div class="lab sub">' + L('Кто делит счёт', 'Who splits the bill') + '</div><div class="people" id="people" role="group" aria-label="' + L('Участники сбора', 'Collection participants') + '">' +
+        P.map(function (n, i) { return '<button type="button" class="pc' + i + '" aria-pressed="' + (on[i] ? 'true' : 'false') + '" data-i="' + i + '"><b aria-hidden="true"></b>' + L(n[0], n[1]) + '</button>'; }).join('') + '</div>';
+    } else if (mode === 'it') {
+      h += '<div class="note-u" id="unNote"></div>';
+    } else {
+      h += '<div class="lab sub">' + L('Кто сколько платит', 'Who pays how much') + '</div>' + P.map(function (n, i) {
+        return '<div class="mrow pc' + i + '"><label for="man' + i + '"><b aria-hidden="true"></b>' + L(n[0], n[1]) + '</label><span class="in"><input id="man' + i + '" data-i="' + i + '" type="text" inputmode="numeric" autocomplete="off" placeholder="0" value="' + fmtNum(parseInt(man[i], 10) || 0) + '"></span></div>';
+      }).join('') + '<button type="button" class="btn2" id="fillEx">' + L('Заполнить пример', 'Fill the example') + '</button>';
+    }
+    leftEl.innerHTML = h + '</div>';
+  }
+  function renderShares() {
+    shEl.innerHTML = P.map(function (n, i) { return '<div class="share pc' + i + '"><u aria-hidden="true"></u><span>' + L(n[0], n[1]) + '</span><b>' + fmt(cur[i]) + '</b></div>'; }).join('');
+    totalEl.textContent = fmt(TOTAL);
+  }
+  function statusFor(c) {
+    if (c.ok) return ['ok', L('✓ Сумма сходится с покупкой', '✓ The amount matches the purchase')];
+    if (mode === 'it') return ['warn', L('Не распределено: ', 'Unassigned: ') + fmt(c.unas)];
+    if (c.diff > 0) return ['', L('Осталось распределить ' + fmt(c.diff), fmt(c.diff) + ' left to assign')];
+    return ['warn', L('Лишние ' + fmt(-c.diff), fmt(-c.diff) + ' over')];
+  }
+  var lastStatus = '';
+  function applyState(tween) {
+    var c = compute(), rows = Array.prototype.slice.call(shEl.children);
+    var tot = c.amt.reduce(function (a, b) { return a + b; }, 0);
+    bars.forEach(function (b, i) { b.style.flexGrow = i < 4 ? c.amt[i] : Math.max(0, TOTAL - tot); });
+    rows.forEach(function (r, i) { r.classList.toggle('off', mode === 'eq' && !on[i]); });
+    var st = statusFor(c), key = st[0] + '|' + st[1];
+    if (key !== lastStatus) { stEl.className = 'status ' + st[0]; stEl.textContent = st[1]; lastStatus = key; }
+    sendEl.setAttribute('aria-disabled', c.ok ? 'false' : 'true');
+    var un = $('#unNote'); if (un) un.textContent = c.unas ? L('Не распределено: ', 'Unassigned: ') + fmt(c.unas) : '';
+    $$('#items .item').forEach(function (r, n) { r.classList.toggle('warn', mode === 'it' && !asg[n].some(Boolean)); });
+    var from = cur.slice(), t = c.amt, t0 = performance.now();
+    cancelAnimationFrame(raf);
+    var step = function (now) {
+      var p = (RM || !tween) ? 1 : Math.min(1, (now - t0) / 400), e = 1 - Math.pow(1 - p, 3);
+      rows.forEach(function (r, i) { r.querySelector('b').textContent = fmt(Math.round(from[i] + (t[i] - from[i]) * e)); });
+      if (p < 1) raf = requestAnimationFrame(step);
+      else { cur = t.slice(); rows.forEach(function (r, i) { r.querySelector('b').textContent = fmt(t[i]); }); }
+    };
+    if (RM || !tween) step(t0 + 1e6); else raf = requestAnimationFrame(step);
+  }
+  function setMode(m, focus) {
+    mode = m;
+    $$('#modes [role=tab]').forEach(function (b) {
+      var s = b.getAttribute('data-m') === m;
+      b.setAttribute('aria-selected', s ? 'true' : 'false'); b.tabIndex = s ? 0 : -1;
+      if (s) { panelEl.setAttribute('aria-labelledby', b.id); if (focus) b.focus(); }
+    });
+    renderLeft(true); applyState(true);
+  }
+  if (leftEl && shEl && modesEl) {
+    renderLeft(false); renderShares(); applyState(false);
+    modesEl.addEventListener('click', function (e) { var b = e.target.closest('[role=tab]'); if (b) setMode(b.getAttribute('data-m')); });
+    modesEl.addEventListener('keydown', function (e) {
+      var tabs = $$('#modes [role=tab]'), i = tabs.indexOf(doc.activeElement), d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (e.key === 'Home') d = -i; else if (e.key === 'End') d = tabs.length - 1 - i;
+      if (!d || i < 0) return;
+      e.preventDefault();
+      setMode(tabs[(i + d + tabs.length) % tabs.length].getAttribute('data-m'), true);
+    });
+    leftEl.addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      if (b.id === 'fillEx') {
+        man = ['2100', '2100', '2100', '2100'];
+        $$('#calcL input').forEach(function (inp) { inp.value = fmtNum(2100); });
+        applyState(true); return;
+      }
+      var i = +b.getAttribute('data-i');
+      if (b.classList.contains('av1')) {
+        var n = +b.getAttribute('data-n'); asg[n][i] = asg[n][i] ? 0 : 1;
+        b.setAttribute('aria-pressed', asg[n][i] ? 'true' : 'false'); applyState(true); return;
+      }
+      if (mode === 'eq' && b.closest('#people')) {
+        if (on[i] && on.filter(Boolean).length === 1) return;
+        on[i] = on[i] ? 0 : 1; b.setAttribute('aria-pressed', on[i] ? 'true' : 'false'); applyState(true);
+      }
+    });
+    leftEl.addEventListener('input', function (e) {
+      var inp = e.target; if (!inp.matches || !inp.matches('input[data-i]')) return;
+      var pos = inp.selectionStart, before = inp.value.slice(0, pos).replace(/\D/g, '').length;
+      var digits = inp.value.replace(/\D/g, '').replace(/^0+/, '').slice(0, 7), f = fmtNum(parseInt(digits, 10) || 0);
+      inp.value = f; man[+inp.getAttribute('data-i')] = digits;
+      var np = 0, seen = 0; while (np < f.length && seen < before) { if (/\d/.test(f[np])) seen++; np++; }
+      try { inp.setSelectionRange(np, np); } catch (er) { /* ignore */ }
+      applyState(true);
+    });
+    sendEl.addEventListener('click', function (e) { if (sendEl.getAttribute('aria-disabled') === 'true') e.preventDefault(); });
+    doc.addEventListener('langchange', function () {
+      cancelAnimationFrame(raf); lastStatus = ''; renderLeft(false); cur = compute().amt; renderShares(); applyState(false);
+    });
+  }
+
+  /* metric tree connectors */
+  var tree = $('#tree'), svg = $('#treeSvg');
+  if (tree && svg) {
+    var NS = 'http://www.w3.org/2000/svg';
+    var drawTree = function () {
+      var tr = tree.getBoundingClientRect(), ds = [];
+      $$('#tree [data-p]').forEach(function (n) {
+        var p = tree.querySelector('[data-n="' + n.getAttribute('data-p') + '"]');
+        var a = p.getBoundingClientRect(), b = n.getBoundingClientRect(), d;
+        var x1, y1, x2, y2;
+        if (window.innerWidth <= 900) {
+          /* stacked layout: leave the parent bottom edge near its left, enter the child from the left */
+          x1 = a.left - tr.left + 14; y1 = a.bottom - tr.top; x2 = b.left - tr.left; y2 = b.top + b.height / 2 - tr.top;
+          d = 'M' + x1 + ' ' + y1 + ' V' + (y2 - 8) + ' Q' + x1 + ' ' + y2 + ' ' + (x1 + 8) + ' ' + y2 + ' H' + x2;
+        } else {
+          x1 = a.right - tr.left; y1 = a.top + a.height / 2 - tr.top; x2 = b.left - tr.left; y2 = b.top + b.height / 2 - tr.top;
+          var mx = (x1 + x2) / 2;
+          d = 'M' + x1 + ' ' + y1 + ' C ' + mx + ' ' + y1 + ', ' + mx + ' ' + y2 + ', ' + x2 + ' ' + y2;
+        }
+        ds.push([d, n.getAttribute('data-p') === 'root' ? 0 : 1]);
+      });
+      svg.setAttribute('viewBox', '0 0 ' + tr.width + ' ' + tr.height);
+      svg.textContent = '';
+      var cnt = [0, 0];
+      ds.forEach(function (it) {
+        var path = doc.createElementNS(NS, 'path');
+        path.setAttribute('d', it[0]); path.setAttribute('fill', 'none'); path.setAttribute('stroke', '#7a7c78'); path.setAttribute('stroke-width', '1.2'); path.setAttribute('pathLength', '1');
+        path.style.transitionDelay = (.85 + it[1] * .45 + cnt[it[1]]++ * .1).toFixed(2) + 's';
+        svg.appendChild(path);
+      });
+    };
+    var rt, sched = function () { cancelAnimationFrame(rt); rt = requestAnimationFrame(drawTree); };
+    drawTree();
+    addEventListener('resize', sched);
+    addEventListener('load', sched);
+    doc.addEventListener('langchange', sched);
+    if (window.ResizeObserver) new ResizeObserver(sched).observe(tree);
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(sched);
+  }
+
+  /* motion: IntersectionObserver entries, one rAF scroll handler (ruler marker + phone parallax) */
+  var MO = doc.documentElement.classList.contains('mo');
+  var rmark = doc.createElement('i'); rmark.className = 'rmark';
+  if (ruler) ruler.appendChild(rmark);
+  var phones = $$('.dec .phone'), ticking = false;
+  function frame() {
+    ticking = false;
+    var max = Math.max(1, doc.documentElement.scrollHeight - innerHeight), pr = Math.min(1, Math.max(0, (window.pageYOffset || doc.documentElement.scrollTop) / max));
+    if (ruler) rmark.style.transform = 'translate3d(' + (pr * (ruler.clientWidth - 10) + 5) + 'px,0,0)';
+    if (MO) phones.forEach(function (ph, k) {
+      var r = ph.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > innerHeight + 200) return;
+      var c = ((r.top + r.height / 2) - innerHeight / 2) / innerHeight, f = k % 2 ? 1 : .6;
+      ph.style.setProperty('--py', Math.max(-16, Math.min(16, -c * 24 * f)).toFixed(1) + 'px');
+    });
+  }
+  function req() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+  addEventListener('scroll', req, { passive: true }); addEventListener('resize', req); req();
+
+  function once(sel, opts, fn) {
+    var els = $$(sel); if (!els.length) return;
+    if (!MO || !('IntersectionObserver' in window)) { els.forEach(function (el) { fn(el, true); }); return; }
+    var o = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { o.unobserve(e.target); fn(e.target, false); } });
+    }, opts);
+    els.forEach(function (el) { o.observe(el); });
+  }
+  var go = function (el) { el.classList.add('go'); };
+  once('.plate', { threshold: .3 }, function (el) { if (!el.closest('.dec')) go(el); });
+  once('.dec', { threshold: .25 }, function (el) { go(el); var p = el.querySelector('.plate'); if (p) go(p); });
+  once('.arts', { threshold: .2 }, go);
+  once('.next', { threshold: .3 }, go);
+  once('#tree', { threshold: .35 }, go);
+  once('.chip', { threshold: .6 }, function (el) { el.classList.add('pop'); });
+  if (!MO || !('IntersectionObserver' in window)) {
+    doc.documentElement.classList.remove('mo');
+    $$('.plate,.dec,.arts,.next,#tree').forEach(go);
+  }
+
+  /* 55% counts up when the stat enters */
+  var cnt = $('.stat b');
+  if (cnt && MO && 'IntersectionObserver' in window) {
+    cnt.textContent = '0%';
+    var co = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return; co.disconnect();
+      var t0 = performance.now(), d = 1100;
+      (function tick(n) {
+        var p = Math.min(1, (n - t0) / d), e = 1 - Math.pow(1 - p, 3);
+        cnt.textContent = Math.round(55 * e) + '%';
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    }, { threshold: .8 });
+    co.observe(cnt);
+  }
+
+  /* hypothesis chain lights up node by node once, then rests on the first */
+  var chain = $('.chain');
+  if (chain && MO && 'IntersectionObserver' in window) {
+    var nodes = Array.prototype.slice.call(chain.children).filter(function (n) { return n.tagName === 'SPAN'; });
+    var cho = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return; cho.disconnect();
+      nodes.forEach(function (n, i) {
+        setTimeout(function () { nodes.forEach(function (x, j) { x.classList.toggle('on', i === j); }); }, 500 + i * 480);
+      });
+      setTimeout(function () { nodes.forEach(function (x, j) { x.classList.toggle('on', j === 0); }); }, 500 + nodes.length * 480 + 250);
+    }, { threshold: .9 });
+    cho.observe(chain);
+  }
+})();
+
+</script>
+<script>document.querySelectorAll("img[data-av]").forEach(function(i){i.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();i.click();}});});</script>
 </body>
 </html>
