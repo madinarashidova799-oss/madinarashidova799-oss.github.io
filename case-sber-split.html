@@ -432,20 +432,21 @@ body.av-open .case-floating-nav,body.av-open .site-nav{opacity:0;pointer-events:
 .stats .stat{margin-top:0;flex-direction:column;align-items:flex-start;gap:8px}
 .stats .stat b{font-size:clamp(24px,2.2vw,30px);white-space:nowrap}
 .src{margin-top:10px;font-size:12.5px;line-height:1.45;color:var(--ink2)}.src a{color:inherit;text-decoration:underline;text-underline-offset:2px}
-.cmps{list-style:none;padding:0;margin:28px 0 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-.cmp{display:flex;flex-direction:column;background:#fff;border:1px solid var(--hair);border-radius:12px;padding:18px}
-.cmp-h{display:flex;gap:12px;align-items:center}
+.cmps{list-style:none;padding:0;margin:28px 0 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:auto auto auto;column-gap:14px;row-gap:0}
+.cmp{display:grid;grid-template-rows:subgrid;grid-row:span 3;background:#fff;border:1px solid var(--hair);border-radius:14px;overflow:hidden}
+.cmp-h{display:flex;gap:12px;align-items:center;padding:18px 18px 16px}
 .cmp-m{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font:700 18px/1 var(--sans);color:var(--ink);flex:none}
 .cmp-h b{display:block;font-size:15.5px;font-weight:600;line-height:1.25}
 .cmp-h small{display:block;margin-top:2px;font-size:12.5px;color:var(--ink2)}
-.cmp-ok{margin-top:16px}
-.cmp-ok ul{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:6px}
-.cmp-ok li{position:relative;padding-left:20px;font-size:14px;line-height:1.4}
-.cmp-ok li::before{content:"";position:absolute;left:2px;top:4px;width:9px;height:5px;border-left:2px solid var(--gt);border-bottom:2px solid var(--gt);transform:rotate(-45deg)}
-.cmp-no{margin-top:auto;padding-top:16px}
-.cmp-no p{margin-top:8px;padding:10px 12px;border-radius:8px;background:#FDECEA;color:#7A271A;font-size:14px;line-height:1.4}
-@media (max-width:1100px){.cmps{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:560px){.cmps{grid-template-columns:minmax(0,1fr)}.stats{grid-template-columns:minmax(0,1fr)}.stats .stat{flex-direction:row;align-items:baseline}}
+.cmp-no{padding:16px 18px 18px;border-top:1px solid var(--hair)}
+.cmp-no .lab{color:#A8321E}
+.cmp-no p{margin-top:8px;font-size:15.5px;line-height:1.45;color:var(--ink);font-weight:500}
+.cmp-ok{padding:14px 18px 18px;background:#FAFAF8;border-top:1px solid var(--hair)}
+.cmp-ok ul{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px}
+.cmp-ok li{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:7px;background:#fff;border:1px solid var(--hair);font-size:13px;line-height:1;color:#2e2e2e;white-space:nowrap}
+.cmp-ok li::before{content:"";width:8px;height:4px;border-left:1.8px solid var(--gt);border-bottom:1.8px solid var(--gt);transform:rotate(-45deg) translateY(-1px);flex:none}
+@media (max-width:1100px){.cmps{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:14px}}
+@media (max-width:560px){.cmps{grid-template-columns:minmax(0,1fr)}.cmp{grid-template-rows:auto;grid-row:auto;display:block}.cmp-ok li{white-space:normal;height:auto;min-height:28px;padding:6px 10px}.stats{grid-template-columns:minmax(0,1fr)}.stats .stat{flex-direction:row;align-items:baseline}}
 
 /* prototype launcher + dialog */
 .proto-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center;margin-top:24px;padding:22px 24px;background:#fff;border:1px solid var(--hair);border-radius:14px}
@@ -540,17 +541,17 @@ body.dlg-open{overflow:hidden}
   <p class="read" style="margin-top:14px"><span data-lang="ru">Я прошла сценарии Т‑Банка, Альфа‑Банка и ВТБ в двух ролях: создавала запрос на одном телефоне и открывала на другом.</span><span data-lang="en">I walked through the flows of T‑Bank, Alfa‑Bank and VTB in two roles: creating a request on one phone and opening it on another.</span></p>
   <ul class="cmps">
     <li class="cmp"><div class="cmp-h"><span class="cmp-m" style="background:#FFDD2D;color:#1F1F1F" aria-hidden="true">Т</span><div><b><span data-lang="ru">Т‑Банк</span><span data-lang="en">T‑Bank</span></b><small><span data-lang="ru">банк</span><span data-lang="en">bank</span></small></div></div>
-      <div class="cmp-ok"><span class="lab"><span data-lang="ru">Что работает</span><span data-lang="en">What works</span></span><ul><li><span data-lang="ru">Вход из операции</span><span data-lang="en">Entry from a transaction</span></li><li><span data-lang="ru">Контакты и QR</span><span data-lang="en">Contacts and QR</span></li><li><span data-lang="ru">Фото чека</span><span data-lang="en">Receipt photo</span></li></ul></div>
-      <div class="cmp-no"><span class="lab"><span data-lang="ru">Где спотыкаешься</span><span data-lang="en">Where it breaks</span></span><p><span data-lang="ru">Запрос теряется в истории операций</span><span data-lang="en">The request gets lost in the transaction history</span></p></div></li>
+      <div class="cmp-no"><span class="lab"><span data-lang="ru">Где спотыкаешься</span><span data-lang="en">Where it breaks</span></span><p><span data-lang="ru">Запрос теряется в истории операций</span><span data-lang="en">The request gets lost in the transaction history</span></p></div>
+      <div class="cmp-ok"><span class="lab"><span data-lang="ru">Что уже есть</span><span data-lang="en">What already works</span></span><ul><li><span data-lang="ru">Вход из операции</span><span data-lang="en">Entry from a transaction</span></li><li><span data-lang="ru">Контакты и QR</span><span data-lang="en">Contacts and QR</span></li><li><span data-lang="ru">Фото чека</span><span data-lang="en">Receipt photo</span></li></ul></div></li>
     <li class="cmp"><div class="cmp-h"><span class="cmp-m" style="background:#EF3124;color:#fff" aria-hidden="true">А</span><div><b><span data-lang="ru">Альфа‑Банк</span><span data-lang="en">Alfa‑Bank</span></b><small><span data-lang="ru">банк</span><span data-lang="en">bank</span></small></div></div>
-      <div class="cmp-ok"><span class="lab"><span data-lang="ru">Что работает</span><span data-lang="en">What works</span></span><ul><li><span data-lang="ru">Вход из операции</span><span data-lang="en">Entry from a transaction</span></li></ul></div>
-      <div class="cmp-no"><span class="lab"><span data-lang="ru">Где спотыкаешься</span><span data-lang="en">Where it breaks</span></span><p><span data-lang="ru">Один получатель за раз, связь с покупкой пропадает</span><span data-lang="en">One recipient at a time, the link to the purchase is lost</span></p></div></li>
+      <div class="cmp-no"><span class="lab"><span data-lang="ru">Где спотыкаешься</span><span data-lang="en">Where it breaks</span></span><p><span data-lang="ru">Один получатель за раз, связь с покупкой пропадает</span><span data-lang="en">One recipient at a time, the link to the purchase is lost</span></p></div>
+      <div class="cmp-ok"><span class="lab"><span data-lang="ru">Что уже есть</span><span data-lang="en">What already works</span></span><ul><li><span data-lang="ru">Вход из операции</span><span data-lang="en">Entry from a transaction</span></li></ul></div></li>
     <li class="cmp"><div class="cmp-h"><span class="cmp-m" style="background:#0A2896;color:#fff" aria-hidden="true">В</span><div><b><span data-lang="ru">ВТБ</span><span data-lang="en">VTB</span></b><small><span data-lang="ru">банк</span><span data-lang="en">bank</span></small></div></div>
-      <div class="cmp-ok"><span class="lab"><span data-lang="ru">Что работает</span><span data-lang="en">What works</span></span><ul><li><span data-lang="ru">Своя доля</span><span data-lang="en">Your own share</span></li><li><span data-lang="ru">Выбор счёта</span><span data-lang="en">Choice of account</span></li></ul></div>
-      <div class="cmp-no"><span class="lab"><span data-lang="ru">Где спотыкаешься</span><span data-lang="en">Where it breaks</span></span><p><span data-lang="ru">Номера вводятся вручную, режимы «Со всех» и «С каждого» путают</span><span data-lang="en">Numbers are typed by hand, the “From all” and “From each” modes confuse</span></p></div></li>
+      <div class="cmp-no"><span class="lab"><span data-lang="ru">Где спотыкаешься</span><span data-lang="en">Where it breaks</span></span><p><span data-lang="ru">Номера вводятся вручную, режимы «Со всех» и «С каждого» путают</span><span data-lang="en">Numbers are typed by hand, the “From all” and “From each” modes confuse</span></p></div>
+      <div class="cmp-ok"><span class="lab"><span data-lang="ru">Что уже есть</span><span data-lang="en">What already works</span></span><ul><li><span data-lang="ru">Своя доля</span><span data-lang="en">Your own share</span></li><li><span data-lang="ru">Выбор счёта</span><span data-lang="en">Choice of account</span></li></ul></div></li>
     <li class="cmp"><div class="cmp-h"><span class="cmp-m" style="background:#1CC29F;color:#fff" aria-hidden="true">S</span><div><b>Splitwise, Tricount</b><small><span data-lang="ru">отдельные приложения</span><span data-lang="en">separate apps</span></small></div></div>
-      <div class="cmp-ok"><span class="lab"><span data-lang="ru">Что работает</span><span data-lang="en">What works</span></span><ul><li><span data-lang="ru">Учёт долей</span><span data-lang="en">Share tracking</span></li><li><span data-lang="ru">Позиции чека в Splitwise Pro</span><span data-lang="en">Receipt items in Splitwise Pro</span></li></ul></div>
-      <div class="cmp-no"><span class="lab"><span data-lang="ru">Где спотыкаешься</span><span data-lang="en">Where it breaks</span></span><p><span data-lang="ru">Платежи проходят мимо них, переводить всё равно приходится в банке</span><span data-lang="en">Payments bypass them, transfers still happen in the bank</span></p></div></li>
+      <div class="cmp-no"><span class="lab"><span data-lang="ru">Где спотыкаешься</span><span data-lang="en">Where it breaks</span></span><p><span data-lang="ru">Платежи проходят мимо них, переводить всё равно приходится в банке</span><span data-lang="en">Payments bypass them, transfers still happen in the bank</span></p></div>
+      <div class="cmp-ok"><span class="lab"><span data-lang="ru">Что уже есть</span><span data-lang="en">What already works</span></span><ul><li><span data-lang="ru">Учёт долей</span><span data-lang="en">Share tracking</span></li><li><span data-lang="ru">Позиции чека в Splitwise Pro</span><span data-lang="en">Receipt items in Splitwise Pro</span></li></ul></div></li>
   </ul>
   <p class="arrow"><span><span data-lang="ru"><b class="sb">Вывод.</b> Банки удобно начинают расчёт из операции, но после отправки запрос живёт сам по себе. Нужен сбор: одно место, где связаны чек, доли и оплаты.</span><span data-lang="en"><b class="sb">Conclusion.</b> Banks make it easy to start a settlement from a transaction, but once sent, the request lives on its own. What is needed is a collection: one place that ties together the receipt, the shares and the payments.</span></span></p>
   <p class="read" style="margin-top:18px"><span data-lang="ru">Потом с помощью нейросети я смоделировала шесть ситуаций: компании до 15 человек, общие блюда, спорные суммы, друзья из других банков. Так я заранее нашла сложные случаи и собрала карты пути для обеих ролей.</span><span data-lang="en">Then, with an AI model, I simulated six situations: groups of up to 15 people, shared dishes, disputed amounts, friends from other banks. That let me find the hard cases in advance and build journey maps for both roles.</span></p>
