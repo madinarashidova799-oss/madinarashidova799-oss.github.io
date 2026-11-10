@@ -426,6 +426,26 @@ body.av-open .case-floating-nav,body.av-open .site-nav{opacity:0;pointer-events:
 .arrow{font-size:16.5px;line-height:1.6}
 .task{font-size:16.5px;line-height:1.55}
 .next li{font-size:15.5px;line-height:1.5}
+
+/* competitor cards */
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stats .stat{margin-top:0;flex-direction:column;align-items:flex-start;gap:8px}
+.stats .stat b{font-size:clamp(24px,2.2vw,30px);white-space:nowrap}
+.src{margin-top:10px;font-size:12.5px;line-height:1.45;color:var(--ink2)}.src a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.cmps{list-style:none;padding:0;margin:28px 0 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.cmp{display:flex;flex-direction:column;background:#fff;border:1px solid var(--hair);border-radius:12px;padding:18px}
+.cmp-h{display:flex;gap:12px;align-items:center}
+.cmp-m{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font:600 17px/1 var(--serif);color:var(--ink);flex:none}
+.cmp-h b{display:block;font-size:15.5px;font-weight:600;line-height:1.25}
+.cmp-h small{display:block;margin-top:2px;font-size:12.5px;color:var(--ink2)}
+.cmp-ok{margin-top:16px}
+.cmp-ok ul{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:6px}
+.cmp-ok li{position:relative;padding-left:20px;font-size:14px;line-height:1.4}
+.cmp-ok li::before{content:"";position:absolute;left:2px;top:4px;width:9px;height:5px;border-left:2px solid var(--gt);border-bottom:2px solid var(--gt);transform:rotate(-45deg)}
+.cmp-no{margin-top:auto;padding-top:16px}
+.cmp-no p{margin-top:8px;padding:10px 12px;border-radius:8px;background:#FDECEA;color:#7A271A;font-size:14px;line-height:1.4}
+@media (max-width:1100px){.cmps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.cmps{grid-template-columns:minmax(0,1fr)}.stats{grid-template-columns:minmax(0,1fr)}.stats .stat{flex-direction:row;align-items:baseline}}
 </style>
 <link rel="stylesheet" href="assets/typography.css">
 </head>
@@ -465,9 +485,17 @@ body.av-open .case-floating-nav,body.av-open .site-nav{opacity:0;pointer-events:
   </div><figcaption class="cap"><span data-lang="ru">Рис. 1. Запрос участнику, деление по позициям и статус сбора. Данные примера.</span><span data-lang="en">Fig. 1. The participant request, the split by item and the collection status. Example data.</span></figcaption></figure>
 </section>
 
-<section class="wrap sec two reveal" data-tick>
-  <div><span class="lab"><span data-lang="ru">Что это за продукт</span><span data-lang="en">What the product is</span></span><h2><span data-lang="ru">Как работает сбор</span><span data-lang="en">How a collection works</span></h2></div>
-  <div><p class="read"><span data-lang="ru">Сбор создаётся прямо из оплаченной покупки. Сумму делят поровну, по позициям или вручную, и каждый получает запрос со своей долей. Участник видит, за что платит, а оплативший видит, кто уже перевёл.</span><span data-lang="en">A collection starts right from a paid purchase. The amount is split equally, by item or manually, and everyone gets a request with their share. Participants see what they are paying for, and the person who paid sees who has already transferred.</span></p></div>
+<section class="wrap sec two reveal" data-tick id="context">
+  <div><span class="lab"><span data-lang="ru">Контекст</span><span data-lang="en">Context</span></span><h2><span data-lang="ru">Ужин уже оплачен в СберБанк Онлайн</span><span data-lang="en">The dinner is already paid in SberBank Online</span></h2>
+    <p class="read" style="margin-top:16px"><span data-lang="ru">Сбер крупнейший банк России, и для миллионов людей СберБанк Онлайн это приложение, где проходят и оплата в кафе, и переводы друзьям. Поэтому возвращать деньги за общий счёт логично там же: покупка уже в истории операций, а доли вернутся обычными переводами.</span><span data-lang="en">Sber is Russia’s largest bank, and for millions of people SberBank Online is the app where both café payments and transfers to friends happen. So it makes sense to settle a shared bill right there: the purchase is already in the transaction history, and the shares come back as ordinary transfers.</span></p></div>
+  <div>
+    <div class="stats">
+      <div class="stat"><b>110,7 <span data-lang="ru">млн</span><span data-lang="en">M</span></b><span class="t"><span data-lang="ru">активных розничных клиентов Сбера, 2025</span><span data-lang="en">active retail Sber customers, 2025</span></span></div>
+      <div class="stat"><b>84,1 <span data-lang="ru">млн</span><span data-lang="en">M</span></b><span class="t"><span data-lang="ru">пользователей СберБанк Онлайн в месяц, I полугодие 2025</span><span data-lang="en">monthly SberBank Online users, H1 2025</span></span></div>
+    </div>
+    <p class="src"><span data-lang="ru">Данные Сбера по МСФО: <a href="https://ru.themoscowtimes.com/2026/02/26/update-1-cberbank-v-25g-zarabotal-rekordnuyu-pribyl-v-17-trln-r-a188136" target="_blank" rel="noopener">итоги 2025</a>, <a href="https://www.vedomosti.ru/finance/news/2025/07/09/1123092-pribil-sberbanka" target="_blank" rel="noopener">I полугодие 2025</a>.</span><span data-lang="en">Sber IFRS data: <a href="https://ru.themoscowtimes.com/2026/02/26/update-1-cberbank-v-25g-zarabotal-rekordnuyu-pribyl-v-17-trln-r-a188136" target="_blank" rel="noopener">FY 2025</a>, <a href="https://www.vedomosti.ru/finance/news/2025/07/09/1123092-pribil-sberbanka" target="_blank" rel="noopener">H1 2025</a>.</span></p>
+    <p class="read" style="margin-top:18px"><span data-lang="ru">Сбор создаётся прямо из покупки: сумму делят поровну, по позициям или вручную, и каждый получает запрос со своей долей.</span><span data-lang="en">A collection starts right from the purchase: the amount is split equally, by item or manually, and everyone gets a request with their share.</span></p>
+  </div>
 </section>
 
 <svg class="wave wrap reveal" viewBox="0 0 1100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 C 180 10, 320 34, 520 22 S 860 6, 1100 18" fill="none" stroke="#9A9C97" stroke-width="1.2"/></svg>
@@ -492,14 +520,20 @@ body.av-open .case-floating-nav,body.av-open .site-nav{opacity:0;pointer-events:
   <span class="chip c-res"><span data-lang="ru">Исследование</span><span data-lang="en">Research</span></span>
   <h2><span data-lang="ru">Что умеют конкуренты</span><span data-lang="en">What competitors can do</span></h2>
   <p class="read" style="margin-top:14px"><span data-lang="ru">Я прошла сценарии Т‑Банка, Альфа‑Банка и ВТБ в двух ролях: создавала запрос на одном телефоне и открывала на другом.</span><span data-lang="en">I walked through the flows of T‑Bank, Alfa‑Bank and VTB in two roles: creating a request on one phone and opening it on another.</span></p>
-  <div class="tbl"><table>
-    <thead><tr><th><span data-lang="ru">Сервис</span><span data-lang="en">Service</span></th><th><span data-lang="ru">Что работает</span><span data-lang="en">What works</span></th><th><span data-lang="ru">Где спотыкаешься</span><span data-lang="en">Where you stumble</span></th></tr></thead>
-    <tbody>
-      <tr><td><span data-lang="ru">Т‑Банк</span><span data-lang="en">T‑Bank</span></td><td><span data-lang="ru">Вход из операции, контакты, фото чека, QR</span><span data-lang="en">Entry from a transaction, contacts, receipt photo, QR</span></td><td><span data-lang="ru">Запрос теряется в истории операций</span><span data-lang="en">The request gets lost in the transaction history</span></td></tr>
-      <tr><td><span data-lang="ru">Альфа‑Банк</span><span data-lang="en">Alfa‑Bank</span></td><td><span data-lang="ru">Вход из операции</span><span data-lang="en">Entry from a transaction</span></td><td><span data-lang="ru">Один получатель за раз, связь с покупкой пропадает</span><span data-lang="en">One recipient at a time, the link to the purchase disappears</span></td></tr>
-      <tr><td><span data-lang="ru">ВТБ</span><span data-lang="en">VTB</span></td><td><span data-lang="ru">Своя доля, выбор счёта</span><span data-lang="en">Your own share, choice of account</span></td><td><span data-lang="ru">Номера вводятся вручную, режимы «Со всех» и «С каждого» путают</span><span data-lang="en">Phone numbers are typed by hand, and the “From all” and “From each” modes are confusing</span></td></tr>
-      <tr><td>Splitwise, Tricount</td><td><span data-lang="ru">Учёт долей; позиции чека в Splitwise Pro</span><span data-lang="en">Share tracking; receipt items in Splitwise Pro</span></td><td><span data-lang="ru">Отдельный сервис, платежи идут мимо него</span><span data-lang="en">A separate service; payments bypass it</span></td></tr>
-    </tbody></table></div>
+  <ul class="cmps">
+    <li class="cmp"><div class="cmp-h"><span class="cmp-m" style="background:var(--n-sky)" aria-hidden="true">Т</span><div><b><span data-lang="ru">Т‑Банк</span><span data-lang="en">T‑Bank</span></b><small><span data-lang="ru">банк</span><span data-lang="en">bank</span></small></div></div>
+      <div class="cmp-ok"><span class="lab"><span data-lang="ru">Что работает</span><span data-lang="en">What works</span></span><ul><li><span data-lang="ru">Вход из операции</span><span data-lang="en">Entry from a transaction</span></li><li><span data-lang="ru">Контакты и QR</span><span data-lang="en">Contacts and QR</span></li><li><span data-lang="ru">Фото чека</span><span data-lang="en">Receipt photo</span></li></ul></div>
+      <div class="cmp-no"><span class="lab"><span data-lang="ru">Где спотыкаешься</span><span data-lang="en">Where it breaks</span></span><p><span data-lang="ru">Запрос теряется в истории операций</span><span data-lang="en">The request gets lost in the transaction history</span></p></div></li>
+    <li class="cmp"><div class="cmp-h"><span class="cmp-m" style="background:var(--n-peach)" aria-hidden="true">А</span><div><b><span data-lang="ru">Альфа‑Банк</span><span data-lang="en">Alfa‑Bank</span></b><small><span data-lang="ru">банк</span><span data-lang="en">bank</span></small></div></div>
+      <div class="cmp-ok"><span class="lab"><span data-lang="ru">Что работает</span><span data-lang="en">What works</span></span><ul><li><span data-lang="ru">Вход из операции</span><span data-lang="en">Entry from a transaction</span></li></ul></div>
+      <div class="cmp-no"><span class="lab"><span data-lang="ru">Где спотыкаешься</span><span data-lang="en">Where it breaks</span></span><p><span data-lang="ru">Один получатель за раз, связь с покупкой пропадает</span><span data-lang="en">One recipient at a time, the link to the purchase is lost</span></p></div></li>
+    <li class="cmp"><div class="cmp-h"><span class="cmp-m" style="background:var(--n-mint)" aria-hidden="true">В</span><div><b><span data-lang="ru">ВТБ</span><span data-lang="en">VTB</span></b><small><span data-lang="ru">банк</span><span data-lang="en">bank</span></small></div></div>
+      <div class="cmp-ok"><span class="lab"><span data-lang="ru">Что работает</span><span data-lang="en">What works</span></span><ul><li><span data-lang="ru">Своя доля</span><span data-lang="en">Your own share</span></li><li><span data-lang="ru">Выбор счёта</span><span data-lang="en">Choice of account</span></li></ul></div>
+      <div class="cmp-no"><span class="lab"><span data-lang="ru">Где спотыкаешься</span><span data-lang="en">Where it breaks</span></span><p><span data-lang="ru">Номера вводятся вручную, режимы «Со всех» и «С каждого» путают</span><span data-lang="en">Numbers are typed by hand, the “From all” and “From each” modes confuse</span></p></div></li>
+    <li class="cmp"><div class="cmp-h"><span class="cmp-m" style="background:var(--n-lime)" aria-hidden="true">S</span><div><b>Splitwise, Tricount</b><small><span data-lang="ru">отдельные приложения</span><span data-lang="en">separate apps</span></small></div></div>
+      <div class="cmp-ok"><span class="lab"><span data-lang="ru">Что работает</span><span data-lang="en">What works</span></span><ul><li><span data-lang="ru">Учёт долей</span><span data-lang="en">Share tracking</span></li><li><span data-lang="ru">Позиции чека в Splitwise Pro</span><span data-lang="en">Receipt items in Splitwise Pro</span></li></ul></div>
+      <div class="cmp-no"><span class="lab"><span data-lang="ru">Где спотыкаешься</span><span data-lang="en">Where it breaks</span></span><p><span data-lang="ru">Платежи идут мимо них, переводить всё равно в банке</span><span data-lang="en">Payments bypass them, transfers still happen in the bank</span></p></div></li>
+  </ul>
   <p class="arrow"><span><span data-lang="ru"><b class="sb">Вывод.</b> Банки удобно начинают расчёт из операции, но после отправки запрос живёт сам по себе. Нужен сбор: одно место, где связаны чек, доли и оплаты.</span><span data-lang="en"><b class="sb">Conclusion.</b> Banks make it easy to start a settlement from a transaction, but once sent, the request lives on its own. What is needed is a collection: one place that ties together the receipt, the shares and the payments.</span></span></p>
   <p class="read" style="margin-top:18px"><span data-lang="ru">Потом с помощью нейросети я смоделировала шесть ситуаций: компании до 15 человек, общие блюда, спорные суммы, друзья из других банков. Так я заранее нашла сложные случаи и собрала карты пути для обеих ролей.</span><span data-lang="en">Then, with an AI model, I simulated six situations: groups of up to 15 people, shared dishes, disputed amounts, friends from other banks. That let me find the hard cases in advance and build journey maps for both roles.</span></p>
   <figure class="fig"><ul class="arts">
@@ -610,7 +644,7 @@ body.av-open .case-floating-nav,body.av-open .site-nav{opacity:0;pointer-events:
 <section class="wrap sec two reveal" data-tick id="result">
   <div><span class="lab"><span data-lang="ru">Итог</span><span data-lang="en">Outcome</span></span><h2 style="margin-top:12px"><span data-lang="ru">Чек, доли и переводы живут в одном сборе</span><span data-lang="en">The receipt, the shares and the transfers live in one collection</span></h2></div>
   <div>
-    <p class="read"><span data-lang="ru">Спроектировала сбор, который убирает главный вопрос перед оплатой: в запросе видно, из чего сложилась сумма, а у того, кто платил, есть общий статус возвратов. Дальше тест прототипа и пилот покажут, растёт ли доля оплаченных запросов.</span><span data-lang="en">I designed a collection that removes the main question before paying: the request shows what the amount is made of, and the person who paid gets one status for all repayments. Next, a prototype test and a pilot will show whether the share of paid requests grows.</span></p>
+    <p class="read"><span data-lang="ru">Спроектировала сбор, который убирает главный вопрос перед оплатой: в запросе видно, из чего сложилась сумма, а у того, кто платил, есть общий статус возвратов.</span><span data-lang="en">I designed a collection that removes the main question before paying: the request shows what the amount is made of, and the person who paid gets one status for all repayments.</span></p>
     <span class="lab" style="display:block;margin-top:28px"><span data-lang="ru">Дальше</span><span data-lang="en">Next</span></span>
     <ul class="next"><li><span data-lang="ru">Интервью и тест прототипа, затем A/B‑тест в пилоте.</span><span data-lang="en">Interviews and a prototype test, then an A/B test in a pilot.</span></li><li><span data-lang="ru">Правила для округления, расхождения чека с покупкой и частичной оплаты.</span><span data-lang="en">Rules for rounding, for a receipt that doesn’t match the purchase, and for partial payments.</span></li><li><span data-lang="ru">Межбанковские переводы по СБП для друзей из других банков.</span><span data-lang="en">Interbank transfers via the Faster Payments System (SBP) for friends at other banks.</span></li></ul>
   </div>

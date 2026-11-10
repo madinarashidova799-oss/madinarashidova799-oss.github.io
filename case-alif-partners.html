@@ -587,6 +587,43 @@ img[data-av]:focus-visible{outline:2px solid var(--gt);outline-offset:4px}
 .ord-tl li::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--gt);justify-self:center}
 .ord-tl li time{font-size:12.5px;color:var(--ink2);font-variant-numeric:tabular-nums}
 @media (max-width:900px){.ord-p{grid-template-columns:56px minmax(0,1fr)}.ord-p img{width:56px;height:56px}.ord-chip{grid-column:1/-1;justify-self:start}.ord{grid-template-columns:minmax(0,1fr)}.ord-l{border-right:0;border-bottom:1px solid var(--hair)}.ord>div{padding:18px}.ord-st li{font-size:0;padding-top:6px}.ord-st li.cur{font-size:12.5px;flex:3}.ord-st li::before{font-size:12.5px}}
+
+/* prototype in Alif UI */
+.win .ord{background:#F6F8FA;gap:16px;padding:16px}
+.ord>div{background:#fff;border-radius:16px;padding:22px}
+.ord-l{border-right:0!important;border-bottom:0!important}
+.ord .lab{color:#5B6472}
+.ord-p img{border-radius:12px;border:0;background:#F3F5F8}
+.ord-st{display:flex;align-items:center;gap:0;margin:22px 0 0;border:0}
+.ord-st li{flex:1 1 auto;display:flex;align-items:center;gap:8px;border:0!important;padding:0!important;font-size:13px!important;color:#8A93A2;white-space:nowrap;position:relative;overflow:visible!important}
+.ord-st li:last-child{flex:0 0 auto}
+.ord-st li::before{content:none!important}
+.ord-st li:not(:last-child)::after{content:"";flex:1;height:2px;background:#E3E7ED;margin:0 8px;min-width:12px}
+.ord-st li.done:not(:last-child)::after{background:#00985F}
+.ord-st li i{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:600 12px/1 var(--sans);font-style:normal;border:2px solid #CDD3DC;color:#8A93A2;background:#fff}
+.ord-st li i svg{width:14px;height:14px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.ord-st li.done{color:#1B1E24}.ord-st li.done i{background:#00985F;border-color:#00985F}
+.ord-st li.cur{color:#1B1E24;font-weight:600}.ord-st li.cur i{border-color:#00985F;color:#00985F;box-shadow:0 0 0 4px #DDF3E8}
+.aseg{display:flex;flex-wrap:wrap;gap:8px}
+.aseg button{all:unset;box-sizing:border-box;cursor:pointer;flex:1;min-width:72px;height:44px;padding:0 14px;border-radius:12px;background:#EEF1F5;color:#1B1E24;font:500 14px/1 var(--sans);display:inline-flex;align-items:center;justify-content:center;transition:background-color .15s,color .15s}
+.aseg button:hover{background:#E3E7ED}
+.aseg button[aria-checked="true"]{background:#64748C;color:#fff}
+.aseg button:focus-visible{outline:2px solid #00985F;outline-offset:2px}
+.ord-q{color:#5B6472}
+.ord-code input{width:52px;height:56px;border-radius:12px;border:1.5px solid #D5DAE2;font-size:20px}
+.ord-code input:focus{border-color:#00985F;box-shadow:0 0 0 3px #DDF3E8}
+.ab{all:unset;box-sizing:border-box;cursor:pointer;height:46px;padding:0 22px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;font:600 14.5px/1 var(--sans);transition:background-color .15s,opacity .15s}
+.ab-g{background:#00985F;color:#fff;min-width:160px}.ab-g:hover{background:#008653}
+.ab-g[aria-disabled="true"]{background:#EEF1F5;color:#9AA3B1;cursor:not-allowed}
+.ab-o{border:1.5px solid #D5DAE2;color:#1B1E24;background:#fff}.ab-o:hover{border-color:#9AA3B1}
+.ab:focus-visible{outline:2px solid #1B1E24;outline-offset:2px}
+.ord-sum{border:1.5px solid #EEF1F5;border-radius:14px;padding:4px 16px}
+.ord-sum>div:last-child{border-bottom:0}
+.ord-mo{background:#E4F7EC;border-radius:14px}
+.ord-mo .big{color:#00985F}
+.ord-mo .lab{color:#0B7A47}
+.ord-chip{border-radius:8px}
+@media (max-width:900px){.win .ord{padding:10px;gap:10px}.ord>div{padding:16px}.ord-st li span{display:none}.ord-st li.cur span{display:inline}}
 </style>
 <link rel="stylesheet" href="assets/typography.css">
 </head>
@@ -810,7 +847,7 @@ img[data-av]:focus-visible{outline:2px solid var(--gt);outline-offset:4px}
 <section class="wrap sec two reveal" data-tick id="result">
   <div><span class="lab"><span data-lang="ru">Итог</span><span data-lang="en">Outcome</span></span><h2 style="margin-top:12px"><span data-lang="ru">Стандартные операции передаются партнёру, контроль остаётся у банка</span><span data-lang="en">Standard operations go to the partner, control stays with the bank</span></h2></div>
   <div>
-    <p class="read"><span data-lang="ru">Спроектировала кабинет, который убирает зависимость партнёра от банка в стандартных операциях: заявка, оформление и передача товара проходят внутри него. Дальше пилот на группе магазинов покажет, как меняются доля самостоятельных заказов и нагрузка на банк.</span><span data-lang="en">I designed an account that removes the partner’s dependence on the bank for standard operations: the request, processing and handover all happen inside it. Next, a pilot with a group of stores will show how the share of self‑service orders and the load on the bank change.</span></p>
+    <p class="read"><span data-lang="ru">Спроектировала кабинет, который убирает зависимость партнёра от банка в стандартных операциях: заявка, оформление и передача товара проходят внутри него.</span><span data-lang="en">I designed an account that removes the partner’s dependence on the bank for standard operations: the request, processing and handover all happen inside it.</span></p>
     <span class="lab" style="display:block;margin-top:28px"><span data-lang="ru">Дальше</span><span data-lang="en">Next</span></span>
     <ul class="next"><li><span data-lang="ru">Поэтапно подключать партнёров и отслеживать долю самостоятельных заказов, трудозатраты и качество обработки.</span><span data-lang="en">Onboard partners in stages and track the share of self‑service orders, labor and processing quality.</span></li><li><span data-lang="ru">Массово менять цены, подарки и остатки в каталоге.</span><span data-lang="en">Bulk‑edit prices, gifts and stock in the catalog.</span></li><li><span data-lang="ru">Автоматически скрывать устаревшие товары.</span><span data-lang="en">Hide outdated products automatically.</span></li></ul>
   </div>
@@ -1307,10 +1344,10 @@ img[data-av]:focus-visible{outline:2px solid var(--gt);outline-offset:4px}
     else if(st.phase==='way'){k='way';t=T('В пути','On the way')}
     else {k='done';t=st.way==='del'?T('Доставлено','Delivered'):T('Выдан','Handed over')}
     c.className='ord-chip '+k;c.textContent=t}
-  function radios(id,items,cur){return '<div class="modes ord-m" id="'+id+'" role="radiogroup">'+items.map(function(x){return '<button type="button" role="radio" aria-checked="'+(x[0]==cur)+'" data-v="'+x[0]+'">'+x[1]+'</button>'}).join('')+'</div>'}
+  function radios(id,items,cur){return '<div class="aseg" id="'+id+'" role="radiogroup">'+items.map(function(x){return '<button type="button" role="radio" aria-checked="'+(x[0]==cur)+'" data-v="'+x[0]+'">'+x[1]+'</button>'}).join('')+'</div>'}
   function steps(){var s=st.type==='inst'?[T('Тип заказа','Order type'),T('Срок','Term'),T('SMS‑код','SMS code'),T('Подписание','Signing')]:[T('Тип заказа','Order type'),T('Подтверждение','Confirmation')];
     var cur=st.phase==='proc'?st.step:s.length;
-    $('ordSt').innerHTML=s.map(function(x,i){return '<li class="'+(i<cur?'done':i===cur?'cur':'')+'">'+x+'</li>'}).join('')}
+    $('ordSt').innerHTML=s.map(function(x,i){return '<li class="'+(i<cur?'done':i===cur?'cur':'')+'"><i>'+(i<cur?'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-6.5"/></svg>':(i+1))+'</i><span>'+x+'</span></li>'}).join('')}
   function body(){var b=$('ordBody'),h='';
     if(st.phase==='proc'){
       var last=st.type==='inst'?3:1;
@@ -1320,13 +1357,13 @@ img[data-av]:focus-visible{outline:2px solid var(--gt);outline-offset:4px}
       else {h='<p class="ord-q">'+(st.type==='inst'?T('Проверьте условия и подпишите договор.','Check the terms and sign the contract.'):T('Примите оплату и подтвердите заказ.','Take the payment and confirm the order.'))+'</p>'}
       var can=!(st.type==='inst'&&st.step===2&&st.code.length<4);
       var lbl=st.step<last?T('Далее','Next'):(st.type==='inst'?T('Подписать','Sign'):T('Подтвердить заказ','Confirm order'));
-      h+='<div class="ord-acts">'+(st.step>0?'<button class="btn2" type="button" data-a="back">'+T('Назад','Back')+'</button>':'')+'<button class="btn" type="button" data-a="next" aria-disabled="'+(!can)+'">'+lbl+'</button></div>';
+      h+='<div class="ord-acts">'+(st.step>0?'<button class="ab ab-o" type="button" data-a="back">'+T('Назад','Back')+'</button>':'')+'<button class="ab ab-g" type="button" data-a="next" aria-disabled="'+(!can)+'">'+lbl+'</button></div>';
     } else if(st.phase==='ready'){
-      h='<p class="ord-q">'+T('Как покупатель получит товар?','How will the buyer get the product?')+'</p>'+radios('oWay',[['del',T('Доставка курьером','Courier delivery')],['pick',T('Самовывоз','Pickup')]],st.way)+'<div class="ord-acts"><button class="btn" type="button" data-a="hand">'+(st.way==='del'?T('Передать курьеру','Hand to courier'):T('Отметить выдачу','Mark as handed over'))+'</button></div>';
+      h='<p class="ord-q">'+T('Как покупатель получит товар?','How will the buyer get the product?')+'</p>'+radios('oWay',[['del',T('Доставка курьером','Courier delivery')],['pick',T('Самовывоз','Pickup')]],st.way)+'<div class="ord-acts"><button class="ab ab-g" type="button" data-a="hand">'+(st.way==='del'?T('Передать курьеру','Hand to courier'):T('Отметить выдачу','Mark as handed over'))+'</button></div>';
     } else if(st.phase==='way'){
-      h='<p class="ord-q">'+T('Курьер в пути. Когда он отметит доставку, статус обновится у партнёра и у банка.','The courier is on the way. When they mark the delivery, the status updates for both the partner and the bank.')+'</p><div class="ord-acts"><button class="btn" type="button" data-a="deliver">'+T('Курьер доставил','Courier delivered')+'</button></div>';
+      h='<p class="ord-q">'+T('Курьер в пути. Когда он отметит доставку, статус обновится у партнёра и у банка.','The courier is on the way. When they mark the delivery, the status updates for both the partner and the bank.')+'</p><div class="ord-acts"><button class="ab ab-g" type="button" data-a="deliver">'+T('Курьер доставил','Courier delivered')+'</button></div>';
     } else {
-      h='<div class="ord-done"><b>'+T('Заказ закрыт в кабинете','Order closed in the account')+'</b>'+T('Партнёр провёл его сам: без терминала, без звонка в колл‑центр и без оператора для курьера. Банк видит каждый шаг в истории.','The partner ran it alone: no terminal, no call to the call center and no operator for the courier. The bank sees every step in the history.')+'</div><div class="ord-acts"><button class="btn2" type="button" data-a="reset">'+T('Пройти заново','Run it again')+'</button></div>';
+      h='<div class="ord-done"><b>'+T('Заказ закрыт в кабинете','Order closed in the account')+'</b>'+T('Партнёр провёл его сам: без терминала, без звонка в колл‑центр и без оператора для курьера. Банк видит каждый шаг в истории.','The partner ran it alone: no terminal, no call to the call center and no operator for the courier. The bank sees every step in the history.')+'</div><div class="ord-acts"><button class="ab ab-o" type="button" data-a="reset">'+T('Пройти заново','Run it again')+'</button></div>';
     }
     b.innerHTML=h;
     var inp=b.querySelectorAll('.ord-code input'); if(inp.length){var i=Math.min(st.code.length,3);inp[i].focus({preventScroll:true})}
@@ -1351,7 +1388,7 @@ img[data-av]:focus-visible{outline:2px solid var(--gt);outline-offset:4px}
     else if(k==='hand'){if(st.way==='del'){add('courier');st.phase='way'}else{add('picked');st.phase='done'}}
     else if(k==='deliver'){add('delivered');st.phase='done'}
     else if(k==='reset'){reset()}
-    render(); var f2=root.querySelector('.ord-body .btn:not([aria-disabled=true]),.ord-body .btn2'); if(f2&&k!=='back')f2.focus({preventScroll:true});
+    render(); var f2=root.querySelector('.ord-body .ab-g:not([aria-disabled=true]),.ord-body .ab-o'); if(f2&&k!=='back')f2.focus({preventScroll:true});
   });
   root.addEventListener('input',function(e){if(!e.target.matches('.ord-code input'))return;
     var ins=[].slice.call(root.querySelectorAll('.ord-code input')); ins.forEach(function(x){x.value=x.value.replace(/\D/g,'').slice(0,1)});
