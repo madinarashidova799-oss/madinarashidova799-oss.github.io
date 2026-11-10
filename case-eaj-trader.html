@@ -6,575 +6,13 @@
 <script>(function(){if(localStorage.getItem('site-lang')==='en')document.documentElement.classList.add('lang-en');})();</script>
 <title data-ru="EAJ Trader · Мадина Рашидова" data-en="EAJ Trader · Madina Rashidova">EAJ Trader · Мадина Рашидова</title>
 <link rel="icon" type="image/png" href="favicon.png">
-<meta name="description" content="EAJ Trader. MVP личного кабинета трейдера с нуля за 2 месяца. Разбор процесса: сегментация пользователей, концепты, итоги." data-ru="EAJ Trader. MVP личного кабинета трейдера с нуля за 2 месяца. Разбор процесса: сегментация пользователей, концепты, итоги." data-en="EAJ Trader. An MVP of a trader’s dashboard built from scratch in 2 months. Process breakdown: user segmentation, concepts, results.">
+<meta name="description" content="EAJ Trader: личный кабинет клиента нового брокера Fibo Group, спроектированный с нуля. Сегменты, гипотеза, северная звезда, ИИ‑симуляция, решения и итог." data-ru="EAJ Trader: личный кабинет клиента нового брокера Fibo Group, спроектированный с нуля. Сегменты, гипотеза, северная звезда, ИИ‑симуляция, решения и итог." data-en="EAJ Trader: the client account of a new Fibo Group broker, designed from scratch. Segments, hypothesis, North Star, AI simulation, decisions and outcome.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
+<script>try{if(!/[?&]settled\b/.test(location.search)&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("mo")}catch(e){}</script>
 <style>
-  :root {
-    --bg: #f8f8f8;
-    --surface: #ffffff;
-    --surface-translucent: rgba(255, 255, 255, 0.65);
-    --line: #ececec;
-    --line-strong: #eaeaea;
-    --line-soft: #f1f1f1;
-    --line-faint: #f5f5f5;
-    --text: #171717;
-    --text-strong: #231e1b;
-    --text-dim: #62605d;
-    --text-dim-2: #6e6c68;
-    --text-inverse: #f8f8f8;
-    --accent: #231e1b;
-    --live: #2f6b52;
-    --nav-bg: #17110e;
-    --nav-bg-hover: #261f1b;
-    --nav-control: #302925;
-    --radius-small: 12px;
-    --radius-medium: 20px;
-    --radius-large: 32px;
-    --radius-pill: 999px;
-    --shadow-soft: 0 8px 24px rgba(23,17,14,0.06), 0 20px 50px rgba(23,17,14,0.05);
-    --shadow-control: 0 8px 20px rgba(23,17,14,0.08);
-    --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 24px;
-    --space-6: 32px; --space-7: 48px; --space-8: 64px; --space-9: 96px; --space-10: 128px;
-    --mono: "Golos Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --sans: "Golos Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --display: var(--sans);
-    /* Unified type scale — same tokens copy-pasted across about.html and all
-       4 case pages (no shared includes on this static site, see PRODUCT.md). */
-    --font-size-h1: clamp(40px, 5vw, 72px);
-    --font-size-h2: clamp(24px, 2vw, 30px);
-    --font-size-h3: clamp(20px, 1.5vw, 24px);
-    --font-size-h4: clamp(19px, 1.6vw, 23px);
-    --font-size-body: clamp(16px, 1.1vw, 18px);
-    --font-size-label: 14px;
-    /* UI-audit fix (2026-08-28): named tokens for values that were
-       previously repeated as bare 0.72rem/1.05rem literals across the
-       case-nav prev/next controls and the result-card metric — same
-       computed sizes, now backed by a token instead of ad-hoc numbers. */
-    --font-size-nav-label: 0.72rem;
-    --font-size-nav-title: 1.05rem;
-    --font-weight-heading: 600;
-    --line-height-h1: 1.05;
-    --line-height-heading: 1.2;
-    --line-height-body: 1.55;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    line-height: 1.55;
-    -webkit-font-smoothing: antialiased;
-  }
-  a { color: inherit; text-decoration: none; }
-  .page { max-width: 1680px; margin: 0 auto; padding: 0 clamp(24px, 7vw, 128px); }
-
-  .site-nav {
-    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-    z-index: 100; display: flex; align-items: center;
-    background: var(--nav-bg); border-radius: 100px; padding: 8px 8px 8px 22px;
-    box-shadow: var(--shadow-control);
-    transition: transform 0.28s cubic-bezier(0.22,1,0.36,1), opacity 0.28s cubic-bezier(0.22,1,0.36,1);
-  }
-  .site-nav.is-nav-hidden { transform: translateX(-50%) translateY(-140%); opacity: 0; pointer-events: none; }
-  .site-nav .nav-name {
-    font-family: var(--mono); font-size: 0.85rem; font-weight: 500;
-    color: #fff; margin-right: 8px; white-space: nowrap;
-  }
-  .site-nav a.nav-link {
-    font-family: var(--sans); font-size: 0.85rem; font-weight: 500;
-    color: rgba(255,255,255,0.68); padding: 9px 16px; border-radius: 100px;
-    white-space: nowrap; transition: background 0.2s ease, color 0.2s ease;
-  }
-  .site-nav a.nav-link:hover, .site-nav a.nav-link:focus-visible { background: rgba(255,255,255,0.12); color: #fff; }
-  .lang-toggle {
-    font-family: var(--mono); font-size: 0.8rem; font-weight: 500;
-    color: rgba(255,255,255,0.68); background: rgba(255,255,255,0.08);
-    border: none; padding: 9px 14px; border-radius: 100px; cursor: pointer;
-    margin-left: 4px; transition: background 0.2s ease, color 0.2s ease;
-  }
-  .lang-toggle:hover, .lang-toggle:focus-visible { background: rgba(255,255,255,0.16); color: #fff; }
-  /* ===== область нажатия верхней навигации =====
-     Ссылки были 35 px высотой, переключатель языка 38x31 — меньше цели
-     44x44. Видимая плашка не меняется: увеличена только область нажатия,
-     по вертикали, чтобы соседние ссылки не перекрывали друг друга. */
-  .site-nav a.nav-link, .lang-toggle { position: relative; }
-  .site-nav a.nav-link::after { content: ''; position: absolute; inset: -5px 0; }
-  .site-nav a.nav-name { position: relative; }
-  .site-nav a.nav-name::after { content: ''; position: absolute; inset: -12px 0; }
-  .lang-toggle::after { content: ''; position: absolute; inset: -7px -4px; }
-  /* ===== конец блока области нажатия ===== */
-  @media (max-width: 560px) {
-    .site-nav { padding: 6px 6px 6px 14px; }
-    .site-nav .nav-name { display: none; }
-    .site-nav a.nav-link { padding: 8px 10px; font-size: 0.76rem; }
-    .lang-toggle { padding: 8px 11px; font-size: 0.74rem; }
-  }
-
-  [data-lang="en"] { display: none; }
-  html.lang-en [data-lang="ru"] { display: none; }
-  html.lang-en [data-lang="en"] { display: inline; }
-  .lightbox {
-    position: fixed; inset: 0; z-index: 200;
-    background: rgba(10, 10, 10, 0.94);
-    display: flex; align-items: center; justify-content: center;
-    padding: 48px; opacity: 0; pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  .lightbox.open { opacity: 1; pointer-events: all; }
-  .lightbox img {
-    max-width: 100%; max-height: 100%; border-radius: var(--radius-large);
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
-    transform: scale(0.96); transition: transform 0.3s ease;
-  }
-  .lightbox.open img { transform: scale(1); }
-  .lightbox-close {
-    position: absolute; top: 28px; right: 32px;
-    width: 44px; height: 44px; border-radius: 50%;
-    background: var(--surface); border: 1px solid var(--line);
-    color: var(--text); font-size: 1.3rem; line-height: 1; cursor: pointer;
-  }
-
-
-/* two-font system: Golos Text + Literata */
-h1.case-title,.detail-head h2,.case-lead-title{font-family:Literata,Georgia,serif!important;font-weight:600!important;letter-spacing:-.012em!important}
-</style>
-<style>
-  /* Scoped accent pair for this page's trading-account narrative only
-     (§ Активный трейдер, § Работа с торговыми счетами) — not a sitewide
-     palette change, just a local hierarchy accent per this round's brief. */
-  :root { --case-accent: var(--text-strong); --accent-blue: #1B60D9; --accent-blue-bg: #EFF6FF; --grid-gutter: 28px; }
-  .case-page { padding: 128px 0 160px; max-width: 1400px; margin: 0 auto; }
-
-  /* Invisible 12-column authoring grid — see case-alif-partners.html for
-     the reference component. Desktop ≥1280px: 12 cols, 24-32px gutter.
-     Tablet 768-1279px: same 12 logical columns, tighter gutter. Mobile
-     <768px: 4 columns. */
-  .case-grid { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--grid-gutter); align-items: start; }
-  .col-4 { grid-column: span 4; }
-  .col-6 { grid-column: span 6; }
-  .col-8 { grid-column: span 8; }
-  .col-8-center { grid-column: 3 / span 8; }
-  .col-12 { grid-column: span 12; }
-  @media (max-width: 1279px) { .case-grid { column-gap: 20px; } }
-  @media (max-width: 767px) {
-    .case-grid { grid-template-columns: repeat(4, 1fr); row-gap: 20px; }
-    .case-grid > .col-4, .case-grid > .col-6, .case-grid > .col-8, .case-grid > .col-8-center { grid-column: span 4; }
-  }
-
-  .case-context-cards { margin-top: clamp(80px, 8vw, 112px); align-items: stretch; }
-  .case-context-card {
-    background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: none;
-    padding: clamp(28px, 2.6vw, 36px); display: flex; flex-direction: column; gap: 10px; height: 100%;
-  }
-  .case-context-card__label {
-    display: flex; align-items: center; gap: 7px;
-    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--text-dim); margin: 0 0 2px;
-  }
-  .case-context-card__label::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent-blue); flex-shrink: 0; }
-  .case-context-card__title {
-    font-family: var(--display); font-weight: var(--font-weight-heading); font-size: var(--font-size-h4);
-    line-height: 1.3; color: var(--text);
-  }
-  .case-context-card__text { font-size: var(--font-size-body); color: var(--text-dim); line-height: var(--line-height-body); max-width: none; }
-
-  .case-split { margin-top: clamp(32px, 3vw, 40px); margin-bottom: 18px; }
-  .case-split-text p { margin-bottom: 0; max-width: none; }
-  .case-split-text p + p { margin-top: 16px; }
-  .case-split-media {
-    border-radius: var(--radius-large); overflow: hidden; background: #F8FAFC; border: 1px solid var(--line);
-    padding: clamp(20px, 3vw, 32px);
-    transition: transform 0.25s cubic-bezier(.22,1,.36,1), box-shadow 0.25s ease;
-  }
-  .case-split-media:hover {
-    transform: translateY(-6px); box-shadow: 0 16px 32px rgba(23,17,14,0.09);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .case-split-media { transition: none; }
-  }
-  .case-split-media img { margin: 0; border-radius: var(--radius-medium); object-fit: contain; }
-
-  /* ===== Крупная подача экранов (.case-shot / .case-steps) =====
-     Веб-интерфейс нечитаем в половине колонки: при окне 1440 .case-split-media
-     отдаёт картинке 539px, а пара в --mosaic-row — по 262px. Два режима вместо
-     этого, оба держат картинку ~912px и оба уже колонки, чтобы экран не
-     распластывался во всю страницу:
-       .case-shot  — одиночный экран в кадре ≤1000px по центру;
-       .case-steps — бывшая пара, разведённая по вертикали: каждый шаг в том же
-                     кадре и с подписью, номера совпадают с шагами сценария.
-     Текст в обоих режимах идёт над картинкой во всю колонку, а не сбоку. */
-  .case-shot {
-    max-width: 1000px; margin: clamp(32px, 3vw, 40px) auto;
-    background: var(--surface); border: 1px solid var(--line);
-    border-radius: var(--radius-large); padding: clamp(24px, 3.4vw, 44px);
-    transition: transform 0.25s cubic-bezier(.22,1,.36,1), box-shadow 0.25s ease;
-  }
-  .case-shot:hover { transform: translateY(-6px); box-shadow: 0 16px 32px rgba(23,17,14,0.09); }
-  @media (prefers-reduced-motion: reduce) { .case-shot { transition: none; } }
-  .case-shot .case-image-trigger { display: block; }
-  .case-shot .case-image-trigger:focus-visible { outline-offset: -3px; }
-  .case-shot img { display: block; width: 100%; height: auto; margin: 0; border-radius: var(--radius-medium); }
-
-  .case-steps { display: flex; flex-direction: column; gap: clamp(28px, 3vw, 40px); margin: clamp(32px, 3vw, 40px) 0; }
-  .case-step { max-width: 1000px; width: 100%; margin-inline: auto; }
-  .case-step .case-shot { margin-block: 0; }
-  .case-step__cap {
-    display: flex; gap: 10px; align-items: baseline; max-width: none;
-    font-size: var(--font-size-label); line-height: 1.5; color: var(--text-dim);
-    margin: 0 0 12px; padding-inline: clamp(24px, 3.4vw, 44px);
-  }
-  .case-step__num { font-family: var(--mono); font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; flex: none; }
-
-  /* ===== Формы подачи блока =====
-     Раньше каждый блок выглядел одинаково: заголовок, абзацы во всю колонку,
-     под ними картинка на 910px. Шесть блоков подряд с одним ритмом читаются
-     как список, а не как рассказ. Форма теперь выбирается по содержанию:
-
-       .case-rail   — текст без картинки, который является последовательностью
-                      (предположили → проверили → изменили). Номер несёт смысл,
-                      поэтому он здесь заслужен, а не декоративен.
-       .case-stats  — выборка исследования: числа, которые в прозе теряются.
-       .case-split  — один абзац и одна вертикальная картинка рядом (уже было).
-       .case-figs   — две связанные картинки в ряд.
-       .case-shot   — широкий экран во всю колонку кадра (уже было).
-       .result-card — итоги карточками (уже было).
-  */
-
-  /* Шаги по горизонтали: номер на линии, под ним заголовок и текст. */
-  .case-rail {
-    display: grid; grid-template-columns: repeat(var(--rail-cols, 3), minmax(0, 1fr));
-    column-gap: clamp(20px, 2.4vw, 40px); row-gap: 32px;
-    margin: clamp(32px, 3.5vw, 48px) 0 clamp(28px, 3vw, 40px);
-  }
-  .case-rail__step { position: relative; padding-top: 54px; min-width: 0; }
-  /* Соединительная линия тянется от номера к следующему шагу. */
-  .case-rail__step::before {
-    content: ''; position: absolute; top: 17px; left: 42px;
-    right: calc(-1 * clamp(20px, 2.4vw, 40px)); height: 1px;
-    background: var(--line-strong);
-  }
-  .case-rail__step:last-child::before { display: none; }
-  .case-rail__num {
-    position: absolute; top: 0; left: 0; width: 34px; height: 34px; border-radius: 50%;
-    background: var(--nav-bg); color: var(--text-inverse);
-    display: grid; place-items: center;
-    font-family: var(--mono); font-size: 13px; font-weight: 500; line-height: 1;
-    font-variant-numeric: tabular-nums;
-  }
-  .case-rail__title {
-    font-family: var(--display); font-weight: var(--font-weight-heading);
-    font-size: var(--font-size-h3); line-height: 1.25; color: var(--text);
-    margin: 0 0 10px; text-wrap: balance;
-  }
-  .case-rail__text {
-    font-size: var(--font-size-body); line-height: var(--line-height-body);
-    color: var(--text-dim); margin: 0; max-width: 42ch; text-wrap: pretty;
-  }
-  @media (max-width: 900px) {
-    .case-rail { grid-template-columns: 1fr; row-gap: 28px; }
-    .case-rail__step { padding-top: 0; padding-left: 52px; }
-    .case-rail__step::before {
-      top: 42px; bottom: -28px; left: 17px; right: auto; width: 1px; height: auto;
-    }
-    .case-rail__text { max-width: none; }
-  }
-
-  /* Выборка исследования. Числа из утверждённого текста, не пересчитаны. */
-  .case-stats {
-    display: flex; flex-wrap: wrap; gap: clamp(24px, 4vw, 64px);
-    margin: clamp(28px, 3vw, 40px) 0;
-    padding: clamp(18px, 2vw, 24px) 0;
-    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-  }
-  .case-stats__item { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-  .case-stats__num {
-    font-family: var(--display); font-weight: var(--font-weight-heading);
-    font-size: clamp(26px, 2.8vw, 36px); line-height: 1; color: var(--text);
-    font-variant-numeric: tabular-nums;
-  }
-  .case-stats__label { font-size: var(--font-size-label); line-height: 1.45; color: var(--text-dim); }
-
-  /* Две связанные картинки в ряд. */
-  /* Пара картинок во всю ширину колонки, а не в суженном кадре: две
-     половины по ~600px читаются, две по 454px — уже нет. */
-  .case-figs {
-    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(20px, 2.4vw, 32px); align-items: start;
-    margin: clamp(32px, 3vw, 40px) 0;
-  }
-  .case-figs .case-shot { margin: 0; max-width: none; }
-  @media (max-width: 860px) { .case-figs { grid-template-columns: 1fr; } }
-
-  /* Картинка внутри половины сетки — тот же кадр, без собственной ширины. */
-  .case-split .case-shot { margin: 0; max-width: none; }
-  .case-split-text p + p { margin-top: 16px; }
-
-  /* Закрывающая строка блока итогов: что проверять дальше. */
-  .case-next-step {
-    margin-top: clamp(28px, 3vw, 40px); padding-top: clamp(18px, 2vw, 24px);
-    border-top: 1px solid var(--line);
-    display: flex; flex-direction: column; gap: 6px;
-  }
-  .case-next-step__label {
-    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--text-dim);
-  }
-  .case-next-step p { margin: 0; max-width: 62ch; }
-
-  /* Подзаголовок кейса под H1 (content.json → subtitle). */
-  .case-headline {
-    font-family: var(--display); font-weight: var(--font-weight-heading);
-    font-size: var(--font-size-h4); line-height: 1.3; color: var(--text);
-    margin: 14px 0 0; max-width: 34ch; text-wrap: pretty;
-  }
-
-  /* Таблица решений внутри кейса. Настоящая <table>, горизонтальный скролл
-     внутри своего контейнера — страница по горизонтали не едет. */
-  .case-table-wrap {
-    margin-top: clamp(24px, 2.5vw, 32px); margin-bottom: clamp(20px, 2vw, 24px); overflow-x: auto;
-    border: 1px solid var(--line); border-radius: var(--radius-medium); background: var(--surface);
-    width: 100%; min-width: 0; max-width: 100%;
-  }
-  .case-table-wrap:focus-visible { outline: 2px solid var(--text-strong); outline-offset: -2px; }
-  .case-table { width: 100%; min-width: 480px; border-collapse: collapse; }
-  .case-table th, .case-table td {
-    padding: clamp(14px, 1.6vw, 20px) clamp(16px, 2vw, 24px); text-align: left;
-    font-size: var(--font-size-label); line-height: 1.5; color: var(--text-dim);
-    border-bottom: 1px solid var(--line); white-space: normal; vertical-align: top;
-  }
-  .case-table thead th {
-    font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em;
-    color: var(--text-dim-2); font-weight: 500; background: var(--surface);
-  }
-  .case-table tbody th {
-    font-family: var(--display); font-weight: 600; color: var(--text);
-    position: sticky; left: 0; background: var(--surface); min-width: 150px;
-  }
-  .case-table tbody tr:last-child th, .case-table tbody tr:last-child td { border-bottom: 0; }
-
-  /* Подпись под иллюстрацией. В HTML, а не внутри растра, и не дублирует alt. */
-  .case-shot { margin-inline: auto; }
-  .case-shot__cap {
-    margin: 14px 0 0; font-size: var(--font-size-label); line-height: 1.5;
-    color: var(--text-dim); max-width: 62ch;
-  }
-
-  /* «Дополнительные экраны»: материалы реестра с placement: gallery.
-     <details> вместо самодельного аккордеона — работает с клавиатуры
-     и без JS, состояние читается скринридером. */
-  .case-gallery {
-    margin-top: clamp(56px, 6vw, 88px);
-    border-top: 1px solid var(--line); padding-top: clamp(20px, 2vw, 28px);
-  }
-  .case-gallery__summary {
-    cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 10px;
-    font-family: var(--display); font-weight: 600; font-size: var(--font-size-h3);
-    color: var(--text); padding: 6px 2px; border-radius: var(--radius-small);
-  }
-  .case-gallery__summary::-webkit-details-marker { display: none; }
-  .case-gallery__summary::after {
-    content: '+'; font-family: var(--mono); font-weight: 500; font-size: 0.8em;
-    color: var(--text-dim); transition: transform 0.2s ease;
-  }
-  .case-gallery[open] .case-gallery__summary::after { content: '\2212'; }
-  .case-gallery__summary:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 3px; }
-  .case-gallery__body { display: flex; flex-direction: column; gap: clamp(28px, 3vw, 40px); margin-top: 24px; }
-  @media (prefers-reduced-motion: reduce) { .case-gallery__summary::after { transition: none; } }
-  .case-split-media .case-image-trigger:focus-visible { outline-offset: -3px; }
-
-  .detail-block.reveal-pending {
-    opacity: 0; transform: translateY(22px);
-    transition: opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1);
-  }
-  .detail-block.reveal-pending.in-view { opacity: 1; transform: none; }
-  @media (prefers-reduced-motion: reduce) { .detail-block.reveal-pending { opacity: 1; transform: none; transition: none; } }
-  /* A caption sitting above its own image, paired with a twin column so two
-     photo+caption pairs read side by side instead of each getting a full row. */
-  .case-split-pair { display: flex; flex-direction: column; }
-  .case-split-pair .case-split-text { margin-bottom: 14px; }
-  /* The fixed bottom dock (Главная страница / Нравится / Следующий кейс)
-     is taller relative to the viewport on mobile, so its safe area at the
-     end of the page needs more room there than the 160px desktop floor. */
-  @media (max-width: 720px) {
-    .case-page { padding-bottom: 200px; }
-  }
-  .case-header { margin-bottom: 48px; }
-  .case-meta-group { display: flex; flex-direction: column; gap: 16px; margin-top: 10px; }
-  .case-meta-line {
-    font-family: var(--mono); font-size: var(--font-size-label); text-transform: uppercase;
-    letter-spacing: 0.03em; color: var(--text-dim);
-  }
-  .case-tags { display: flex; gap: 8px; flex-wrap: wrap; font-size: var(--font-size-label); }
-  .case-tags span { background: var(--accent-blue-bg); border: 1px solid rgba(27, 96, 217, 0.35); color: var(--accent-blue); padding: 5px 12px; border-radius: 999px; }
-  h1.case-title {
-    font-family: var(--display); font-size: var(--font-size-h1); font-weight: var(--font-weight-heading);
-    line-height: var(--line-height-h1); letter-spacing: -0.02em;
-  }
-  /* Shared intro facts block — see case-alif-partners.html's .case-facts,
-     the reference component for this system (DESIGN.md item 10). */
-  .case-facts {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px 24px;
-    margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line);
-  }
-  .case-facts dt { font-family: var(--mono); font-size: var(--font-size-label); text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim-2); margin-bottom: 4px; }
-  .case-facts dd { font-size: var(--font-size-label); color: var(--text); line-height: 1.4; }
-  /* Spacing unified with case-alif-partners.html: 80-120px desktop /
-     56-72px mobile between major numbered sections, 24-32px heading→body. */
-  .detail-block { margin-top: clamp(80px, 8vw, 120px); padding-top: var(--space-7); scroll-margin-top: 110px; }
-  @media (max-width: 720px) { .detail-block { margin-top: clamp(56px, 10vw, 72px); } }
-  /* Result section's h2 has no kicker line under it, so it reads cramped
-     against the intro paragraph at the default heading→text gap. */
-  .detail-block:last-child .detail-head { margin-bottom: clamp(32px, 3.4vw, 44px); }
-  /* Three-level section heading, shared scale across all four case pages —
-     see case-alif-partners.html and typography-hierarchy instruction §2. */
-  .detail-head {
-    margin-bottom: clamp(24px, 2.4vw, 32px);
-  }
-  .detail-head h2 {
-    font-family: var(--display); font-size: var(--font-size-h2); line-height: var(--line-height-heading);
-    font-weight: 700; letter-spacing: -0.01em; text-wrap: balance; color: var(--text-strong);
-  }
-  .detail-dek {
-    font-family: var(--sans); font-weight: 500; font-size: var(--font-size-h4);
-    line-height: 1.35; color: var(--text-dim); margin: 8px 0 0; max-width: 46ch; text-wrap: pretty;
-  }
-  .detail-block p { color: var(--text-dim); font-size: var(--font-size-body); line-height: var(--line-height-body); max-width: 60ch; margin-bottom: clamp(20px, 2vw, 24px); text-wrap: pretty; }
-  .detail-block p.accent-callout {
-    background: var(--accent-blue-bg); color: var(--text-strong); font-weight: 500;
-    border-radius: 16px; padding: clamp(18px, 2vw, 24px); max-width: none;
-  }
-  .detail-block > p:last-child { margin-bottom: 0; }
-  /* Image treatment unified with case-alif-partners.html: radius-large outer,
-     object-fit: contain, no cropping. All content shots run through
-     .case-split-media (surface + border + padding, radius-medium on the
-     img itself) on the 12-col grid — no separate full-width frame class. */
-  .detail-block img { display: block; width: 100%; height: auto; border-radius: var(--radius-large); margin-bottom: 18px; object-fit: contain; }
-  .case-image-trigger {
-    display: block; width: 100%; padding: 0; margin: 0; border: 0; background: none;
-    cursor: pointer; font: inherit; color: inherit; text-align: inherit;
-  }
-  .case-image-trigger:focus-visible {
-    outline: 3px solid var(--accent-blue); outline-offset: 3px; border-radius: var(--radius-large);
-  }
-
-  /* Compact caption above the slider (§ Проверка концепций) — reads as the
-     illustration's title, not a separate section: no card, no comparison
-     text repeated over the image, just a short line tying the label
-     directly to the interactive stage below it. */
-  .detail-block .slider-caption {
-    position: relative; margin-top: clamp(24px, 2.4vw, 32px); margin-bottom: clamp(12px, 1.2vw, 16px);
-    font-family: var(--sans); font-weight: 500; font-size: clamp(16px, 1vw, 18px);
-    color: var(--accent-blue); max-width: none;
-  }
-  .slider-caption::before {
-    content: ''; display: block; width: 28px; height: 2px; border-radius: 2px;
-    background: var(--accent-blue); margin-bottom: 10px;
-  }
-  .detail-block .concept-check__verdict { margin-top: clamp(20px, 2vw, 24px); font-size: var(--font-size-body); color: var(--text); max-width: 60ch; }
-  .concept-check__verdict b { color: var(--accent-blue); font-weight: 700; }
-
-  /* Interactive card/table comparison slider (§ Работа с торговыми счетами).
-     A real <input type="range"> drives everything (drag, touch, arrow-key
-     stepping, screen-reader value): it's fully transparent and covers the
-     whole stage, so the entire image is draggable, not just a thin handle.
-     The visible circular grip is a separate, non-interactive element kept
-     in sync via the --pos custom property.
-     Two full images are stacked as separate layers, base (table) under
-     overlay (cards) — .compare-slider__overlay MUST be position:absolute
-     with inset:0 of its own, not just clip-path, otherwise it has no box
-     to compute the clip against and the overlay image never renders (the
-     exact bug this comment replaces: without real dimensions on the
-     overlay itself, its child img positions against the *stage* instead,
-     the clip region collapses to zero height, and only the base table
-     image is ever visible on both sides of the handle). */
-  .compare-slider__frame {
-    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-large);
-    padding: clamp(20px, 3vw, 32px); margin-top: 0;
-  }
-  .compare-slider__stage {
-    position: relative; overflow: hidden; border-radius: var(--radius-medium);
-    aspect-ratio: 2720 / 1550; touch-action: none; user-select: none; --pos: 50;
-  }
-  .compare-slider__stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center; display: block; margin: 0; border-radius: 0; pointer-events: none; }
-  .compare-slider__overlay { position: absolute; inset: 0; clip-path: inset(0 calc((100 - var(--pos)) * 1%) 0 0); }
-  /* Narrow stages can't fit both labels on one row (each pill is ~150-170px);
-     moving the right tag to the opposite corner keeps them from ever
-     colliding regardless of label length or stage width. */
-  @media (max-width: 480px) {
-    }
-  .compare-slider__handle {
-    position: absolute; top: 0; bottom: 0; left: calc(var(--pos) * 1%); width: 2px;
-    background: rgba(255,255,255,0.9); box-shadow: 0 0 0 1px var(--line);
-    transform: translateX(-50%); pointer-events: none; z-index: 2;
-  }
-  .compare-slider__grip {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 44px; height: 44px; border-radius: 50%;
-    background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-control);
-    display: flex; align-items: center; justify-content: center; gap: 3px;
-    font-family: var(--mono); font-size: 0.8rem; color: var(--text-dim);
-  }
-  .compare-slider__range {
-    position: absolute; inset: 0; width: 100%; height: 100%; margin: 0;
-    appearance: none; -webkit-appearance: none; background: transparent;
-    cursor: ew-resize; z-index: 3; touch-action: none;
-  }
-  .compare-slider__range::-webkit-slider-runnable-track { background: transparent; }
-  .compare-slider__range::-moz-range-track { background: transparent; }
-  .compare-slider__range::-webkit-slider-thumb { -webkit-appearance: none; width: 44px; height: 44px; background: transparent; border: 0; cursor: ew-resize; }
-  .compare-slider__range::-moz-range-thumb { width: 44px; height: 44px; background: transparent; border: 0; cursor: ew-resize; }
-  .compare-slider__range:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 4px; }
-  /* Extra breathing room below the frame so the fixed bottom dock
-     (Главная страница / Нравится / Следующий кейс) never sits on top of
-     the comparison image while scrolling past this section. */
-  /* Clearance sized against the dock's own footprint (min-height 48px on
-     mobile + its bottom offset + safe-area-inset-bottom on notched phones),
-     not just the sitewide spacing scale, so the fixed dock can't rest on
-     top of the image during a normal scroll stop. */
-  .compare-slider__frame { margin-bottom: clamp(80px, 8vw, 96px); }
-  .compare-slider.case-grid { margin-top: clamp(24px, 2.4vw, 32px); }
-
-  /* Sequential support-flow steps (§ Поддержка внутри продукта) — each step
-     is a short 4-col label+caption beside an 8-col screenshot on the grid,
-     stacked one below the other, never a side-by-side mosaic of two
-     unrelated-looking shots. */
-  .support-flow { display: flex; flex-direction: column; gap: clamp(48px, 5vw, 64px); margin-top: clamp(32px, 3vw, 40px); }
-  .support-flow__label { display: block; font-family: var(--mono); font-size: var(--font-size-label); text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim-2); }
-  .support-flow .support-flow__caption { margin: 8px 0 0; font-size: var(--font-size-body); color: var(--text-dim); line-height: var(--line-height-body); max-width: 60ch; }
-
-  /* Merged "Результат и критерии успеха" section — one intro paragraph on
-     what shipped, then four cards each tying a product result to the
-     metric it was judged by. */
-  .result-cards { margin-top: clamp(32px, 3vw, 40px); row-gap: 22px; align-items: stretch; }
-  .result-card {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    box-shadow: none;
-    border-radius: 20px;
-    min-height: 200px;
-    padding: clamp(28px, 2.6vw, 36px);
-    display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 8px; min-width: 0;
-  }
-  /* Descendant-scoped (.result-card ...) so these beat .detail-block p's
-     (class+element) specificity — a bare .result-card__label class alone
-     was losing that cascade fight and silently falling back to body-text
-     color/size/margin. See visual-audit finding P0. */
-  .result-card .result-card__label {
-    display: flex; align-items: center; gap: 7px;
-    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--text-dim); margin: 0 0 2px;
-  }
-  .result-card .result-card__label::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent-blue); flex-shrink: 0; }
-  .result-card .result-card__metric { font-family: var(--display); font-weight: 600; font-size: var(--font-size-nav-title); color: var(--text); line-height: 1.35; margin: 0; max-width: none; }
-  .result-card .result-card__desc { font-size: var(--font-size-label); color: var(--text-dim); line-height: 1.55; margin: 0; max-width: none; }
-  .result-card .result-card__desc strong { color: var(--text); font-weight: 600; }
-
-  /* ===== Case floating dock (like + next case) — shared across all case pages =====
-     Two independent glass controls, fixed to the viewport like the top nav —
-     see DESIGN.md § Floating case controls. Never a full-width panel. */
   .sr-only {
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
@@ -597,12 +35,7 @@ h1.case-title,.detail-head h2,.case-lead-title{font-family:Literata,Georgia,seri
     box-shadow:
       0 10px 32px rgba(15, 13, 12, 0.12),
       inset 0 1px 0 rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px) saturate(125%);
-    -webkit-backdrop-filter: blur(20px) saturate(125%);
     border-radius: var(--radius-pill);
-  }
-  @supports not (backdrop-filter: blur(1px)) {
-    .case-next, .case-prev { background: rgba(248, 248, 248, 0.94); }
   }
 
   .case-prev {
@@ -648,680 +81,1228 @@ h1.case-title,.detail-head h2,.case-lead-title{font-family:Literata,Georgia,seri
     .case-floating-nav { transition: none; opacity: 1; transform: translateX(-50%); }
     .case-next__arrow, .case-prev__arrow, .case-next, .case-prev { transition: none; }
   }
-  /* On short viewports (common laptop heights, e.g. 1280x720/1366x768) the
-     hero+facts+context-cards stack can reach as far down as the fixed
-     bottom case-floating-nav dock at scroll position 0. The dock stays
-     fixed and always visible by design (see DESIGN.md §13.3) — it is not
-     hidden or scroll-triggered — so the fix compacts the vertical rhythm
-     above the fold instead, just enough to clear the dock's reserved
-     ~76px-tall zone at the bottom of the viewport. */
-  @media (max-height: 850px) and (min-width: 768px) {
-    .case-page { padding-top: 108px; }
-    .case-facts { margin-top: 20px; padding-top: 20px; }
-    .case-context-cards { margin-top: 56px; }
-    .case-context-card { padding: clamp(20px, 2.2vw, 28px); }
-  }
-  @media (max-height: 760px) and (min-width: 768px) {
-    .case-page { padding-top: 84px; }
-    .case-meta-group { gap: 10px; margin-top: 8px; }
-    .case-facts { margin-top: 8px; padding-top: 8px; }
-    .case-context-cards { margin-top: 16px; }
-    .case-context-card { padding: clamp(12px, 1.5vw, 18px); }
-  }
+/* ===== Sber case v13: «холст» (design-canvas page): grid, ruler, stickies, selection frames, calm book column ===== */
+:root{
+  --paper:#FFFFFF; --ink:#151515; --ink2:#5E605C; --mute:#9A9C97; --grid:rgba(20,20,20,.045); --hair:#E6E6E2; --plate:#F4F4F1; --panel:#F4F4F1;
+  --green:#21A038; --gt:#137A26; --deep:#0D5F21;
+  --n-mint:#CFEFD8; --n-lime:#E7F59B; --n-peach:#F8D9C4; --n-sky:#CFE6F7; --chosen:#F3E3A3;
+  --serif:Literata,Georgia,"Times New Roman",serif; --sans:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif; --sans2:var(--sans);
+  --mono:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif; --hand:Literata,Georgia,serif;
+  --radius-pill:999px; --shadow-control:0 8px 20px rgba(23,17,14,.08); --font-size-nav-label:.72rem; --font-size-nav-title:1.05rem;
+  --display:var(--sans); --text-strong:#151515; --text-dim:#5E605C;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[data-lang="en"]{display:none}
+html.lang-en [data-lang="ru"]{display:none}
+html.lang-en [data-lang="en"]{display:inline}
+html{background:#fff}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;margin:8px 0 0;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:100px 100px}
+body{margin:0}
+main{overflow-x:clip}
+img{display:block;max-width:100%}
+a{color:var(--gt)}
+:focus-visible{outline:2px solid var(--gt);outline-offset:3px}
+::selection{background:rgba(19,122,38,.2);color:var(--ink)}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+/* top: centred nav pill + ruler */
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--hair)}
+.navrow{display:flex;justify-content:center;padding-block:10px;padding-inline:8px}
+.site-nav{position:static;transform:none;display:flex;align-items:center;gap:2px;padding:4px 4px 4px 18px;border-radius:999px;border:1px solid var(--hair);background:#fff;box-shadow:none;font-size:13.5px;max-width:100%}
+.site-nav.is-nav-hidden{transform:none;opacity:1;pointer-events:auto}
+.site-nav a{text-decoration:none}
+.site-nav .nav-name{font:600 13.5px/1.2 var(--sans);color:var(--ink);margin:0 12px 0 0;white-space:nowrap;padding:0}
+.site-nav a.nav-link{font:400 13.5px/1.2 var(--sans);color:var(--ink2);padding:7px 12px;border-radius:999px;white-space:nowrap;position:relative}
+.site-nav a.nav-link::after{content:"";position:absolute;inset:-7px 0}
+.site-nav a.nav-link:hover,.site-nav a.nav-link:focus-visible{background:var(--plate);color:var(--ink)}
+.site-nav .lang-toggle{all:unset;box-sizing:border-box;cursor:pointer;position:relative;font:400 13.5px/1.2 var(--sans);background:var(--plate);color:var(--ink);padding:7px 12px;border-radius:999px;margin:0}
+.site-nav .lang-toggle::after{content:"";position:absolute;inset:-7px -2px}
+.site-nav .lang-toggle:hover{background:#EAEAE6}
+.site-nav .lang-toggle:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.ruler{height:16px;position:relative;overflow:hidden;font:500 9px var(--mono);color:var(--mute);background:repeating-linear-gradient(90deg,rgba(20,20,20,.18) 0 1px,transparent 1px 10px) left bottom/100% 4px no-repeat,repeating-linear-gradient(90deg,rgba(20,20,20,.25) 0 1px,transparent 1px 100px) left bottom/100% 8px no-repeat}
+.ruler span{position:absolute;top:1px}
+.ticks{position:fixed;left:max(10px,env(safe-area-inset-left,0px));top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:9px;z-index:15}
+.ticks i{display:block;width:10px;height:1px;background:var(--mute);transition:width .3s,background .3s}
+.ticks i.on{width:22px;background:var(--ink)}
+/* type */
+.lab{font:500 11.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+h1{font:600 clamp(28px,3vw,40px)/1.12 var(--serif);letter-spacing:-.012em;text-wrap:balance;margin:.67em 0}
+h2{font:600 clamp(22px,2vw,27px)/1.2 var(--serif);letter-spacing:-.012em;text-wrap:balance;margin:.83em 0}
+h3{font:600 clamp(18px,1.5vw,21px)/1.25 var(--serif);letter-spacing:-.012em;margin:1em 0}
+p{margin:1em 0}
+figure{margin:1em 40px}
+ul{margin:1em 0;padding-left:40px}
+.read{font:400 clamp(17px,1.35vw,19px)/1.6 var(--serif);color:#262626;max-width:36em}
+.read+.read{margin-top:14px}
+.cap{font:italic 400 16px/1.4 var(--serif);color:var(--ink2);margin-top:12px}
+.hand{font:italic 500 1.12em/1 var(--hand);color:var(--gt);position:relative;white-space:nowrap}
+.hand::after{content:"";position:absolute;left:0;right:0;bottom:-.08em;height:.12em;background:currentColor;border-radius:4px;transform-origin:0 50%;transform:scaleX(0);transition:transform .9s .2s cubic-bezier(.2,.7,.2,1)}
+.vis .hand::after{transform:scaleX(1)}
+.arrow{display:flex;gap:12px;align-items:baseline;margin-top:18px;font:400 18px/1.5 var(--serif)}
+.arrow::before{content:"↳";font-family:var(--sans);color:#D9A21B}
+.tag{display:inline-flex;align-items:center;height:26px;padding:0 10px;font:500 11px var(--mono);letter-spacing:.05em;text-transform:uppercase;position:relative;border-radius:0 4px 4px 4px}
+.tag::before{content:"";position:absolute;left:0;top:-6px;width:40%;height:7px;background:inherit;border-radius:4px 4px 0 0;clip-path:polygon(0 100%,0 0,78% 0,100% 100%)}
+.chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:999px;font:500 11px var(--mono);letter-spacing:.05em;text-transform:uppercase}
+.c-prob{background:#E8456B;color:#fff}.c-dec{background:#ECECE8;color:var(--ink)}.c-res{background:var(--n-sky)}.c-hyp{background:var(--n-lime)}
+.sb{font-family:var(--sans);font-size:15px}
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:48px;align-items:center;padding-block:72px 40px}
+.hero .meta{display:flex;align-items:center;gap:10px}
+.hero h1{margin-top:18px}
+.hero .read{margin-top:16px;max-width:30em}
+.tags{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.notes{position:relative;height:300px}
+.note{position:absolute;width:200px;padding:14px 16px 16px;box-shadow:0 10px 24px rgba(20,20,20,.08);transform:rotate(var(--r)) translateY(24px);opacity:0;transition:transform .8s cubic-bezier(.2,.8,.2,1.2),opacity .5s}
+.vis .note,.note.vis{transform:rotate(var(--r));opacity:1}
+.note .lab{color:var(--ink)}
+.note p{margin-top:8px;font-size:14.5px;line-height:1.4}
+/* figures: grey plate + selection frame */
+.fig{margin-top:28px}
+.plate{position:relative;background:var(--plate);padding:clamp(28px,4vw,56px) 16px;display:flex;justify-content:center;align-items:flex-start;gap:clamp(12px,2.5vw,28px);flex-wrap:wrap}
+.sel{position:relative}
+.sel>.h1x{position:absolute;inset:-11.5px;border:1.5px solid var(--sel,#2F7BF6);pointer-events:none}
+.sel>.h1x::before,.sel>.h1x::after,.sel>.h1x>i{content:"";position:absolute;width:9px;height:9px;background:#fff;border:1.5px solid var(--sel,#2F7BF6)}
+.sel>.h1x::before{left:-5px;top:-5px}.sel>.h1x::after{right:-5px;top:-5px}
+.sel>.h1x>i:first-child{left:-5px;bottom:-5px}.sel>.h1x>i:last-child{right:-5px;bottom:-5px}
+.sel .sz{position:absolute;left:50%;bottom:-36px;transform:translateX(-50%);font:500 10px var(--mono);color:#fff;background:var(--sel,#2F7BF6);padding:2px 6px;border-radius:3px;white-space:nowrap}
+.stick{position:absolute;padding:8px 12px;font-size:13px;box-shadow:0 8px 18px rgba(20,20,20,.08);transform:rotate(var(--r,-3deg));z-index:2;max-width:200px;line-height:1.3}
+.phone{width:var(--pw,210px);padding:calc(var(--pw,210px)*.032);border-radius:calc(var(--pw,210px)*.165);background:#151517;box-shadow:0 22px 44px rgba(0,0,0,.16);flex:none}
+.phone img{width:100%;height:auto;aspect-ratio:937/2026;border-radius:calc(var(--pw,210px)*.135);background:#fff}
+/* sections */
+.sec{padding-top:clamp(80px,9vw,128px)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start}
+.sec h2{margin-top:14px}
+.stat{display:flex;align-items:baseline;gap:14px;margin-top:22px;padding:16px 18px;background:#fff;border:1px solid var(--hair)}
+.stat b{font:600 30px/1 var(--sans);color:var(--gt);font-variant-numeric:tabular-nums}
+.stat .t{font-size:14px;line-height:1.45;color:var(--ink2)}
+.task{margin-top:22px;padding:16px 18px;background:var(--n-mint);font:400 18px/1.5 var(--serif)}
+.task b{font-family:var(--sans);font-weight:600;font-size:15px}
+.quote{text-align:center;font:italic 400 clamp(18px,1.6vw,21px)/1.5 var(--serif);color:#2a2a2a;max-width:30em;margin:clamp(60px,7vw,96px) auto 0}
+.wave{display:block;width:100%;height:40px;margin-top:clamp(60px,7vw,90px)}
+.wave path{stroke-dasharray:1400;stroke-dashoffset:1400;transition:stroke-dashoffset 2s cubic-bezier(.2,.7,.2,1)}
+.wave.vis path{stroke-dashoffset:0}
+table{width:100%;border-collapse:collapse;margin-top:22px;font-size:14.5px;background:#fff}
+th{font:500 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);text-align:left;padding:10px 12px;border-bottom:1px solid var(--ink)}
+td{padding:12px;border-bottom:1px solid var(--hair);vertical-align:top;line-height:1.45}
+td:first-child{font-weight:600;white-space:nowrap}
+.tbl{overflow-x:auto}
+/* artifacts: thumbnails that open the full image in the zoom viewer */
+.arts{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.art{all:unset;box-sizing:border-box;cursor:pointer;display:block;width:100%;background:#fff;border:1px solid var(--hair);padding:10px;transition:border-color .2s,box-shadow .2s}
+.art:hover{border-color:#BDBDB7;box-shadow:0 8px 22px rgba(20,20,20,.07)}
+.art:focus-visible{outline:2px solid var(--gt);outline-offset:3px}
+.art .th{display:block;position:relative}
+.art img{width:100%;height:auto;aspect-ratio:1000/720;object-fit:contain;background:var(--plate)}
+.art .tt{display:block;margin-top:8px;font-size:13px;color:var(--ink)}
+.art .open{position:absolute;right:8px;bottom:8px;display:inline-flex;align-items:center;justify-content:center;gap:6px;height:30px;padding:0 12px;border-radius:999px;background:#151515;color:#fff;font:500 12.5px/1 var(--sans);white-space:nowrap}
+.art .open>span{display:block;line-height:1}html:not(.lang-en) .art .open>[data-lang="en"],html.lang-en .art .open>[data-lang="ru"]{display:none}
+.art .open svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.art:hover .open,.art:focus-visible .open{background:#000}
+/* hypothesis toggle */
+.seg{display:inline-flex;padding:3px;border-radius:999px;background:#fff;border:1px solid var(--hair);margin-top:20px}
+.seg button{all:unset;cursor:pointer;padding:7px 14px;border-radius:999px;font-size:13px;color:var(--ink2)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.seg button:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.seg .new{font:500 9px var(--mono);background:#F39A3D;color:#fff;padding:1px 5px;border-radius:999px;margin-left:6px;vertical-align:2px}
+.swap{position:relative}
+.swap img{transition:opacity .4s}
+.chain{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:22px}
+.chain>span{padding:8px 12px;border:1px solid var(--hair);background:#fff;font-size:13.5px}
+.chain>span.on{background:var(--n-lime);border-color:transparent}
+.chain em{font-style:normal;color:var(--mute)}
+/* decisions */
+.dec{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start;padding-top:clamp(64px,7vw,96px)}
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.opt{display:grid;grid-template-columns:18px 1fr;gap:12px;padding:14px 16px;border:1px solid var(--hair);background:#fff;border-radius:10px}
+.opt .ic{position:relative;width:16px;height:16px;border-radius:50%;border:1.5px dashed var(--mute);margin-top:2px}
+.opt .lab{font-size:10.5px;color:var(--mute)}
+.opt p{margin-top:6px;font-size:14.5px;line-height:1.45;color:#2b2b2b}
+.opt.chosen{background:var(--chosen);border-color:#E5CC6C}
+.opt.chosen .ic{border:1.5px solid #B48A12}
+.opt .ic::after{content:"";position:absolute;inset:2.5px;border-radius:50%;background:#B48A12;transform:scale(0)}
+.opt.chosen .ic::after{transform:scale(1)}
+.opt:not(.chosen){opacity:.55}
+.opt:not(.chosen) p{color:#111;text-decoration:line-through;text-decoration-color:rgba(21,21,21,.4);text-decoration-thickness:1px}
+.opt.chosen .lab{color:var(--ink)}
+/* calculator window */
+.win{background:#fff;border:1px solid var(--hair);border-radius:12px;overflow:hidden;box-shadow:0 18px 40px rgba(20,20,20,.06)}
+.win .bar{display:flex;gap:6px;padding:10px 12px;border-bottom:1px solid var(--hair);background:#FAFAF8}
+.win .bar i{width:10px;height:10px;border-radius:50%;background:#E8655A}.win .bar i:nth-child(2){background:#E9B840}.win .bar i:nth-child(3){background:#61C454}
+.modes{display:flex;gap:4px;padding:4px;margin:16px 20px 0;width:max-content;max-width:calc(100% - 40px);border-radius:999px;background:var(--plate);border:1px solid var(--hair)}
+.modes button{all:unset;box-sizing:border-box;cursor:pointer;padding:8px 16px;border-radius:999px;font:500 13.5px/1.2 var(--sans);color:var(--ink2);white-space:nowrap;transition:background-color .2s,color .2s}
+.modes button[aria-selected="true"]{background:#151515;color:#fff}
+.modes button:not([aria-selected="true"]):hover{color:var(--ink)}
+.modes button:focus-visible{outline:2px solid rgba(21,21,21,.35);outline-offset:2px}
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0}
+.calc>div{padding:20px}
+.calc .l{border-right:1px solid var(--hair)}
+.calc .l>.pane{animation:paneIn .3s ease both}
+@keyframes paneIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.item{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;column-gap:14px;padding:7px 0;border-bottom:1px solid #F0F0EC;font-size:14px;min-height:42px}
+.item i{font-style:normal;color:var(--ink2);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right;min-width:62px}
+.item.warn{background:linear-gradient(90deg,rgba(179,38,30,.06),transparent)}
+.avs{display:inline-flex;gap:4px}
+.av1{all:unset;box-sizing:border-box;cursor:pointer;width:28px;height:28px;border-radius:50%;display:inline-grid;place-items:center;font:600 12px/1 var(--sans);border:1.5px solid var(--hair);color:var(--mute);background:#fff;transition:background-color .2s,color .2s,border-color .2s;position:relative}
+.av1::after{content:"";position:absolute;inset:-4px -2px}
+.av1[aria-pressed="true"]{background:var(--pc);border-color:var(--pd);color:#151515}
+.av1:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.sub{margin-top:18px}
+.note-u{margin-top:10px;font-size:13px;font-weight:500;color:#9A3412}
+.people{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.people button{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 13px;border-radius:999px;border:1px solid var(--hair);font-size:13px;position:relative}
+.people button::after{content:"";position:absolute;inset:-4px -2px}
+.people button[aria-pressed="true"]{border-color:var(--ink)}
+.people button[aria-pressed="false"]{color:var(--mute)}
+.people button:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.people b{width:9px;height:9px;border-radius:50%;background:var(--pc);box-shadow:inset 0 0 0 1px var(--pd)}
+.people button[aria-pressed="false"] b{background:#ccc}
+.mrow{display:flex;align-items:center;gap:12px;margin-top:10px}
+.mrow label{flex:1;display:flex;align-items:center;gap:8px;font-size:14px}
+.mrow label b{width:9px;height:9px;border-radius:50%;background:var(--pc);box-shadow:inset 0 0 0 1px var(--pd);flex:none}
+.mrow .in{position:relative;width:150px;flex:none}
+.mrow input{all:unset;box-sizing:border-box;width:100%;height:40px;padding:0 30px 0 12px;border:1px solid #C9C9C4;border-radius:8px;background:#fff;font:500 15px/1 var(--sans);font-variant-numeric:tabular-nums;text-align:right;color:var(--ink)}
+.mrow input:focus,.mrow input:focus-visible{outline:none;border-color:var(--gt);box-shadow:inset 0 0 0 1px var(--gt)}
+.mrow .in::after{content:"₽";position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--ink2);font-size:14px;pointer-events:none}
+.btn2{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;margin-top:14px;height:36px;padding:0 14px;align-items:center;border-radius:10px;border:1px solid #C9C9C4;font:500 13.5px/1 var(--sans);color:var(--ink)}
+.btn2:hover{border-color:var(--ink)}
+.btn2:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.calc .r{display:flex;flex-direction:column}
+.share{display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #F0F0EC;font-size:14.5px}
+.share u{width:10px;height:10px;border-radius:3px;background:var(--pc);box-shadow:inset 0 0 0 1px var(--pd)}
+.share b{font-variant-numeric:tabular-nums;font-weight:600}
+.share.off{color:var(--mute)}
+.share.off u{background:#ccc}
+.sbar{display:flex;height:10px;margin:12px 0 8px;border-radius:4px;overflow:hidden;background:var(--plate)}
+.sbar i{flex:0 0 0;min-width:0;background:var(--pc);transition:flex-grow .5s cubic-bezier(.2,.7,.2,1);box-shadow:-2px 0 0 #fff}
+.sbar i:first-child{box-shadow:none}
+.sbar i.rest{background:repeating-linear-gradient(135deg,#E3E3DF 0 4px,#EDEDE9 4px 8px)}
+.status{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:13.5px;font-weight:500;min-height:20px;color:var(--ink2)}
+.status.ok{color:var(--gt)}
+.status.warn{color:#9A3412}
+.btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;margin-top:16px;height:40px;padding:0 16px;align-items:center;justify-content:center;border-radius:10px;background:#137A26;color:#fff;font-size:14px;font-weight:600;align-self:flex-start;transition:opacity .2s}
+.btn[aria-disabled="true"]{opacity:.38;cursor:not-allowed}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.big{font:600 30px var(--sans);margin-top:8px;font-variant-numeric:tabular-nums}
+/* metric canvas */
+.canvas{position:relative;background:#fff;border:1px solid var(--hair);border-radius:12px;padding:28px;background-image:radial-gradient(rgba(20,20,20,.12) 1px,transparent 1.2px);background-size:16px 16px;min-height:340px}
+.canvas svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.node{position:absolute;background:#fff;border:1px solid var(--hair);border-radius:8px;padding:10px 12px;font-size:13.5px;box-shadow:0 4px 10px rgba(20,20,20,.05);max-width:36%;line-height:1.3}
+.node[data-n=d],.node[data-n=e]{max-width:29%}
+.node .lab{font-size:9.5px;display:block;margin-bottom:4px}
+.node.root{border-color:var(--ink)}
+.node.lit{background:var(--n-lime);border-color:transparent}
+.next{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+.next li{display:flex;gap:12px;align-items:baseline;padding:12px 14px;background:#fff;border:1px solid var(--hair);font:400 17px/1.45 var(--serif)}
+.next li::before{content:"";flex:none;width:8px;height:8px;background:var(--green);transform:translateY(-2px)}
+.dec .plate{flex-wrap:nowrap;--pw:190px}.dec .phone{--pw:inherit}
+.f1{--pw:200px}
+.end{height:120px}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.vis{opacity:1;transform:none}
+.case-floating-nav.is-held{opacity:0!important;pointer-events:none;visibility:hidden}
+@media (max-width:900px){
+  .hero,.two,.dec{grid-template-columns:minmax(0,1fr);gap:28px}
+  .hero{padding-block:44px 24px}
+  .notes{height:auto;display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:6px}
+  .note{position:relative;width:auto;left:auto!important;top:auto!important}
+  .arts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .calc{grid-template-columns:minmax(0,1fr)}.calc .l{border-right:0;border-bottom:1px solid var(--hair)}
+  .ticks{display:none}
+  .phone,.f1{--pw:150px}
+  .plate>.f1{display:none}
+  .stick{left:8px!important;right:auto!important;top:8px!important;bottom:auto!important;font-size:12px}
+  .plate{padding-top:52px}
+  .arrow{display:block}.arrow::before{margin-right:8px}
+  .seg button{white-space:nowrap}
+  table,thead,tbody,tr,td{display:block}thead{display:none}tr{padding:10px 0;border-bottom:1px solid var(--hair)}td{border:0;padding:3px 12px}.dec .plate{--pw:140px}
+  .site-nav .nav-name{display:none}
+  .site-nav{padding-left:4px}
+  figure{margin-inline:0}
+  .canvas{min-height:460px}
+  .node,.node[data-n=d],.node[data-n=e]{max-width:none}
+  .art .tt{font-size:12px}
+  .node[data-n=root]{left:4%!important;top:4%!important}.node[data-n=a]{left:16%!important;top:23%!important}
+  .node[data-n=d]{left:30%!important;top:40%!important}.node[data-n=e]{left:30%!important;top:54%!important}
+  .node[data-n=b]{left:16%!important;top:70%!important}.node[data-n=c]{left:16%!important;top:85%!important}
+}
+@media (max-width:560px){
+  .calc>div{padding:16px}
+  .modes{margin:14px 16px 0;max-width:calc(100% - 32px);width:auto}
+  .modes button{flex:1;text-align:center;padding:9px 6px;font-size:13px}
+  .item{grid-template-columns:minmax(0,1fr) auto;row-gap:6px;padding:9px 0}
+  .item .avs{grid-column:1/-1;grid-row:2}
+  .av1{width:32px;height:32px}
+  .mrow{flex-wrap:wrap;gap:6px}
+  .mrow label{flex:1 1 100%}
+  .mrow .in{width:100%}
+}
+.pc0,.sbar i:nth-child(1){--pc:#BFE6CB;--pd:#7FC495}.pc1,.sbar i:nth-child(2){--pc:#C4DDF2;--pd:#86B4DE}.pc2,.sbar i:nth-child(3){--pc:#DDEE8C;--pd:#B3C94A}.pc3,.sbar i:nth-child(4){--pc:#F2CDB4;--pd:#DDA27E}
+/* ruler marker */
+.rmark{position:absolute;left:0;bottom:0;width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:7px solid var(--green);margin-left:-5px;will-change:transform}
+/* artifacts hover cue */
+.arts li{will-change:auto}
+.art{transition:border-color .2s,box-shadow .2s,transform .25s cubic-bezier(.2,.7,.2,1)}
+.art:hover,.art:focus-visible{transform:translateY(-3px)}
+@media (hover:hover){
+  .art .open{opacity:0;transform:translateY(8px);transition:opacity .2s,transform .25s cubic-bezier(.2,.7,.2,1),background-color .2s}
+  .art:hover .open,.art:focus-visible .open{opacity:1;transform:none}
+}
+/* ===== motion (only with html.mo: no ?settled, no reduced motion, JS running) ===== */
+.mo .p-hero:not(.go)>.phone,.mo .p-hero:not(.go)>.sel{opacity:0;transform:translateY(32px)}
+.mo .p-hero>.phone,.mo .p-hero>.sel{transition:opacity .7s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.mo .p-hero>:nth-child(2){transition-delay:.14s}.mo .p-hero>:nth-child(3){transition-delay:.28s}
+.mo .p-hero:not(.go)>.stick{opacity:0}
+.mo .p-hero>.stick{transition:opacity .5s 1.7s}
+.mo .plate:not(.go) .h1x,.mo .dec:not(.go) .h1x{opacity:0;transform:scale(.94)}
+.mo .plate .h1x,.mo .dec .h1x{transition:opacity .45s ease var(--fd,.35s),transform .6s cubic-bezier(.2,.8,.2,1) var(--fd,.35s)}
+.mo .plate:not(.go) .h1x>i,.mo .plate:not(.go) .h1x::before,.mo .plate:not(.go) .h1x::after,.mo .dec:not(.go) .h1x>i,.mo .dec:not(.go) .h1x::before,.mo .dec:not(.go) .h1x::after{transform:scale(0)}
+.mo .plate .h1x>i,.mo .plate .h1x::before,.mo .plate .h1x::after,.mo .dec .h1x>i,.mo .dec .h1x::before,.mo .dec .h1x::after{transition:transform .35s cubic-bezier(.3,1.7,.5,1) calc(var(--fd,.35s) + .3s)}
+.mo .p-hero{--fd:.95s}
+.mo .dec{--fd:2.3s}
+.mo .plate:not(.go) .sz{opacity:0;transform:translate(-50%,10px)}
+.mo .sz{transition:opacity .4s ease 1.6s,transform .5s cubic-bezier(.2,.8,.2,1) 1.6s}
+/* chips */
+.mo .chip:not(.pop){opacity:0;transform:scale(.8)}
+.mo .chip{transition:opacity .35s ease,transform .5s cubic-bezier(.3,1.6,.5,1)}
+/* artifacts stagger */
+.mo .arts:not(.go) li{opacity:0;transform:translateY(26px)}
+.mo .arts li{transition:opacity .6s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.mo .arts li:nth-child(2){transition-delay:.08s}.mo .arts li:nth-child(3){transition-delay:.16s}.mo .arts li:nth-child(4){transition-delay:.24s}.mo .arts li:nth-child(5){transition-delay:.32s}.mo .arts li:nth-child(6){transition-delay:.4s}
+/* hypothesis chain */
+.chain>span{transition:background-color .35s,border-color .35s}
+/* decisions sequence */
+.mo .dec:not(.go) .opt:not(.chosen){opacity:0}
+.mo .dec.go .opt:not(.chosen){animation:optA 1.5s ease both}
+@keyframes optA{0%{opacity:0;transform:translateY(10px)}30%{opacity:1;transform:none}62%{opacity:1}100%{opacity:.55}}
+.mo .dec.go .opt:not(.chosen) p{animation:strike .5s ease 1s both}
+@keyframes strike{from{text-decoration-color:transparent}to{text-decoration-color:rgba(21,21,21,.4)}}
+.mo .dec:not(.go) .opt:not(.chosen) p{text-decoration-color:transparent}
+.mo .dec:not(.go) .opt.chosen{opacity:0}
+.mo .dec.go .opt.chosen{animation:slideB .6s cubic-bezier(.2,.8,.2,1) 1.5s both}
+@keyframes slideB{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+.mo .dec:not(.go) .opt.chosen .ic::after{transform:scale(0)}
+.mo .dec.go .opt.chosen .ic::after{animation:dot .35s cubic-bezier(.3,1.7,.5,1) 2s both}
+@keyframes dot{from{transform:scale(0)}to{transform:scale(1)}}
+.dec .phone{transform:translate3d(0,var(--py,0px),0)}
+.mo .dec .phone{will-change:transform}
+/* metric tree */
+.mo #tree:not(.go) .node{opacity:0}
+.mo #tree .node{transition:opacity .5s ease}
+.mo #tree .node[data-n=a]{transition-delay:.12s}.mo #tree .node[data-n=b]{transition-delay:.2s}.mo #tree .node[data-n=c]{transition-delay:.28s}.mo #tree .node[data-n=d]{transition-delay:.36s}.mo #tree .node[data-n=e]{transition-delay:.44s}
+.mo #treeSvg path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .7s cubic-bezier(.4,0,.2,1)}
+.mo #tree.go #treeSvg path{stroke-dashoffset:0}
+/* next list */
+.mo .next:not(.go) li{opacity:0;transform:translateY(14px)}
+.mo .next li{transition:opacity .5s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
+.mo .next li:nth-child(2){transition-delay:.12s}.mo .next li:nth-child(3){transition-delay:.24s}
 
-  /* ===== Редакция 3.2: формы подачи блоков =====
-     Ни одна иллюстрация не шире 8 колонок из 12. Две композиции:
-       6 / 6 — обычная: текст и экран рядом, текст по центру визуала;
-       4 / 8 — редкая: группы мобильных экранов, широкие web-интерфейсы,
-               схемы процесса, сравнительные таблицы;
-       col-8-center — вступление в 6 колонок сверху, таблица или схема
-               в 8 колонках по центру контентной области.
-     .case-seq     — один сценарий по шагам, каждый шаг в той же сетке 4/8;
-     .case-cols    — параллельные наблюдения: колонка с засечкой акцента;
-     .case-results — итоги: тёмная полоса и четыре карточки 2×2.
-     Цвет кейса живёт в трёх переменных ниже и нигде больше не дублируется. */
-  :root {
-    --case-mark: #1B60D9;        /* метка: точка, номер шага, засечка колонки */
-    --case-mark-on: #FFFFFF;       /* текст поверх метки */
-    --case-mark-text: #1B60D9;   /* тот же акцент как текст на светлом фоне */
-  }
+@media (prefers-reduced-motion:reduce){.reveal,.note{opacity:1!important;transform:rotate(var(--r,0deg))!important;transition:none}.reveal{transform:none!important}.wave path{stroke-dashoffset:0;transition:none}.hand::after{transform:scaleX(1);transition:none}.sbar i{transition:none}.swap img{transition:none}.ticks i{transition:none}.art,.art .open,.modes button,.btn,.chain>span,.sbar i{transition:none!important}.calc .l>.pane{animation:none}}
 
-  .col-5 { grid-column: span 5; }
-  .col-7 { grid-column: span 7; }
-  @media (max-width: 767px) {
-    .case-grid > .col-5, .case-grid > .col-7 { grid-column: span 4; }
-  }
+.av{position:fixed;inset:0;z-index:300;background:#fff;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .2s ease}
+.av.is-open{opacity:1;pointer-events:auto}
+.av[hidden]{display:none}
+.av-bar{display:flex;align-items:center;gap:12px;padding:10px clamp(12px,2vw,24px);border-bottom:1px solid var(--hair);background:#fff;flex:none}
+.av-title{flex:1;min-width:0;font:500 15px/1.3 var(--sans2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink);margin:0}
+.av-ctl{display:flex;align-items:center;gap:6px}
+.av-btn{all:unset;box-sizing:border-box;cursor:pointer;min-width:44px;height:44px;padding:0 12px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #D6D6D3;border-radius:6px;font:500 18px/1 var(--sans2);color:var(--ink);background:#fff}
+.av-btn:hover{background:var(--panel)}
+.av-btn:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.av-btn.txt{font-size:14px;padding:0 16px}
+.av-zoom{min-width:56px;text-align:center;font:14px var(--sans2);color:var(--ink2);font-variant-numeric:tabular-nums}
+.av-stage{position:relative;flex:1;overflow:hidden;touch-action:none;cursor:grab;background:var(--panel)}
+.av-stage.is-drag{cursor:grabbing}
+.av-stage img{position:absolute;left:0;top:0;max-width:none;transform-origin:0 0;user-select:none;-webkit-user-drag:none;will-change:transform;background:#fff;border:1px solid var(--hair)}
+.av-hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);padding:8px 14px;background:#fff;border:1px solid var(--hair);font:13px var(--sans2);color:var(--ink2);pointer-events:none;white-space:nowrap;transition:opacity .4s}
+.av-hint.is-gone{opacity:0}
+body.av-open{overflow:hidden}
+body.av-open .case-floating-nav,body.av-open .site-nav{opacity:0;pointer-events:none}
 
-  /* Сторону визуала выбирает содержание, а не автоматическое чередование:
-     основной путь — текст слева, продолжение сценария — визуал слева.
-     В разметке всегда сначала текст, поэтому на мобильном порядок
-     сбрасывается и текст снова идёт первым. */
-  .case-split--flip > :last-child { order: -1; }
-  @media (max-width: 767px) { .case-split--flip > * { order: 0; } }
-  /* Выравнивание по верхнему краю: заголовок и абзац стоят рядом с верхом
-     визуала, а не разъезжаются по высоте картинки. */
-  .case-split { align-items: start; }
-  /* Оптическая поправка: у заголовка есть выносная линия, у рамки кадра нет. */
-  .case-split-text { padding-top: 6px; }
-  .case-split .compare-slider__frame { margin-top: 0; margin-bottom: 0; }
+/* ---- Alif Partners additions ---- */
+.p-shot{align-items:center}
+.p-shot>.sel{width:100%;max-width:900px}
+.shot{display:block;width:100%;max-width:900px;height:auto;border-radius:12px;box-shadow:0 18px 40px rgba(20,20,20,.08)}
+.sel>.shot{max-width:none}
+.shot.wide{max-width:1000px;box-shadow:none}
+.p-col{flex-direction:column;flex-wrap:nowrap}
+.dec .plate.p-shot{padding:clamp(28px,3vw,40px) clamp(18px,2.4vw,32px)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.stats .stat{margin-top:0;flex-direction:column;align-items:flex-start;gap:8px}
+.stats .stat b{font-size:clamp(24px,2.2vw,30px);white-space:nowrap}
+.hcard{padding:18px 20px;background:var(--n-lime)}
+.hcard .lab{color:var(--ink)}
+.hcard .read{margin-top:10px;font-size:18px}
+.steps{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:10px;counter-reset:st}
+.steps li{position:relative;padding:14px 16px 14px 52px;background:#fff;border:1px solid var(--hair);font:400 16px/1.45 var(--serif);color:#2b2b2b;counter-increment:st}
+.steps li::before{content:counter(st,decimal-leading-zero);position:absolute;left:16px;top:15px;font:500 11px var(--mono);color:var(--ink2)}
+.steps li b{display:block;margin-bottom:4px;font:600 14.5px/1.3 var(--sans);color:var(--ink)}
+.impact{margin-top:14px;padding:10px 14px;border-left:2px solid var(--gt);background:#fff;font-size:14px;line-height:1.45;color:#2b2b2b}
+.impact b{font-weight:600}
+.arts-1{grid-template-columns:minmax(0,1fr);max-width:760px}
+.arts-1 .art img{aspect-ratio:16/9;object-fit:cover;object-position:top center}
+/* ecosystem scheme */
+.eco-plate{flex-direction:column;align-items:center;padding-bottom:clamp(60px,6vw,84px)}
+.eco{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);align-items:center;width:100%;max-width:1000px;row-gap:0}
+.eco .en{position:relative;background:#fff;border:1px solid var(--hair);border-radius:10px;padding:16px 12px;text-align:center;font:600 16px/1.2 var(--sans);box-shadow:0 6px 16px rgba(20,20,20,.05)}
+.eco .en small{display:block;margin-top:6px;font:400 12.5px/1.3 var(--sans);color:var(--ink2)}
+.eco .en.on{background:var(--n-lime);border-color:transparent}
+.eco>.sel .sz{bottom:auto;top:-38px}
+.ea{position:relative;width:clamp(64px,8vw,112px);height:1.5px;background:#9A9C97;margin:0 6px}
+.ea::after{content:"";position:absolute;right:-2px;top:-4px;border-style:solid;border-width:4.75px 0 4.75px 8px;border-color:transparent transparent transparent #9A9C97}
+.ea>span{position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:max-content;max-width:110px;text-align:center;font:500 10px/1.25 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--ink2)}
+.eb{position:relative;height:34px}
+.eb.l{grid-column:1}.eb.m{grid-column:2/7;border-bottom:1.5px dashed #9A9C97}.eb.r{grid-column:7}
+.eb.l::before,.eb.r::before{content:"";position:absolute;top:0;bottom:0;border-bottom:1.5px dashed #9A9C97}
+.eb.l::before{left:50%;right:0;border-left:1.5px dashed #9A9C97;border-bottom-left-radius:12px}
+.eb.r::before{left:0;right:50%;border-right:1.5px dashed #9A9C97;border-bottom-right-radius:12px}
+.eb.l::after{content:"";position:absolute;left:calc(50% - 4.25px);top:-1px;border-style:solid;border-width:0 4.75px 8px 4.75px;border-color:transparent transparent #9A9C97 transparent}
+.eb.m>span{position:absolute;left:50%;top:calc(100% + 8px);transform:translateX(-50%);white-space:nowrap;font:500 10px var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--ink2)}
+.eco-m{display:none}
+/* metric tree, 8 nodes */
+.tree-al{min-height:440px}
+.tree-al .node{max-width:28%}
+.tree-al .node[data-n=g]{max-width:27%}
+@media (max-width:900px){
+  .stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .eco{grid-template-columns:minmax(0,1fr);max-width:340px}
+  .eco .ea{width:1.5px;height:44px;margin:0 auto}
+  .eco .ea::after{right:auto;left:-4px;top:auto;bottom:-2px;border-width:8px 4.75px 0 4.75px;border-color:#9A9C97 transparent transparent transparent}
+  .eco .ea>span{left:14px;bottom:50%;transform:translateY(50%);text-align:left;max-width:200px}
+  .eco>.sel{margin-top:6px}
+  .eco>.sel .sz{top:auto;bottom:-36px}
+  .eb{display:none}
+  .eco-m{display:block;margin-top:52px;max-width:340px;font-size:14px;line-height:1.45;color:var(--ink2);text-align:center}
+  .eco-st{display:none}
+  .tree-al{min-height:620px}
+  .tree-al .node,.tree-al .node[data-n=g]{max-width:none;right:4%}
+  .tree-al .node[data-n=g]{left:4%!important;top:3%!important}
+  .tree-al .node[data-n=n]{left:12%!important;top:16%!important}
+  .tree-al .node[data-n=a]{left:22%!important;top:30%!important}
+  .tree-al .node[data-n=b]{left:22%!important;top:41%!important}
+  .tree-al .node[data-n=d]{left:22%!important;top:52%!important}
+  .tree-al .node[data-n=l]{left:12%!important;top:65%!important}
+  .tree-al .node[data-n=l1]{left:22%!important;top:76%!important}
+  .tree-al .node[data-n=l2]{left:22%!important;top:88%!important}
+}
+@media (max-width:560px){
+  .stats{grid-template-columns:minmax(0,1fr)}
+  .stats .stat{flex-direction:row;align-items:baseline}
+  .tree-al{min-height:700px}
+}
+/* ---- Alif v2: neutral body font, combo hero, findings flow, zoom ---- */
+.read{font-family:var(--sans);font-size:clamp(16px,1.15vw,17.5px);line-height:1.68;color:#2e2e2e;letter-spacing:-.003em}
+.arrow{font-family:var(--sans);font-size:16.5px;line-height:1.6}
+.task{font-family:var(--sans);font-size:16.5px;line-height:1.55}
+.next li{font-family:var(--sans);font-size:15.5px;line-height:1.5}
+.steps li{font-family:var(--sans);font-size:15px;line-height:1.5}
+.hcard .read{font-size:16.5px}
+img[data-av]{cursor:zoom-in}
+img[data-av]:focus-visible{outline:2px solid var(--gt);outline-offset:4px}
+.combo{position:relative;width:100%;max-width:1000px;padding:0 13% 7% 0}
+.combo>.shot{max-width:none}
+.combo .ph{position:absolute;right:0;bottom:0;width:23%}
+.combo .ph .ph-img{display:block;width:100%;height:auto;border-radius:0;box-shadow:none;filter:drop-shadow(0 22px 30px rgba(0,0,0,.2))}
+.combo .ph .sz{bottom:-38px}
+.r-intro{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:40px;align-items:center;margin-top:14px}
+.art-mini{display:grid;grid-template-columns:132px minmax(0,1fr);gap:16px;align-items:center;padding:10px}
+.art-mini img{aspect-ratio:4/3;object-fit:cover;object-position:top left}
+.art-mini .mi{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.art-mini .tt{margin-top:0;font-size:14px;line-height:1.35}
+.art-mini .open{position:static;opacity:1!important;transform:none!important;margin-top:4px}
+.flows{list-style:none;padding:0;margin:34px 0 30px;display:grid;gap:18px;counter-reset:fl}
+.flow{display:grid;grid-template-columns:30px minmax(0,1fr) 40px minmax(0,1fr) 40px minmax(0,1fr);align-items:center;counter-increment:fl}
+.flow::before{content:counter(fl,decimal-leading-zero);font:500 11px var(--mono);color:var(--ink2)}
+.flow .lab{font-size:9.5px;display:block}
+.flow p{margin-top:6px;font-size:14.5px;line-height:1.4}
+.f-find{padding:14px 16px;box-shadow:0 8px 18px rgba(20,20,20,.07);transform:rotate(var(--r,0deg))}
+.f-find .lab{color:var(--ink)}
+.f-find p{font-weight:500;font-size:15px}
+.f-mean{padding:14px 16px;background:#fff;border:1px solid var(--hair);border-radius:10px}
+.f-mean p{color:#3a3a3a}
+.f-need{position:relative;padding:14px 16px;background:#fff;border:1.5px solid #2F7BF6}
+.f-need::before,.f-need::after{content:"";position:absolute;width:8px;height:8px;background:#fff;border:1.5px solid #2F7BF6}
+.f-need::before{left:-5px;top:-5px}.f-need::after{right:-5px;bottom:-5px}
+.f-need .lab{color:#2F7BF6}
+.f-need p{color:var(--ink);font-weight:500}
+.f-ar{position:relative;height:1.5px;background:#9A9C97;margin:0 6px}
+.f-ar::after{content:"";position:absolute;right:-2px;top:-4px;border-style:solid;border-width:4.75px 0 4.75px 8px;border-color:transparent transparent transparent #9A9C97}
+@media (max-width:900px){
+  .r-intro{grid-template-columns:minmax(0,1fr);gap:20px}
+  .flows{gap:30px}
+  .flow{grid-template-columns:minmax(0,1fr)}
+  .flow::before{margin-bottom:8px}
+  .f-ar{width:1.5px;height:22px;margin:0 auto}
+  .f-ar::after{right:auto;left:-4px;top:auto;bottom:-2px;border-width:8px 4.75px 0 4.75px;border-color:#9A9C97 transparent transparent transparent}
+  .combo{padding:0 15% 9% 0}
+  .combo .ph{width:27%}
+}
 
-  /* ---- Текстовая колонка ----
-     Заголовок и описание — один модуль: 24–32 px между ними, длина строки
-     45–70 знаков, высота колонки по содержимому, без растяжки под картинку. */
-  .case-split-text { align-self: start; }
-  .case-lead-title {
-    font-family: var(--display); font-size: var(--font-size-h2);
-    line-height: var(--line-height-heading); font-weight: 700; letter-spacing: -0.01em;
-    color: var(--text-strong); text-wrap: balance; max-width: 18ch;
-    margin: 0 0 clamp(24px, 2.2vw, 32px);
-  }
-  .case-split-text .case-subhead { max-width: 22ch; margin-bottom: clamp(20px, 1.8vw, 26px); }
-  .detail-block .case-split-text p { max-width: 56ch; margin-bottom: clamp(16px, 1.4vw, 20px); }
-  .detail-block .case-split-text p:last-child { margin-bottom: 0; }
-  .col-6.case-split-text, .col-4.case-split-text { max-width: 560px; }
+/* body text: Golos Text */
+:root{--body:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif}
+.read,.arrow,.task,.next li,.steps li,.flow p,.opt p,.impact,.stat .t,.note p,.tbl td{font-family:var(--body)}
+.read{font-size:clamp(16px,1.15vw,17.5px);line-height:1.68;color:#2e2e2e;letter-spacing:0}
+.arrow{font-size:16.5px;line-height:1.6}
+.task{font-size:16.5px;line-height:1.55}
+.next li{font-size:15.5px;line-height:1.5}
+.src{margin-top:10px;font-size:12.5px;line-height:1.45;color:var(--ink2)}.src a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 
-  /* Высокий кадр рядом с коротким абзацем оставлял от 240 до 720 px пустой
-     колонки — замерено во всех четырёх кейсах. Растягивать текст незачем,
-     увеличивать картинку нельзя, поэтому текст едет вместе с кадром: он
-     остаётся на экране, пока читатель проходит изображение, и подпись
-     работает как комментарий к тому, что видно прямо сейчас.
-     Отступ сверху уводит колонку из-под верхней навигации.
-     Ниже 900 px колонки складываются в одну и липкость выключается. */
-  @media (min-width: 900px) {
-    .case-split > .case-split-text { position: sticky; top: clamp(96px, 12vh, 132px); }
-  }
+/* order mini prototype */
+.ord [hidden]{display:none!important}
+.ord{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
+.ord>div{padding:22px}
+.ord-l{border-right:1px solid var(--hair)}
+.ord-p{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:14px;align-items:center}
+.ord-p img{width:64px;height:64px;border-radius:12px;border:1px solid var(--hair);background:#fff;object-fit:contain}
+.ord-p b{display:block;margin-top:4px;font-size:15px;font-weight:600;line-height:1.3}
+.ord-p small{display:block;margin-top:2px;font-size:13.5px;color:var(--ink2)}
+.ord-chip{align-self:start;height:26px;padding:0 10px;border-radius:7px;display:inline-flex;align-items:center;font:600 12.5px/1 var(--sans);white-space:nowrap;background:#EEF1F5;color:#3B4452}
+.ord-chip.new{background:#FFF4D9;color:#875400}.ord-chip.ready{background:#EAF4FF;color:#0B64A8}.ord-chip.way{background:#FFF4D9;color:#875400}.ord-chip.done{background:#E7F6EE;color:#08743F}
+.ord-st{list-style:none;padding:0;margin:20px 0 0;display:flex;gap:6px;counter-reset:os}
+.ord-st li{flex:1;min-width:0;counter-increment:os;font-size:12.5px;color:var(--mute);padding-top:8px;border-top:3px solid #E3E5E2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ord-st li::before{content:counter(os) ". "}
+.ord-st li.done{color:var(--ink2);border-color:var(--gt)}
+.ord-st li.cur{color:var(--ink);font-weight:600;border-color:#151515}
+.ord-body{margin-top:18px;min-height:150px}
+.ord-q{font-size:14px;color:var(--ink2);margin:0 0 10px}
+.ord-m{margin:0;flex-wrap:wrap}
+.ord-m button[aria-checked="true"]{background:#151515;color:#fff}
+.ord-m button:not([aria-checked="true"]):hover{color:var(--ink)}
+.ord-code{display:flex;gap:8px;margin-top:4px}
+.ord-code input{all:unset;box-sizing:border-box;width:44px;height:48px;border:1.5px solid #C9C9C4;border-radius:10px;text-align:center;font:600 18px var(--sans);background:#fff}
+.ord-code input:focus{border-color:var(--gt);box-shadow:inset 0 0 0 1px var(--gt)}
+.ord-hint{margin-top:8px;font-size:12.5px;color:var(--ink2)}.ord-hint.err{color:#B3261E}
+.ord-acts{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:18px}
+.ord-acts .btn,.ord-acts .btn2{margin-top:0}
+.ord-done{font-size:15px;line-height:1.5}
+.ord-done b{display:block;font-size:17px;margin-bottom:4px}
+.ord-r{display:flex;flex-direction:column}
+.ord-sum>div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #F0F0EC;font-size:14px}
+.ord-sum span{color:var(--ink2)}.ord-sum b{font-weight:600;font-variant-numeric:tabular-nums}
+.ord-sum .tot span{color:var(--ink);font-weight:600}
+.ord-mo{margin-top:18px;padding:14px 16px;border-radius:12px;background:#E7F6EE}
+.ord-mo .big{margin-top:4px;color:#08743F}
+.ord-last{margin-top:2px;font-size:13px;color:#2f5f45}
+.ord-tl{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:9px}
+.ord-tl li{display:grid;grid-template-columns:16px minmax(0,1fr) auto;gap:10px;align-items:center;font-size:13.5px;color:var(--ink)}
+.ord-tl li::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--gt);justify-self:center}
+.ord-tl li time{font-size:12.5px;color:var(--ink2);font-variant-numeric:tabular-nums}
+@media (max-width:900px){.ord-p{grid-template-columns:56px minmax(0,1fr)}.ord-p img{width:56px;height:56px}.ord-chip{grid-column:1/-1;justify-self:start}.ord{grid-template-columns:minmax(0,1fr)}.ord-l{border-right:0;border-bottom:1px solid var(--hair)}.ord>div{padding:18px}.ord-st li{font-size:0;padding-top:6px}.ord-st li.cur{font-size:12.5px;flex:3}.ord-st li::before{font-size:12.5px}}
 
-  /* Два-три коротких вывода под абзацем: та же колонка, ближе к тексту,
-     чем к следующей секции. */
-  .case-points {
-    list-style: none; margin: clamp(32px, 3vw, 40px) 0 0; padding: 0;
-    display: flex; flex-direction: column; gap: clamp(18px, 1.8vw, 24px);
-  }
-  .case-points li { position: relative; padding-top: 16px; border-top: 1px solid var(--line-strong); }
-  .case-points li::before {
-    content: ''; position: absolute; top: -1px; left: 0; width: 36px; height: 2px;
-    background: var(--case-mark);
-  }
-  .detail-block .case-points__title {
-    font-family: var(--display); font-weight: 600; font-size: var(--font-size-label);
-    line-height: 1.4; color: var(--text); margin: 0 0 4px; max-width: none;
-  }
-  .detail-block .case-points__text {
-    font-size: 13px; line-height: 1.55; color: var(--text-dim); margin: 0; max-width: none;
-  }
+/* prototype in Alif UI */
+.win .ord{background:#F6F8FA;gap:16px;padding:16px}
+.ord>div{background:#fff;border-radius:16px;padding:22px}
+.ord-l{border-right:0!important;border-bottom:0!important}
+.ord .lab{color:#5B6472}
+.ord-p img{border-radius:12px;border:0;background:#F3F5F8}
+.ord-st{display:flex;align-items:center;gap:0;margin:22px 0 0;border:0}
+.ord-st li{flex:1 1 auto;display:flex;align-items:center;gap:8px;border:0!important;padding:0!important;font-size:13px!important;color:#8A93A2;white-space:nowrap;position:relative;overflow:visible!important}
+.ord-st li:last-child{flex:0 0 auto}
+.ord-st li::before{content:none!important}
+.ord-st li:not(:last-child)::after{content:"";flex:1;height:2px;background:#E3E7ED;margin:0 8px;min-width:12px}
+.ord-st li.done:not(:last-child)::after{background:#00985F}
+.ord-st li i{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:600 12px/1 var(--sans);font-style:normal;border:2px solid #CDD3DC;color:#8A93A2;background:#fff}
+.ord-st li i svg{width:14px;height:14px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.ord-st li.done{color:#1B1E24}.ord-st li.done i{background:#00985F;border-color:#00985F}
+.ord-st li.cur{color:#1B1E24;font-weight:600}.ord-st li.cur i{border-color:#00985F;color:#00985F;box-shadow:0 0 0 4px #DDF3E8}
+.aseg{display:flex;flex-wrap:wrap;gap:8px}
+.aseg button{all:unset;box-sizing:border-box;cursor:pointer;flex:1;min-width:72px;height:44px;padding:0 14px;border-radius:12px;background:#EEF1F5;color:#1B1E24;font:500 14px/1 var(--sans);display:inline-flex;align-items:center;justify-content:center;transition:background-color .15s,color .15s}
+.aseg button:hover{background:#E3E7ED}
+.aseg button[aria-checked="true"]{background:#64748C;color:#fff}
+.aseg button:focus-visible{outline:2px solid #00985F;outline-offset:2px}
+.ord-q{color:#5B6472}
+.ord-code input{width:52px;height:56px;border-radius:12px;border:1.5px solid #D5DAE2;font-size:20px}
+.ord-code input:focus{border-color:#00985F;box-shadow:0 0 0 3px #DDF3E8}
+.ab{all:unset;box-sizing:border-box;cursor:pointer;height:46px;padding:0 22px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;font:600 14.5px/1 var(--sans);transition:background-color .15s,opacity .15s}
+.ab-g{background:#00985F;color:#fff;min-width:160px}.ab-g:hover{background:#008653}
+.ab-g[aria-disabled="true"]{background:#EEF1F5;color:#9AA3B1;cursor:not-allowed}
+.ab-o{border:1.5px solid #D5DAE2;color:#1B1E24;background:#fff}.ab-o:hover{border-color:#9AA3B1}
+.ab:focus-visible{outline:2px solid #1B1E24;outline-offset:2px}
+.ord-sum{border:1.5px solid #EEF1F5;border-radius:14px;padding:4px 16px}
+.ord-sum>div:last-child{border-bottom:0}
+.ord-mo{background:#E4F7EC;border-radius:14px}
+.ord-mo .big{color:#00985F}
+.ord-mo .lab{color:#0B7A47}
+.ord-chip{border-radius:8px}
+@media (max-width:900px){.win .ord{padding:10px;gap:10px}.ord>div{padding:16px}.ord-st li span{display:none!important}}
 
-  .case-subhead {
-    font-family: var(--display); font-weight: var(--font-weight-heading);
-    font-size: var(--font-size-h3); line-height: 1.3; color: var(--text);
-    margin: 0 0 12px; text-wrap: balance;
-  }
+/* prototype launcher + dialog */
+.proto-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center;margin-top:24px;padding:22px 24px;background:#fff;border:1px solid var(--hair);border-radius:14px}
+.proto-card p{margin:0;font-size:15.5px;line-height:1.55;color:#2e2e2e;font-family:var(--body,var(--sans))}
+.proto-card .lab{display:block;margin-bottom:6px}
+.proto-open{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 20px;border-radius:999px;background:#151515;color:#fff;font:500 14.5px/1 var(--sans);white-space:nowrap;transition:background-color .15s}
+.proto-open:hover{background:#000}.proto-open:focus-visible{outline:2px solid var(--gt);outline-offset:3px}
+.proto-open svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.proto-dlg{border:0;padding:0;border-radius:16px;width:min(1140px,calc(100% - 32px));max-height:calc(100dvh - 32px);overflow:auto;background:var(--paper,#fff);box-shadow:0 30px 80px rgba(0,0,0,.25)}
+.proto-dlg::backdrop{background:rgba(20,20,20,.55)}
+.proto-dlg .dh{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;background:var(--paper,#fff);border-bottom:1px solid var(--hair)}
+.proto-dlg .dh b{font:600 17px/1.3 var(--serif)}
+.proto-x{all:unset;cursor:pointer;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--plate);font-size:20px;line-height:1}
+.proto-x:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.proto-dlg .db{padding:20px}
+.proto-dlg .fig{margin-top:0}
+body.dlg-open{overflow:hidden}
+@media (max-width:640px){.proto-card{grid-template-columns:minmax(0,1fr)}.proto-open{justify-self:start}.proto-dlg{width:100%;max-width:none;max-height:100dvh;height:100dvh;margin:0;border-radius:0}.proto-dlg .db{padding:12px}}
 
-  /* Вступление перед таблицей или схемой: занимает 6 колонок сетки. */
-  .case-lede { max-width: 56ch; margin-bottom: clamp(24px, 2.4vw, 32px); }
-  .case-lede > p:last-child { margin-bottom: 0; }
-  .case-grid > .case-split-text.col-6 { margin-bottom: clamp(24px, 2.4vw, 32px); }
-  .detail-head + .case-grid .case-split-text p { margin-top: 0; }
-  .case-grid > .col-8-center + .col-8-center { margin-top: clamp(24px, 2.4vw, 32px); }
-
-  /* ---- Кадр с интерфейсом ----
-     Подпись вынесена из белого контейнера: раньше она входила в карточку и
-     добавляла ей высоты. Внутренние поля кадра сокращены, чтобы размер
-     задавал интерфейс, а не рамка вокруг него. */
-  /* Кадр всегда живёт внутри своей колонки сетки: собственной ширины у него
-     нет, режим «во всю страницу» убран. */
-  .case-fig { max-width: none; margin: 0; min-width: 0; }
-  /* Схема уже нарисована на собственной подложке — вторая рамка вокруг неё
-     читалась бы как вложенная карточка. */
-  .detail-block .case-fig--plain .case-shot { background: none; border: 0; padding: 0; }
-  .detail-block .case-fig--plain .case-shot img { border-radius: var(--radius-large); }
-  .detail-block .case-shot {
-    display: block; width: 100%; max-width: none; margin: 0;
-    background: var(--surface); border: 1px solid var(--line);
-    border-radius: var(--radius-large);
-    padding: clamp(12px, 1.2vw, 18px);
-    cursor: zoom-in; transition: border-color 0.2s ease;
-  }
-  .detail-block .case-shot:hover { transform: none; box-shadow: none; border-color: var(--line-strong); }
-  .detail-block .case-shot img {
-    display: block; width: 100%; height: auto; margin: 0;
-    border-radius: var(--radius-medium);
-  }
-  .case-fig__cap {
-    display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px;
-    margin: 18px 0 0;
-    font-size: 13px; line-height: 1.5; color: var(--text-dim);
-  }
-  .case-fig__text { max-width: 62ch; }
-
-  /* Два экрана одного сценария — друг под другом внутри своей колонки. */
-  .case-figs--stack { display: flex; flex-direction: column; gap: clamp(20px, 2.2vw, 28px); }
-
-  /* Подписи к частям одной композиции. */
-  .case-shot-labels {
-    list-style: none; display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
-    gap: clamp(16px, 2vw, 28px); margin: clamp(20px, 2vw, 26px) 0 0; padding: 0;
-  }
-  .case-shot-labels li {
-    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--text-dim);
-    padding-top: 10px; border-top: 1px solid var(--line-strong); position: relative;
-  }
-  .case-shot-labels li::before {
-    content: ''; position: absolute; top: -1px; left: 0; width: 36px; height: 2px;
-    background: var(--case-mark);
-  }
-  @media (max-width: 640px) { .case-shot-labels { grid-template-columns: 1fr; gap: 12px; } }
-
-  /* Один сценарий по шагам. <ol>: порядок действий — часть содержания. */
-  .case-seq { list-style: none; display: flex; flex-direction: column; gap: clamp(44px, 4.5vw, 72px); }
-  .case-seq__step { min-width: 0; }
-  .case-seq__head { position: relative; padding-left: 52px; }
-  .case-seq__num {
-    position: absolute; top: 1px; left: 0; width: 34px; height: 34px; border-radius: 50%;
-    background: var(--case-mark); color: var(--case-mark-on);
-    display: grid; place-items: center;
-    font-family: var(--mono); font-size: 13px; font-weight: 500; line-height: 1;
-    font-variant-numeric: tabular-nums;
-  }
-  .case-seq__head .case-subhead { margin-bottom: 10px; }
-  .case-seq__head > p:last-child { margin-bottom: 0; }
-  @media (max-width: 767px) { .case-seq__head { margin-bottom: 20px; } }
-  @media (max-width: 560px) { .case-seq__head { padding-left: 46px; } }
-
-  /* Нумерованная последовательность шагов исследования. */
-  .case-rail { list-style: none; }
-  .case-rail__num { background: var(--case-mark); color: var(--case-mark-on); }
-  .case-rail__title { font-size: var(--font-size-h4); }
-  .case-rail .case-rail__text { margin: 0; }
-
-  /* Параллельные наблюдения: не карточки, а колонки под общей линией с
-     короткой засечкой акцента. Карточка обещала бы отдельный объект. */
-  .case-cols {
-    display: grid; grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
-    gap: clamp(24px, 2.6vw, 36px) clamp(24px, 2.6vw, 40px);
-    margin: clamp(32px, 3.2vw, 44px) 0;
-  }
-  .case-col {
-    position: relative; min-width: 0;
-    padding-top: clamp(18px, 1.8vw, 22px); border-top: 1px solid var(--line-strong);
-  }
-  .case-col::before {
-    content: ''; position: absolute; top: -1px; left: 0; width: 48px; height: 2px;
-    background: var(--case-mark);
-  }
-  .case-col .case-col__label {
-    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--case-mark-text); margin: 0 0 8px; max-width: none;
-  }
-  .case-col__title {
-    font-family: var(--display); font-weight: var(--font-weight-heading);
-    font-size: var(--font-size-h4); line-height: 1.3; color: var(--text);
-    margin: 0 0 8px; text-wrap: balance;
-  }
-  .case-col .case-col__text {
-    font-size: var(--font-size-body); line-height: var(--line-height-body);
-    color: var(--text-dim); margin: 0; max-width: 44ch; text-wrap: pretty;
-  }
-  /* Компактный вариант: три колонки читаются как подводка к решению ниже. */
-  .case-cols--compact { margin-bottom: clamp(24px, 2.4vw, 32px); }
-  .case-cols--compact .case-col__title { font-size: var(--font-size-h3); }
-  .case-cols--compact .case-col__text { font-size: var(--font-size-label); line-height: 1.55; }
-  @media (max-width: 860px) {
-    .case-cols { grid-template-columns: 1fr; gap: 26px; }
-    .case-col .case-col__text { max-width: none; }
-  }
-
-  /* Вывод из исследования. Отдельная реплика после материала, не ещё один абзац. */
-  .case-takeaway {
-    margin: clamp(28px, 2.8vw, 40px) 0 0; padding-left: clamp(18px, 2vw, 26px);
-    border-left: 2px solid var(--case-mark);
-  }
-  .detail-block .case-takeaway p {
-    margin: 0; max-width: 66ch;
-    font-size: var(--font-size-body); line-height: var(--line-height-body); color: var(--text);
-  }
-
-  /* Пара концептов: у каждой картинки своя подпись-заголовок. */
-  /* Пара концептов — обычная строка сетки, по 6 колонок на концепт.
-     Собственная сетка .case-figs здесь не нужна, отступы задаёт .case-grid;
-     на мобильном каждый концепт занимает всю ширину, отсюда row-gap. */
-  .case-grid.case-figs--labelled { align-items: start; margin: clamp(32px, 3vw, 40px) 0; row-gap: clamp(24px, 2.6vw, 32px); }
-  .case-figs--labelled { align-items: start; }
-  .case-figs__item { min-width: 0; }
-  .case-figs__item .case-figs__label {
-    font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--case-mark-text); margin: 0 0 12px; max-width: none;
-  }
-  .detail-block p.case-artifact-cap {
-    font-size: var(--font-size-label); line-height: 1.5; color: var(--text-dim);
-    margin: clamp(24px, 2.4vw, 32px) 0 12px; max-width: 62ch;
-  }
-  .case-table-wrap--narrow { max-width: 720px; }
-
-  /* ---- Итоги ----
-     Тёмная полоса во всю ширину экрана, контент остаётся в основном
-     контейнере. Полоса нарисована box-shadow + clip-path: это не влияет на
-     раскладку и не создаёт горизонтальной прокрутки, в отличие от 100vw. */
-  :root {
-    --results-bg: #211B18;
-    --results-card: #2C2723;
-    --results-line: rgba(255, 255, 255, 0.11);
-    --results-text: rgba(255, 255, 255, 0.68);
-    --results-dim: rgba(255, 255, 255, 0.5);
-  }
-  .detail-block.case-results { margin-top: clamp(96px, 9vw, 140px); padding-top: 0; }
-  .case-results__panel {
-    position: relative; background: var(--results-bg);
-    box-shadow: 0 0 0 100vmax var(--results-bg);
-    clip-path: inset(0 -100vmax);
-    padding: clamp(40px, 4.5vw, 72px) 0 clamp(44px, 5vw, 80px);
-  }
-  .case-results__panel .detail-head { margin-bottom: clamp(16px, 1.6vw, 20px); }
-  .case-results__panel .detail-head h2 { color: #fff; }
-  .case-results__panel p { color: var(--results-text); max-width: 62ch; }
-  .case-results__panel .case-lede { margin-bottom: 0; }
-  .case-results .result-cards { margin-top: clamp(28px, 3vw, 40px); row-gap: clamp(20px, 2vw, 28px); }
-  .case-results .result-card {
-    background: var(--results-card); border: 1px solid var(--results-line);
-    border-radius: var(--radius-medium); box-shadow: none;
-    min-height: 0; height: 100%;
-    padding: clamp(28px, 2.6vw, 40px); gap: 10px;
-  }
-  .case-results .result-card .result-card__label {
-    color: var(--results-dim); margin: 0 0 2px;
-  }
-  .case-results .result-card .result-card__label::before { background: var(--case-mark); }
-  .case-results .result-card .result-card__metric {
-    font-size: clamp(18px, 1.5vw, 22px); line-height: 1.3; color: #fff;
-  }
-  .case-results .result-card .result-card__desc { color: var(--results-text); }
-  .case-results .result-card .result-card__measure {
-    width: 100%; margin: auto 0 0; padding-top: 18px;
-    border-top: 1px solid var(--results-line);
-    font-size: 13px; line-height: 1.5; color: var(--results-text); max-width: none;
-    display: flex; flex-direction: column; gap: 4px;
-  }
-  .case-results .result-card .result-card__measure-label {
-    font-family: var(--mono); font-size: 11px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--results-dim);
-  }
-
-  /* Ритм страницы: воздух разделяет разные истории, а не связанные части
-     одной. Между самостоятельными секциями 128–176 px. */
-  .detail-block { margin-top: clamp(128px, 11vw, 176px); padding-top: 0; }
-  @media (max-width: 720px) { .detail-block { margin-top: clamp(88px, 14vw, 112px); } }
-  .detail-block .detail-head { margin-bottom: clamp(24px, 2.2vw, 32px); }
-  .detail-block:last-child .detail-head { margin-bottom: clamp(24px, 2.2vw, 32px); }
-
-  /* Экспорты обрезаны по содержимому, пропорция набора изменилась. */
-  .compare-slider__stage { aspect-ratio: 2700 / 1768; }
-
-
-
-
-  /* ===== Редакция 3.3: единая левая ось =====
-     Заголовок, вводный абзац и вывод стоят на одной левой оси и не шире
-     6 колонок основной сетки. Таблицы и схемы шире, но от того же края:
-     сравнительные таблицы — 10 колонок, схемы — 8. Центрированных
-     блоков, которые начинаются в третьей колонке, больше нет.
-     Ширину 6 колонок считаем от контейнера страницы в cqi:
-     (100cqi − 11 зазоров) / 2 + 5 зазоров = 50cqi − ½ зазора. */
-  .case-page { container-type: inline-size; }
-  .col-10 { grid-column: 1 / span 10; }
-  @media (max-width: 767px) { .case-grid > .col-10 { grid-column: span 4; } }
-
-  @media (min-width: 1100px) {
-    .case-page { --measure-6: calc(50cqi - var(--grid-gutter) / 2); }
-    .detail-block .detail-head h2 { max-width: var(--measure-6); }
-    .detail-block > p,
-    .detail-block > .case-subhead,
-    .case-results__panel > p,
-    .case-results__panel > .case-subhead { max-width: min(60ch, var(--measure-6)); }
-  }
-
-  /* Широкий материал под вступлением: заметный, но не оторванный отступ. */
-  .case-grid.case-wide { margin-top: clamp(8px, 1vw, 16px); }
-  .case-wide .case-artifact-cap:first-child { margin-top: 0; }
-  .case-aside .col-8 > .case-artifact-cap:first-child { margin-top: 0; }
-  .case-aside .col-8 > .compare-table-wrap:last-of-type { margin-bottom: 0; }
-
-  /* Вывод под таблицей — в тех же 6 колонках, что и вступление.
-     Первый абзац — что показало исследование, второй — решение. */
-  .case-takeaway { margin-top: clamp(40px, 3.6vw, 56px); padding-left: 0; border-left: 0; }
-  .detail-block .case-takeaway p { max-width: 60ch; }
-  .detail-block .case-takeaway p + p { margin-top: clamp(12px, 1.2vw, 16px); }
-  .case-takeaway .case-subhead { margin: 0 0 8px; }
-  /* Новая часть секции после материала и вывода — отдельный абзац воздуха. */
-  .detail-block > .case-grid + .case-subhead { margin-top: clamp(56px, 5vw, 80px); }
-  .detail-block .case-takeaway p + .case-subhead { margin-top: clamp(28px, 2.6vw, 36px); }
-
-  /* Короткая таблица решений в текстовой колонке рядом с визуалом. */
-  .case-split-text .case-table-wrap--compact { margin: clamp(24px, 2.4vw, 32px) 0 0; max-width: none; }
-  .case-table-wrap--compact .case-table { min-width: 0; }
-  .case-table-wrap--compact .case-table th,
-  .case-table-wrap--compact .case-table td { padding: 12px clamp(12px, 1.2vw, 16px); }
-  .case-table-wrap--compact .case-table tbody th { position: static; min-width: 0; }
-
-  /* Схема структуры на телефоне: в 335 px мелкие подписи сжимались до ~5 px.
-     Схема держит 600 px и прокручивается внутри своего блока, подписи
-     остаются читаемыми; нажатие по-прежнему открывает её целиком. */
-  @media (max-width: 767px) {
-    .case-split .case-fig--plain { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .case-split .case-fig--plain .case-shot { width: 600px; max-width: none; }
-  }
-
-  /* Кадр с интерфейсом — настоящая кнопка: мышь, касание, Enter, пробел. */
-  button.case-shot {
-    font: inherit; color: inherit; text-align: inherit;
-    -webkit-appearance: none; appearance: none;
-  }
-  button.case-shot:focus-visible { outline: 2px solid var(--case-mark-text); outline-offset: 3px; }
-  /* ===== конец блока редакции 3.3 ===== */
-
-  /* ===== конец блока редакции 3.2 ===== */
+.simt{width:100%;border-collapse:collapse;margin-top:16px;font-size:14.5px;line-height:1.4}
+.simt th{text-align:left;font:500 10.5px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);padding:0 12px 10px 0;border-bottom:1px solid var(--hair)}
+.simt td{padding:10px 12px 10px 0;border-bottom:1px solid var(--hair);vertical-align:top;color:var(--ink2)}
+.simt td:first-child{color:var(--ink);font-weight:500}
+.simt td.win{color:var(--ink)}
+.simt td.win::after{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#2E9E6A;margin-left:7px;vertical-align:1px}
+@media (max-width:900px){
+  .simt tr{padding:10px 0}.simt td{padding:3px 0;border:0}
+  html:not(.lang-en) .simt td[data-ru]::before{content:attr(data-ru)}
+  .lang-en .simt td[data-en]::before{content:attr(data-en)}
+  .simt td[data-ru]::before{display:block;font:500 10px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);margin-top:4px}
+}
 </style>
-  <link rel="stylesheet" href="assets/typography.css">
+<link rel="stylesheet" href="assets/typography.css">
 </head>
 <body>
-
-  <nav class="site-nav">
+  <div class="top"><div class="navrow"><nav class="site-nav">
     <a href="index.html" class="nav-name"><span data-lang="ru">Мадина Рашидова</span><span data-lang="en">Madina Rashidova</span></a>
-    <a href="index.html#work" class="nav-link"><span data-lang="ru">Работы →</span><span data-lang="en">Work →</span></a>
-    <a href="about.html" class="nav-link"><span data-lang="ru">Обо мне →</span><span data-lang="en">About →</span></a>
-    <a href="cv.pdf" data-href-ru="cv.pdf" data-href-en="cv-en.pdf" class="nav-link" target="_blank" rel="noopener">CV →</a>
+    <a href="index.html#work" class="nav-link"><span data-lang="ru">Работы</span><span data-lang="en">Work</span></a>
+    <a href="about.html" class="nav-link"><span data-lang="ru">Обо мне</span><span data-lang="en">About</span></a>
+    <a href="cv.pdf" data-href-ru="cv.pdf" data-href-en="cv-en.pdf" class="nav-link" target="_blank" rel="noopener">CV</a>
     <button type="button" class="lang-toggle" data-lang-toggle aria-label="Switch to English">EN</button>
+  </nav></div><div class="ruler" id="ruler" aria-hidden="true"></div></div>
+
+<div class="ticks" id="ticks" aria-hidden="true"></div>
+
+<main id="main">
+<header class="wrap hero" id="hero" data-tick>
+  <div class="reveal">
+    <div class="meta"><span class="lab"><span data-lang="ru">Кейс · Fibo Group</span><span data-lang="en">Case · Fibo Group</span></span></div>
+    <h1>EAJ Trader</h1>
+    <p class="read"><span data-lang="ru">Личный кабинет клиента нового брокера Fibo Group, спроектированный с нуля.</span><span data-lang="en">The client account of a new Fibo Group broker, designed from scratch.</span></p>
+    <div class="tags"><span class="tag" style="background:#ECECE8"><span data-lang="ru">Финтех</span><span data-lang="en">Fintech</span></span><span class="tag" style="background:var(--n-sky)"><span data-lang="ru">Брокер</span><span data-lang="en">Brokerage</span></span><span class="tag" style="background:#E3B84C"><span data-lang="ru">Продуктовый дизайн</span><span data-lang="en">Product design</span></span></div>
+  </div>
+  <div class="notes reveal">
+    <div class="note" style="--r:-3deg;left:6%;top:6%;background:var(--n-sky);transition-delay:.1s"><span class="lab"><span data-lang="ru">Роль</span><span data-lang="en">Role</span></span><p><span data-lang="ru">Структура кабинета и логика действий</span><span data-lang="en">Account structure and action logic</span></p></div>
+    <div class="note" style="--r:2.5deg;left:52%;top:0;background:var(--n-lime);transition-delay:.2s"><span class="lab"><span data-lang="ru">Платформа</span><span data-lang="en">Platform</span></span><p><span data-lang="ru">Веб</span><span data-lang="en">Web</span></p></div>
+    <div class="note" style="--r:2deg;left:4%;top:50%;background:var(--n-mint);transition-delay:.3s"><span class="lab"><span data-lang="ru">Команда</span><span data-lang="en">Team</span></span><p><span data-lang="ru">Дизайнер, продакт‑оунер, разработчик</span><span data-lang="en">Designer, product owner, developer</span></p></div>
+    <div class="note" style="--r:-2deg;left:52%;top:44%;background:var(--n-peach);transition-delay:.4s"><span class="lab"><span data-lang="ru">Срок</span><span data-lang="en">Timeline</span></span><p><span data-lang="ru">2 месяца</span><span data-lang="en">2 months</span></p></div>
+  </div>
+</header>
+
+<section class="wrap reveal">
+  <figure class="fig"><div class="plate p-shot">
+    <img data-av tabindex="0" role="button" data-full="assets/process/eaj-v3/home-ru.webp" data-full-ru="assets/process/eaj-v3/home-ru.webp" data-full-en="assets/process/eaj-v3/home.webp" data-title-ru="Главная кабинета: баланс, входы в операции, активы, распределение капитала и динамика баланса" data-title-en="Account home: balance, entry points to operations, assets, capital allocation and balance over time" class="shot" src="assets/process/eaj-v3/home-ru.webp" data-src-ru="assets/process/eaj-v3/home-ru.webp" data-src-en="assets/process/eaj-v3/home.webp" width="2720" height="3092" data-alt-ru="Главная кабинета: баланс, входы в операции, активы, распределение капитала и динамика баланса" data-alt-en="Account home: balance, entry points to operations, assets, capital allocation and balance over time" alt="Главная кабинета: баланс, входы в операции, активы, распределение капитала и динамика баланса" decoding="async" fetchpriority="high">
+    <span class="stick" style="left:2%;bottom:6%;background:var(--n-lime);--r:-3deg"><span data-lang="ru">Капитал и входы в операции на одном экране</span><span data-lang="en">Capital and entry points on one screen</span></span>
+  </div><figcaption class="cap"><span data-lang="ru">Рис. 1. Главная кабинета. Нажмите на скриншот, чтобы увеличить. Данные примера.</span><span data-lang="en">Fig. 1. The account home. Tap a screenshot to zoom. Example data.</span></figcaption></figure>
+</section>
+
+<section class="wrap sec two reveal" data-tick id="context">
+  <div>
+    <span class="lab"><span data-lang="ru">Контекст</span><span data-lang="en">Context</span></span>
+    <h2><span data-lang="ru">У нового брокера был сайт, но не было кабинета</span><span data-lang="en">The new broker had a website but no account</span></h2>
+    <p class="read" style="margin-top:16px"><span data-lang="ru">EAJ Trader новый брокер Fibo Group. Раньше в рамках этого же проекта я сделала для него айдентику и сайт. Следующим шагом стал личный кабинет: место, где клиент открывает торговый счёт, пополняет его, выводит деньги и следит за капиталом.</span><span data-lang="en">EAJ Trader is a new broker by Fibo Group. Earlier in the same project, I designed its identity and website. The next step was the client account: the place where clients open a trading account, fund it, withdraw money and keep track of their capital.</span></p>
+  </div>
+  <div>
+    <p class="read"><span data-lang="ru">Брокер зарабатывает, когда клиент торгует. Путь к первой сделке проходит через кабинет: открыть счёт, пополнить его, перейти к торговле. Без кабинета посетители сайта не становятся торгующими клиентами.</span><span data-lang="en">A broker earns when clients trade. The way to the first trade runs through the account: open an account, fund it, start trading. Without the account, website visitors don’t become trading clients.</span></p>
+    <p class="read" style="margin-top:18px"><span data-lang="ru">Я отвечала за структуру кабинета и логику основных действий. Вместе с продакт‑оунером выбирала, что войдёт в MVP, и обсуждала ограничения с разработчиком.</span><span data-lang="en">I was responsible for the account structure and the logic of the main actions. With the product owner I chose what goes into the MVP, and I discussed constraints with the developer.</span></p>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <figure class="fig"><div class="plate eco-plate">
+    <div class="eco" role="list" aria-label="Путь клиента брокера" data-aria-ru="Путь клиента брокера" data-aria-en="The broker client’s path">
+      <div class="en" role="listitem"><span data-lang="ru">Клиент</span><span data-lang="en">Client</span><small><span data-lang="ru">узнаёт о брокере</span><span data-lang="en">learns about the broker</span></small></div>
+      <div class="ea" aria-hidden="true"><span><span data-lang="ru">регистрация</span><span data-lang="en">sign‑up</span></span></div>
+      <div class="en" role="listitem"><span data-lang="ru">Сайт</span><span data-lang="en">Website</span><small><span data-lang="ru">сделала раньше</span><span data-lang="en">designed earlier</span></small></div>
+      <div class="ea" aria-hidden="true"><span><span data-lang="ru">вход</span><span data-lang="en">sign‑in</span></span></div>
+      <div class="sel" role="listitem" style="--sel:#2F7BF6"><span class="h1x"><i></i><i></i></span><div class="en on"><span data-lang="ru">Кабинет</span><span data-lang="en">Account</span><small><span data-lang="ru">открыть и пополнить счёт</span><span data-lang="en">open and fund an account</span></small></div><span class="sz"><span data-lang="ru">Этот кейс</span><span data-lang="en">This case</span></span></div>
+      <div class="ea" aria-hidden="true"><span><span data-lang="ru">первый депозит</span><span data-lang="en">first deposit</span></span></div>
+      <div class="en" role="listitem"><span data-lang="ru">Торговля</span><span data-lang="en">Trading</span><small><span data-lang="ru">брокер зарабатывает</span><span data-lang="en">the broker earns</span></small></div>
+    </div>
+  </div><figcaption class="cap"><span data-lang="ru">Рис. 2. Где стоит кабинет. Между сайтом и первой сделкой клиенту нужно открыть и пополнить счёт.</span><span data-lang="en">Fig. 2. Where the account sits. Between the website and the first trade, the client has to open and fund an account.</span></figcaption></figure>
+</section>
+
+<svg class="wave wrap reveal" viewBox="0 0 1100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 C 180 10, 320 34, 520 22 S 860 6, 1100 18" fill="none" stroke="#9A9C97" stroke-width="1.2"/></svg>
+
+<section class="wrap sec two reveal" data-tick id="problem">
+  <div>
+    <span class="chip c-prob"><span data-lang="ru">Задача</span><span data-lang="en">Task</span></span>
+    <h2><span data-lang="ru">Первая версия кабинета для торгующего клиента</span><span data-lang="en">The first version of an account for a trading client</span></h2>
+    <p class="read" style="margin-top:16px"><span data-lang="ru">У заказчика был длинный список функций. Нужно было решить, что войдёт в первую версию и как связать обзор средств, торговые счета и операции с деньгами в один путь.</span><span data-lang="en">The client had a long feature list. We had to decide what goes into the first version and how to connect the funds overview, trading accounts and money operations into one path.</span></p>
+  </div>
+  <div>
+    <div class="task"><span data-lang="ru"><b>Продуктовая задача.</b> Спроектировать первую версию кабинета, в которой клиент сам проходит путь от входа до пополнения счёта и управляет средствами.</span><span data-lang="en"><b>Product task:</b> design the first version of the account, where clients go from sign‑in to a funded account on their own and manage their funds.</span></div>
+  </div>
+</section>
+
+<section class="wrap sec reveal" data-tick id="research">
+  <span class="chip c-res"><span data-lang="ru">Исследование</span><span data-lang="en">Research</span></span>
+  <h2><span data-lang="ru">Для кого первая версия</span><span data-lang="en">Who the first version is for</span></h2>
+  <div class="r-intro">
+    <p class="read"><span data-lang="ru">Заказчик передал предварительное исследование: пять типов пользователей с целями, поведением, болями и фокусом для интерфейса. Я сравнила их задачи, чтобы понять, кто определит MVP.</span><span data-lang="en">The client handed over preliminary research: five user types with goals, behaviour, pain points and an interface focus. I compared their tasks to find out who would define the MVP.</span></p>
+    <button type="button" class="art art-mini" data-av data-full="assets/process/eaj-v3/research-ru.webp" data-full-ru="assets/process/eaj-v3/research-ru.webp" data-full-en="assets/process/eaj-v3/research.webp" data-title-ru="Сегменты пользователей из исследования заказчика" data-title-en="User segments from the client’s research"><span class="th"><img src="assets/process/eaj-v3/research-ru-t.webp" data-src-ru="assets/process/eaj-v3/research-ru-t.webp" data-src-en="assets/process/eaj-v3/research-t.webp" width="800" height="600" alt="" loading="lazy" decoding="async"></span><span class="mi"><span class="lab"><span data-lang="ru">Артефакт</span><span data-lang="en">Artifact</span></span><span class="tt"><span data-lang="ru">Таблица сегментов: цели, поведение, боли и фокус интерфейса</span><span data-lang="en">Segment table: goals, behaviour, pain points and interface focus</span></span><span class="open"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M9.5 2.5h4v4M13.5 2.5l-5 5M6.5 13.5h-4v-4M2.5 13.5l5-5"/></svg><span data-lang="ru">Открыть</span><span data-lang="en">Open</span></span></span></button>
+  </div>
+  <ol class="flows" aria-label="Сегменты" data-aria-ru="Сегменты" data-aria-en="Segments">
+    <li class="flow"><div class="f-find" style="background:var(--n-peach);--r:-1.5deg"><span class="lab"><span data-lang="ru">Активный трейдер</span><span data-lang="en">Active trader</span></span><p><span data-lang="ru">Скорость и минимализм, контроль капитала</span><span data-lang="en">Speed and minimalism, control of capital</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-mean"><span class="lab"><span data-lang="ru">Как ведёт себя</span><span data-lang="en">Behaviour</span></span><p><span data-lang="ru">Основной пользователь платформы, постоянно на рынке</span><span data-lang="en">The platform’s core user, always in the market</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-need"><span class="lab"><span data-lang="ru">Что это значит для MVP</span><span data-lang="en">What it means for the MVP</span></span><p><span data-lang="ru">Ядро MVP: капитал, счета и операции без лишнего</span><span data-lang="en">MVP core: capital, accounts and operations, nothing extra</span></p></div></li>
+    <li class="flow"><div class="f-find" style="background:var(--n-sky);--r:1.2deg"><span class="lab"><span data-lang="ru">Скальпер</span><span data-lang="en">Scalper</span></span><p><span data-lang="ru">Торговля в 1 клик, низкая задержка</span><span data-lang="en">One‑click trading, low latency</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-mean"><span class="lab"><span data-lang="ru">Как ведёт себя</span><span data-lang="en">Behaviour</span></span><p><span data-lang="ru">Совершает десятки сделок в день, любая задержка стоит денег</span><span data-lang="en">Makes dozens of trades a day, any delay costs money</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-need"><span class="lab"><span data-lang="ru">Что это значит для MVP</span><span data-lang="en">What it means for the MVP</span></span><p><span data-lang="ru">Те же быстрые входы в операции</span><span data-lang="en">The same fast entry points to operations</span></p></div></li>
+    <li class="flow"><div class="f-find" style="background:var(--n-mint);--r:-1deg"><span class="lab"><span data-lang="ru">Свинг‑трейдер</span><span data-lang="en">Swing trader</span></span><p><span data-lang="ru">Глубокая аналитика портфеля</span><span data-lang="en">Deep portfolio analytics</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-mean"><span class="lab"><span data-lang="ru">Как ведёт себя</span><span data-lang="en">Behaviour</span></span><p><span data-lang="ru">Проверяет позиции несколько раз в день</span><span data-lang="en">Checks positions several times a day</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-need"><span class="lab"><span data-lang="ru">Что это значит для MVP</span><span data-lang="en">What it means for the MVP</span></span><p><span data-lang="ru">Аналитика поверх обзора капитала на следующем этапе</span><span data-lang="en">Analytics on top of the capital overview, next stage</span></p></div></li>
+    <li class="flow"><div class="f-find" style="background:var(--n-lime);--r:1.5deg"><span class="lab"><span data-lang="ru">Инвестор‑трейдер</span><span data-lang="en">Investor‑trader</span></span><p><span data-lang="ru">Портфель и метрики риска</span><span data-lang="en">Portfolio and risk metrics</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-mean"><span class="lab"><span data-lang="ru">Как ведёт себя</span><span data-lang="en">Behaviour</span></span><p><span data-lang="ru">Редко открывает сделки, но большими объёмами</span><span data-lang="en">Trades rarely but in large volumes</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-need"><span class="lab"><span data-lang="ru">Что это значит для MVP</span><span data-lang="en">What it means for the MVP</span></span><p><span data-lang="ru">Отдельный модуль риска, следующий этап</span><span data-lang="en">A separate risk module, next stage</span></p></div></li>
+    <li class="flow"><div class="f-find" style="background:#ECECE8;--r:-1.2deg"><span class="lab"><span data-lang="ru">Новичок</span><span data-lang="en">Beginner</span></span><p><span data-lang="ru">Обучение, подсказки, ограничения</span><span data-lang="en">Learning, hints, limits</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-mean"><span class="lab"><span data-lang="ru">Как ведёт себя</span><span data-lang="en">Behaviour</span></span><p><span data-lang="ru">Осторожные сделки, боится ошибиться</span><span data-lang="en">Careful trades, afraid of mistakes</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-need"><span class="lab"><span data-lang="ru">Что это значит для MVP</span><span data-lang="en">What it means for the MVP</span></span><p><span data-lang="ru">Отдельный обучающий сценарий, следующий этап</span><span data-lang="en">A separate learning flow, next stage</span></p></div></li>
+  </ol>
+  <p class="arrow"><span><span data-lang="ru"><b class='sb'>Вывод.</b> В исследовании заказчика активный трейдер отмечен как основной пользователь платформы. Его потребности, скорость и контроль капитала, частично совпадают со скальпером и свинг‑трейдером. Поэтому MVP строили вокруг активного трейдера: первая версия закрывает главный сегмент и даёт основу для соседних. Новичку и инвестору нужны отдельные сценарии, их вынесли на следующие этапы.</span><span data-lang="en"><b class='sb'>Conclusion.</b> The client’s research marks the active trader as the platform’s core user. Their needs, speed and control of capital, partly overlap with the scalper and the swing trader. So the MVP was built around the active trader: the first version covers the main segment and lays the base for the neighbouring ones. Beginners and investors need separate flows, so they moved to later stages.</span></span></p>
+</section>
+
+<p class="wrap quote reveal"><span data-lang="ru">Активному трейдеру нужны скорость и контроль капитала, а не лишние экраны.</span><span data-lang="en">An active trader needs speed and control of capital, not extra screens.</span></p>
+
+<section class="wrap sec two reveal" data-tick id="hypothesis">
+  <div>
+    <span class="chip c-hyp"><span data-lang="ru">Гипотеза</span><span data-lang="en">Hypothesis</span></span>
+    <h2><span data-lang="ru">Капитал, счета и деньги в одном кабинете</span><span data-lang="en">Capital, accounts and money in one account</span></h2>
+    <p class="read" style="margin-top:14px"><span data-lang="ru">Если собрать обзор капитала, торговые счета и операции с деньгами в одном кабинете и дать вход в каждую операцию с главной, активный трейдер быстрее дойдёт от входа до пополнения счёта и будет реже теряться между разделами.</span><span data-lang="en">If the capital overview, trading accounts and money operations live in one account, with an entry point to every operation from the home screen, an active trader will get from sign‑in to a funded account faster and get lost between sections less often.</span></p>
+    <div class="chain" role="group" aria-label="Цепочка эффекта" data-aria-ru="Цепочка эффекта" data-aria-en="Chain of effect"><span class="on"><span data-lang="ru">Видит капитал</span><span data-lang="en">Sees the capital</span></span><em aria-hidden="true">→</em><span><span data-lang="ru">Выбирает счёт</span><span data-lang="en">Picks an account</span></span><em aria-hidden="true">→</em><span><span data-lang="ru">Пополняет или выводит</span><span data-lang="en">Deposits or withdraws</span></span><em aria-hidden="true">→</em><span><span data-lang="ru">Возвращается к торговле</span><span data-lang="en">Returns to trading</span></span></div>
+  </div>
+  <div>
+    <span class="lab" style="display:block"><span data-lang="ru">Как проверяли</span><span data-lang="en">How we tested it</span></span>
+    <ol class="steps">
+      <li><b><span data-lang="ru">Сравнение сегментов</span><span data-lang="en">Segment comparison</span></b><span data-lang="ru">По исследованию заказчика определили, чьи задачи задают первую версию.</span><span data-lang="en">Using the client’s research, we defined whose tasks shape the first version.</span></li>
+      <li><b><span data-lang="ru">ИИ‑симуляция</span><span data-lang="en">AI simulation</span></b><span data-lang="ru">С помощью нейросети прогнала шесть задач активного трейдера, скальпера и свинг‑трейдера по двум вариантам списка счетов.</span><span data-lang="en">With a neural network I ran six tasks of an active trader, a scalper and a swing trader through two versions of the account list.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="wrap sec reveal" data-tick id="metrics">
+  <span class="lab"><span data-lang="ru">Метрики</span><span data-lang="en">Metrics</span></span>
+  <h2 style="margin-top:12px"><span data-lang="ru">Северная звезда: доля новых клиентов, которые пополнили торговый счёт</span><span data-lang="en">North Star: the share of new clients who funded a trading account</span></h2>
+  <p class="read" style="margin-top:14px"><span data-lang="ru">Считаю как отношение клиентов, открывших и пополнивших торговый счёт, ко всем, кто вошёл в кабинет за период. Защитные метрики: ошибки и отмены выводов, обращения по операциям.</span><span data-lang="en">I count it as the clients who opened and funded a trading account, divided by everyone who signed in over the period. Guardrails: withdrawal errors and cancellations, requests about operations.</span></p>
+  <figure class="fig"><div class="canvas tree-al" id="tree">
+    <svg id="treeSvg" aria-hidden="true"></svg>
+    <div class="node root" data-n="g" style="left:2%;top:41%"><span class="lab"><span data-lang="ru">Бизнес</span><span data-lang="en">Business</span></span><span data-lang="ru">Больше торгующих клиентов</span><span data-lang="en">More trading clients</span></div>
+    <div class="node lit" data-n="n" data-p="g" style="left:35%;top:16%"><span class="lab"><span data-lang="ru">Северная звезда</span><span data-lang="en">North Star</span></span><span data-lang="ru">Доля новых клиентов, пополнивших счёт</span><span data-lang="en">Share of new clients who funded an account</span></div>
+    <div class="node" data-n="r" data-p="g" style="left:35%;top:70%"><span data-lang="ru">Доля клиентов с повторной операцией</span><span data-lang="en">Share of clients with a repeat operation</span></div>
+    <div class="node" data-n="a" data-p="n" style="left:69%;top:6%"><span data-lang="ru">Открытие: доля вошедших, открывших счёт</span><span data-lang="en">Opening: share of signed‑in clients who opened an account</span></div>
+    <div class="node" data-n="b" data-p="n" style="left:69%;top:30%"><span data-lang="ru">Пополнение: доля открытых счетов с депозитом</span><span data-lang="en">Funding: share of opened accounts with a deposit</span></div>
+    <div class="node" data-n="c" data-p="r" style="left:69%;top:58%"><span data-lang="ru">Время на ключевой сценарий со счётом</span><span data-lang="en">Time for the key account flow</span></div>
+    <div class="node" data-n="d" data-p="r" style="left:69%;top:80%"><span data-lang="ru">Доля операций, завершённых без обращения</span><span data-lang="en">Share of operations completed without a request</span></div>
+  </div><figcaption class="cap"><span data-lang="ru">Рис. 3. Дерево метрик: от бизнес‑цели к северной звезде и её драйверам.</span><span data-lang="en">Fig. 3. The metric tree: from the business goal to the North Star and its drivers.</span></figcaption></figure>
+</section>
+
+<section class="wrap sec reveal" data-tick id="solutions">
+  <span class="chip c-dec"><span data-lang="ru">Решения</span><span data-lang="en">Decisions</span></span>
+  <h2><span data-lang="ru">Четыре решения для первой версии</span><span data-lang="en">Four decisions for the first version</span></h2>
+  <p class="read" style="margin-top:14px"><span data-lang="ru">Каждое решение отвечает на задачу активного трейдера и влияет на свою ветку дерева метрик.</span><span data-lang="en">Each decision answers an active trader’s task and moves its own branch of the metric tree.</span></p>
+
+  <article class="dec reveal">
+    <div><span class="chip c-dec"><span data-lang="ru">Решение 01</span><span data-lang="en">Decision 01</span></span><h3 style="margin-top:12px"><span data-lang="ru">Главная: капитал и входы в операции</span><span data-lang="en">Home: capital and entry points to operations</span></h3>
+      <p class="read" style="margin-top:12px"><span data-lang="ru">Сверху баланс, средства в ордерах, замороженные средства и прибыль за 24 часа. Под ними четыре входа: открыть счёт, мои торговые счета, пополнить, вывести. Ниже активы с кнопкой «Торговать», распределение капитала и динамика баланса. Трейдер видит состояние капитала и сразу переходит к действию.</span><span data-lang="en">At the top: balance, funds in orders, frozen funds and 24‑hour profit. Below them, four entry points: open an account, my trading accounts, deposit, withdraw. Further down: assets with a Trade button, capital allocation and balance over time. The trader sees the state of their capital and acts right away.</span></p>
+      <p class="impact"><span data-lang="ru"><b>Влияет на:</b> долю вошедших, открывших счёт, и долю счетов с депозитом.</span><span data-lang="en"><b>Moves:</b> the share of signed‑in clients who open an account and the share of accounts with a deposit.</span></p>
+</div>
+    <figure class="fig" style="margin-top:0"><div class="plate p-shot"><div class="sel"><span class="h1x"><i></i><i></i></span><img data-av tabindex="0" role="button" data-full="assets/process/eaj-v3/home-top-ru.webp" data-full-ru="assets/process/eaj-v3/home-top-ru.webp" data-full-en="assets/process/eaj-v3/home-top.webp" data-title-ru="Верх главной: баланс и четыре входа в операции" data-title-en="Top of the home screen: balance and four entry points" class="shot" src="assets/process/eaj-v3/home-top-ru.webp" data-src-ru="assets/process/eaj-v3/home-top-ru.webp" data-src-en="assets/process/eaj-v3/home-top.webp" width="2720" height="1110" data-alt-ru="Верх главной: баланс и четыре входа в операции" data-alt-en="Top of the home screen: balance and four entry points" alt="Верх главной: баланс и четыре входа в операции" loading="lazy" decoding="async"></div></div><figcaption class="cap"><span data-lang="ru">Рис. 4. Баланс и входы в операции на главной.</span><span data-lang="en">Fig. 4. Balance and entry points on the home screen.</span></figcaption></figure>
+  </article>
+  <article class="dec reveal">
+    <div><span class="chip c-dec"><span data-lang="ru">Решение 02</span><span data-lang="en">Decision 02</span></span><h3 style="margin-top:12px"><span data-lang="ru">Торговые счета: карточки или таблица</span><span data-lang="en">Trading accounts: cards or a table</span></h3>
+      <div class="opts">
+        <div class="opt"><span class="ic"></span><div><span class="lab"><span data-lang="ru">Вариант A: таблица</span><span data-lang="en">Option A: a table</span></span><p><span data-lang="ru">Номер счёта, валюта, сумма, статус и ROI в строках. Компактно, когда счетов много.</span><span data-lang="en">Account number, currency, amount, status and ROI in rows. Compact when there are many accounts.</span></p></div></div>
+        <div class="opt chosen"><span class="ic"></span><div><span class="lab"><span data-lang="ru">Выбрано: B, карточки</span><span data-lang="en">Chosen: B, cards</span></span><p><span data-lang="ru">Актив с иконкой и названием, баланс, доходность и статус собраны вокруг одного счёта.</span><span data-lang="en">The asset with its icon and name, balance, return and status are grouped around one account.</span></p></div></div>
+      </div>
+      <p class="read" style="margin-top:16px"><span data-lang="ru">Чтобы проверить выбор, я с помощью нейросети смоделировала шесть задач на обоих вариантах.</span><span data-lang="en">To check the choice, I used a neural network to simulate six tasks on both versions.</span></p>
+      <table class="simt"><thead><tr><th><span data-lang="ru">Задача</span><span data-lang="en">Task</span></th><th><span data-lang="ru">Таблица</span><span data-lang="en">Table</span></th><th><span data-lang="ru">Карточки</span><span data-lang="en">Cards</span></th></tr></thead><tbody><tr><td><span data-lang="ru">Найти убыточный счёт</span><span data-lang="en">Find the losing account</span></td><td data-ru="Таблица" data-en="Table"><span data-lang="ru">Нужно читать колонку ROI</span><span data-lang="en">Has to read the ROI column</span></td><td data-ru="Карточки" data-en="Cards" class="win"><span data-lang="ru">Красный процент виден сразу</span><span data-lang="en">The red percentage stands out</span></td></tr><tr><td><span data-lang="ru">Найти счёт в ETH</span><span data-lang="en">Find the ETH account</span></td><td data-ru="Таблица" data-en="Table"><span data-lang="ru">Ищет по колонке «Валюта»</span><span data-lang="en">Scans the Currency column</span></td><td data-ru="Карточки" data-en="Cards" class="win"><span data-lang="ru">Узнаёт по иконке и названию</span><span data-lang="en">Recognises the icon and name</span></td></tr><tr><td><span data-lang="ru">Заблокированный счёт</span><span data-lang="en">Blocked account</span></td><td data-ru="Таблица" data-en="Table" class="win"><span data-lang="ru">Красный статус виден сразу</span><span data-lang="en">The red status stands out</span></td><td data-ru="Карточки" data-en="Cards"><span data-lang="ru">Состояние не показано</span><span data-lang="en">The state wasn’t shown</span></td></tr><tr><td><span data-lang="ru">Счёт в долларах</span><span data-lang="en">Account value in USD</span></td><td data-ru="Таблица" data-en="Table" class="win"><span data-lang="ru">Видно только у USD‑счетов</span><span data-lang="en">Visible only for USD accounts</span></td><td data-ru="Карточки" data-en="Cards"><span data-lang="ru">Курс есть, суммы в $ нет</span><span data-lang="en">Rate shown, no USD amount</span></td></tr><tr><td><span data-lang="ru">Открыть счёт</span><span data-lang="en">Open an account</span></td><td data-ru="Таблица" data-en="Table"><span data-lang="ru">Кнопка справа вверху</span><span data-lang="en">Button at the top right</span></td><td data-ru="Карточки" data-en="Cards"><span data-lang="ru">Та же кнопка</span><span data-lang="en">The same button</span></td></tr><tr><td><span data-lang="ru">Два счёта в одном активе</span><span data-lang="en">Two accounts in one asset</span></td><td data-ru="Таблица" data-en="Table" class="win"><span data-lang="ru">Отличаются номером</span><span data-lang="en">Told apart by number</span></td><td data-ru="Карточки" data-en="Cards"><span data-lang="ru">Номера нет, карточки одинаковые</span><span data-lang="en">No number, identical cards</span></td></tr></tbody></table>
+      <p class="read" style="margin-top:16px"><span data-lang="ru">Карточки выигрывают, когда трейдер ищет актив и следит за прибылью и убытком. Таблица выигрывает в плотности и сравнении. По итогам я добавила в карточку номер счёта, сумму в долларах, курс своего актива и состояние «Заблокирован», а таблицу оставила вторым видом за переключателем у поиска.</span><span data-lang="en">Cards win when the trader looks for an asset and watches profit and loss. The table wins on density and comparison. As a result, I added the account number, USD value, the asset’s own rate and a Blocked state to the card, and kept the table as a second view behind a switch next to search.</span></p>
+      <p class="impact"><span data-lang="ru"><b>Влияет на:</b> время на ключевой сценарий со счётом.</span><span data-lang="en"><b>Moves:</b> time for the key account flow.</span></p>
+</div>
+    <figure class="fig" style="margin-top:0"><div class="plate p-shot p-col"><div class="sel"><span class="h1x"><i></i><i></i></span><img data-av tabindex="0" role="button" data-full="assets/process/eaj-v3/accounts-cards-ru.webp" data-full-ru="assets/process/eaj-v3/accounts-cards-ru.webp" data-full-en="assets/process/eaj-v3/accounts-cards.webp" data-title-ru="Торговые счета карточками: номер, баланс, сумма в долларах, курс и статус" data-title-en="Trading accounts as cards: number, balance, USD value, rate and status" class="shot" src="assets/process/eaj-v3/accounts-cards-ru.webp" data-src-ru="assets/process/eaj-v3/accounts-cards-ru.webp" data-src-en="assets/process/eaj-v3/accounts-cards.webp" width="2592" height="1416" data-alt-ru="Торговые счета карточками: номер, баланс, сумма в долларах, курс и статус" data-alt-en="Trading accounts as cards: number, balance, USD value, rate and status" alt="Торговые счета карточками: номер, баланс, сумма в долларах, курс и статус" loading="lazy" decoding="async"></div><img data-av tabindex="0" role="button" data-full="assets/process/eaj-v3/accounts-table-ru.webp" data-full-ru="assets/process/eaj-v3/accounts-table-ru.webp" data-full-en="assets/process/eaj-v3/accounts-table.webp" data-title-ru="Те же счета в табличном виде" data-title-en="The same accounts as a table" class="shot" src="assets/process/eaj-v3/accounts-table-ru.webp" data-src-ru="assets/process/eaj-v3/accounts-table-ru.webp" data-src-en="assets/process/eaj-v3/accounts-table.webp" width="2592" height="1424" data-alt-ru="Те же счета в табличном виде" data-alt-en="The same accounts as a table" alt="Те же счета в табличном виде" loading="lazy" decoding="async"><span class="stick" style="right:4%;top:4%;background:var(--n-peach);--r:3deg"><span data-lang="ru">Переключатель у поиска</span><span data-lang="en">Switch next to search</span></span></div><figcaption class="cap"><span data-lang="ru">Рис. 5. Карточки как основной вид и таблица как второй.</span><span data-lang="en">Fig. 5. Cards as the main view and the table as the second one.</span></figcaption></figure>
+  </article>
+  <article class="dec reveal">
+    <div><span class="chip c-dec"><span data-lang="ru">Решение 03</span><span data-lang="en">Decision 03</span></span><h3 style="margin-top:12px"><span data-lang="ru">Финансирование: все операции с деньгами в одном разделе</span><span data-lang="en">Funding: all money operations in one section</span></h3>
+      <p class="read" style="margin-top:12px"><span data-lang="ru">Пополнение, вывод и перевод мы с продакт‑оунером собрали в одном разделе, чтобы все основные функции с деньгами были в одном месте. Клиент выбирает депозит, вывод или внутренний перевод между своими счетами, а кнопка называет действие. Входы в пополнение и вывод остались и на главной, чтобы не искать их через меню.</span><span data-lang="en">With the product owner, I put deposits, withdrawals and transfers into one section so that all the main money functions are in one place. The client picks a deposit, a withdrawal or an internal transfer between their accounts, and each button names its action. Entry points to deposits and withdrawals also stay on the home screen, so nobody has to dig through the menu.</span></p>
+      <p class="impact"><span data-lang="ru"><b>Влияет на:</b> долю счетов с депозитом и долю клиентов с повторной операцией.</span><span data-lang="en"><b>Moves:</b> the share of accounts with a deposit and the share of clients with a repeat operation.</span></p>
+</div>
+    <figure class="fig" style="margin-top:0"><div class="plate p-shot"><div class="sel"><span class="h1x"><i></i><i></i></span><img data-av tabindex="0" role="button" data-full="assets/process/eaj-v3/funding-ru.webp" data-full-ru="assets/process/eaj-v3/funding-ru.webp" data-full-en="assets/process/eaj-v3/funding.webp" data-title-ru="Раздел «Финансирование»: депозит, вывод средств и внутренний перевод" data-title-en="Funding section: deposit, withdrawal and internal transfer" class="shot" src="assets/process/eaj-v3/funding-ru.webp" data-src-ru="assets/process/eaj-v3/funding-ru.webp" data-src-en="assets/process/eaj-v3/funding.webp" width="2592" height="1320" data-alt-ru="Раздел «Финансирование»: депозит, вывод средств и внутренний перевод" data-alt-en="Funding section: deposit, withdrawal and internal transfer" alt="Раздел «Финансирование»: депозит, вывод средств и внутренний перевод" loading="lazy" decoding="async"></div></div><figcaption class="cap"><span data-lang="ru">Рис. 6. Три операции с деньгами в одном разделе.</span><span data-lang="en">Fig. 6. Three money operations in one section.</span></figcaption></figure>
+  </article>
+  <article class="dec reveal">
+    <div><span class="chip c-dec"><span data-lang="ru">Решение 04</span><span data-lang="en">Decision 04</span></span><h3 style="margin-top:12px"><span data-lang="ru">Претензии и жалобы внутри кабинета</span><span data-lang="en">Claims and complaints inside the account</span></h3>
+      <p class="read" style="margin-top:12px"><span data-lang="ru">Клиент создаёт обращение, видит список со статусами «Принято», «В процессе», «Решено», «Закрыто», открывает переписку и прикладывает документы. Вопрос по выводу или депозиту решается там же, где прошла операция: в обращении видны счёт, сумма и дата запроса.</span><span data-lang="en">The client creates a request, sees the list with statuses Received, In progress, Resolved and Closed, opens the conversation and attaches documents. A question about a withdrawal or a deposit is solved where the operation happened: the request shows the account, amount and request date.</span></p>
+      <p class="impact"><span data-lang="ru"><b>Влияет на:</b> долю операций, завершённых без обращения во внешние каналы. Защитная метрика: обращения по операциям.</span><span data-lang="en"><b>Moves:</b> the share of operations completed without contacting outside channels. Guardrail: requests about operations.</span></p>
+</div>
+    <figure class="fig" style="margin-top:0"><div class="plate p-shot p-col"><div class="sel"><span class="h1x"><i></i><i></i></span><img data-av tabindex="0" role="button" data-full="assets/process/eaj-v3/claims-list-ru.webp" data-full-ru="assets/process/eaj-v3/claims-list-ru.webp" data-full-en="assets/process/eaj-v3/claims-list.webp" data-title-ru="Список обращений с типом, датой и статусом" data-title-en="List of requests with type, date and status" class="shot" src="assets/process/eaj-v3/claims-list-ru.webp" data-src-ru="assets/process/eaj-v3/claims-list-ru.webp" data-src-en="assets/process/eaj-v3/claims-list.webp" width="2592" height="2456" data-alt-ru="Список обращений с типом, датой и статусом" data-alt-en="List of requests with type, date and status" alt="Список обращений с типом, датой и статусом" loading="lazy" decoding="async"></div><img data-av tabindex="0" role="button" data-full="assets/process/eaj-v3/claim-detail-ru.webp" data-full-ru="assets/process/eaj-v3/claim-detail-ru.webp" data-full-en="assets/process/eaj-v3/claim-detail.webp" data-title-ru="Переписка по обращению: счёт, сумма, статус и документы" data-title-en="Request conversation: account, amount, status and documents" class="shot" src="assets/process/eaj-v3/claim-detail-ru.webp" data-src-ru="assets/process/eaj-v3/claim-detail-ru.webp" data-src-en="assets/process/eaj-v3/claim-detail.webp" width="2592" height="2168" data-alt-ru="Переписка по обращению: счёт, сумма, статус и документы" data-alt-en="Request conversation: account, amount, status and documents" alt="Переписка по обращению: счёт, сумма, статус и документы" loading="lazy" decoding="async"></div><figcaption class="cap"><span data-lang="ru">Рис. 7. Список обращений и переписка по выводу средств.</span><span data-lang="en">Fig. 7. The request list and the conversation about a withdrawal.</span></figcaption></figure>
+  </article>
+</section>
+
+<section class="wrap sec two reveal" data-tick id="result">
+  <div><span class="lab"><span data-lang="ru">Итог</span><span data-lang="en">Outcome</span></span><h2 style="margin-top:12px"><span data-lang="ru">Кабинет, в котором клиент сам проходит путь до пополнения счёта</span><span data-lang="en">An account where the client gets to a funded account on their own</span></h2></div>
+  <div>
+    <p class="read"><span data-lang="ru">Спроектировала веб‑кабинет брокера: главную с обзором капитала, торговые счета, раздел финансирования и обращения в поддержку. Путь от входа до пополнения счёта собран в одном кабинете, а все операции с деньгами в одном разделе.</span><span data-lang="en">I designed the broker’s web account: a home screen with a capital overview, trading accounts, a funding section and support requests. The path from sign‑in to a funded account lives in one account, and all money operations live in one section.</span></p>
+    <span class="lab" style="display:block;margin-top:28px"><span data-lang="ru">Дальше</span><span data-lang="en">Next</span></span>
+    <ul class="next"><li><span data-lang="ru">Обучающий сценарий для новичков: подсказки и ограничения.</span><span data-lang="en">A learning flow for beginners: hints and limits.</span></li><li><span data-lang="ru">Модуль риска и аналитика портфеля для инвесторов и свинг‑трейдеров.</span><span data-lang="en">A risk module and portfolio analytics for investors and swing traders.</span></li></ul>
+  </div>
+</section>
+<div class="end"></div>
+</main>
+
+  <nav class="case-floating-nav">
+    <a class="case-prev" href="case-sber-split.html">
+      <span class="case-prev__arrow" aria-hidden="true">←</span>
+      <span class="case-prev__title-row">
+        <span class="case-prev__label"><span data-lang="ru">Предыдущий кейс</span><span data-lang="en">Previous case</span></span>
+        <span class="case-prev__title"><span data-lang="ru">Разделение счёта</span><span data-lang="en">Bill splitting</span></span>
+      </span>
+    </a>
+    <a class="case-next" href="case-namaste.html">
+      <span class="case-next__label"><span data-lang="ru">Следующий кейс</span><span data-lang="en">Next case</span></span>
+      <span class="case-next__title-row">
+        <span class="case-next__title">Namaste</span>
+        <span class="case-next__arrow" aria-hidden="true">→</span>
+      </span>
+    </a>
   </nav>
 
-  <div class="page">
-    <div class="case-page">
-      <div class="case-header">
-        <h1 class="case-title">EAJ Trader</h1>
-        <p class="case-headline"><span data-lang="ru">Личный кабинет трейдера с нуля</span><span data-lang="en">A trader’s dashboard from scratch</span></p>
-        <dl class="case-facts">
-          <div><dt><span data-lang="ru">Срок</span><span data-lang="en">Duration</span></dt><dd><span data-lang="ru">2 месяца</span><span data-lang="en">2 months</span></dd></div>
-          <div><dt><span data-lang="ru">Роль</span><span data-lang="en">Role</span></dt><dd><span data-lang="ru">Product Designer</span><span data-lang="en">Product Designer</span></dd></div>
-          <div><dt><span data-lang="ru">Платформы</span><span data-lang="en">Platforms</span></dt><dd><span data-lang="ru">Веб</span><span data-lang="en">Web</span></dd></div>
-          <div><dt><span data-lang="ru">Команда</span><span data-lang="en">Team</span></dt><dd><span data-lang="ru">Product Designer, Product Owner, Developer</span><span data-lang="en">Product Designer, Product Owner, Developer</span></dd></div>
-        </dl>
-        <div class="case-grid case-context-cards">
-          <div class="case-context-card col-6">
-            <p class="case-context-card__label"><span data-lang="ru">Контекст</span><span data-lang="en">Context</span></p>
-            <h2 class="case-context-card__title"><span data-lang="ru">От лендинга к личному кабинету</span><span data-lang="en">From a landing page to a dashboard</span></h2>
-            <p class="case-context-card__text"><span data-lang="ru">У EAJ Trader уже были айдентика, лендинг и список будущих функций. Следующим шагом стал кабинет для открытия счетов, управления средствами и контроля операций.</span><span data-lang="en">EAJ Trader already had an identity, a landing page and a list of future features. The next step was a dashboard for opening accounts, managing funds and keeping track of operations.</span></p>
-          </div>
-          <div class="case-context-card col-6">
-            <p class="case-context-card__label"><span data-lang="ru">Задача</span><span data-lang="en">Task</span></p>
-            <h2 class="case-context-card__title"><span data-lang="ru">Определить первую версию</span><span data-lang="en">Define the first version</span></h2>
-            <p class="case-context-card__text"><span data-lang="ru">Я отвечала за структуру кабинета и логику основных действий. Вместе с заказчиком выбирала, какие функции войдут в MVP и как связать обзор средств, счета и финансовые операции.</span><span data-lang="en">I was responsible for the structure of the dashboard and the logic of its main actions. Together with the client I chose which features would go into the MVP and how to connect the overview of funds, the accounts and the financial operations.</span></p>
-          </div>
-        </div>
-      </div>
 
-      <div class="detail-block" id="eaj-scope">
-        <div class="detail-head">
-          <h2><span data-lang="ru">С чего началась работа</span><span data-lang="en">How the work started</span></h2>
-        </div>
-        <p><span data-lang="ru">Заказчик передал предварительное исследование и список функций. Я сравнила сценарии разных типов пользователей: от новичка до активного трейдера. Для MVP остановились на активном трейдере.</span><span data-lang="en">The client handed over preliminary research and a list of features. I compared the scenarios of different user types, from a beginner to an active trader. For the MVP we settled on the active trader.</span></p>
-        <h3 class="case-subhead"><span data-lang="ru">Основной маршрут в кабинете</span><span data-lang="en">The main path through the dashboard</span></h3>
-        <ol class="case-rail" style="--rail-cols: 3">
-          <li class="case-rail__step">
-            <span class="case-rail__num" aria-hidden="true">1</span>
-            <h3 class="case-rail__title"><span data-lang="ru">Оценить средства</span><span data-lang="en">Assess the funds</span></h3>
-            <p class="case-rail__text"><span data-lang="ru">Посмотреть баланс и доступные суммы.</span><span data-lang="en">Look at the balance and the available amounts.</span></p>
-          </li>
-          <li class="case-rail__step">
-            <span class="case-rail__num" aria-hidden="true">2</span>
-            <h3 class="case-rail__title"><span data-lang="ru">Выбрать счёт</span><span data-lang="en">Choose an account</span></h3>
-            <p class="case-rail__text"><span data-lang="ru">Найти нужный счёт и проверить его состояние.</span><span data-lang="en">Find the right account and check its status.</span></p>
-          </li>
-          <li class="case-rail__step">
-            <span class="case-rail__num" aria-hidden="true">3</span>
-            <h3 class="case-rail__title"><span data-lang="ru">Перейти к операции</span><span data-lang="en">Go to an operation</span></h3>
-            <p class="case-rail__text"><span data-lang="ru">Выбрать пополнение, вывод или перевод.</span><span data-lang="en">Choose a deposit, a withdrawal or a transfer.</span></p>
-          </li>
-        </ol>
-        <div class="case-grid case-split">
-          <div class="case-split-text col-4">
-            <h3 class="case-subhead"><span data-lang="ru">Сравнение сценариев</span><span data-lang="en">Comparing the scenarios</span></h3>
-            <p><span data-lang="ru">В таблице сопоставлены типы пользователей и их задачи. Это материал анализа на старте проекта.</span><span data-lang="en">The table maps the user types to their tasks. This is analysis material from the start of the project.</span></p>
-          </div>
-          <div class="col-8">
-            <figure class="case-fig">
-              <button type="button" class="case-shot" data-lightbox-for="fig-ea-01-9">
-                <img id="fig-ea-01-9" data-src-ru="assets/process/eaj-research-ru.webp" data-src-en="assets/process/eaj-research.webp" data-alt-ru="Таблица типов пользователей" data-alt-en="User types table" alt="Таблица типов пользователей" loading="lazy" width="3600" height="1420">
-              </button>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Сравнение сценариев разных типов трейдеров. Материал исследования на этапе проекта.</span><span data-lang="en">A comparison of the scenarios of different trader types. Research material from the project.</span></span></figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
 
-      <div class="detail-block" id="eaj-home">
-        <div class="case-grid case-split">
-          <div class="case-split-text col-6">
-            <h2 class="case-lead-title"><span data-lang="ru">Главная</span><span data-lang="en">Main screen</span></h2>
-            <p><span data-lang="ru">На главной я собрала общий баланс, информацию о средствах и входы в основные операции. Отсюда можно открыть счёт, перейти к своим счетам, пополнить баланс или вывести средства. Так обзор капитала сразу связан с дальнейшими действиями.</span><span data-lang="en">On the main screen I brought together the total balance, the information about funds and the entry points to the core operations. From here you can open an account, go to your accounts, top up the balance or withdraw funds. That way the overview of capital connects directly to what happens next.</span></p>
-          </div>
-          <div class="col-6">
-            <figure class="case-fig">
-              <button type="button" class="case-shot" data-lightbox-for="fig-ea-02-10">
-                <img id="fig-ea-02-10" data-src-ru="assets/process/eaj-home-ru.webp" data-src-en="assets/process/eaj-home.webp" data-alt-ru="Главная" data-alt-en="Main screen" alt="Главная" loading="lazy" width="3600" height="4092">
-              </button>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Обзор средств и входы в основные операции.</span><span data-lang="en">An overview of funds and the entry points to the core operations.</span></span></figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
-
-      <div class="detail-block" id="eaj-accounts">
-        <div class="detail-head">
-          <h2><span data-lang="ru">Карточки или таблица</span><span data-lang="en">Cards or a table</span></h2>
-        </div>
-        <p><span data-lang="ru">Для торговых счетов я подготовила два варианта. Таблица компактна, когда счетов много. В карточке баланс, статус и действия собраны вокруг одного счёта.</span><span data-lang="en">I prepared two options for the trading accounts. A table is compact when there are many accounts. A card gathers the balance, the status and the actions around a single account.</span></p>
-        <p><span data-lang="ru">Концепции проверили с 5 участниками. Для MVP выбрали карточки, а таблицу сохранили как вариант для работы с большим числом счетов.</span><span data-lang="en">The concepts were tested with 5 participants. Cards went into the MVP, and the table was kept as an option for working with a large number of accounts.</span></p>
-        <div class="case-grid case-figs--labelled">
-          <div class="case-figs__item col-6">
-            <p class="case-figs__label"><span data-lang="ru">Концепт 2 · Карточки</span><span data-lang="en">Concept 2 · Card view</span></p>
-            <figure class="case-fig">
-              <button type="button" class="case-shot" data-lightbox-for="fig-ea-07-11">
-                <img id="fig-ea-07-11" data-src-ru="assets/process/eaj-concept1-ru.webp" data-src-en="assets/process/eaj-concept1.webp" data-alt-ru="Карточные счета, концепт 2" data-alt-en="Accounts as cards, concept 2" alt="Карточные счета, концепт 2" loading="lazy" width="3600" height="1967">
-              </button>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Концепт 2. Карточное представление счетов.</span><span data-lang="en">Concept 2. Accounts shown as cards.</span></span></figcaption>
-            </figure>
-          </div>
-          <div class="case-figs__item col-6">
-            <p class="case-figs__label"><span data-lang="ru">Концепт 1 · Таблица</span><span data-lang="en">Concept 1 · Table view</span></p>
-            <figure class="case-fig">
-              <button type="button" class="case-shot" data-lightbox-for="fig-ea-06-12">
-                <img id="fig-ea-06-12" data-src-ru="assets/process/eaj-concept2-ru.webp" data-src-en="assets/process/eaj-concept2.webp" data-alt-ru="Табличные счета, концепт 1" data-alt-en="Accounts as a table, concept 1" alt="Табличные счета, концепт 1" loading="lazy" width="3600" height="1978">
-              </button>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Концепт 1. Табличное представление счетов.</span><span data-lang="en">Concept 1. Accounts shown as a table.</span></span></figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
-
-      <div class="detail-block" id="eaj-funding">
-        <div class="case-grid case-split">
-          <div class="case-split-text col-4">
-            <h2 class="case-lead-title"><span data-lang="ru">Пополнение, вывод и переводы</span><span data-lang="en">Deposits, withdrawals and transfers</span></h2>
-            <p><span data-lang="ru">Эти операции мы с заказчиком объединили в разделе Funding. Внутри пользователь выбирает, что хочет сделать со средствами. При этом входы в пополнение и вывод остались на главной.</span><span data-lang="en">The client and I brought these operations together in the Funding section. Inside it the user chooses what to do with their funds. The entry points to deposits and withdrawals stayed on the main screen.</span></p>
-          </div>
-          <div class="col-8">
-            <figure class="case-fig">
-              <button type="button" class="case-shot" data-lightbox-for="fig-ea-03-13">
-                <img id="fig-ea-03-13" data-src-ru="assets/process/eaj-funding-2-ru.webp" data-src-en="assets/process/eaj-funding-2.webp" data-alt-ru="Funding" data-alt-en="Funding" alt="Funding" loading="lazy" width="3600" height="1833">
-              </button>
-              <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Пополнение, вывод и внутренние переводы в одном разделе.</span><span data-lang="en">Deposits, withdrawals and internal transfers in one section.</span></span></figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
-
-      <div class="detail-block" id="eaj-support">
-        <div class="case-grid case-split">
-          <div class="case-split-text col-4">
-            <h2 class="case-lead-title"><span data-lang="ru">Обращения в поддержку</span><span data-lang="en">Support requests</span></h2>
-            <p><span data-lang="ru">Для вопросов по работе кабинета спроектировала Claims &amp; Complaints. Пользователь видит список обращений и их статусы, открывает переписку, уточняет детали и прикладывает документы. К разговору можно вернуться из того же раздела.</span><span data-lang="en">For questions about the dashboard I designed Claims &amp; Complaints. The user sees the list of support requests and their statuses, opens the conversation, adds details and attaches documents. The conversation can be picked up again from the same section.</span></p>
-          </div>
-          <div class="col-8">
-            <div class="case-figs case-figs--stack">
-              <figure class="case-fig">
-                <button type="button" class="case-shot" data-lightbox-for="fig-ea-04-14">
-                  <img id="fig-ea-04-14" data-src-ru="assets/process/eaj-claims-list-ru.webp" data-src-en="assets/process/eaj-claims-list.webp" data-alt-ru="Список обращений" data-alt-en="Support request list" alt="Список обращений" loading="lazy" width="3600" height="3411">
-                </button>
-                <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Обращения и их текущие статусы.</span><span data-lang="en">Support requests and their current statuses.</span></span></figcaption>
-              </figure>
-              <figure class="case-fig">
-                <button type="button" class="case-shot" data-lightbox-for="fig-ea-05-15">
-                  <img id="fig-ea-05-15" data-src-ru="assets/process/eaj-claims-detail-ru.webp" data-src-en="assets/process/eaj-claims-detail.webp" data-alt-ru="Диалог обращения" data-alt-en="Support request conversation" alt="Диалог обращения" loading="lazy" width="3600" height="3011">
-                </button>
-                <figcaption class="case-fig__cap"><span class="case-fig__text"><span data-lang="ru">Переписка по выбранному обращению.</span><span data-lang="en">The conversation for the selected support request.</span></span></figcaption>
-              </figure>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="detail-block case-results" id="eaj-result">
-        <div class="case-results__panel">
-        <div class="detail-head">
-          <h2><span data-lang="ru">Результаты</span><span data-lang="en">Results</span></h2>
-        </div>
-        <p><span data-lang="ru">Запущен кабинет с обзором средств и счетами. Финансовые операции и поддержка также спроектированы.</span><span data-lang="en">The dashboard launched with an overview of funds and accounts. The financial operations and support were designed as well.</span></p>
-        <div class="case-grid result-cards">
-          <div class="result-card col-6">
-            <p class="result-card__label"><span data-lang="ru">Активация</span><span data-lang="en">Activation</span></p>
-            <h3 class="result-card__metric"><span data-lang="ru">Путь до первого пополнения</span><span data-lang="en">The path to a first deposit</span></h3>
-            <p class="result-card__desc"><span data-lang="ru">Собрали путь от входа в кабинет до открытия и пополнения торгового счёта.</span><span data-lang="en">We put together the path from signing in to opening and funding a trading account.</span></p>
-            <p class="result-card__measure">
-              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
-              <span><span data-lang="ru">конверсии в открытие и пополнение счёта</span><span data-lang="en">conversion to opening and funding an account</span></span>
-            </p>
-          </div>
-          <div class="result-card col-6">
-            <p class="result-card__label"><span data-lang="ru">Работа со счетами</span><span data-lang="en">Account management</span></p>
-            <h3 class="result-card__metric"><span data-lang="ru">Формат для частых операций</span><span data-lang="en">A format for frequent operations</span></h3>
-            <p class="result-card__desc"><span data-lang="ru">Для MVP выбрали формат, удобный для частых операций с торговыми счетами.</span><span data-lang="en">For the MVP we chose the format that suits frequent operations on trading accounts.</span></p>
-            <p class="result-card__measure">
-              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
-              <span><span data-lang="ru">медианному времени выполнения ключевого сценария со счётом</span><span data-lang="en">the median time to complete the key account scenario</span></span>
-            </p>
-          </div>
-          <div class="result-card col-6">
-            <p class="result-card__label"><span data-lang="ru">Финансовые операции</span><span data-lang="en">Financial operations</span></p>
-            <h3 class="result-card__metric"><span data-lang="ru">Понятные статусы операций</span><span data-lang="en">Clear operation statuses</span></h3>
-            <p class="result-card__desc"><span data-lang="ru">Сделали статусы пополнений, выводов и переводов заметными и понятными.</span><span data-lang="en">We made the statuses of deposits, withdrawals and transfers visible and clear.</span></p>
-            <p class="result-card__measure">
-              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
-              <span><span data-lang="ru">доле пополненных счетов с повторной операцией</span><span data-lang="en">the share of funded accounts with a repeat operation</span></span>
-            </p>
-          </div>
-          <div class="result-card col-6">
-            <p class="result-card__label"><span data-lang="ru">Поддержка внутри продукта</span><span data-lang="en">In-product support</span></p>
-            <h3 class="result-card__metric"><span data-lang="ru">Обращения в кабинете</span><span data-lang="en">Support requests inside the dashboard</span></h3>
-            <p class="result-card__desc"><span data-lang="ru">Обращение создаётся и отслеживается внутри кабинета без поиска внешних контактов.</span><span data-lang="en">A support request is created and tracked inside the dashboard, with no need to look for an external contact.</span></p>
-            <p class="result-card__measure">
-              <span class="result-card__measure-label"><span data-lang="ru">Влияние оценивали по</span><span data-lang="en">Impact was evaluated using</span></span>
-              <span><span data-lang="ru">доле успешно завершённых пополнений, выводов и переводов</span><span data-lang="en">the share of successfully completed deposits, withdrawals and transfers</span></span>
-            </p>
-          </div>
-        </div>
-        </div>
+  <div class="av" id="av" role="dialog" aria-modal="true" aria-labelledby="avTitle" hidden>
+    <div class="av-bar">
+      <h2 class="av-title" id="avTitle"></h2>
+      <div class="av-ctl" role="group" aria-label="Масштаб" data-aria-ru="Масштаб" data-aria-en="Zoom">
+        <button type="button" class="av-btn" data-z="out" aria-label="Уменьшить" data-aria-ru="Уменьшить" data-aria-en="Zoom out">&#8722;</button>
+        <span class="av-zoom" id="avZoom" aria-live="polite">100%</span>
+        <button type="button" class="av-btn" data-z="in" aria-label="Увеличить" data-aria-ru="Увеличить" data-aria-en="Zoom in">+</button>
+        <button type="button" class="av-btn txt" data-z="fit" aria-label="По ширине" data-aria-ru="По ширине" data-aria-en="Fit to width"><span data-lang="ru">По ширине</span><span data-lang="en">Fit</span></button>
+        <button type="button" class="av-btn av-close" aria-label="Закрыть" data-aria-ru="Закрыть" data-aria-en="Close">&#215;</button>
       </div>
     </div>
-
-    <nav class="case-floating-nav">
-      <a class="case-prev" href="case-sber-split.html">
-        <span class="case-prev__arrow" aria-hidden="true">←</span>
-        <span class="case-prev__title-row">
-          <span class="case-prev__label"><span data-lang="ru">Предыдущий кейс</span><span data-lang="en">Previous case</span></span>
-          <span class="case-prev__title"><span data-lang="ru">Разделение счёта</span><span data-lang="en">Bill Splitting</span></span>
-        </span>
-      </a>
-      <a class="case-next" href="case-namaste.html">
-        <span class="case-next__label"><span data-lang="ru">Следующий кейс</span><span data-lang="en">Next case</span></span>
-        <span class="case-next__title-row">
-          <span class="case-next__title">Namaste</span>
-          <span class="case-next__arrow" aria-hidden="true">→</span>
-        </span>
-      </a>
-    </nav>
+    <div class="av-stage"><img id="avImg" alt="" draggable="false" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><p class="av-hint"><span data-lang="ru">Колесо или щипок для масштаба, перетаскивание для сдвига, Esc закрывает</span><span data-lang="en">Scroll or pinch to zoom, drag to pan, Esc to close</span></p></div>
   </div>
-
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" aria-label="Закрыть">×</button>
-    <img id="lightboxImg" alt="">
-  </div>
-
-  <script>
-  (function () {
-    // Only animate sections that start below the fold — anything already
-    // visible on load stays visible with no flash-of-invisible-content.
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var targets = document.querySelectorAll('.detail-block');
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
-      });
-    }, { threshold: 0, rootMargin: '0px 0px -80px 0px' });
-    targets.forEach(function (el) {
-      if (el.getBoundingClientRect().top < window.innerHeight * 0.9) return;
-      el.classList.add('reveal-pending');
-      io.observe(el);
-    });
-  })();
-</script>
 <script src="assets/i18n.js"></script>
   <script src="assets/typography.js"></script>
-  <script src="assets/lightbox.js"></script>
   <script src="assets/case-nav.js"></script>
-  <script>
-    // Card/table comparison slider (§ Два подхода к торговым счетам). The
-    // native <input type="range"> is kept as the source of truth so arrow
-    // keys and screen readers work for free, but dragging is driven by our
-    // own Pointer Events on top of it: some browsers don't move an
-    // appearance:none range's value on a plain click/drag against an
-    // invisible track, so relying on native drag alone is fragile. Pointer
-    // Events unify mouse and touch in one API and setPointerCapture keeps
-    // tracking the gesture even if the pointer leaves the element mid-drag.
-    (function () {
-      var stages = document.querySelectorAll('[data-compare-slider]');
-      stages.forEach(function (stage) {
-        var range = stage.querySelector('.compare-slider__range');
-        if (!range) return;
-        function update() { stage.style.setProperty('--pos', range.value); }
-        range.addEventListener('input', update);
-        update();
+<script>
+(function () {
+  'use strict';
+  var doc = document;
+  function $(s, c) { return (c || doc).querySelector(s); }
+  function $$(s, c) { return Array.prototype.slice.call((c || doc).querySelectorAll(s)); }
+  function isEn() { return doc.documentElement.classList.contains('lang-en'); }
+  function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+  var RM = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var NS = 'http://www.w3.org/2000/svg';
+  var QS = {};
+  location.search.replace(/^\?/, '').split('&').forEach(function (kv) { if (kv) { var p = kv.split('='); QS[p[0]] = p[1] || ''; } });
 
-        function setFromClientX(clientX) {
-          var rect = stage.getBoundingClientRect();
-          var ratio = (clientX - rect.left) / rect.width;
-          ratio = Math.max(0, Math.min(1, ratio));
-          var value = Math.round(ratio * 100);
-          if (String(value) !== range.value) {
-            range.value = String(value);
-            range.dispatchEvent(new Event('input', { bubbles: true }));
-          }
-        }
+  /* ---------- floating case nav: show only once the reader reaches the outcome ---------- */
+  var cnav = $('.case-floating-nav'), endEl = $('#result');
+  if (cnav && endEl) {
+    var held = function () { cnav.classList.toggle('is-held', endEl.getBoundingClientRect().top > innerHeight * 0.75); };
+    held(); addEventListener('scroll', held, { passive: true }); addEventListener('resize', held);
+  }
 
-        var dragging = false;
-        range.addEventListener('pointerdown', function (e) {
-          dragging = true;
-          range.setPointerCapture(e.pointerId);
-          setFromClientX(e.clientX);
-        });
-        range.addEventListener('pointermove', function (e) {
-          if (!dragging) return;
-          setFromClientX(e.clientX);
-        });
-        range.addEventListener('pointerup', function (e) {
-          dragging = false;
-          if (range.hasPointerCapture(e.pointerId)) range.releasePointerCapture(e.pointerId);
-        });
-        range.addEventListener('pointercancel', function () { dragging = false; });
+  /* ---------- artifact viewer ---------- */
+  var av = $('#av');
+  if (av) {
+    var stageEl = $('.av-stage', av), img = $('#avImg'), titleEl = $('#avTitle'), zoomEl = $('#avZoom'), hint = $('.av-hint', av);
+    var S = { s: 1, x: 0, y: 0, fit: 1, min: .1, max: 2, nw: 0, nh: 0 }, opener = null, pts = {}, pinch = null, drag = null;
+    function sw() { return stageEl.clientWidth; } function sh() { return stageEl.clientHeight; }
+    function clampPos() {
+      var w = S.nw * S.s, h = S.nh * S.s;
+      S.x = w <= sw() ? (sw() - w) / 2 : clamp(S.x, sw() - w, 0);
+      S.y = h <= sh() ? (sh() - h) / 2 : clamp(S.y, sh() - h, 0);
+    }
+    function apply() {
+      clampPos();
+      img.style.transform = 'translate(' + S.x + 'px,' + S.y + 'px) scale(' + S.s + ')';
+      zoomEl.textContent = Math.round(S.s / S.fit * 100) + '%';
+    }
+    function setFit() {
+      if (!S.nw) return;
+      S.fit = sw() / S.nw; S.min = Math.min(S.fit, sh() / S.nh) * .9; S.max = Math.max(2, S.fit * 4);
+      S.s = S.fit; S.x = 0; S.y = 0; apply();
+    }
+    function zoomTo(ns, cx, cy) {
+      ns = clamp(ns, S.min, S.max);
+      var k = ns / S.s; S.x = cx - (cx - S.x) * k; S.y = cy - (cy - S.y) * k; S.s = ns; apply();
+    }
+    function zoomBy(f) { zoomTo(S.s * f, sw() / 2, sh() / 2); }
+    function open(btn) {
+      opener = btn;
+      var src = (isEn() && btn.getAttribute('data-full-en')) || btn.getAttribute('data-full');
+      titleEl.innerHTML = '<span data-lang="ru">' + btn.getAttribute('data-title-ru') + '</span><span data-lang="en">' + btn.getAttribute('data-title-en') + '</span>';
+      img.alt = isEn() ? btn.getAttribute('data-title-en') : btn.getAttribute('data-title-ru');
+      S.nw = 0; img.style.transform = 'translate(0,0) scale(1)'; img.style.opacity = 0;
+      img.onload = function () { S.nw = img.naturalWidth; S.nh = img.naturalHeight; img.style.width = S.nw + 'px'; img.style.height = S.nh + 'px'; img.style.opacity = 1; setFit(); };
+      img.src = src;
+      av.hidden = false; av.getBoundingClientRect(); av.classList.add('is-open'); doc.body.classList.add('av-open');
+      hint.classList.remove('is-gone'); setTimeout(function () { hint.classList.add('is-gone'); }, 4000);
+      $('.av-close', av).focus();
+    }
+    function close() {
+      av.classList.remove('is-open'); doc.body.classList.remove('av-open');
+      setTimeout(function () { if (!av.classList.contains('is-open')) av.hidden = true; }, 260);
+      if (opener) opener.focus();
+    }
+    $$('[data-av]').forEach(function (b) { b.addEventListener('click', function () { open(b); }); });
+    $('.av-close', av).addEventListener('click', close);
+    $('[data-z="in"]', av).addEventListener('click', function () { zoomBy(1.35); });
+    $('[data-z="out"]', av).addEventListener('click', function () { zoomBy(1 / 1.35); });
+    $('[data-z="fit"]', av).addEventListener('click', setFit);
+    stageEl.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      var r = stageEl.getBoundingClientRect(), f = Math.exp(-e.deltaY * (e.ctrlKey ? .01 : .0016));
+      zoomTo(S.s * f, e.clientX - r.left, e.clientY - r.top);
+    }, { passive: false });
+    stageEl.addEventListener('pointerdown', function (e) {
+      stageEl.setPointerCapture(e.pointerId); pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      var ids = Object.keys(pts);
+      if (ids.length === 1) { drag = { x: e.clientX, y: e.clientY, ox: S.x, oy: S.y }; stageEl.classList.add('is-drag'); }
+      else if (ids.length === 2) { var a = pts[ids[0]], b = pts[ids[1]]; pinch = { d: Math.hypot(a.x - b.x, a.y - b.y), s: S.s }; drag = null; }
+    });
+    stageEl.addEventListener('pointermove', function (e) {
+      if (!pts[e.pointerId]) return; pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      var ids = Object.keys(pts);
+      if (pinch && ids.length === 2) {
+        var a = pts[ids[0]], b = pts[ids[1]], r = stageEl.getBoundingClientRect();
+        zoomTo(pinch.s * Math.hypot(a.x - b.x, a.y - b.y) / pinch.d, (a.x + b.x) / 2 - r.left, (a.y + b.y) / 2 - r.top);
+      } else if (drag) { S.x = drag.ox + e.clientX - drag.x; S.y = drag.oy + e.clientY - drag.y; apply(); }
+    });
+    function up(e) {
+      delete pts[e.pointerId]; pinch = null; var ids = Object.keys(pts);
+      if (ids.length === 1) { var p = pts[ids[0]]; drag = { x: p.x, y: p.y, ox: S.x, oy: S.y }; } else { drag = null; stageEl.classList.remove('is-drag'); }
+    }
+    stageEl.addEventListener('pointerup', up); stageEl.addEventListener('pointercancel', up);
+    stageEl.addEventListener('dblclick', function (e) {
+      var r = stageEl.getBoundingClientRect();
+      if (S.s > S.fit * 1.4) setFit(); else zoomTo(S.fit * 2.4, e.clientX - r.left, e.clientY - r.top);
+    });
+    av.addEventListener('keydown', function (e) {
+      var k = e.key, step = 80;
+      if (k === 'Escape') { e.preventDefault(); close(); return; }
+      if (k === 'Tab') {
+        var f = $$('button', av).filter(function (b) { return !b.disabled && b.offsetParent !== null; });
+        if (!f.length) return;
+        var i = f.indexOf(doc.activeElement);
+        if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); }
+        else if (!e.shiftKey && (i === f.length - 1 || i < 0)) { e.preventDefault(); f[0].focus(); }
+        return;
+      }
+      var inBtn = doc.activeElement && doc.activeElement.tagName === 'BUTTON' && (k === 'Enter' || k === ' ');
+      if (inBtn) return;
+      if (k === '+' || k === '=') { e.preventDefault(); zoomBy(1.25); }
+      else if (k === '-' || k === '_') { e.preventDefault(); zoomBy(.8); }
+      else if (k === '0') { e.preventDefault(); setFit(); }
+      else if (k === 'ArrowLeft') { e.preventDefault(); S.x += step; apply(); }
+      else if (k === 'ArrowRight') { e.preventDefault(); S.x -= step; apply(); }
+      else if (k === 'ArrowUp') { e.preventDefault(); S.y += step; apply(); }
+      else if (k === 'ArrowDown') { e.preventDefault(); S.y -= step; apply(); }
+    });
+    window.addEventListener('resize', function () { if (av.classList.contains('is-open')) { var f = S.s / S.fit; setFit(); if (f > 1.01) zoomTo(S.fit * f, sw() / 2, sh() / 2); } });
+    window.__av = S;
+  }
+})();
+
+(function () {
+  'use strict';
+  var doc = document;
+  var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var settled = /[?&]settled\b/.test(location.search);
+  function $(s) { return doc.querySelector(s); }
+  function $$(s) { return Array.prototype.slice.call(doc.querySelectorAll(s)); }
+  function isEn() { return doc.documentElement.classList.contains('lang-en'); }
+  function L(ru, en) { return isEn() ? en : ru; }
+
+  /* ruler numbers */
+  var ruler = $('#ruler');
+  if (ruler) for (var x = 0; x < 3000; x += 100) { var s = doc.createElement('span'); s.style.left = (x + 3) + 'px'; s.textContent = x; ruler.appendChild(s); }
+
+  /* reveal on scroll; ?settled (and no-IO browsers) show everything */
+  var revealEls = $$('.reveal,.wave');
+  if (settled || !('IntersectionObserver' in window)) {
+    revealEls.concat($$('.note')).forEach(function (el) { el.classList.add('vis'); });
+  } else {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); } });
+    }, { threshold: .15 });
+    revealEls.forEach(function (el) { io.observe(el); });
+  }
+
+  /* left ticks = sections */
+  var secs = $$('[data-tick]'), ticks = $('#ticks');
+  if (ticks) {
+    secs.forEach(function () { ticks.appendChild(doc.createElement('i')); });
+    var tk = Array.prototype.slice.call(ticks.children);
+    var onScroll = function () {
+      var cur = 0; secs.forEach(function (s, i) { if (s.getBoundingClientRect().top < innerHeight * .45) cur = i; });
+      tk.forEach(function (t, i) { t.classList.toggle('on', i === cur); });
+    };
+    addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  }
+
+  /* A/B toggle in the hypothesis */
+  var ab = $('#abImg') || $('#abimg');
+  if (ab) {
+    var A = { a: ['assets/sber/v3/recipient-02-request.webp', 'Запрос участника только на итоговую сумму 1 675 ₽', 'Participant request for the total of 1,675 ₽ only', 'assets/sber/v3-en/recipient-02-request.webp'],
+              b: ['assets/sber/v3/recipient-03-items.webp', 'Запрос участника с позициями чека', 'Participant request with receipt items', 'assets/sber/v3-en/recipient-03-items.webp'] };
+    var segBtns = $$('.seg button');
+    segBtns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        if (b.getAttribute('aria-pressed') === 'true') return;
+        segBtns.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        var v = A[b.getAttribute('data-v')];
+        ab.style.opacity = 0;
+        setTimeout(function () {
+          ab.setAttribute('data-src-ru', v[0]); ab.setAttribute('data-src-en', v[3]); ab.src = isEn() ? v[3] : v[0]; ab.setAttribute('data-alt-ru', v[1]); ab.setAttribute('data-alt-en', v[2]); ab.alt = L(v[1], v[2]); ab.style.opacity = 1;
+        }, RM ? 0 : 200);
       });
-    })();
-  </script>
+    });
+  }
+
+  /* calculator: three split modes over one fixed receipt */
+  var TOTAL = 8400;
+  var ITEMS = [['Паста с морепродуктами', 'Seafood pasta', 1650], ['Стейк', 'Steak', 2300], ['Салат с томатами', 'Tomato salad', 1050], ['Пицца Маргарита', 'Margherita pizza', 1400], ['Тирамису', 'Tiramisu', 900], ['Вода', 'Water', 500], ['Сервисный сбор', 'Service charge', 600]];
+  var P = [['Вы', 'You', 'В', 'Y'], ['Адиба', 'Adiba', 'А', 'A'], ['Самад', 'Samad', 'С', 'S'], ['Алмаз', 'Almaz', 'А', 'A']];
+  var mode = 'eq';
+  var on = [1, 1, 1, 1];
+  var asg = [[1, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1], [1, 1, 1, 1], [1, 0, 0, 0], [1, 1, 0, 0], [1, 1, 1, 1]];
+  var man = ['', '', '', ''];
+  var cur = [2100, 2100, 2100, 2100], raf = 0;
+  var NB = ' ';
+  function grp(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, isEn() ? ',' : NB); }
+  function fmt(n) { return grp(n) + NB + '₽'; }
+  function fmtNum(n) { return n ? grp(n) : ''; }
+  var leftEl = $('#calcL'), shEl = $('#shares'), totalEl = $('#total'), stEl = $('#status'), sendEl = $('#send'), modesEl = $('#modes'), panelEl = $('#calcPanel');
+  var bars = $$('#sbar i');
+  function split(amount, idx) { /* exact integer split, remainder rubles go to the first people */
+    var out = {}, k = idx.length, base = Math.floor(amount / k), rem = amount - base * k;
+    idx.forEach(function (p, j) { out[p] = base + (j < rem ? 1 : 0); });
+    return out;
+  }
+  function compute() {
+    var amt = [0, 0, 0, 0], unas = 0, diff = 0, ok = false, sum = 0;
+    if (mode === 'eq') {
+      var idx = []; on.forEach(function (o, i) { if (o) idx.push(i); });
+      var r = split(TOTAL, idx); idx.forEach(function (i) { amt[i] = r[i]; });
+      ok = true;
+    } else if (mode === 'it') {
+      ITEMS.forEach(function (it, n) {
+        var ix = []; asg[n].forEach(function (o, i) { if (o) ix.push(i); });
+        if (!ix.length) { unas += it[2]; return; }
+        var r2 = split(it[2], ix); ix.forEach(function (i) { amt[i] += r2[i]; });
+      });
+      ok = unas === 0;
+    } else {
+      man.forEach(function (v, i) { amt[i] = parseInt(v, 10) || 0; });
+      sum = amt.reduce(function (a, b) { return a + b; }, 0);
+      diff = TOTAL - sum; ok = diff === 0;
+    }
+    return { amt: amt, unas: unas, diff: diff, ok: ok };
+  }
+  function itemsHtml(interactive) {
+    return ITEMS.map(function (it, n) {
+      var avs = '';
+      if (interactive) avs = '<span class="avs" role="group" aria-label="' + L(it[0], it[1]) + '">' + P.map(function (p, i) {
+        return '<button type="button" class="av1 pc' + i + '" data-n="' + n + '" data-i="' + i + '" aria-pressed="' + (asg[n][i] ? 'true' : 'false') + '" aria-label="' + L(p[0], p[1]) + '" title="' + L(p[0], p[1]) + '">' + L(p[2], p[3]) + '</button>';
+      }).join('') + '</span>';
+      return '<div class="item" data-row="' + n + '"><span>' + L(it[0], it[1]) + '</span>' + avs + '<i>' + fmt(it[2]) + '</i></div>';
+    }).join('');
+  }
+  function renderLeft(anim) {
+    var h = '<div class="pane"' + (anim ? '' : ' style="animation:none"') + '><div class="lab">' + L('Кафе Sempre · 8' + NB + '400' + NB + '₽', 'Café Sempre · 8,400' + NB + '₽') + '</div><div style="margin-top:10px" id="items">' + itemsHtml(mode === 'it') + '</div>';
+    if (mode === 'eq') {
+      h += '<div class="lab sub">' + L('Кто делит счёт', 'Who splits the bill') + '</div><div class="people" id="people" role="group" aria-label="' + L('Участники сбора', 'Collection participants') + '">' +
+        P.map(function (n, i) { return '<button type="button" class="pc' + i + '" aria-pressed="' + (on[i] ? 'true' : 'false') + '" data-i="' + i + '"><b aria-hidden="true"></b>' + L(n[0], n[1]) + '</button>'; }).join('') + '</div>';
+    } else if (mode === 'it') {
+      h += '<div class="note-u" id="unNote"></div>';
+    } else {
+      h += '<div class="lab sub">' + L('Кто сколько платит', 'Who pays how much') + '</div>' + P.map(function (n, i) {
+        return '<div class="mrow pc' + i + '"><label for="man' + i + '"><b aria-hidden="true"></b>' + L(n[0], n[1]) + '</label><span class="in"><input id="man' + i + '" data-i="' + i + '" type="text" inputmode="numeric" autocomplete="off" placeholder="0" value="' + fmtNum(parseInt(man[i], 10) || 0) + '"></span></div>';
+      }).join('') + '<button type="button" class="btn2" id="fillEx">' + L('Заполнить пример', 'Fill the example') + '</button>';
+    }
+    leftEl.innerHTML = h + '</div>';
+  }
+  function renderShares() {
+    shEl.innerHTML = P.map(function (n, i) { return '<div class="share pc' + i + '"><u aria-hidden="true"></u><span>' + L(n[0], n[1]) + '</span><b>' + fmt(cur[i]) + '</b></div>'; }).join('');
+    totalEl.textContent = fmt(TOTAL);
+  }
+  function statusFor(c) {
+    if (c.ok) return ['ok', L('✓ Сумма сходится с покупкой', '✓ The amount matches the purchase')];
+    if (mode === 'it') return ['warn', L('Не распределено: ', 'Unassigned: ') + fmt(c.unas)];
+    if (c.diff > 0) return ['', L('Осталось распределить ' + fmt(c.diff), fmt(c.diff) + ' left to assign')];
+    return ['warn', L('Лишние ' + fmt(-c.diff), fmt(-c.diff) + ' over')];
+  }
+  var lastStatus = '';
+  function applyState(tween) {
+    var c = compute(), rows = Array.prototype.slice.call(shEl.children);
+    var tot = c.amt.reduce(function (a, b) { return a + b; }, 0);
+    bars.forEach(function (b, i) { b.style.flexGrow = i < 4 ? c.amt[i] : Math.max(0, TOTAL - tot); });
+    rows.forEach(function (r, i) { r.classList.toggle('off', mode === 'eq' && !on[i]); });
+    var st = statusFor(c), key = st[0] + '|' + st[1];
+    if (key !== lastStatus) { stEl.className = 'status ' + st[0]; stEl.textContent = st[1]; lastStatus = key; }
+    sendEl.setAttribute('aria-disabled', c.ok ? 'false' : 'true');
+    var un = $('#unNote'); if (un) un.textContent = c.unas ? L('Не распределено: ', 'Unassigned: ') + fmt(c.unas) : '';
+    $$('#items .item').forEach(function (r, n) { r.classList.toggle('warn', mode === 'it' && !asg[n].some(Boolean)); });
+    var from = cur.slice(), t = c.amt, t0 = performance.now();
+    cancelAnimationFrame(raf);
+    var step = function (now) {
+      var p = (RM || !tween) ? 1 : Math.min(1, (now - t0) / 400), e = 1 - Math.pow(1 - p, 3);
+      rows.forEach(function (r, i) { r.querySelector('b').textContent = fmt(Math.round(from[i] + (t[i] - from[i]) * e)); });
+      if (p < 1) raf = requestAnimationFrame(step);
+      else { cur = t.slice(); rows.forEach(function (r, i) { r.querySelector('b').textContent = fmt(t[i]); }); }
+    };
+    if (RM || !tween) step(t0 + 1e6); else raf = requestAnimationFrame(step);
+  }
+  function setMode(m, focus) {
+    mode = m;
+    $$('#modes [role=tab]').forEach(function (b) {
+      var s = b.getAttribute('data-m') === m;
+      b.setAttribute('aria-selected', s ? 'true' : 'false'); b.tabIndex = s ? 0 : -1;
+      if (s) { panelEl.setAttribute('aria-labelledby', b.id); if (focus) b.focus(); }
+    });
+    renderLeft(true); applyState(true);
+  }
+  if (leftEl && shEl && modesEl) {
+    renderLeft(false); renderShares(); applyState(false);
+    modesEl.addEventListener('click', function (e) { var b = e.target.closest('[role=tab]'); if (b) setMode(b.getAttribute('data-m')); });
+    modesEl.addEventListener('keydown', function (e) {
+      var tabs = $$('#modes [role=tab]'), i = tabs.indexOf(doc.activeElement), d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (e.key === 'Home') d = -i; else if (e.key === 'End') d = tabs.length - 1 - i;
+      if (!d || i < 0) return;
+      e.preventDefault();
+      setMode(tabs[(i + d + tabs.length) % tabs.length].getAttribute('data-m'), true);
+    });
+    leftEl.addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      if (b.id === 'fillEx') {
+        man = ['2100', '2100', '2100', '2100'];
+        $$('#calcL input').forEach(function (inp) { inp.value = fmtNum(2100); });
+        applyState(true); return;
+      }
+      var i = +b.getAttribute('data-i');
+      if (b.classList.contains('av1')) {
+        var n = +b.getAttribute('data-n'); asg[n][i] = asg[n][i] ? 0 : 1;
+        b.setAttribute('aria-pressed', asg[n][i] ? 'true' : 'false'); applyState(true); return;
+      }
+      if (mode === 'eq' && b.closest('#people')) {
+        if (on[i] && on.filter(Boolean).length === 1) return;
+        on[i] = on[i] ? 0 : 1; b.setAttribute('aria-pressed', on[i] ? 'true' : 'false'); applyState(true);
+      }
+    });
+    leftEl.addEventListener('input', function (e) {
+      var inp = e.target; if (!inp.matches || !inp.matches('input[data-i]')) return;
+      var pos = inp.selectionStart, before = inp.value.slice(0, pos).replace(/\D/g, '').length;
+      var digits = inp.value.replace(/\D/g, '').replace(/^0+/, '').slice(0, 7), f = fmtNum(parseInt(digits, 10) || 0);
+      inp.value = f; man[+inp.getAttribute('data-i')] = digits;
+      var np = 0, seen = 0; while (np < f.length && seen < before) { if (/\d/.test(f[np])) seen++; np++; }
+      try { inp.setSelectionRange(np, np); } catch (er) { /* ignore */ }
+      applyState(true);
+    });
+    sendEl.addEventListener('click', function (e) { if (sendEl.getAttribute('aria-disabled') === 'true') e.preventDefault(); });
+    doc.addEventListener('langchange', function () {
+      cancelAnimationFrame(raf); lastStatus = ''; renderLeft(false); cur = compute().amt; renderShares(); applyState(false);
+    });
+  }
+
+  /* metric tree connectors */
+  var tree = $('#tree'), svg = $('#treeSvg');
+  if (tree && svg) {
+    var NS = 'http://www.w3.org/2000/svg';
+    var drawTree = function () {
+      var tr = tree.getBoundingClientRect(), ds = [];
+      $$('#tree [data-p]').forEach(function (n) {
+        var p = tree.querySelector('[data-n="' + n.getAttribute('data-p') + '"]');
+        var a = p.getBoundingClientRect(), b = n.getBoundingClientRect(), d;
+        var x1, y1, x2, y2;
+        if (window.innerWidth <= 900) {
+          /* stacked layout: leave the parent bottom edge near its left, enter the child from the left */
+          x1 = a.left - tr.left + 14; y1 = a.bottom - tr.top; x2 = b.left - tr.left; y2 = b.top + b.height / 2 - tr.top;
+          d = 'M' + x1 + ' ' + y1 + ' V' + (y2 - 8) + ' Q' + x1 + ' ' + y2 + ' ' + (x1 + 8) + ' ' + y2 + ' H' + x2;
+        } else {
+          x1 = a.right - tr.left; y1 = a.top + a.height / 2 - tr.top; x2 = b.left - tr.left; y2 = b.top + b.height / 2 - tr.top;
+          var mx = (x1 + x2) / 2;
+          d = 'M' + x1 + ' ' + y1 + ' C ' + mx + ' ' + y1 + ', ' + mx + ' ' + y2 + ', ' + x2 + ' ' + y2;
+        }
+        ds.push([d, n.getAttribute('data-p') === 'root' ? 0 : 1]);
+      });
+      svg.setAttribute('viewBox', '0 0 ' + tr.width + ' ' + tr.height);
+      svg.textContent = '';
+      var cnt = [0, 0];
+      ds.forEach(function (it) {
+        var path = doc.createElementNS(NS, 'path');
+        path.setAttribute('d', it[0]); path.setAttribute('fill', 'none'); path.setAttribute('stroke', '#7a7c78'); path.setAttribute('stroke-width', '1.2'); path.setAttribute('pathLength', '1');
+        path.style.transitionDelay = (.85 + it[1] * .45 + cnt[it[1]]++ * .1).toFixed(2) + 's';
+        svg.appendChild(path);
+      });
+    };
+    var rt, sched = function () { cancelAnimationFrame(rt); rt = requestAnimationFrame(drawTree); };
+    drawTree();
+    addEventListener('resize', sched);
+    addEventListener('load', sched);
+    doc.addEventListener('langchange', sched);
+    if (window.ResizeObserver) new ResizeObserver(sched).observe(tree);
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(sched);
+  }
+
+  /* motion: IntersectionObserver entries, one rAF scroll handler (ruler marker + phone parallax) */
+  var MO = doc.documentElement.classList.contains('mo');
+  var rmark = doc.createElement('i'); rmark.className = 'rmark';
+  if (ruler) ruler.appendChild(rmark);
+  var phones = $$('.dec .phone'), ticking = false;
+  function frame() {
+    ticking = false;
+    var max = Math.max(1, doc.documentElement.scrollHeight - innerHeight), pr = Math.min(1, Math.max(0, (window.pageYOffset || doc.documentElement.scrollTop) / max));
+    if (ruler) rmark.style.transform = 'translate3d(' + (pr * (ruler.clientWidth - 10) + 5) + 'px,0,0)';
+    if (MO) phones.forEach(function (ph, k) {
+      var r = ph.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > innerHeight + 200) return;
+      var c = ((r.top + r.height / 2) - innerHeight / 2) / innerHeight, f = k % 2 ? 1 : .6;
+      ph.style.setProperty('--py', Math.max(-16, Math.min(16, -c * 24 * f)).toFixed(1) + 'px');
+    });
+  }
+  function req() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+  addEventListener('scroll', req, { passive: true }); addEventListener('resize', req); req();
+
+  function once(sel, opts, fn) {
+    var els = $$(sel); if (!els.length) return;
+    if (!MO || !('IntersectionObserver' in window)) { els.forEach(function (el) { fn(el, true); }); return; }
+    var o = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { o.unobserve(e.target); fn(e.target, false); } });
+    }, opts);
+    els.forEach(function (el) { o.observe(el); });
+  }
+  var go = function (el) { el.classList.add('go'); };
+  once('.plate', { threshold: .3 }, function (el) { if (!el.closest('.dec')) go(el); });
+  once('.dec', { threshold: .25 }, function (el) { go(el); var p = el.querySelector('.plate'); if (p) go(p); });
+  once('.arts', { threshold: .2 }, go);
+  once('.next', { threshold: .3 }, go);
+  once('#tree', { threshold: .35 }, go);
+  once('.chip', { threshold: .6 }, function (el) { el.classList.add('pop'); });
+  if (!MO || !('IntersectionObserver' in window)) {
+    doc.documentElement.classList.remove('mo');
+    $$('.plate,.dec,.arts,.next,#tree').forEach(go);
+  }
+
+  /* 55% counts up when the stat enters */
+  var cnt = $('.stat b');
+  if (cnt && MO && 'IntersectionObserver' in window) {
+    cnt.textContent = '0%';
+    var co = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return; co.disconnect();
+      var t0 = performance.now(), d = 1100;
+      (function tick(n) {
+        var p = Math.min(1, (n - t0) / d), e = 1 - Math.pow(1 - p, 3);
+        cnt.textContent = Math.round(55 * e) + '%';
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    }, { threshold: .8 });
+    co.observe(cnt);
+  }
+
+  /* hypothesis chain lights up node by node once, then rests on the first */
+  var chain = $('.chain');
+  if (chain && MO && 'IntersectionObserver' in window) {
+    var nodes = Array.prototype.slice.call(chain.children).filter(function (n) { return n.tagName === 'SPAN'; });
+    var cho = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return; cho.disconnect();
+      nodes.forEach(function (n, i) {
+        setTimeout(function () { nodes.forEach(function (x, j) { x.classList.toggle('on', i === j); }); }, 500 + i * 480);
+      });
+      setTimeout(function () { nodes.forEach(function (x, j) { x.classList.toggle('on', j === 0); }); }, 500 + nodes.length * 480 + 250);
+    }, { threshold: .9 });
+    cho.observe(chain);
+  }
+})();
+
+</script>
+<script>document.querySelectorAll("img[data-av]").forEach(function(i){i.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();i.click();}});});</script>
 </body>
 </html>
