@@ -9,7 +9,7 @@
 <meta name="description" content="Alif Partners: личный кабинет для самостоятельной работы партнёров Alif Shop. Проблема, исследование, гипотеза, северная звезда, решения и итог." data-ru="Alif Partners: личный кабинет для самостоятельной работы партнёров Alif Shop. Проблема, исследование, гипотеза, северная звезда, решения и итог." data-en="Alif Partners: a self-service account for Alif Shop partners. Problem, research, hypothesis, North Star, decisions and outcome.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Golos+Text:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap" rel="stylesheet">
 <script>document.documentElement.classList.add('js');</script>
 <script>try{if(!/[?&]settled\b/.test(location.search)&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("mo")}catch(e){}</script>
 <style>
@@ -86,8 +86,8 @@
   --paper:#FFFFFF; --ink:#151515; --ink2:#5E605C; --mute:#9A9C97; --grid:rgba(20,20,20,.045); --hair:#E6E6E2; --plate:#F4F4F1; --panel:#F4F4F1;
   --green:#21A038; --gt:#137A26; --deep:#0D5F21;
   --n-mint:#CFEFD8; --n-lime:#E7F59B; --n-peach:#F8D9C4; --n-sky:#CFE6F7; --chosen:#F3E3A3;
-  --serif:"EB Garamond",Georgia,"Times New Roman",serif; --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif; --sans2:var(--sans);
-  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace; --hand:Caveat,"Segoe Print","Comic Sans MS",cursive;
+  --serif:Literata,Georgia,"Times New Roman",serif; --sans:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif; --sans2:var(--sans);
+  --mono:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif; --hand:Literata,Georgia,serif;
   --radius-pill:999px; --shadow-control:0 8px 20px rgba(23,17,14,.08); --font-size-nav-label:.72rem; --font-size-nav-title:1.05rem;
   --display:var(--sans); --text-strong:#151515; --text-dim:#5E605C;
   color-scheme:light;
@@ -127,16 +127,16 @@ a{color:var(--gt)}
 .ticks i.on{width:22px;background:var(--ink)}
 /* type */
 .lab{font:500 11.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
-h1{font:600 clamp(28px,3vw,40px)/1.12 var(--sans);letter-spacing:-.02em;text-wrap:balance;margin:.67em 0}
-h2{font:600 clamp(22px,2vw,27px)/1.2 var(--sans);letter-spacing:-.015em;text-wrap:balance;margin:.83em 0}
-h3{font:600 clamp(18px,1.5vw,21px)/1.25 var(--sans);letter-spacing:-.01em;margin:1em 0}
+h1{font:600 clamp(28px,3vw,40px)/1.12 var(--serif);letter-spacing:-.012em;text-wrap:balance;margin:.67em 0}
+h2{font:600 clamp(22px,2vw,27px)/1.2 var(--serif);letter-spacing:-.012em;text-wrap:balance;margin:.83em 0}
+h3{font:600 clamp(18px,1.5vw,21px)/1.25 var(--serif);letter-spacing:-.012em;margin:1em 0}
 p{margin:1em 0}
 figure{margin:1em 40px}
 ul{margin:1em 0;padding-left:40px}
 .read{font:400 clamp(17px,1.35vw,19px)/1.6 var(--serif);color:#262626;max-width:36em}
 .read+.read{margin-top:14px}
 .cap{font:italic 400 16px/1.4 var(--serif);color:var(--ink2);margin-top:12px}
-.hand{font:600 1.45em/1 var(--hand);color:var(--gt);position:relative;white-space:nowrap}
+.hand{font:italic 500 1.12em/1 var(--hand);color:var(--gt);position:relative;white-space:nowrap}
 .hand::after{content:"";position:absolute;left:0;right:0;bottom:-.08em;height:.12em;background:currentColor;border-radius:4px;transform-origin:0 50%;transform:scaleX(0);transition:transform .9s .2s cubic-bezier(.2,.7,.2,1)}
 .vis .hand::after{transform:scaleX(1)}
 .arrow{display:flex;gap:12px;align-items:baseline;margin-top:18px;font:400 18px/1.5 var(--serif)}
@@ -195,9 +195,10 @@ td:first-child{font-weight:600;white-space:nowrap}
 .art .th{display:block;position:relative}
 .art img{width:100%;height:auto;aspect-ratio:1000/720;object-fit:contain;background:var(--plate)}
 .art .tt{display:block;margin-top:8px;font-size:13px;color:var(--ink)}
-.art .open{position:absolute;right:8px;bottom:8px;display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:999px;background:rgba(21,21,21,.86);color:#fff;font:500 12px var(--sans)}
+.art .open{position:absolute;right:8px;bottom:8px;display:inline-flex;align-items:center;justify-content:center;gap:6px;height:30px;padding:0 12px;border-radius:999px;background:#151515;color:#fff;font:500 12.5px/1 var(--sans);white-space:nowrap}
+.art .open>span{display:block;line-height:1}
 .art .open svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.art:hover .open{background:var(--gt)}
+.art:hover .open,.art:focus-visible .open{background:#000}
 /* hypothesis toggle */
 .seg{display:inline-flex;padding:3px;border-radius:999px;background:#fff;border:1px solid var(--hair);margin-top:20px}
 .seg button{all:unset;cursor:pointer;padding:7px 14px;border-radius:999px;font-size:13px;color:var(--ink2)}
@@ -537,12 +538,55 @@ img[data-av]:focus-visible{outline:2px solid var(--gt);outline-offset:4px}
 }
 
 /* body text: Golos Text */
-:root{--body:"Golos Text",Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+:root{--body:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif}
 .read,.arrow,.task,.next li,.steps li,.flow p,.opt p,.impact,.stat .t,.note p,.tbl td{font-family:var(--body)}
 .read{font-size:clamp(16px,1.15vw,17.5px);line-height:1.68;color:#2e2e2e;letter-spacing:0}
 .arrow{font-size:16.5px;line-height:1.6}
 .task{font-size:16.5px;line-height:1.55}
 .next li{font-size:15.5px;line-height:1.5}
+.src{margin-top:10px;font-size:12.5px;line-height:1.45;color:var(--ink2)}.src a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+
+/* order mini prototype */
+.ord [hidden]{display:none!important}
+.ord{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
+.ord>div{padding:22px}
+.ord-l{border-right:1px solid var(--hair)}
+.ord-p{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:14px;align-items:center}
+.ord-p img{width:64px;height:64px;border-radius:12px;border:1px solid var(--hair);background:#fff;object-fit:contain}
+.ord-p b{display:block;margin-top:4px;font-size:15px;font-weight:600;line-height:1.3}
+.ord-p small{display:block;margin-top:2px;font-size:13.5px;color:var(--ink2)}
+.ord-chip{align-self:start;height:26px;padding:0 10px;border-radius:7px;display:inline-flex;align-items:center;font:600 12.5px/1 var(--sans);white-space:nowrap;background:#EEF1F5;color:#3B4452}
+.ord-chip.new{background:#FFF4D9;color:#875400}.ord-chip.ready{background:#EAF4FF;color:#0B64A8}.ord-chip.way{background:#FFF4D9;color:#875400}.ord-chip.done{background:#E7F6EE;color:#08743F}
+.ord-st{list-style:none;padding:0;margin:20px 0 0;display:flex;gap:6px;counter-reset:os}
+.ord-st li{flex:1;min-width:0;counter-increment:os;font-size:12.5px;color:var(--mute);padding-top:8px;border-top:3px solid #E3E5E2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ord-st li::before{content:counter(os) ". "}
+.ord-st li.done{color:var(--ink2);border-color:var(--gt)}
+.ord-st li.cur{color:var(--ink);font-weight:600;border-color:#151515}
+.ord-body{margin-top:18px;min-height:150px}
+.ord-q{font-size:14px;color:var(--ink2);margin:0 0 10px}
+.ord-m{margin:0;flex-wrap:wrap}
+.ord-m button[aria-checked="true"]{background:#151515;color:#fff}
+.ord-m button:not([aria-checked="true"]):hover{color:var(--ink)}
+.ord-code{display:flex;gap:8px;margin-top:4px}
+.ord-code input{all:unset;box-sizing:border-box;width:44px;height:48px;border:1.5px solid #C9C9C4;border-radius:10px;text-align:center;font:600 18px var(--sans);background:#fff}
+.ord-code input:focus{border-color:var(--gt);box-shadow:inset 0 0 0 1px var(--gt)}
+.ord-hint{margin-top:8px;font-size:12.5px;color:var(--ink2)}.ord-hint.err{color:#B3261E}
+.ord-acts{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:18px}
+.ord-acts .btn,.ord-acts .btn2{margin-top:0}
+.ord-done{font-size:15px;line-height:1.5}
+.ord-done b{display:block;font-size:17px;margin-bottom:4px}
+.ord-r{display:flex;flex-direction:column}
+.ord-sum>div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #F0F0EC;font-size:14px}
+.ord-sum span{color:var(--ink2)}.ord-sum b{font-weight:600;font-variant-numeric:tabular-nums}
+.ord-sum .tot span{color:var(--ink);font-weight:600}
+.ord-mo{margin-top:18px;padding:14px 16px;border-radius:12px;background:#E7F6EE}
+.ord-mo .big{margin-top:4px;color:#08743F}
+.ord-last{margin-top:2px;font-size:13px;color:#2f5f45}
+.ord-tl{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:9px}
+.ord-tl li{display:grid;grid-template-columns:16px minmax(0,1fr) auto;gap:10px;align-items:center;font-size:13.5px;color:var(--ink)}
+.ord-tl li::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--gt);justify-self:center}
+.ord-tl li time{font-size:12.5px;color:var(--ink2);font-variant-numeric:tabular-nums}
+@media (max-width:900px){.ord-p{grid-template-columns:56px minmax(0,1fr)}.ord-p img{width:56px;height:56px}.ord-chip{grid-column:1/-1;justify-self:start}.ord{grid-template-columns:minmax(0,1fr)}.ord-l{border-right:0;border-bottom:1px solid var(--hair)}.ord>div{padding:18px}.ord-st li{font-size:0;padding-top:6px}.ord-st li.cur{font-size:12.5px;flex:3}.ord-st li::before{font-size:12.5px}}
 </style>
 <link rel="stylesheet" href="assets/typography.css">
 </head>
@@ -591,10 +635,11 @@ img[data-av]:focus-visible{outline:2px solid var(--gt);outline-offset:4px}
   </div>
   <div>
     <div class="stats">
-      <div class="stat"><b>70 000+</b><span class="t"><span data-lang="ru">активных покупателей в месяц</span><span data-lang="en">active buyers a month</span></span></div>
-      <div class="stat"><b>500+</b><span class="t"><span data-lang="ru">партнёрских магазинов</span><span data-lang="en">partner stores</span></span></div>
-      <div class="stat"><b>$1 <span data-lang="ru">млрд</span><span data-lang="en">bn</span></b><span class="t"><span data-lang="ru">объём рынка BNPL, 2024</span><span data-lang="en">BNPL market size, 2024</span></span></div>
+      <div class="stat"><b>2 <span data-lang="ru">млн+</span><span data-lang="en">M+</span></b><span class="t"><span data-lang="ru">активных клиентов Alif Bank в Таджикистане</span><span data-lang="en">active Alif Bank customers in Tajikistan</span></span></div>
+      <div class="stat"><b>~2 000</b><span class="t"><span data-lang="ru">партнёров банка по эквайрингу</span><span data-lang="en">bank acquiring partners</span></span></div>
+      <div class="stat"><b>500+</b><span class="t"><span data-lang="ru">магазинов Alif Shop на момент проекта</span><span data-lang="en">Alif Shop partner stores at the time of the project</span></span></div>
     </div>
+    <p class="src"><span data-lang="ru">Данные Alif Bank, 2025: <a href="https://www.alif.tj/en/bank/about-us" target="_blank" rel="noopener">alif.tj</a>. Число магазинов Alif Shop по данным проекта.</span><span data-lang="en">Alif Bank data, 2025: <a href="https://www.alif.tj/en/bank/about-us" target="_blank" rel="noopener">alif.tj</a>. Alif Shop store count from project data.</span></p>
     <p class="read" style="margin-top:18px"><span data-lang="ru">Я отвечала за структуру кабинета и пользовательские сценарии, работала с UX‑исследователем и продакт‑оунером, обсуждала технические ограничения с разработчиками. Опыт в колл‑центре и отделе партнёров Alif помог быстро разобраться в операционных процессах, а интервью показали, как они выглядят у пользователей.</span><span data-lang="en">I was responsible for the account structure and user flows, worked with the UX researcher and the product owner, and discussed technical constraints with developers. My experience in Alif’s call center and partner department helped me quickly understand the operational processes, and the interviews showed how they look for users.</span></p>
   </div>
 </section>
@@ -738,11 +783,34 @@ img[data-av]:focus-visible{outline:2px solid var(--gt);outline-offset:4px}
 
 </section>
 
+<section class="wrap sec reveal" data-tick id="try">
+  <span class="lab"><span data-lang="ru">Попробуйте</span><span data-lang="en">Try it</span></span>
+  <h2 style="margin-top:12px"><span data-lang="ru">Заказ от заявки до выдачи</span><span data-lang="en">An order from request to handover</span></h2>
+  <p class="read" style="margin-top:12px"><span data-lang="ru">Пройдите заказ так, как его ведёт партнёр в новом кабинете: оформите рассрочку, подпишите по SMS‑коду и передайте товар.</span><span data-lang="en">Run the order the way the partner does in the new account: set up the installment, sign with the SMS code and hand the goods over.</span></p>
+  <figure class="fig"><div class="win"><div class="bar" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="ord" id="ord">
+      <div class="ord-l">
+        <div class="ord-p"><img src="assets/process/alif-v2/s21fe-thumb.webp" width="240" height="240" alt="" loading="lazy" decoding="async"><div><span class="lab"><span data-lang="ru">Заявка</span><span data-lang="en">Request</span> #104 512</span><b>Samsung Galaxy S21 FE 5G 8/256 <span data-lang="ru">ГБ</span><span data-lang="en">GB</span></b><small><span data-lang="ru">Фарход Н. · +992 •• ••• 74 83</span><span data-lang="en">Farhod N. · +992 •• ••• 74 83</span></small></div><span class="ord-chip" id="ordChip"></span></div>
+        <ol class="ord-st" id="ordSt" aria-label="Шаги оформления" data-aria-ru="Шаги оформления" data-aria-en="Processing steps"></ol>
+        <div class="ord-body" id="ordBody" aria-live="polite"></div>
+      </div>
+      <div class="ord-r">
+        <div class="ord-sum">
+          <div><span><span data-lang="ru">Товар</span><span data-lang="en">Product</span></span><b id="ordPrice"></b></div>
+          <div id="ordMkRow"><span id="ordMkL"></span><b id="ordMk"></b></div>
+          <div class="tot"><span><span data-lang="ru">Итого</span><span data-lang="en">Total</span></span><b id="ordTot"></b></div>
+        </div>
+        <div class="ord-mo" id="ordMoBox"><span class="lab"><span data-lang="ru">Ежемесячный платёж</span><span data-lang="en">Monthly payment</span></span><div class="big" id="ordMo"></div><div class="ord-last" id="ordLast"></div></div>
+        <span class="lab" style="display:block;margin-top:22px"><span data-lang="ru">История заказа</span><span data-lang="en">Order history</span></span>
+        <ol class="ord-tl" id="ordTl"></ol>
+      </div>
+    </div></div><figcaption class="cap"><span data-lang="ru">Рис. 9. Мини‑прототип оформления и передачи заказа. Наценка за 3, 6 и 12 месяцев условная, данные примера.</span><span data-lang="en">Fig. 9. A mini prototype of order processing and handover. Markups for 3, 6 and 12 months are illustrative, example data.</span></figcaption></figure>
+</section>
+
 <section class="wrap sec two reveal" data-tick id="result">
-  <div><span class="lab"><span data-lang="ru">Итог</span><span data-lang="en">Outcome</span></span><h2 style="margin-top:12px"><span data-lang="ru">Стандартные операции перешли к партнёру, контроль остался у банка</span><span data-lang="en">Standard operations moved to the partner, control stayed with the bank</span></h2></div>
+  <div><span class="lab"><span data-lang="ru">Итог</span><span data-lang="en">Outcome</span></span><h2 style="margin-top:12px"><span data-lang="ru">Стандартные операции передаются партнёру, контроль остаётся у банка</span><span data-lang="en">Standard operations go to the partner, control stays with the bank</span></h2></div>
   <div>
-    <p class="read"><span data-lang="ru">Оформление и передачу заказа объединили в кабинете, доступном сотрудникам магазина и курьерам с компьютера и телефона. Для существующего товара путь создания предложения сократился с четырёх этапов до двух.</span><span data-lang="en">Processing and handover now live in one account that store staff and couriers use on desktop and phone. For an existing product, creating an offer went from four steps to two.</span></p>
-    <p class="read"><span data-lang="ru">Банк передаёт партнёрам стандартные операции и сохраняет за собой контроль и исключения. Это основа для того, чтобы обслуживать больше заказов без пропорционального роста затрат на сопровождение.</span><span data-lang="en">The bank hands standard operations to partners and keeps control and exceptions. This lays the groundwork for serving more orders without a proportional rise in support costs.</span></p>
+    <p class="read"><span data-lang="ru">Спроектировала кабинет, который убирает зависимость партнёра от банка в стандартных операциях: заявка, оформление и передача товара проходят внутри него. Дальше пилот на группе магазинов покажет, как меняются доля самостоятельных заказов и нагрузка на банк.</span><span data-lang="en">I designed an account that removes the partner’s dependence on the bank for standard operations: the request, processing and handover all happen inside it. Next, a pilot with a group of stores will show how the share of self‑service orders and the load on the bank change.</span></p>
     <span class="lab" style="display:block;margin-top:28px"><span data-lang="ru">Дальше</span><span data-lang="en">Next</span></span>
     <ul class="next"><li><span data-lang="ru">Поэтапно подключать партнёров и отслеживать долю самостоятельных заказов, трудозатраты и качество обработки.</span><span data-lang="en">Onboard partners in stages and track the share of self‑service orders, labor and processing quality.</span></li><li><span data-lang="ru">Массово менять цены, подарки и остатки в каталоге.</span><span data-lang="en">Bulk‑edit prices, gifts and stock in the catalog.</span></li><li><span data-lang="ru">Автоматически скрывать устаревшие товары.</span><span data-lang="en">Hide outdated products automatically.</span></li></ul>
   </div>
@@ -1220,5 +1288,79 @@ img[data-av]:focus-visible{outline:2px solid var(--gt);outline-offset:4px}
 
 </script>
 <script>document.querySelectorAll("img[data-av]").forEach(function(i){i.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();i.click();}});});</script>
+<script>
+(function(){
+  var root=document.getElementById('ord'); if(!root) return;
+  var PRICE=3345, RATE={3:.04,6:.07,9:.12,12:.16};
+  var st, CODE='4821';
+  function reset(){st={type:'inst',term:9,step:0,way:'del',code:'',phase:'proc',log:[['new','15:34']]};}
+  reset();
+  function en(){return document.documentElement.classList.contains('lang-en')}
+  function T(r,e){return en()?e:r}
+  function f(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,en()?',':' ')+(en()?' TJS':' с.')}
+  function $(id){return document.getElementById(id)}
+  var LOG={new:['Заявка пришла в кабинет','Request arrived in the account'],signed:['Договор подписан клиентом по SMS','Buyer signed the contract via SMS'],cash:['Оплата наличными принята','Cash payment accepted'],courier:['Передан курьеру','Handed to the courier'],delivered:['Курьер доставил заказ','Courier delivered the order'],picked:['Выдан покупателю в магазине','Handed to the buyer in store']};
+  var TIMES={signed:'15:41',cash:'15:38',courier:'16:05',delivered:'17:20',picked:'16:10'};
+  function chip(){var c=$('ordChip'),k,t;
+    if(st.phase==='proc'){k='new';t=T('Новая заявка','New request')}
+    else if(st.phase==='ready'){k='ready';t=st.way==='del'?T('Готов к передаче','Ready to hand over'):T('Готов к выдаче','Ready for pickup')}
+    else if(st.phase==='way'){k='way';t=T('В пути','On the way')}
+    else {k='done';t=st.way==='del'?T('Доставлено','Delivered'):T('Выдан','Handed over')}
+    c.className='ord-chip '+k;c.textContent=t}
+  function radios(id,items,cur){return '<div class="modes ord-m" id="'+id+'" role="radiogroup">'+items.map(function(x){return '<button type="button" role="radio" aria-checked="'+(x[0]==cur)+'" data-v="'+x[0]+'">'+x[1]+'</button>'}).join('')+'</div>'}
+  function steps(){var s=st.type==='inst'?[T('Тип заказа','Order type'),T('Срок','Term'),T('SMS‑код','SMS code'),T('Подписание','Signing')]:[T('Тип заказа','Order type'),T('Подтверждение','Confirmation')];
+    var cur=st.phase==='proc'?st.step:s.length;
+    $('ordSt').innerHTML=s.map(function(x,i){return '<li class="'+(i<cur?'done':i===cur?'cur':'')+'">'+x+'</li>'}).join('')}
+  function body(){var b=$('ordBody'),h='';
+    if(st.phase==='proc'){
+      var last=st.type==='inst'?3:1;
+      if(st.step===0){h='<p class="ord-q">'+T('Как покупатель оплачивает заказ?','How does the buyer pay?')+'</p>'+radios('oType',[['inst',T('Рассрочка','Installment')],['cash',T('Наличные','Cash')]],st.type)}
+      else if(st.type==='inst'&&st.step===1){h='<p class="ord-q">'+T('Срок рассрочки, который выбрал покупатель','Installment term chosen by the buyer')+'</p>'+radios('oTerm',[[3,'3 '+T('мес.','mo')],[6,'6 '+T('мес.','mo')],[9,'9 '+T('мес.','mo')],[12,'12 '+T('мес.','mo')]],st.term)}
+      else if(st.type==='inst'&&st.step===2){h='<p class="ord-q">'+T('Код отправлен на +992 •• ••• 74 83. Введите код, который назовёт покупатель.','Code sent to +992 •• ••• 74 83. Enter the code the buyer reads out.')+'</p><div class="ord-code">'+[0,1,2,3].map(function(i){return '<input inputmode="numeric" maxlength="1" aria-label="'+T('Цифра ','Digit ')+(i+1)+'" value="'+(st.code[i]||'')+'">'}).join('')+'</div><div class="ord-hint'+(st.err?' err':'')+'">'+(st.err?T('Код не подошёл. Попросите покупателя назвать код ещё раз. ','The code did not match. Ask the buyer to read it again. '):'')+T('В примере код ','In the example the code is ')+CODE+'</div>'}
+      else {h='<p class="ord-q">'+(st.type==='inst'?T('Проверьте условия и подпишите договор.','Check the terms and sign the contract.'):T('Примите оплату и подтвердите заказ.','Take the payment and confirm the order.'))+'</p>'}
+      var can=!(st.type==='inst'&&st.step===2&&st.code.length<4);
+      var lbl=st.step<last?T('Далее','Next'):(st.type==='inst'?T('Подписать','Sign'):T('Подтвердить заказ','Confirm order'));
+      h+='<div class="ord-acts">'+(st.step>0?'<button class="btn2" type="button" data-a="back">'+T('Назад','Back')+'</button>':'')+'<button class="btn" type="button" data-a="next" aria-disabled="'+(!can)+'">'+lbl+'</button></div>';
+    } else if(st.phase==='ready'){
+      h='<p class="ord-q">'+T('Как покупатель получит товар?','How will the buyer get the product?')+'</p>'+radios('oWay',[['del',T('Доставка курьером','Courier delivery')],['pick',T('Самовывоз','Pickup')]],st.way)+'<div class="ord-acts"><button class="btn" type="button" data-a="hand">'+(st.way==='del'?T('Передать курьеру','Hand to courier'):T('Отметить выдачу','Mark as handed over'))+'</button></div>';
+    } else if(st.phase==='way'){
+      h='<p class="ord-q">'+T('Курьер в пути. Когда он отметит доставку, статус обновится у партнёра и у банка.','The courier is on the way. When they mark the delivery, the status updates for both the partner and the bank.')+'</p><div class="ord-acts"><button class="btn" type="button" data-a="deliver">'+T('Курьер доставил','Courier delivered')+'</button></div>';
+    } else {
+      h='<div class="ord-done"><b>'+T('Заказ закрыт в кабинете','Order closed in the account')+'</b>'+T('Партнёр провёл его сам: без терминала, без звонка в колл‑центр и без оператора для курьера. Банк видит каждый шаг в истории.','The partner ran it alone: no terminal, no call to the call center and no operator for the courier. The bank sees every step in the history.')+'</div><div class="ord-acts"><button class="btn2" type="button" data-a="reset">'+T('Пройти заново','Run it again')+'</button></div>';
+    }
+    b.innerHTML=h;
+    var inp=b.querySelectorAll('.ord-code input'); if(inp.length){var i=Math.min(st.code.length,3);inp[i].focus({preventScroll:true})}
+  }
+  function sum(){var inst=st.type==='inst', mk=inst?Math.round(PRICE*RATE[st.term]):0, tot=PRICE+mk;
+    $('ordPrice').textContent=f(PRICE); $('ordMkRow').hidden=!inst; $('ordMoBox').hidden=!inst;
+    if(inst){var n=st.term, mo=Math.floor(tot/n), last=tot-mo*(n-1);
+      $('ordMkL').textContent=T('Наценка за рассрочку, '+Math.round(RATE[n]*100)+'%','Installment markup, '+Math.round(RATE[n]*100)+'%'); $('ordMk').textContent=f(mk);
+      $('ordMo').textContent=f(mo)+T('/мес','/mo');
+      $('ordLast').textContent=last!==mo?T(n+(n===3?' платежа':' платежей')+', последний '+f(last),n+' payments, the last one '+f(last)):T(n+(n===3?' равных платежа':' равных платежей'),n+' equal payments')}
+    $('ordTot').textContent=f(tot);
+    $('ordTl').innerHTML=st.log.slice().reverse().map(function(x){return '<li><span>'+T(LOG[x[0]][0],LOG[x[0]][1])+'</span><time>'+x[1]+'</time></li>'}).join('')}
+  function render(){chip();steps();body();sum()}
+  function add(k){st.log.push([k,TIMES[k]])}
+  root.addEventListener('click',function(e){
+    var r=e.target.closest('[role=radio]');
+    if(r){var g=r.parentNode.id,v=r.getAttribute('data-v');if(g==='oType')st.type=v;if(g==='oTerm')st.term=+v;if(g==='oWay')st.way=v;render();var nb=$(g)&&$(g).querySelector('[aria-checked=true]');if(nb)nb.focus();return}
+    var a=e.target.closest('[data-a]'); if(!a)return; var k=a.getAttribute('data-a');
+    if(a.getAttribute('aria-disabled')==='true')return;
+    if(k==='back'){st.step=Math.max(0,st.step-(st.type==='cash'?st.step:1));}
+    else if(k==='next'){var last=st.type==='inst'?3:1; if(st.type==='inst'&&st.step===2&&st.code!==CODE){st.err=1;st.code='';render();return} st.err=0; if(st.step<last){st.step=st.type==='cash'?1:st.step+1}else{add(st.type==='inst'?'signed':'cash');st.phase='ready'}}
+    else if(k==='hand'){if(st.way==='del'){add('courier');st.phase='way'}else{add('picked');st.phase='done'}}
+    else if(k==='deliver'){add('delivered');st.phase='done'}
+    else if(k==='reset'){reset()}
+    render(); var f2=root.querySelector('.ord-body .btn:not([aria-disabled=true]),.ord-body .btn2'); if(f2&&k!=='back')f2.focus({preventScroll:true});
+  });
+  root.addEventListener('input',function(e){if(!e.target.matches('.ord-code input'))return;
+    var ins=[].slice.call(root.querySelectorAll('.ord-code input')); ins.forEach(function(x){x.value=x.value.replace(/\D/g,'').slice(0,1)});
+    st.code=ins.map(function(x){return x.value}).join(''); var i=ins.indexOf(e.target); if(e.target.value&&i<3)ins[i+1].focus();
+    var btn=root.querySelector('[data-a=next]'); if(btn)btn.setAttribute('aria-disabled',st.code.length<4?'true':'false')});
+  root.addEventListener('keydown',function(e){var g=e.target.closest('[role=radiogroup]');if(g&&(e.key==='ArrowRight'||e.key==='ArrowLeft')){var bs=[].slice.call(g.children),i=bs.indexOf(e.target);if(i<0)return;e.preventDefault();bs[(i+(e.key==='ArrowRight'?1:-1)+bs.length)%bs.length].click()}
+    if(e.target.matches('.ord-code input')&&e.key==='Backspace'&&!e.target.value){var ins=[].slice.call(root.querySelectorAll('.ord-code input')),i=ins.indexOf(e.target);if(i>0)ins[i-1].focus()}});
+  document.addEventListener('langchange',render); render();
+})();
+</script>
 </body>
 </html>

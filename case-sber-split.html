@@ -9,7 +9,7 @@
 <meta name="description" content="Разделение ресторанного счёта в СберБанк Онлайн: сбор, который связывает общий чек с возвратом каждой доли. Проблема, исследование, гипотеза, решения, калькулятор, дерево метрик." data-ru="Разделение ресторанного счёта в СберБанк Онлайн: сбор, который связывает общий чек с возвратом каждой доли. Проблема, исследование, гипотеза, решения, калькулятор, дерево метрик." data-en="Splitting a restaurant bill in Sber Online: a collection that links the shared receipt to the return of each share. Problem, research, hypothesis, decisions, calculator, metric tree.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Golos+Text:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap" rel="stylesheet">
 <script>document.documentElement.classList.add('js');</script>
 <script>try{if(!/[?&]settled\b/.test(location.search)&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("mo")}catch(e){}</script>
 <style>
@@ -86,8 +86,8 @@
   --paper:#FFFFFF; --ink:#151515; --ink2:#5E605C; --mute:#9A9C97; --grid:rgba(20,20,20,.045); --hair:#E6E6E2; --plate:#F4F4F1; --panel:#F4F4F1;
   --green:#21A038; --gt:#137A26; --deep:#0D5F21;
   --n-mint:#CFEFD8; --n-lime:#E7F59B; --n-peach:#F8D9C4; --n-sky:#CFE6F7; --chosen:#F3E3A3;
-  --serif:"EB Garamond",Georgia,"Times New Roman",serif; --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif; --sans2:var(--sans);
-  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace; --hand:Caveat,"Segoe Print","Comic Sans MS",cursive;
+  --serif:Literata,Georgia,"Times New Roman",serif; --sans:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif; --sans2:var(--sans);
+  --mono:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif; --hand:Literata,Georgia,serif;
   --radius-pill:999px; --shadow-control:0 8px 20px rgba(23,17,14,.08); --font-size-nav-label:.72rem; --font-size-nav-title:1.05rem;
   --display:var(--sans); --text-strong:#151515; --text-dim:#5E605C;
   color-scheme:light;
@@ -127,16 +127,16 @@ a{color:var(--gt)}
 .ticks i.on{width:22px;background:var(--ink)}
 /* type */
 .lab{font:500 11.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
-h1{font:600 clamp(28px,3vw,40px)/1.12 var(--sans);letter-spacing:-.02em;text-wrap:balance;margin:.67em 0}
-h2{font:600 clamp(22px,2vw,27px)/1.2 var(--sans);letter-spacing:-.015em;text-wrap:balance;margin:.83em 0}
-h3{font:600 clamp(18px,1.5vw,21px)/1.25 var(--sans);letter-spacing:-.01em;margin:1em 0}
+h1{font:600 clamp(28px,3vw,40px)/1.12 var(--serif);letter-spacing:-.012em;text-wrap:balance;margin:.67em 0}
+h2{font:600 clamp(22px,2vw,27px)/1.2 var(--serif);letter-spacing:-.012em;text-wrap:balance;margin:.83em 0}
+h3{font:600 clamp(18px,1.5vw,21px)/1.25 var(--serif);letter-spacing:-.012em;margin:1em 0}
 p{margin:1em 0}
 figure{margin:1em 40px}
 ul{margin:1em 0;padding-left:40px}
 .read{font:400 clamp(17px,1.35vw,19px)/1.6 var(--serif);color:#262626;max-width:36em}
 .read+.read{margin-top:14px}
 .cap{font:italic 400 16px/1.4 var(--serif);color:var(--ink2);margin-top:12px}
-.hand{font:600 1.45em/1 var(--hand);color:var(--gt);position:relative;white-space:nowrap}
+.hand{font:italic 500 1.12em/1 var(--hand);color:var(--gt);position:relative;white-space:nowrap}
 .hand::after{content:"";position:absolute;left:0;right:0;bottom:-.08em;height:.12em;background:currentColor;border-radius:4px;transform-origin:0 50%;transform:scaleX(0);transition:transform .9s .2s cubic-bezier(.2,.7,.2,1)}
 .vis .hand::after{transform:scaleX(1)}
 .arrow{display:flex;gap:12px;align-items:baseline;margin-top:18px;font:400 18px/1.5 var(--serif)}
@@ -195,9 +195,10 @@ td:first-child{font-weight:600;white-space:nowrap}
 .art .th{display:block;position:relative}
 .art img{width:100%;height:auto;aspect-ratio:1000/720;object-fit:contain;background:var(--plate)}
 .art .tt{display:block;margin-top:8px;font-size:13px;color:var(--ink)}
-.art .open{position:absolute;right:8px;bottom:8px;display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:999px;background:rgba(21,21,21,.86);color:#fff;font:500 12px var(--sans)}
+.art .open{position:absolute;right:8px;bottom:8px;display:inline-flex;align-items:center;justify-content:center;gap:6px;height:30px;padding:0 12px;border-radius:999px;background:#151515;color:#fff;font:500 12.5px/1 var(--sans);white-space:nowrap}
+.art .open>span{display:block;line-height:1}
 .art .open svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.art:hover .open{background:var(--gt)}
+.art:hover .open,.art:focus-visible .open{background:#000}
 /* hypothesis toggle */
 .seg{display:inline-flex;padding:3px;border-radius:999px;background:#fff;border:1px solid var(--hair);margin-top:20px}
 .seg button{all:unset;cursor:pointer;padding:7px 14px;border-radius:999px;font-size:13px;color:var(--ink2)}
@@ -419,7 +420,7 @@ body.av-open .case-floating-nav,body.av-open .site-nav{opacity:0;pointer-events:
 
 
 /* body text: Golos Text */
-:root{--body:"Golos Text",Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+:root{--body:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif}
 .read,.arrow,.task,.next li,.steps li,.flow p,.opt p,.impact,.stat .t,.note p,.tbl td{font-family:var(--body)}
 .read{font-size:clamp(16px,1.15vw,17.5px);line-height:1.68;color:#2e2e2e;letter-spacing:0}
 .arrow{font-size:16.5px;line-height:1.6}
@@ -444,7 +445,7 @@ body.av-open .case-floating-nav,body.av-open .site-nav{opacity:0;pointer-events:
   <div class="reveal">
     <div class="meta"><span class="lab"><span data-lang="ru">Кейс · СберБанк Онлайн</span><span data-lang="en">Case · SberBank Online</span></span></div>
     <h1><span data-lang="ru">Разделение ресторанного счёта</span><span data-lang="en">Splitting a restaurant bill</span></h1>
-    <p class="read"><span data-lang="ru">Спроектировала путь от оплаченной покупки до последнего перевода: участник видит, из чего сложилась его сумма, а тот, кто оплатил ужин, знает, кто уже вернул деньги.</span><span data-lang="en">I designed the path from a paid purchase to the last transfer: a participant sees what their amount is made of, and the person who paid for dinner sees who has already paid them back.</span></p>
+    <p class="read"><span data-lang="ru">Спроектировала сбор, который связывает общий чек с возвратом каждой доли.</span><span data-lang="en">I designed a collection that ties a shared receipt to each person’s repayment.</span></p>
     <div class="tags"><span class="tag" style="background:#ECECE8"><span data-lang="ru">Финтех</span><span data-lang="en">Fintech</span></span><span class="tag" style="background:#E3B84C"><span data-lang="ru">Продуктовый дизайн</span><span data-lang="en">Product design</span></span></div>
   </div>
   <div class="notes reveal">
@@ -465,7 +466,7 @@ body.av-open .case-floating-nav,body.av-open .site-nav{opacity:0;pointer-events:
 </section>
 
 <section class="wrap sec two reveal" data-tick>
-  <div><span class="lab"><span data-lang="ru">Что это за продукт</span><span data-lang="en">What the product is</span></span><h2><span data-lang="ru">Сбор в приложении банка, который связывает чек с переводами</span><span data-lang="en">A collection in the banking app that ties the receipt to the transfers</span></h2></div>
+  <div><span class="lab"><span data-lang="ru">Что это за продукт</span><span data-lang="en">What the product is</span></span><h2><span data-lang="ru">Как работает сбор</span><span data-lang="en">How a collection works</span></h2></div>
   <div><p class="read"><span data-lang="ru">Сбор создаётся прямо из оплаченной покупки. Сумму делят поровну, по позициям или вручную, и каждый получает запрос со своей долей. Участник видит, за что платит, а оплативший видит, кто уже перевёл.</span><span data-lang="en">A collection starts right from a paid purchase. The amount is split equally, by item or manually, and everyone gets a request with their share. Participants see what they are paying for, and the person who paid sees who has already transferred.</span></p></div>
 </section>
 
@@ -609,8 +610,7 @@ body.av-open .case-floating-nav,body.av-open .site-nav{opacity:0;pointer-events:
 <section class="wrap sec two reveal" data-tick id="result">
   <div><span class="lab"><span data-lang="ru">Итог</span><span data-lang="en">Outcome</span></span><h2 style="margin-top:12px"><span data-lang="ru">Чек, доли и переводы живут в одном сборе</span><span data-lang="en">The receipt, the shares and the transfers live in one collection</span></h2></div>
   <div>
-    <p class="read"><span data-lang="ru">Участник видит, из чего сложилась его сумма, и сразу платит. Тот, кто оплатил ужин, видит, кто уже перевёл, и не сверяет переводы вручную.</span><span data-lang="en">The participant sees what their amount is made of and pays right away. The person who paid for dinner sees who has already transferred and does not reconcile the transfers by hand.</span></p>
-    <p class="read"><span data-lang="ru">Детализация есть в момент оплаты, а при создании сбора она необязательна, поэтому простой расчёт остаётся коротким. Для банка это повод вернуться: удачный расчёт ведёт к следующему сбору.</span><span data-lang="en">The breakdown is there at the moment of payment but optional when creating a collection, so a simple split stays short. For the bank, this gives customers a reason to come back: a successful settlement leads to the next collection.</span></p>
+    <p class="read"><span data-lang="ru">Спроектировала сбор, который убирает главный вопрос перед оплатой: в запросе видно, из чего сложилась сумма, а у того, кто платил, есть общий статус возвратов. Дальше тест прототипа и пилот покажут, растёт ли доля оплаченных запросов.</span><span data-lang="en">I designed a collection that removes the main question before paying: the request shows what the amount is made of, and the person who paid gets one status for all repayments. Next, a prototype test and a pilot will show whether the share of paid requests grows.</span></p>
     <span class="lab" style="display:block;margin-top:28px"><span data-lang="ru">Дальше</span><span data-lang="en">Next</span></span>
     <ul class="next"><li><span data-lang="ru">Интервью и тест прототипа, затем A/B‑тест в пилоте.</span><span data-lang="en">Interviews and a prototype test, then an A/B test in a pilot.</span></li><li><span data-lang="ru">Правила для округления, расхождения чека с покупкой и частичной оплаты.</span><span data-lang="en">Rules for rounding, for a receipt that doesn’t match the purchase, and for partial payments.</span></li><li><span data-lang="ru">Межбанковские переводы по СБП для друзей из других банков.</span><span data-lang="en">Interbank transfers via the Faster Payments System (SBP) for friends at other banks.</span></li></ul>
   </div>
