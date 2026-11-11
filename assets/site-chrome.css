@@ -1,0 +1,77 @@
+/* Shared site chrome: top nav pill and the floating case switcher.
+   Loaded last on every page so all pages share one header and one switcher. */
+
+/* ---------- top nav ---------- */
+.top .navrow{padding-block:12px}
+.site-nav{
+  position:static;transform:none;display:flex;align-items:center;gap:2px;
+  padding:5px;border-radius:999px;
+  border:1px solid rgba(20,20,20,.08);background:rgba(255,255,255,.96);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 10px 30px -12px rgba(20,20,20,.22),0 2px 6px rgba(20,20,20,.05);
+  font:400 14px/1.2 "Golos Text",system-ui,sans-serif;max-width:100%
+}
+.site-nav.is-nav-hidden{transform:none;opacity:1;pointer-events:auto}
+.site-nav a{text-decoration:none}
+.site-nav .nav-name{
+  display:inline-flex;align-items:center;
+  font:500 14px/1.2 "Golos Text",system-ui,sans-serif;color:#5E605C;
+  margin:0;padding:9px 14px;border-radius:999px;white-space:nowrap;transition:background .2s,color .2s
+}
+.site-nav .nav-name:hover,.site-nav .nav-name:focus-visible,.site-nav .nav-name[aria-current="page"]{background:#F4F4F1;color:#151515}
+.site-nav a.nav-link{
+  font:500 14px/1.2 "Golos Text",system-ui,sans-serif;color:#5E605C;
+  padding:9px 14px;border-radius:999px;white-space:nowrap;position:relative;transition:background .2s,color .2s
+}
+.site-nav a.nav-link::after{content:"";position:absolute;inset:-6px 0}
+.site-nav a.nav-link:hover,.site-nav a.nav-link:focus-visible{background:#F4F4F1;color:#151515}
+.site-nav a.nav-link[aria-current="page"]{background:#F4F4F1;color:#151515}
+.site-nav .lang-toggle{
+  all:unset;box-sizing:border-box;cursor:pointer;position:relative;
+  font:600 12.5px/1 "Golos Text",system-ui,sans-serif;letter-spacing:.02em;
+  background:#151515;color:#fff;padding:10px 13px;border-radius:999px;margin:0 0 0 4px;transition:background .2s
+}
+.site-nav .lang-toggle::after{content:"";position:absolute;inset:-6px -2px}
+.site-nav .lang-toggle:hover{background:#333}
+.site-nav .lang-toggle:focus-visible{outline:2px solid #137A26;outline-offset:2px}
+@media (max-width:560px){
+  .site-nav .nav-name{display:inline-flex!important}
+  .site-nav .nav-name,.site-nav a.nav-link{padding:9px 10px;font-size:13.5px}
+  .site-nav .lang-toggle{padding:10px 11px}
+}
+
+/* ---------- floating case switcher ---------- */
+.case-floating-nav.cfn{gap:10px;flex-wrap:nowrap}
+.cfn a.cfn-btn{
+  display:flex;align-items:center;gap:12px;min-height:58px;padding:7px 8px 7px 8px;
+  border-radius:999px;text-decoration:none;color:#151515;
+  background:rgba(255,255,255,.97);border:1px solid rgba(20,20,20,.08);
+  box-shadow:0 14px 34px -14px rgba(20,20,20,.3),0 2px 6px rgba(20,20,20,.06);
+  font-family:"Golos Text",system-ui,sans-serif;
+  transition:transform .25s cubic-bezier(.22,1,.36,1),box-shadow .25s
+}
+.cfn a.cfn-home{padding-right:20px}
+.cfn a.cfn-next{padding-left:20px}
+.cfn a.cfn-btn:hover,.cfn a.cfn-btn:focus-visible{transform:translateY(-2px);box-shadow:0 18px 40px -14px rgba(20,20,20,.36),0 2px 6px rgba(20,20,20,.06)}
+.cfn a.cfn-btn:focus-visible{outline:2px solid #151515;outline-offset:3px}
+.cfn .cfn-ic{
+  flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;
+  background:#F4F4F1;color:#151515;transition:background .25s,color .25s
+}
+.cfn .cfn-next .cfn-ic{background:#151515;color:#fff}
+.cfn .cfn-ic svg{width:18px;height:18px;transition:transform .25s cubic-bezier(.22,1,.36,1)}
+.cfn a.cfn-home:hover .cfn-ic svg{transform:translateX(-3px)}
+.cfn a.cfn-next:hover .cfn-ic svg{transform:translateX(3px)}
+.cfn .cfn-tx{display:flex;flex-direction:column;gap:3px;min-width:0}
+.cfn .cfn-lab{font-size:12px;line-height:1.1;font-weight:400;color:#8A8C87;letter-spacing:0;text-transform:none;white-space:nowrap}
+.cfn .cfn-ti{font-size:15px;line-height:1.15;font-weight:600;color:#151515;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px}
+.cfn .cfn-next .cfn-tx{text-align:right}
+@media (max-width:640px){
+  .case-floating-nav.cfn{gap:8px}
+  .cfn a.cfn-btn{min-height:50px;padding:5px}
+  .cfn a.cfn-home{padding-right:14px}
+  .cfn a.cfn-next{padding-left:14px}
+  .cfn .cfn-ic{width:38px;height:38px}
+  .cfn .cfn-lab{display:none}
+  .cfn .cfn-ti{font-size:14px;max-width:38vw}
+}
+@media (prefers-reduced-motion:reduce){.cfn a.cfn-btn,.cfn .cfn-ic svg{transition:none}}

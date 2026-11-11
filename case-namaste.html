@@ -804,10 +804,11 @@ body.dlg-open{overflow:hidden}
 }
 </style>
 <link rel="stylesheet" href="assets/typography.css">
+<link rel="stylesheet" href="assets/site-chrome.css?v=2">
 </head>
 <body>
   <div class="top"><div class="navrow"><nav class="site-nav">
-    <a href="index.html" class="nav-name"><span data-lang="ru">Мадина Рашидова</span><span data-lang="en">Madina Rashidova</span></a>
+    <a href="index.html" class="nav-name"><span data-lang="ru">Главная</span><span data-lang="en">Home</span></a>
     <a href="index.html#work" class="nav-link"><span data-lang="ru">Работы</span><span data-lang="en">Work</span></a>
     <a href="about.html" class="nav-link"><span data-lang="ru">Обо мне</span><span data-lang="en">About</span></a>
     <a href="cv.pdf" data-href-ru="cv.pdf" data-href-en="cv-en.pdf" class="nav-link" target="_blank" rel="noopener">CV</a>
@@ -963,20 +964,14 @@ body.dlg-open{overflow:hidden}
 <div class="end"></div>
 </main>
 
-  <nav class="case-floating-nav">
-    <a class="case-prev" href="case-eaj-trader.html">
-      <span class="case-prev__arrow" aria-hidden="true">←</span>
-      <span class="case-prev__title-row">
-        <span class="case-prev__label"><span data-lang="ru">Предыдущий кейс</span><span data-lang="en">Previous case</span></span>
-        <span class="case-prev__title">EAJ Trader</span>
-      </span>
+  <nav class="case-floating-nav cfn">
+    <a class="cfn-btn cfn-home" href="index.html#work">
+      <span class="cfn-ic"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16 10H4.5M9 5l-5 5 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="cfn-tx"><span class="cfn-lab"><span data-lang="ru">Главная</span><span data-lang="en">Home</span></span><span class="cfn-ti"><span data-lang="ru">Все кейсы</span><span data-lang="en">All cases</span></span></span>
     </a>
-    <a class="case-next" href="case-360-tracker.html">
-      <span class="case-next__label"><span data-lang="ru">Следующий кейс</span><span data-lang="en">Next case</span></span>
-      <span class="case-next__title-row">
-        <span class="case-next__title">360 Tracker</span>
-        <span class="case-next__arrow" aria-hidden="true">→</span>
-      </span>
+    <a class="cfn-btn cfn-next" href="case-sber-split.html">
+      <span class="cfn-tx"><span class="cfn-lab"><span data-lang="ru">Следующий кейс</span><span data-lang="en">Next case</span></span><span class="cfn-ti"><span data-lang="ru">Разделение счёта</span><span data-lang="en">Bill splitting</span></span></span>
+      <span class="cfn-ic"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11.5M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
     </a>
   </nav>
 

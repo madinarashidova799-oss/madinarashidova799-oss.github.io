@@ -4,572 +4,479 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>(function(){if(localStorage.getItem('site-lang')==='en')document.documentElement.classList.add('lang-en');})();</script>
-<title data-ru="Обо мне: Мадина Рашидова" data-en="About: Madina Rashidova">Обо мне: Мадина Рашидова</title>
+<title data-ru="Обо мне · Мадина Рашидова" data-en="About · Madina Rashidova">Обо мне · Мадина Рашидова</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <meta name="description" data-ru="Продуктовый дизайнер. Разбираюсь в сложных системах и стараюсь оставлять их сложность внутри продукта, а не на экране пользователя." data-en="Product designer. I get to the bottom of complex systems and try to keep their complexity inside the product, not on the user’s screen." content="Продуктовый дизайнер. Разбираюсь в сложных системах и стараюсь оставлять их сложность внутри продукта, а не на экране пользователя.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #f8f8f8;
-    --surface: #f7f7f7;
-    --surface-translucent: rgba(255, 255, 255, 0.65);
-    --line: #ececec;
-    --line-strong: #eaeaea;
-    --line-soft: #f1f1f1;
-    --line-faint: #f5f5f5;
-    --text: #171717;
-    --text-strong: #231e1b;
-    --text-dim: #62605d;
-    --text-dim-2: #6e6c68;
-    --text-inverse: #f8f8f8;
-    --accent: #231e1b;
-    --live: #2f6b52;
-    --nav-bg: #17110e;
-    --nav-bg-hover: #261f1b;
-    --nav-control: #302925;
-    --radius-small: 12px;
-    --radius-medium: 20px;
-    --radius-large: 32px;
-    --radius-pill: 999px;
-    --shadow-soft: 0 8px 24px rgba(23,17,14,0.06), 0 20px 50px rgba(23,17,14,0.05);
-    --shadow-control: 0 8px 20px rgba(23,17,14,0.08);
-    --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 24px;
-    --space-6: 32px; --space-7: 48px; --space-8: 64px; --space-9: 96px; --space-10: 128px;
-    --mono: "Golos Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --sans: "Golos Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --display: var(--sans);
-    --serif: Literata, Georgia, 'Times New Roman', serif;
-    /* Unified type scale — same tokens copy-pasted across about.html and all
-       4 case pages (no shared includes on this static site, see PRODUCT.md). */
-    --font-size-h1: clamp(40px, 5vw, 72px);
-    --font-size-h2: clamp(24px, 2vw, 30px);
-    --font-size-h3: clamp(20px, 1.5vw, 24px);
-    --font-size-h4: clamp(19px, 1.6vw, 23px);
-    --font-size-body: clamp(16px, 1.1vw, 18px);
-    --font-size-label: 14px;
-    --font-weight-heading: 600;
-    --line-height-h1: 1.05;
-    --line-height-heading: 1.2;
-    --line-height-body: 1.55;
-    /* about.html-only: the page name is the <h1>, set one size step below the
-       shared h1 scale but well above the --font-size-h2 used for section
-       headings elsewhere — see instruction §2. Not reused on any other page. */
-    --font-size-about-name: clamp(32px, 4vw, 39px);
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    line-height: 1.55;
-    -webkit-font-smoothing: antialiased;
-  }
-  a { color: inherit; text-decoration: none; }
-  /* Боковое поле то же, что у страниц кейсов: колонки совпадают при переходе. */
-  .page { max-width: 1680px; margin: 0 auto; padding: 0 clamp(24px, 7vw, 128px); }
+:root{--paper:#fff;--ink:#151515;--ink2:#5E605C;--mute:#8A8C87;--grid:rgba(20,20,20,.045);--hair:#E6E6E2;--plate:#F4F4F1;
+--green:#21A038;--gt:#137A26;--lime:#E7F59B;--mint:#CFEFD8;--peach:#F8D9C4;--sky:#CFE6F7;--chosen:#F3E3A3;--sel:#2F80ED;
+--serif:Literata,Georgia,"Times New Roman",serif;--sans:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif;color-scheme:light}
+*,*::before,*::after{box-sizing:border-box}
+[data-lang="en"]{display:none}html.lang-en [data-lang="ru"]{display:none}html.lang-en [data-lang="en"]{display:inline}
+html:not(.lang-en) [data-lang="en"]{display:none!important}html.lang-en [data-lang="ru"]{display:none!important}
+[data-lang-block="en"]{display:none}html.lang-en [data-lang-block="ru"]{display:none}html.lang-en [data-lang-block="en"]{display:block}
+html{background:#fff;scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;
+background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:100px 100px}
+main{overflow-x:clip}
+img{display:block;max-width:100%}
+a{color:var(--gt)}
+button{font:inherit}
+:focus-visible{outline:2px solid var(--gt);outline-offset:3px}
+::selection{background:rgba(19,122,38,.2)}
+h1,h2,h3,p{margin:0}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--hair)}
+.navrow{display:flex;justify-content:center;padding-inline:8px}
+.ruler{height:16px;position:relative;overflow:hidden;font:500 9px var(--sans);color:var(--mute);background:repeating-linear-gradient(90deg,rgba(20,20,20,.18) 0 1px,transparent 1px 10px) left bottom/100% 4px no-repeat,repeating-linear-gradient(90deg,rgba(20,20,20,.25) 0 1px,transparent 1px 100px) left bottom/100% 8px no-repeat}
+.ruler span{position:absolute;top:1px}
+.lab{font:500 11.5px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.kick{display:inline-flex;align-items:center;gap:8px;height:28px;padding:0 12px 0 10px;border-radius:999px;background:#fff;border:1px solid var(--hair);font:500 11.5px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.kick b{font-weight:500;color:var(--mute)}
+.kick i{width:6px;height:6px;border-radius:50%;background:var(--ink)}
+.h2{font:500 clamp(28px,3vw,40px)/1.1 var(--serif);letter-spacing:-.018em;text-wrap:balance}
+.h2 em{font-style:italic;font-weight:400}
+.read{font:400 clamp(16px,1.15vw,17.5px)/1.68 var(--sans);color:#2e2e2e}
+.read+.read{margin-top:14px}
+/* buttons */
+.ctas{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.btn{display:inline-flex;align-items:center;gap:9px;height:48px;padding:0 20px 0 16px;border-radius:999px;text-decoration:none;font:500 15px/1 var(--sans);transition:transform .2s cubic-bezier(.22,1,.36,1),box-shadow .2s,background .2s}
+.btn svg{width:18px;height:18px;flex:none}
+.btn.ink{background:var(--ink);color:#fff;box-shadow:0 10px 24px -10px rgba(20,20,20,.5)}
+.btn.ink:hover{background:#2b2b2b;transform:translateY(-1px)}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--hair);box-shadow:0 6px 16px -10px rgba(20,20,20,.25)}
+.btn.ghost:hover{border-color:#CFCFC9;transform:translateY(-1px)}
+.status{display:inline-flex;align-items:center;gap:9px;height:32px;padding:0 14px 0 12px;border-radius:999px;background:#fff;border:1px solid var(--hair);font:500 13px/1 var(--sans);color:var(--ink);box-shadow:0 6px 16px -12px rgba(20,20,20,.3)}
+.status i{position:relative;width:8px;height:8px;border-radius:50%;background:var(--green)}
+.status i::after{content:"";position:absolute;inset:-4px;border-radius:50%;background:var(--green);opacity:.25;animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.6);opacity:.35}100%{transform:scale(1.8);opacity:0}}
+/* hero with orbit */
+.hero{position:relative;text-align:center;padding-top:clamp(40px,5vw,64px)}
+.hero h1{font:500 clamp(30px,3.3vw,44px)/1.08 var(--serif);letter-spacing:-.025em;margin-top:22px;text-wrap:balance}
+.hero h1 em{display:block;font-style:italic;font-weight:400}
+.hero .lede{max-width:34em;margin:18px auto 0;font:400 clamp(16px,1.2vw,17.5px)/1.6 var(--sans);color:var(--ink2);text-wrap:pretty}
+.hero .ctas{margin-top:26px}
+@media (min-width:901px){.hero .lede-m{display:none}.hero h1+.ctas,.hero .lede-m+.ctas{margin-top:30px}}
+.stage{position:relative;isolation:isolate;height:clamp(300px,28vw,400px);margin-top:clamp(18px,2.4vw,34px);touch-action:pan-y}
+.portrait{position:absolute;left:50%;bottom:0;height:100%;width:auto;max-width:none;transform:translateX(-50%);z-index:2;pointer-events:none;
+-webkit-mask-image:linear-gradient(to bottom,#000 62%,transparent 97%);mask-image:linear-gradient(to bottom,#000 62%,transparent 97%);user-select:none}
+.orbit{position:absolute;inset:0;pointer-events:none}
+.orbit>*,.orbit>.doc{position:absolute;left:0;top:0;pointer-events:auto;will-change:transform;opacity:0}
+.orbit.on>*{opacity:1;transition:opacity .6s}
+.ring{position:absolute;left:50%;z-index:1;border-radius:50%;border:1px solid rgba(20,20,20,.1);pointer-events:none;transform:translate(-50%,-50%)}
+.wire{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
+.wire path{fill:none;stroke:rgba(20,20,20,.22);stroke-width:1;stroke-dasharray:3 4;vector-effect:non-scaling-stroke}
+.wire circle{fill:#fff;stroke:rgba(20,20,20,.35);stroke-width:1;vector-effect:non-scaling-stroke}
+.side{position:absolute;z-index:7;width:236px;text-align:left;padding:15px 16px 16px;transform:rotate(var(--r));box-shadow:0 14px 30px -14px rgba(20,20,20,.3);border-radius:2px}
+.side .lab{color:var(--ink)}
+.side p{margin-top:8px;font:400 14.5px/1.42 var(--sans);color:#262626;overflow-wrap:normal;word-break:normal;hyphens:none}
+.side.y{background:var(--chosen)}.side.g{background:var(--mint)}.side.b{background:var(--sky)}.side.p{background:var(--peach)}.side.l{background:var(--lime)}
+.corner{position:absolute;z-index:4;bottom:24px;display:flex;flex-direction:column;gap:12px;font:400 14px/1.45 var(--sans);color:var(--ink2);text-align:left}
+.corner::before{content:"";width:28px;height:1px;background:var(--ink2)}
+.corner.r{text-align:right;align-items:flex-end}
+.corner a{color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.corner a svg{width:16px;height:16px}
+.corner a:hover{color:var(--ink)}
+.corner .sp{width:18px;height:18px;color:var(--ink)}
+@media (max-width:1100px){.side{width:190px}}
+@media (max-width:900px){.side,.wire,.corner{display:none}}
+/* sections */
+.sec{padding-top:clamp(84px,9vw,132px)}
+.sec-head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px}
+.sec-head p{max-width:34em;color:var(--ink2);font:400 16.5px/1.6 var(--sans)}
+/* footer */
+.foot{margin-top:clamp(80px,9vw,120px);border-top:1px solid var(--hair);background:rgba(255,255,255,.7)}
+.foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:22px;font:400 13px/1.4 var(--sans);color:var(--mute)}
+/* document / image viewer */
+.dv{position:fixed;inset:0;z-index:100;display:grid;grid-template-rows:auto 1fr auto;background:rgba(246,246,243,.97);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.dv[hidden]{display:none}
+.dv-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px max(16px,2vw)}
+.dv-t{font:600 15px/1.3 var(--sans);color:var(--ink)}
+.dv-t small{display:block;font-weight:400;font-size:13px;color:var(--mute);margin-top:3px}
+.dv-x,.dv-nav{all:unset;box-sizing:border-box;cursor:pointer;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#fff;border:1px solid var(--hair);color:var(--ink);box-shadow:0 6px 18px -10px rgba(20,20,20,.35)}
+.dv-x:hover,.dv-nav:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.dv-x:focus-visible,.dv-nav:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.dv-x svg,.dv-nav svg{width:18px;height:18px}
+.dv-stage{position:relative;display:grid;place-items:center;min-height:0;padding:0 72px}
+.dv-stage img{max-width:100%;max-height:calc(100dvh - 150px);width:auto;height:auto;object-fit:contain;border-radius:6px;box-shadow:0 30px 70px -30px rgba(20,20,20,.45);background:#fff}
+.dv-nav{position:absolute;top:50%;transform:translateY(-50%)}
+.dv-nav.p{left:max(12px,1.5vw)}.dv-nav.n{right:max(12px,1.5vw)}
+.dv-foot{text-align:center;padding:12px 16px 18px;font:400 13px var(--sans);color:var(--mute)}
+@media (max-width:640px){.dv-stage{padding:0 12px}.dv-nav{top:auto;bottom:-4px;transform:none}.dv-stage img{max-height:calc(100dvh - 200px)}.dv-foot{padding-bottom:64px}}
+body.dv-open{overflow:hidden}
+.ts{display:none}
+@media (max-width:560px){.tl{display:none}.ts{display:inline}.btn{height:44px;padding:0 16px 0 13px;font-size:14.5px;gap:8px}.ctas{gap:8px}.hero h1{font-size:30px}.stage{height:270px}}
+@media (prefers-reduced-motion:reduce){.status i::after{animation:none}.btn{transition:none}}
 
-  .site-nav {
-    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-    z-index: 100; display: flex; align-items: center;
-    background: var(--nav-bg); border-radius: 100px; padding: 8px 8px 8px 22px;
-    box-shadow: var(--shadow-control);
-    transition: transform 0.28s cubic-bezier(0.22,1,0.36,1), opacity 0.28s cubic-bezier(0.22,1,0.36,1);
-  }
-  .site-nav.is-nav-hidden { transform: translateX(-50%) translateY(-140%); opacity: 0; pointer-events: none; }
-  .site-nav .nav-name {
-    font-family: var(--mono); font-size: 0.85rem; font-weight: 500;
-    color: #fff; margin-right: 8px; white-space: nowrap;
-  }
-  .site-nav a.nav-link {
-    font-family: var(--sans); font-size: 0.85rem; font-weight: 500;
-    color: rgba(255,255,255,0.68); padding: 9px 16px; border-radius: 100px;
-    white-space: nowrap; transition: background 0.2s ease, color 0.2s ease;
-  }
-  .site-nav a.nav-link:hover, .site-nav a.nav-link:focus-visible { background: rgba(255,255,255,0.12); color: #fff; }
-  .site-nav .nav-name:focus-visible { outline: 2px solid #fff; outline-offset: 3px; border-radius: 6px; }
-  .site-nav a.nav-link[aria-current="page"] { background: rgba(255,255,255,0.14); color: #fff; }
-  .lang-toggle {
-    font-family: var(--mono); font-size: 0.8rem; font-weight: 500;
-    color: rgba(255,255,255,0.68); background: rgba(255,255,255,0.08);
-    border: none; padding: 9px 14px; border-radius: 100px; cursor: pointer;
-    margin-left: 4px; transition: background 0.2s ease, color 0.2s ease;
-  }
-  .lang-toggle:hover, .lang-toggle:focus-visible { background: rgba(255,255,255,0.16); color: #fff; }
-  /* ===== область нажатия верхней навигации =====
-     Ссылки были 35 px высотой, переключатель языка 38x31 — меньше цели
-     44x44. Видимая плашка не меняется: увеличена только область нажатия,
-     по вертикали, чтобы соседние ссылки не перекрывали друг друга. */
-  .site-nav a.nav-link, .lang-toggle { position: relative; }
-  .site-nav a.nav-link::after { content: ''; position: absolute; inset: -5px 0; }
-  .site-nav a.nav-name { position: relative; }
-  .site-nav a.nav-name::after { content: ''; position: absolute; inset: -12px 0; }
-  .lang-toggle::after { content: ''; position: absolute; inset: -7px -4px; }
-  /* ===== конец блока области нажатия ===== */
-  @media (max-width: 560px) {
-    .site-nav { padding: 6px 6px 6px 14px; }
-    .site-nav .nav-name { display: none; }
-    .site-nav a.nav-link { padding: 8px 10px; font-size: 0.76rem; }
-    .lang-toggle { padding: 8px 11px; font-size: 0.74rem; }
-  }
+.doc{all:unset;box-sizing:border-box;cursor:zoom-in;display:block;padding:5px;background:#fff;border-radius:8px;box-shadow:0 18px 34px -16px rgba(20,20,20,.42),0 0 0 1px rgba(20,20,20,.06)}
+.doc img{height:78px;width:auto;border-radius:4px}
+.doc:hover{box-shadow:0 22px 40px -14px rgba(20,20,20,.5),0 0 0 2px var(--sel)}
+.doc:focus-visible{outline:2px solid var(--sel);outline-offset:3px}
+@media (max-width:640px){.doc{padding:3px;border-radius:6px}.doc img{height:62px}}
+.hint{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:6;display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:999px;background:rgba(255,255,255,.9);border:1px solid var(--hair);font:500 13px/1 var(--sans);color:var(--ink2);white-space:nowrap;box-shadow:0 10px 24px -14px rgba(20,20,20,.35)}
+.hint svg{width:15px;height:15px}
+/* two-column sections */
+.row{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,5vw,72px);align-items:start}
+.row .h2{margin-top:16px}
+.row .side-h{position:sticky;top:110px}
+@media (max-width:860px){.row{grid-template-columns:minmax(0,1fr);gap:22px}.row .side-h{position:static}}
+.path{list-style:none;margin:30px 0 0;padding:0;position:relative}
+.path::before{content:"";position:absolute;left:7px;top:10px;bottom:10px;width:1px;background:var(--hair)}
+.path li{position:relative;padding:0 0 18px 34px}
+.path li::before{content:"";position:absolute;left:2px;top:6px;width:11px;height:11px;border-radius:50%;background:#fff;border:1.5px solid var(--ink)}
+.path li:last-child::before{background:var(--green);border-color:var(--green)}
+.path b{display:block;font:600 16px/1.35 var(--sans)}
+.path .r{display:block;margin-top:3px;font:400 14.5px/1.45 var(--sans);color:var(--ink2)}
+.path .w{display:block;font:500 11.5px/1 var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--mute);display:block;margin-top:6px}
+.quote{position:relative;margin-top:30px;padding:20px 22px;background:var(--chosen);transform:rotate(-1.2deg);box-shadow:0 14px 28px -16px rgba(20,20,20,.35);font:italic 500 19px/1.45 var(--serif);max-width:30em}
+.quote::before{content:"";position:absolute;left:50%;top:-10px;width:86px;height:20px;margin-left:-43px;background:rgba(255,255,255,.65);transform:rotate(2deg)}
+.prin{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:28px}
+.prin>div{background:#fff;border:1px solid var(--hair);border-radius:18px;padding:18px 18px 20px;box-shadow:0 16px 30px -26px rgba(20,20,20,.4)}
+.prin .n{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--chosen);font:600 12px/1 var(--sans);color:var(--ink);font-style:normal}
+.prin .h{display:block;margin-top:14px;font:500 19px/1.25 var(--serif);letter-spacing:-.01em;color:var(--ink)}
+.prin .d{display:block;margin-top:8px;font:400 14.5px/1.5 var(--sans);color:var(--ink2)}
+@media (max-width:640px){.prin{grid-template-columns:minmax(0,1fr)}}
+/* doc cards */
+.dcs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:26px}
+.dc{all:unset;box-sizing:border-box;cursor:zoom-in;position:relative;display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;align-items:center;padding:12px 44px 12px 12px;background:#fff;border:1px solid var(--hair);border-radius:18px;transition:transform .25s cubic-bezier(.22,1,.36,1),box-shadow .25s,border-color .25s}
+.dc:hover{transform:translateY(-2px);box-shadow:0 20px 38px -26px rgba(20,20,20,.45);border-color:#D8D8D2}
+.dc:focus-visible{outline:2px solid var(--gt);outline-offset:3px}
+.dc-th{display:grid;place-items:center;height:96px;border-radius:10px;background:var(--plate);overflow:hidden}
+.dc-th img{max-height:84px;max-width:84px;width:auto;height:auto;box-shadow:0 6px 14px -8px rgba(20,20,20,.45)}
+.dc-tx .dt{display:block;font:600 15.5px/1.3 var(--sans);color:var(--ink)}
+.dc-tx .ds{display:block;margin-top:5px;font:400 13.5px/1.45 var(--sans);color:var(--ink2)}
+.dc-z{position:absolute;right:12px;top:12px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--plate);color:var(--ink)}
+.dc-z svg{width:16px;height:16px}
+.dc.big{grid-template-columns:minmax(0,1fr);padding:12px 12px 18px}
+.dc.big .dc-th{height:auto;aspect-ratio:4/3}
+.dc.big .dc-th img{max-height:86%;max-width:86%}
+.dc.big .dc-tx{padding:2px 4px 0}
+.dc.big .dc-tx .dt{font:500 22px/1.2 var(--serif);letter-spacing:-.01em}
+.dc.big .dc-z{right:22px;top:22px;background:#fff}
+@media (max-width:640px){.dcs{grid-template-columns:minmax(0,1fr)}.dc{grid-template-columns:76px minmax(0,1fr)}.dc-th{height:76px}.dc-th img{max-height:66px;max-width:66px}}
+.dcs.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:1000px){.dcs.three{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.dcs.three{grid-template-columns:minmax(0,1fr)}}
 
-  [data-lang="en"] { display: none; }
-  html.lang-en [data-lang="ru"] { display: none; }
-  html.lang-en [data-lang="en"] { display: inline; }
-
-  ::selection { background: var(--text-strong); color: var(--text-inverse); }
-
-  /* ===================== Рама страницы — та же, что у кейсов =====================
-     Ширина 1400, 12 колонок, те же отступы сверху и снизу. Шапка повторяет
-     шапку кейса: имя, подзаголовок, строка фактов под линией. Дальше три
-     секции по одной схеме: текст — 6 колонок слева, справа то, что его
-     дополняет (коллаж, цитата, каналы). Пустых половин нет. */
-  .about-page { max-width: 1400px; margin: 0 auto; padding: 128px 0 160px; --grid-gutter: 28px; }
-  @media (max-width: 720px) { .about-page { padding: 108px 0 200px; } }
-  .about-grid {
-    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--grid-gutter); align-items: start;
-  }
-  .about-col-6 { grid-column: span 6; min-width: 0; }
-  @media (max-width: 1279px) { .about-grid { column-gap: 20px; } }
-  @media (max-width: 899px) {
-    .about-grid { grid-template-columns: minmax(0, 1fr); row-gap: clamp(32px, 6vw, 48px); }
-    .about-col-6 { grid-column: auto; }
-  }
-
-  /* ---- Шапка ---- */
-  h1.about-title {
-    font-family: var(--display); font-size: clamp(30px, 2.8vw, 40px); font-weight: var(--font-weight-heading);
-    line-height: 1.1; letter-spacing: -0.02em; text-wrap: balance;
-  }
-  .about-role {
-    font-family: var(--display); font-weight: 500; font-size: var(--font-size-body);
-    line-height: 1.4; color: var(--text-dim); margin-top: 8px;
-  }
-  /* Принцип работы — голосом автора: та же антиква, что у цитаты ниже,
-     линия сверху отделяет его от имени и роли. */
-  .about-motto {
-    margin: clamp(24px, 2.4vw, 32px) 0 0; padding-top: clamp(16px, 1.6vw, 20px);
-    border-top: 1px solid var(--line-strong); width: fit-content; max-width: 100%;
-  }
-  .about-motto p {
-    font-family: var(--serif); font-style: italic; font-weight: 400;
-    font-size: clamp(18px, 1.45vw, 21px); line-height: 1.4; color: var(--text-strong);
-    max-width: 36ch; text-wrap: pretty;
-  }
-
-  /* ---- Вступление: колонка чтения слева, коллаж закреплён справа ----
-     Коллаж занимает обе строки сетки и стоит на месте, пока слева идут
-     имя, принцип и две первые истории. Высота коллажа ограничена экраном,
-     чтобы он целиком помещался под верхней навигацией. На телефоне
-     порядок: шапка, коллаж, текст. */
-  .about-intro { grid-template-rows: auto 1fr; }
-  .about-intro__head { grid-column: 1 / span 6; grid-row: 1; }
-  .about-intro__flow { grid-column: 1 / span 6; grid-row: 2; }
-  .about-intro__media { grid-column: 8 / span 5; grid-row: 1 / span 2; align-self: start; min-width: 0; }
-  .about-intro__flow > section { margin-top: clamp(72px, 7vw, 112px); }
-  @media (min-width: 900px) {
-    .about-intro__media { position: sticky; top: clamp(96px, 12vh, 124px); }
-    .about-intro__media .about-collage {
-      width: min(100%, calc((100svh - 150px) * 5 / 6)); margin: 0 0 0 auto;
-    }
-  }
-  @media (max-width: 899px) {
-    .about-intro__head, .about-intro__flow, .about-intro__media { grid-column: auto; grid-row: auto; }
-    .about-intro__flow > section:first-child { margin-top: clamp(24px, 6vw, 40px); }
-  }
-
-  /* ---- Секции ---- */
-  .about-block { margin-top: clamp(112px, 10vw, 160px); }
-  @media (max-width: 720px) { .about-block { margin-top: clamp(72px, 14vw, 96px); } }
-  .about-page h2 {
-    font-family: var(--display); font-size: clamp(22px, 1.7vw, 26px); line-height: var(--line-height-heading);
-    font-weight: 700; letter-spacing: -0.01em; color: var(--text-strong); text-wrap: balance;
-    margin-bottom: clamp(24px, 2.2vw, 32px);
-  }
-  .about-text p {
-    font-size: var(--font-size-body); line-height: var(--line-height-body);
-    color: var(--text-dim); max-width: 56ch; text-wrap: pretty;
-  }
-  .about-text p + p { margin-top: clamp(16px, 1.4vw, 20px); }
-  /* Текст короче соседнего материала: на десктопе он стоит на месте, пока
-     читатель проходит коллаж или карточки, — как текстовая колонка кейса. */
-  @media (min-width: 900px) {
-    .about-split > .about-text { position: sticky; top: clamp(96px, 12vh, 132px); padding-top: 6px; }
-  }
-
-  /* Цитата — отдельная реплика рядом с абзацами, без плашки: вес ей даёт
-     антиква и размер, линия сверху отделяет её от фона. */
-  .about-quote {
-    margin: clamp(28px, 2.6vw, 36px) 0 0; padding-top: clamp(16px, 1.6vw, 20px);
-    border-top: 1px solid var(--line-strong); width: fit-content; max-width: 100%;
-  }
-  .about-quote p {
-    font-family: var(--serif); font-style: italic; font-weight: 400;
-    font-size: clamp(18px, 1.45vw, 21px); line-height: 1.4; color: var(--text-strong);
-    max-width: 36ch; text-wrap: pretty;
-  }
-
-  /* ===================== Photo scrapbook ===================== */
-  .about-collage {
-    position: relative; width: 100%; aspect-ratio: 5 / 6;
-    max-width: 480px; margin: 0 auto;
-  }
-  @media (min-width: 900px) { .about-collage { max-width: none; } }
-
-  .collage-photo {
-    position: absolute; background: #fff; padding: 6px;
-    border: 1px solid #fff; border-radius: 6px;
-    box-shadow: 0 10px 26px rgba(23,17,14,0.10);
-    opacity: 0; transform: translateY(12px) rotate(var(--rot-start, 0deg));
-    transition: transform 480ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms ease, opacity 480ms ease;
-    will-change: transform, opacity;
-  }
-  .collage-photo.is-visible { opacity: 1; transform: translateY(0) rotate(var(--rot-end, 0deg)); }
-  .collage-photo:hover, .collage-photo:focus-within {
-    transform: translateY(-5px) rotate(var(--rot-hover, 0deg));
-    box-shadow: 0 18px 38px rgba(23,17,14,0.18); z-index: 5;
-  }
-  .collage-photo img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 2px; }
-  .collage-photo__frame { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 2px; }
-  .collage-photo__tape {
-    position: absolute; top: -10px; left: 50%; transform: translateX(-50%) rotate(-2deg);
-    width: 56px; height: 22px; background: rgba(238, 227, 199, 0.55);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.06); border-radius: 1px;
-  }
-
-  .collage-main { left: 8%; top: 8%; width: 38%; aspect-ratio: 4 / 4.6; z-index: 3; --rot-start: -6deg; --rot-end: -2deg; --rot-hover: -3deg; }
-  .collage-work { left: 54%; top: 4%; width: 32%; aspect-ratio: 3 / 4; z-index: 2; --rot-start: 5deg; --rot-end: 3deg; --rot-hover: 4deg; }
-  .collage-people { left: 10%; top: 54%; width: 34%; aspect-ratio: 4 / 5; z-index: 2; --rot-start: -6deg; --rot-end: -3deg; --rot-hover: -4deg; }
-  .collage-nature { left: 56%; top: 58%; width: 34%; aspect-ratio: 4 / 5; z-index: 1; --rot-start: 5deg; --rot-end: 2deg; --rot-hover: 3deg; }
-
-  @media (max-width: 560px) {
-    .collage-main { left: 5%; top: 4%; width: 44%; --rot-start: -3deg; --rot-end: -1deg; --rot-hover: -2deg; }
-    .collage-work { left: 51%; top: 2%; width: 42%; --rot-start: 3deg; --rot-end: 1.5deg; --rot-hover: 2deg; }
-    .collage-people { left: 5%; top: 52%; width: 44%; --rot-start: -3deg; --rot-end: -1.5deg; --rot-hover: -2deg; }
-    .collage-nature { left: 51%; top: 55%; width: 42%; --rot-start: 3deg; --rot-end: 1deg; --rot-hover: 2deg; }
-  }
-
-  /* Single hand-drawn arrow + serif caption pointing at the portrait — the
-     collage's only decorative label (visual-hierarchy instruction §3, this
-     round trims it down from four to one). */
-  .collage-arrows { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4; overflow: visible; }
-  .collage-arrow { fill: none; stroke-width: 1.6; stroke-linecap: round; }
-  .collage-arrow--graphite { stroke: #3A3532; }
-
-  .collage-caption {
-    position: absolute; font-family: var(--serif); font-style: italic; font-weight: 400;
-    font-size: 0.95rem; line-height: 1.2; white-space: nowrap; z-index: 5;
-    opacity: 0; clip-path: inset(0 100% 0 0);
-    transition: clip-path 300ms ease, opacity 200ms ease;
-  }
-  .collage-caption.is-visible { opacity: 1; clip-path: inset(0 0 0 0); }
-  .collage-caption--graphite { color: #3A3532; }
-  .collage-caption--main { left: 3%; top: 1%; }
-
-  @media (max-width: 560px) {
-    .collage-caption { font-size: 0.8rem; }
-  }
-
-  /* ---- Каналы: две карточки друг под другом в правой колонке ---- */
-  .channels { display: grid; gap: 16px; }
-
-  .tg-card {
-    position: relative; display: flex; flex-direction: column; justify-content: space-between;
-    width: 100%; min-width: 0; min-height: 208px;
-    border-radius: var(--radius-medium); padding: 28px 32px;
-    text-decoration: none; box-shadow: var(--shadow-soft);
-    transition: transform 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms ease;
-  }
-  @media (max-width: 767px) {
-    .tg-card { padding: 24px; }
-  }
-  .tg-card:hover, .tg-card:focus-visible { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(23,17,14,0.16); }
-  .tg-card:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 3px; }
-  .tg-card__icon { width: 22px; height: 22px; display: block; opacity: 0.82; }
-  .tg-card__name { font-family: var(--display); font-weight: 700; font-size: 1.15rem; margin-top: 14px; letter-spacing: -0.01em; }
-  .tg-card .tg-card__body { font-size: var(--font-size-label); font-weight: 400; color: inherit; line-height: 1.5; margin-top: 8px; max-width: 34ch; }
-  .tg-card__cta { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 0.88rem; margin-top: 18px; }
-  .tg-card__arrow { transition: transform 220ms cubic-bezier(0.22,1,0.36,1); }
-  .tg-card:hover .tg-card__arrow, .tg-card:focus-visible .tg-card__arrow { transform: translateX(3px); }
-
-  .tg-card--earworm { background: #FDE058; color: #231e1b; }
-  .tg-card--designer { background: #7C9DCB; color: #12172E; }
-
-  footer.page-footer {
-    border-top: 1px solid var(--line); padding: 32px 0;
-    font-family: var(--mono); font-size: 0.78rem; color: var(--text-dim);
-  }
-
-  /* ===== Case-style floating dock, reused on this page ===== */
-  .sr-only {
-    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
-  }
-  .case-floating-nav {
-    position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom));
-    transform: translateX(-50%) translateY(12px);
-    z-index: 110; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 16px;
-    width: max-content; max-width: calc(100vw - 32px);
-    opacity: 0;
-    transition: opacity 0.5s cubic-bezier(0.22,1,0.36,1), transform 0.5s cubic-bezier(0.22,1,0.36,1);
-  }
-  .case-floating-nav.is-inview { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  .case-next, .case-home {
-    background: rgba(255, 255, 255, 0.62);
-    border: 1px solid rgba(255, 255, 255, 0.72);
-    box-shadow: 0 10px 32px rgba(15, 13, 12, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px) saturate(125%);
-    -webkit-backdrop-filter: blur(20px) saturate(125%);
-    border-radius: var(--radius-pill);
-  }
-  @supports not (backdrop-filter: blur(1px)) {
-    .case-next, .case-home { background: rgba(248, 248, 248, 0.94); }
-  }
-  .case-home {
-    display: inline-flex; align-items: center; gap: 10px;
-    font-family: var(--sans); font-size: 0.92rem; font-weight: 600; color: #171717;
-    padding-inline: 20px; min-height: 56px; flex-shrink: 0;
-    transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s cubic-bezier(0.22,1,0.36,1);
-  }
-  .case-home:hover { background: rgba(255,255,255,0.85); box-shadow: var(--shadow-control); }
-  .case-home:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 2px; }
-  .case-home:active { transform: scale(0.96); }
-  .case-home__arrow { font-family: var(--mono); color: var(--text-dim); transition: transform 0.2s cubic-bezier(0.22,1,0.36,1); }
-  .case-home:hover .case-home__arrow, .case-home:focus-visible .case-home__arrow { transform: translateX(-4px); }
-  .case-home__label { white-space: nowrap; }
-
-  .case-next {
-    display: flex; align-items: center; gap: 12px;
-    padding-inline: 24px; min-height: 56px; max-width: min(360px, 60vw);
-    transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s cubic-bezier(0.22,1,0.36,1);
-  }
-  .case-next:hover, .case-next:focus-visible { background: rgba(255,255,255,0.88); box-shadow: var(--shadow-control); transform: translateY(-2px); }
-  .case-next:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 2px; }
-  .case-next:active { transform: translateY(0); }
-  .case-next__label { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
-  .case-next__title-row { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
-  .case-next__title { font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: #171717; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .case-next__arrow { flex-shrink: 0; color: #171717; transition: transform 0.25s cubic-bezier(0.22,1,0.36,1); }
-  .case-next:hover .case-next__arrow, .case-next:focus-visible .case-next__arrow { transform: translateX(5px); }
-
-  @media (max-width: 720px) {
-    .case-floating-nav { bottom: max(14px, env(safe-area-inset-bottom)); gap: 16px; }
-    .case-home { min-height: 48px; padding-inline: 16px; }
-    .case-next { min-height: 48px; padding-inline: 16px; max-width: min(220px, 52vw); }
-    .case-next__label, .case-home__label {
-      position: absolute; width: 1px; height: 1px; overflow: hidden;
-      clip: rect(0,0,0,0); white-space: nowrap;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    .site-nav, .tg-card, .tg-card__arrow, .collage-photo,
-    .case-floating-nav, .case-next__arrow, .case-next, .case-home, .case-home__arrow {
-      transition: none !important;
-    }
-    .tg-card:hover, .tg-card:focus-visible { transform: none; }
-    .tg-card:hover .tg-card__arrow, .tg-card:focus-visible .tg-card__arrow { transform: none; }
-    .collage-photo, .collage-photo.is-visible { opacity: 1 !important; transform: none !important; }
-    .collage-photo:hover, .collage-photo:focus-within { transform: none !important; }
-    .collage-caption { transition: none !important; opacity: 1 !important; clip-path: inset(0 0 0 0) !important; }
-    .case-floating-nav { opacity: 1; transform: translateX(-50%); }
-  }
-
-
-/* two-font system: Golos Text + Literata */
-h1.about-title,.about-page h2{font-family:Literata,Georgia,serif!important;font-weight:600!important;letter-spacing:-.012em!important}
+/* certificates strip */
+.strip-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
+.strip-nav{display:flex;gap:10px;flex:none}
+.strip-nav .car-btn{all:unset;box-sizing:border-box;cursor:pointer;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:#fff;box-shadow:0 12px 26px -12px rgba(20,20,20,.55);transition:background .2s,opacity .2s}
+.strip-nav .car-btn svg{width:18px;height:18px}
+.strip-nav .car-btn:hover{background:#333}
+.strip-nav .car-btn:focus-visible{outline:2px solid var(--gt);outline-offset:3px}
+.strip{display:flex;gap:14px;margin-top:24px;overflow-x:auto;padding:4px 2px 18px;overscroll-behavior-x:contain;scrollbar-width:none;
+-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.strip::-webkit-scrollbar{display:none}
+.strip:focus-visible{outline:2px solid var(--gt);outline-offset:4px;border-radius:12px}
+.strip .dc{flex:0 0 250px;grid-template-columns:minmax(0,1fr);align-content:start;padding:10px 10px 16px}
+.strip .dc-th{height:150px}
+.strip .dc-th img{max-height:126px;max-width:88%}
+.strip .dc-tx{padding:2px 6px 0}
+.strip .dc-tx .ds{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.strip .dc-z{right:18px;top:18px;background:#fff}
+@media (max-width:640px){.strip-nav{display:none}.strip .dc{flex-basis:76vw}.strip .dc-th{height:140px}}
+/* telegram */
+.tg{position:relative;margin-top:clamp(84px,9vw,132px)}
+.tg-box{position:relative;background:var(--ink);color:#fff;border-radius:34px;padding:clamp(28px,4vw,52px);overflow:hidden;
+background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:50px 50px}
+.tg-box .kick{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14);color:rgba(255,255,255,.8)}
+.tg-box .kick i{background:#fff}.tg-box .kick b{color:rgba(255,255,255,.5)}
+.tg-box .h2{color:#fff;margin-top:16px}
+.tg-box .lead{margin-top:12px;max-width:34em;color:rgba(255,255,255,.72);font:400 16.5px/1.6 var(--sans)}
+.chs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:30px}
+.ch{position:relative;display:flex;flex-direction:column;gap:18px;padding:24px;border-radius:24px;color:var(--ink);text-decoration:none;transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.ch:hover{transform:translateY(-4px) rotate(-.4deg)}
+.ch:focus-visible{outline:2px solid #fff;outline-offset:4px}
+.ch.e{background:var(--chosen)}.ch.d{background:var(--sky)}
+.ch-top{display:flex;align-items:center;gap:16px}
+.ch-top img{width:72px;height:72px;border-radius:50%;box-shadow:0 0 0 4px rgba(255,255,255,.6)}
+.ch-top b{display:block;font:500 clamp(24px,2.4vw,30px)/1.1 var(--serif);letter-spacing:-.015em}
+.ch-top small{display:block;margin-top:5px;font:500 13.5px/1 var(--sans);color:rgba(20,20,20,.6)}
+.ch p{font:400 16.5px/1.55 var(--sans);color:#262626;max-width:24em}
+.ch .go{margin-top:auto;display:inline-flex;align-self:flex-start;align-items:center;gap:10px;height:46px;padding:0 18px 0 14px;border-radius:999px;background:var(--ink);color:#fff;font:500 15px/1 var(--sans)}
+.ch .go svg{width:18px;height:18px}
+.tg-plane{position:absolute;right:clamp(16px,4vw,52px);top:clamp(22px,3vw,44px);width:clamp(64px,7vw,96px);height:auto;color:rgba(255,255,255,.12)}
+@media (max-width:760px){.chs{grid-template-columns:minmax(0,1fr)}.tg-plane{display:none}.tg-box{border-radius:26px}}
+/* photos */
+.pics{display:flex;justify-content:center;gap:clamp(10px,2vw,22px);margin-top:30px}
+.pic{position:relative;width:clamp(200px,26vw,330px);padding:8px 8px 30px;background:#fff;box-shadow:0 18px 34px -18px rgba(20,20,20,.45);transform:rotate(var(--r))}
+.pic img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover}
+.pic::before{content:"";position:absolute;left:50%;top:-9px;width:64px;height:18px;margin-left:-32px;background:rgba(243,227,163,.85);transform:rotate(-3deg)}
+@media (max-width:640px){.pics{gap:8px}.pic{width:31%;padding:5px 5px 18px}}
+/* closing */
+.hello{margin-top:clamp(84px,9vw,132px);text-align:center}
+.hello .box{position:relative;max-width:820px;margin:0 auto;padding:clamp(36px,5vw,56px) 24px;background:#fff;border:1px solid var(--hair);border-radius:30px;box-shadow:0 40px 80px -56px rgba(20,20,20,.45)}
+.hello p{max-width:32em;margin:14px auto 0;color:var(--ink2);font:400 16.5px/1.6 var(--sans)}
+.hello .ctas{margin-top:26px}
+.hello .stk{position:absolute;right:-18px;top:-22px;background:var(--lime);padding:9px 12px;font:italic 500 15px/1.2 var(--serif);transform:rotate(4deg);box-shadow:0 10px 20px -10px rgba(20,20,20,.35)}
+@media (max-width:640px){.hello .stk{right:10px;top:-18px}}
 </style>
-  <link rel="stylesheet" href="assets/typography.css">
+<link rel="stylesheet" href="assets/typography.css">
+<link rel="stylesheet" href="assets/site-chrome.css?v=2">
 </head>
 <body>
-
-  <nav class="site-nav">
-    <a href="index.html" class="nav-name"><span data-lang="ru">Мадина Рашидова</span><span data-lang="en">Madina Rashidova</span></a>
-    <a href="index.html#work" class="nav-link"><span data-lang="ru">Работы →</span><span data-lang="en">Work →</span></a>
-    <a href="about.html" class="nav-link" aria-current="page"><span data-lang="ru">Обо мне →</span><span data-lang="en">About →</span></a>
-    <a href="cv.pdf" data-href-ru="cv.pdf" data-href-en="cv-en.pdf" class="nav-link" target="_blank" rel="noopener">CV →</a>
+  <div class="top"><div class="navrow"><nav class="site-nav">
+    <a href="index.html" class="nav-name"><span data-lang="ru">Главная</span><span data-lang="en">Home</span></a>
+    <a href="index.html#work" class="nav-link"><span data-lang="ru">Работы</span><span data-lang="en">Work</span></a>
+    <a href="about.html" class="nav-link" aria-current="page"><span data-lang="ru">Обо мне</span><span data-lang="en">About</span></a>
+    <a href="cv.pdf" data-href-ru="cv.pdf" data-href-en="cv-en.pdf" class="nav-link" target="_blank" rel="noopener">CV</a>
     <button type="button" class="lang-toggle" data-lang-toggle aria-label="Switch to English">EN</button>
-  </nav>
-
-  <div class="page">
-    <div class="about-page">
-
-      <div class="about-grid about-intro">
-        <header class="about-header about-intro__head">
-          <h1 class="about-title"><span data-lang="ru">Мадина Рашидова</span><span data-lang="en">Madina Rashidova</span></h1>
-          <p class="about-role"><span data-lang="ru">Продуктовый дизайнер</span><span data-lang="en">Product designer</span></p>
-          <blockquote class="about-motto">
-            <p><span data-lang="ru">«Разбираюсь в сложных системах и стараюсь оставлять их сложность внутри продукта, а не на экране пользователя»</span><span data-lang="en">“I get to the bottom of complex systems and try to keep their complexity inside the product, not on the user’s screen”</span></p>
-          </blockquote>
-        </header>
-
-        <div class="about-collage-wrap about-intro__media">
-          <div class="about-collage">
-            <figure class="collage-photo collage-main">
-              <div class="collage-photo__frame">
-                <img src="assets/about/about-portrait.png" data-alt-ru="Мадина Рашидова, портрет" data-alt-en="Madina Rashidova, portrait" alt="Мадина Рашидова, портрет" loading="lazy">
-              </div>
-              <span class="collage-photo__tape" aria-hidden="true"></span>
-            </figure>
-            <figure class="collage-photo collage-work">
-              <div class="collage-photo__frame">
-                <img src="assets/about/about-work-book.jpg" data-alt-ru="Книга «Новая типографика» Яна Чихольда" data-alt-en="Jan Tschichold’s «The New Typography»" alt="Книга «Новая типографика» Яна Чихольда" loading="lazy">
-              </div>
-              <span class="collage-photo__tape" aria-hidden="true"></span>
-            </figure>
-            <figure class="collage-photo collage-people">
-              <div class="collage-photo__frame">
-                <img src="assets/about/about-friends-notebook.jpg" data-alt-ru="Блокнот с фотографиями и ручками" data-alt-en="A notebook with photos and pens" alt="Блокнот с фотографиями и ручками" loading="lazy">
-              </div>
-              <span class="collage-photo__tape" aria-hidden="true"></span>
-            </figure>
-            <figure class="collage-photo collage-nature">
-              <div class="collage-photo__frame">
-                <img src="assets/about/about-nature-sunset.jpg" data-alt-ru="Закат над рекой" data-alt-en="Sunset over the river" alt="Закат над рекой" loading="lazy">
-              </div>
-              <span class="collage-photo__tape" aria-hidden="true"></span>
-            </figure>
-
-            <svg class="collage-arrows" viewBox="0 0 500 600" preserveAspectRatio="none" aria-hidden="true">
-              <defs>
-                <marker id="arrowhead" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                  <path d="M1,1 L9,5 L1,9 Z" fill="context-stroke"></path>
-                </marker>
-              </defs>
-              <path class="collage-arrow collage-arrow--graphite" marker-end="url(#arrowhead)" d="M 40 45 C 25 60, 30 75, 55 88"></path>
-            </svg>
-
-            <span class="collage-caption collage-caption--graphite collage-caption--main"><span data-lang="ru">это я</span><span data-lang="en">this is me</span></span>
-          </div>
-        </div>
-
-        <div class="about-intro__flow">
-          <section class="about-text about-story">
-            <h2><span data-lang="ru">Из поддержки в продуктовый дизайн</span><span data-lang="en">From support into product design</span></h2>
-            <p><span data-lang="ru">Я пришла в дизайн через колл-центр и отдел партнёров Alif. Там я видела процессы не на красивых схемах, а в работе: с повторными звонками, ручными проверками и данными, которые приходилось вводить несколько раз.</span><span data-lang="en">I came into design through Alif’s call center and partner department. There I saw processes not on neat diagrams but at work: with repeat calls, manual checks, and data that had to be entered more than once.</span></p>
-            <p><span data-lang="ru">Так появился довольно практичный интерес к дизайну. Я уже знала, где люди ошибаются, что приходится объяснять по телефону и почему одно простое действие иногда требует пяти вкладок и терпения модератора.</span><span data-lang="en">That’s how a fairly practical interest in design showed up. I already knew where people made mistakes, what had to be explained over the phone, and why one simple action sometimes needed five tabs and a moderator’s patience.</span></p>
-            <p><span data-lang="ru">Сейчас я проектирую личные кабинеты, административные интерфейсы и продукты с нуля. Начинаю с пользователей и процессов, затем собираю логику, проверяю решения и сопровождаю их вместе с разработчиками.</span><span data-lang="en">Now I design personal dashboards, admin interfaces, and products from scratch. I start with users and processes, then put the logic together, test solutions, and see them through together with developers.</span></p>
-          </section>
-
-          <section class="about-text about-likelead">
-            <h2><span data-lang="ru">Что мне нравится в работе</span><span data-lang="en">What I like about the work</span></h2>
-            <p><span data-lang="ru">Больше всего я люблю момент, когда большая схема с ролями, статусами и исключениями превращается в понятный сценарий.</span><span data-lang="en">What I love most is the moment when a big diagram full of roles, statuses, and exceptions turns into a clear scenario.</span></p>
-            <p><span data-lang="ru">Мне близки задачи, где нужно не просто нарисовать экран, а разобраться, как устроен продукт, выбрать главное и убрать из интерфейса всё, что пользователь не обязан держать в голове.</span><span data-lang="en">I’m drawn to tasks where you can’t just draw a screen. You have to figure out how the product works, choose what matters most, and clear out everything the user shouldn’t have to keep in their head.</span></p>
-            <blockquote class="about-quote">
-              <p><span data-lang="ru">«Если интерфейс приходится долго объяснять по телефону, у дизайна ещё есть работа»</span><span data-lang="en">“If an interface still needs a long phone call to explain, design still has work to do”</span></p>
-            </blockquote>
-          </section>
-        </div>
-      </div>
-
-      <section class="about-block about-grid about-split about-outside">
-        <div class="about-text about-col-6">
-          <h2><span data-lang="ru">За пределами макетов</span><span data-lang="en">Outside the mockups</span></h2>
-          <p><span data-lang="ru">После работы я переключаюсь на музыку, прогулки, природу и занятия, где не нужно согласовывать финальный макет. Люблю знакомиться с людьми и слушать их истории. Возможно, поэтому интервью остаются одной из любимых частей моей работы.</span><span data-lang="en">After work I switch to music, walks, nature, and activities where nobody needs to sign off on the final layout. I love meeting people and listening to their stories. Maybe that’s why interviews stay one of my favorite parts of the job.</span></p>
-          <p><span data-lang="ru">Часть находок сохраняю в Telegram: в Earworm собираю музыку и личные истории, а в «Дезигнере» держу работы, наблюдения и разборы интерфейсов.</span><span data-lang="en">Some of what I find, I save in Telegram: in Earworm I collect music and personal stories, and in "Дезигнер" I keep projects, observations, and interface breakdowns.</span></p>
-        </div>
-        <div class="channels about-col-6">
-          <a class="tg-card tg-card--earworm" href="https://t.me/Earworm_me" target="_blank" rel="noopener noreferrer" aria-label="Earworm: музыка, истории и странные совпадения. Открыть канал в Telegram" data-aria-ru="Earworm: музыка, истории и странные совпадения. Открыть канал в Telegram" data-aria-en="Earworm: music, stories and odd coincidences. Open the channel in Telegram">
-            <div class="tg-card__top">
-              <svg class="tg-card__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M21.5 3.5L2.7 10.9c-1.2.5-1.2 1.2-.2 1.5l4.8 1.5 1.8 5.6c.2.6.4.8.8.8.4 0 .6-.2.9-.5l2.2-2.1 4.6 3.4c.8.5 1.4.2 1.6-.8l3-14c.3-1.3-.4-1.9-1.4-1.5zM8 15.1l9-5.7c.4-.3.8-.1.5.2l-7.7 7-.3 3.1-1.5-4.6z"/>
-              </svg>
-              <div class="tg-card__name">Earworm</div>
-              <p class="tg-card__body"><span data-lang="ru">Музыка, истории и странные совпадения.</span><span data-lang="en">Music, stories, and strange coincidences.</span></p>
-            </div>
-            <span class="tg-card__cta"><span data-lang="ru">Слушать и читать</span><span data-lang="en">Listen and read</span><span class="tg-card__arrow" aria-hidden="true">→</span></span>
-          </a>
-
-          <a class="tg-card tg-card--designer" href="https://t.me/rashidenko_tut" target="_blank" rel="noopener noreferrer" aria-label="Дезигнер: работы, разборы интерфейсов и заметки о профессии. Открыть канал в Telegram" data-aria-ru="Дезигнер: работы, разборы интерфейсов и заметки о профессии. Открыть канал в Telegram" data-aria-en="Designer: work, interface breakdowns and notes on the profession. Open the channel in Telegram">
-            <div class="tg-card__top">
-              <svg class="tg-card__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M21.5 3.5L2.7 10.9c-1.2.5-1.2 1.2-.2 1.5l4.8 1.5 1.8 5.6c.2.6.4.8.8.8.4 0 .6-.2.9-.5l2.2-2.1 4.6 3.4c.8.5 1.4.2 1.6-.8l3-14c.3-1.3-.4-1.9-1.4-1.5zM8 15.1l9-5.7c.4-.3.8-.1.5.2l-7.7 7-.3 3.1-1.5-4.6z"/>
-              </svg>
-              <div class="tg-card__name"><span data-lang="ru">Дезигнер</span><span data-lang="en">Дезигнер</span></div>
-              <p class="tg-card__body"><span data-lang="ru">Работы, разборы интерфейсов и заметки о профессии.</span><span data-lang="en">Projects, interface breakdowns, and notes on the profession.</span></p>
-            </div>
-            <span class="tg-card__cta"><span data-lang="ru">Заглянуть в канал</span><span data-lang="en">Take a look</span><span class="tg-card__arrow" aria-hidden="true">→</span></span>
-          </a>
-        </div>
-      </section>
+  </nav></div><div class="ruler" id="ruler" aria-hidden="true"></div></div>
+<main id="main">
+  <section class="hero" aria-labelledby="heroT">
+    <div class="wrap">
+      <span class="kick"><i></i><span data-lang="ru">Обо мне</span><span data-lang="en">About</span></span>
+      <h1 id="heroT"><span data-lang="ru">Привет, я Мадина</span><span data-lang="en">Hi, I’m Madina</span><em><span data-lang="ru">продуктовый дизайнер</span><span data-lang="en">a product designer</span></em></h1>
+      <p class="lede"><span data-lang="ru">Разбираюсь в сложных системах и стараюсь оставлять их сложность внутри продукта, а не на экране пользователя.</span><span data-lang="en">I get to the bottom of complex systems and try to keep their complexity inside the product, not on the user’s screen.</span></p>
     </div>
+    <div class="stage" data-orbit data-cx=".6" data-cy=".44" data-rx=".85" data-ry=".12" data-tilt="-5" data-period="80">
+      <div class="ring" aria-hidden="true"></div>
+      <svg class="wire" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M245 280 C 330 280, 360 360, 440 390"/><circle cx="440" cy="390" r="3"/>
+        <path d="M770 330 C 690 330, 660 410, 572 440"/><circle cx="572" cy="440" r="3"/>
+      </svg>
+      <div class="side y" style="--r:-3deg;left:max(16px,calc(50% - 560px));top:12%"><span class="lab"><span data-lang="ru">Образование</span><span data-lang="en">Education</span></span><p><span data-lang="ru">Финансовый университет при Правительстве РФ, магистратура с красным дипломом</span><span data-lang="en">Financial University under the Government of Russia, master’s with honours</span></p></div>
+      <a class="side b" href="#tg" style="--r:2.5deg;right:max(16px,calc(50% - 560px));top:28%;text-decoration:none;color:inherit"><span class="lab">Telegram</span><p><span data-lang="ru">Веду два канала: Earworm и «Дезигнер»</span><span data-lang="en">I run two channels: Earworm and Дезигнер</span></p></a>
+      <div class="orbit"><button type="button" class="doc" data-doc="mag" data-full="assets/about/docs/mag.webp" data-tru="Красный диплом магистра" data-ten="Master’s degree with honours" data-sru="Финансовый университет при Правительстве РФ, управление персоналом, 2025" data-sen="Financial University under the Government of Russia, HR management, 2025" aria-haspopup="dialog" aria-label="Красный диплом магистра" data-aria-ru="Красный диплом магистра" data-aria-en="Master’s degree with honours"><img src="assets/about/docs/mag-t.webp" alt="" loading="lazy"></button><button type="button" class="doc" data-doc="conf" data-full="assets/about/docs/conf.webp" data-tru="Доклад на конференции" data-ten="Conference talk" data-sru="«Роль HR бизнес‑партнёрства в системе подбора персонала банка», Финансовый университет, 2024" data-sen="“The role of HR business partnering in bank recruitment”, Financial University, 2024" aria-haspopup="dialog" aria-label="Доклад на конференции" data-aria-ru="Доклад на конференции" data-aria-en="Conference talk"><img src="assets/about/docs/conf-t.webp" alt="" loading="lazy"></button><button type="button" class="doc" data-doc="vector" data-full="assets/about/docs/vector.webp" data-tru="Векторная графика в Figma" data-ten="Vector graphics in Figma" data-sru="Yodiz School, марафон из 7 занятий" data-sen="Yodiz School, a 7‑lesson marathon" aria-haspopup="dialog" aria-label="Векторная графика в Figma" data-aria-ru="Векторная графика в Figma" data-aria-en="Vector graphics in Figma"><img src="assets/about/docs/vector-t.webp" alt="" loading="lazy"></button><button type="button" class="doc" data-doc="osce" data-full="assets/about/docs/osce.webp" data-tru="Модель ОБСЕ" data-ten="OSCE Model" data-sru="Участница, Варзоб, Таджикистан, 2021" data-sen="Participant, Varzob, Tajikistan, 2021" aria-haspopup="dialog" aria-label="Модель ОБСЕ" data-aria-ru="Модель ОБСЕ" data-aria-en="OSCE Model"><img src="assets/about/docs/osce-t.webp" alt="" loading="lazy"></button><button type="button" class="doc" data-doc="bak" data-full="assets/about/docs/bak.webp" data-tru="Диплом бакалавра" data-ten="Bachelor’s degree" data-sru="МГУ имени М. В. Ломоносова, государственное и муниципальное управление, 2021" data-sen="Lomonosov Moscow State University, public administration, 2021" aria-haspopup="dialog" aria-label="Диплом бакалавра" data-aria-ru="Диплом бакалавра" data-aria-en="Bachelor’s degree"><img src="assets/about/docs/bak-t.webp" alt="" loading="lazy"></button><button type="button" class="doc" data-doc="alfa" data-full="assets/about/docs/alfa.webp" data-tru="Альфа‑Менторство" data-ten="Alfa Mentorship" data-sru="Участница программы в роли менти, Альфа‑Банк" data-sen="Mentee in the programme, Alfa‑Bank" aria-haspopup="dialog" aria-label="Альфа‑Менторство" data-aria-ru="Альфа‑Менторство" data-aria-en="Alfa Mentorship"><img src="assets/about/docs/alfa-t.webp" alt="" loading="lazy"></button><button type="button" class="doc" data-doc="poster" data-full="assets/about/docs/poster.webp" data-tru="Плакатная графика в Figma" data-ten="Poster graphics in Figma" data-sru="Yodiz School, курс на 7 дней" data-sen="Yodiz School, a 7‑day course" aria-haspopup="dialog" aria-label="Плакатная графика в Figma" data-aria-ru="Плакатная графика в Figma" data-aria-en="Poster graphics in Figma"><img src="assets/about/docs/poster-t.webp" alt="" loading="lazy"></button><button type="button" class="doc" data-doc="lead" data-full="assets/about/docs/lead.webp" data-tru="Тренинг «Лидерство»" data-ten="Leadership training" data-sru="Выездная тренинг‑сессия, Финансовый университет, 2023" data-sen="Off‑site training session, Financial University, 2023" aria-haspopup="dialog" aria-label="Тренинг «Лидерство»" data-aria-ru="Тренинг «Лидерство»" data-aria-en="Leadership training"><img src="assets/about/docs/lead-t.webp" alt="" loading="lazy"></button><button type="button" class="doc" data-doc="eng" data-full="assets/about/docs/eng.webp" data-tru="Английский язык" data-ten="English" data-sru="Pre‑Intermediate, языковой центр DEVELOP" data-sen="Pre‑Intermediate, DEVELOP language centre" aria-haspopup="dialog" aria-label="Английский язык" data-aria-ru="Английский язык" data-aria-en="English"><img src="assets/about/docs/eng-t.webp" alt="" loading="lazy"></button></div>
+      <img class="portrait" src="assets/portrait-bw.webp" alt="" width="1334" height="1125" fetchpriority="high">
+      <span class="hint"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.5" stroke="currentColor" stroke-width="1.7"/><path d="m13 13 3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span data-lang="ru">Нажмите на документ, чтобы открыть его крупно</span><span data-lang="en">Click a document to open it full size</span></span>
+    </div>
+  </section>
 
-    <nav class="case-floating-nav">
-      <a class="case-home" href="index.html">
-        <span class="case-home__arrow" aria-hidden="true">←</span>
-        <span class="case-home__label"><span data-lang="ru">Главная страница</span><span data-lang="en">Homepage</span></span>
-      </a>
-      <a class="case-next" href="index.html#work">
-        <span class="case-next__label"><span data-lang="ru">Смотреть кейсы</span><span data-lang="en">See the work</span></span>
-        <span class="case-next__title-row">
-          <span class="case-next__title"><span data-lang="ru">Работы</span><span data-lang="en">Work</span></span>
-          <span class="case-next__arrow" aria-hidden="true">→</span>
-        </span>
-      </a>
-    </nav>
-  </div>
+  <section class="sec wrap" aria-labelledby="pathT">
+    <div class="row">
+      <div class="side-h"><span class="kick"><b>01</b><i></i><span data-lang="ru">Обо мне</span><span data-lang="en">About me</span></span><h2 class="h2" id="pathT"><span data-lang="ru">Проектирую <em>сложные продукты</em></span><span data-lang="en">I design <em>complex products</em></span></h2></div>
+      <div>
+        <p class="read"><span data-lang="ru">Я продуктовый дизайнер. Работаю над личными кабинетами, админ‑панелями и мобильными приложениями в финтехе, B2B и B2C: от исследования и пользовательских сценариев до интерфейса и дизайн‑системы.</span><span data-lang="en">I’m a product designer. I work on personal accounts, admin panels and mobile apps in fintech, B2B and B2C: from research and user flows to the interface and the design system.</span></p>
+        <p class="read"><span data-lang="ru">В дизайн я пришла из банка, поэтому хорошо вижу процессы за экраном: где люди ошибаются и что приходится объяснять по телефону. Это помогает убирать из интерфейса лишнее и делать сложное понятным.</span><span data-lang="en">I came to design from a bank, so I see the processes behind the screen: where people make mistakes and what has to be explained over the phone. That helps me cut what’s unnecessary and make complex things clear.</span></p>
+        <ol class="path">
+          <li><b>Alif Bank</b><span class="r"><span data-lang="ru">UX/UI дизайнер</span><span data-lang="en">UX/UI designer</span></span><span class="w"><span data-lang="ru">с апреля 2022 по июнь 2024</span><span data-lang="en">April 2022 to June 2024</span></span></li>
+          <li><b>Foreesco Group</b><span class="r"><span data-lang="ru">Продуктовый дизайнер, мобильные B2C‑приложения</span><span data-lang="en">Product designer, B2C mobile apps</span></span><span class="w"><span data-lang="ru">с февраля 2024 по март 2025</span><span data-lang="en">February 2024 to March 2025</span></span></li>
+          <li><b>Профинанс / FIBO Group</b><span class="r"><span data-lang="ru">Продуктовый дизайнер</span><span data-lang="en">Product designer</span></span><span class="w"><span data-lang="ru">с июня 2024 года</span><span data-lang="en">since June 2024</span></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
 
-  <footer class="page-footer">
-    <div class="page">handmade with claude code · last update: 26.09.2026 · v2.0</div>
-  </footer>
+  <section class="sec wrap" aria-labelledby="workT">
+    <div class="row">
+      <div class="side-h"><span class="kick"><b>02</b><i></i><span data-lang="ru">Как я работаю</span><span data-lang="en">How I work</span></span><h2 class="h2" id="workT"><span data-lang="ru">Сложная схема <em>становится сценарием</em></span><span data-lang="en">A complex scheme <em>becomes a flow</em></span></h2></div>
+      <div>
+        <p class="read"><span data-lang="ru">Больше всего я люблю момент, когда большая схема с ролями, статусами и исключениями превращается в понятный сценарий.</span><span data-lang="en">My favourite moment is when a big scheme of roles, statuses and exceptions turns into a clear flow.</span></p>
+        <p class="read"><span data-lang="ru">Мне близки задачи, где нужно не просто нарисовать экран, а разобраться, как устроен продукт, выбрать главное и убрать из интерфейса всё, что пользователь не обязан держать в голове.</span><span data-lang="en">I like tasks where drawing a screen isn’t enough: you have to understand how the product works, pick what matters and remove everything the user shouldn’t have to keep in mind.</span></p>
+        <p class="quote"><span data-lang="ru">«Если интерфейс приходится долго объяснять по телефону, у дизайна ещё есть работа»</span><span data-lang="en">“If an interface takes a long phone call to explain, the design still has work to do”</span></p>
+      </div>
+    </div>
+  </section>
 
-  <script src="assets/i18n.js"></script>
-  <script src="assets/typography.js"></script>
-  <script src="assets/case-nav.js"></script>
-  <script>
-    (function () {
-      var photos = document.querySelectorAll('.collage-photo');
-      var arrows = document.querySelectorAll('.collage-arrow');
-      var captions = document.querySelectorAll('.collage-caption');
-      var collage = document.querySelector('.about-collage');
-      if (!collage || !photos.length) return;
+  <section class="sec wrap" aria-labelledby="eduT">
+    <div class="row">
+      <div class="side-h"><span class="kick"><b>03</b><i></i><span data-lang="ru">Образование</span><span data-lang="en">Education</span></span><h2 class="h2" id="eduT"><span data-lang="ru">Финансовый университет, <em>красный диплом</em></span><span data-lang="en">Financial University, <em>with honours</em></span></h2>
+        <p class="read" style="margin-top:16px"><span data-lang="ru">В 2025 году окончила магистратуру Финансового университета при Правительстве РФ по направлению «Управление персоналом» с красным дипломом.</span><span data-lang="en">In 2025 I graduated with honours from the master’s programme in HR management at the Financial University under the Government of Russia.</span></p>
+        <p class="read"><span data-lang="ru">До этого окончила бакалавриат МГУ имени М. В. Ломоносова по направлению «Государственное и муниципальное управление».</span><span data-lang="en">Before that I completed a bachelor’s in public administration at Lomonosov Moscow State University.</span></p></div>
+      <div class="dcs">
+        <button type="button" class="dc big" data-doc="mag" data-full="assets/about/docs/mag.webp" data-tru="Красный диплом магистра" data-ten="Master’s degree with honours" data-sru="Финансовый университет при Правительстве РФ, управление персоналом, 2025" data-sen="Financial University under the Government of Russia, HR management, 2025" aria-haspopup="dialog">
+          <span class="dc-th"><img src="assets/about/docs/mag-t.webp" alt="" loading="lazy"></span>
+          <span class="dc-tx"><span class="dt"><span data-lang="ru">Красный диплом магистра</span><span data-lang="en">Master’s degree with honours</span></span><span class="ds"><span data-lang="ru">Финансовый университет при Правительстве РФ, управление персоналом, 2025</span><span data-lang="en">Financial University under the Government of Russia, HR management, 2025</span></span></span>
+          <span class="dc-z" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="5.5" stroke="currentColor" stroke-width="1.7"/><path d="m13 13 3.5 3.5M9 6.5v5M6.5 9h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+        </button>
+        <button type="button" class="dc big" data-doc="bak" data-full="assets/about/docs/bak.webp" data-tru="Диплом бакалавра" data-ten="Bachelor’s degree" data-sru="МГУ имени М. В. Ломоносова, государственное и муниципальное управление, 2021" data-sen="Lomonosov Moscow State University, public administration, 2021" aria-haspopup="dialog">
+          <span class="dc-th"><img src="assets/about/docs/bak-t.webp" alt="" loading="lazy"></span>
+          <span class="dc-tx"><span class="dt"><span data-lang="ru">Диплом бакалавра</span><span data-lang="en">Bachelor’s degree</span></span><span class="ds"><span data-lang="ru">МГУ имени М. В. Ломоносова, государственное и муниципальное управление, 2021</span><span data-lang="en">Lomonosov Moscow State University, public administration, 2021</span></span></span>
+          <span class="dc-z" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="5.5" stroke="currentColor" stroke-width="1.7"/><path d="m13 13 3.5 3.5M9 6.5v5M6.5 9h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+        </button>
+      </div>
+    </div>
+  </section>
 
-      var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  <section class="sec wrap" aria-labelledby="certT">
+    <div class="strip-head">
+      <div class="sec-head" style="align-items:flex-start;text-align:left">
+        <span class="kick"><b>04</b><i></i><span data-lang="ru">Сертификаты</span><span data-lang="en">Certificates</span></span>
+        <h2 class="h2" id="certT"><span data-lang="ru">Курсы, конференции <em>и программы</em></span><span data-lang="en">Courses, conferences <em>and programmes</em></span></h2>
+      </div>
+      <div class="strip-nav"><button type="button" class="car-btn sp" data-strip="-1" aria-label="Назад" data-aria-ru="Назад" data-aria-en="Back"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16 10H4.5M9 5l-5 5 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="car-btn sn" data-strip="1" aria-label="Вперёд" data-aria-ru="Вперёд" data-aria-en="Forward"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11.5M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+    </div>
+    <div class="strip" id="strip" tabindex="0" role="region" aria-label="Сертификаты" data-aria-ru="Сертификаты" data-aria-en="Certificates">
+        <button type="button" class="dc" data-doc="conf" data-full="assets/about/docs/conf.webp" data-tru="Доклад на конференции" data-ten="Conference talk" data-sru="«Роль HR бизнес‑партнёрства в системе подбора персонала банка», Финансовый университет, 2024" data-sen="“The role of HR business partnering in bank recruitment”, Financial University, 2024" aria-haspopup="dialog">
+          <span class="dc-th"><img src="assets/about/docs/conf-t.webp" alt="" loading="lazy"></span>
+          <span class="dc-tx"><span class="dt"><span data-lang="ru">Доклад на конференции</span><span data-lang="en">Conference talk</span></span><span class="ds"><span data-lang="ru">«Роль HR бизнес‑партнёрства в системе подбора персонала банка», Финансовый университет, 2024</span><span data-lang="en">“The role of HR business partnering in bank recruitment”, Financial University, 2024</span></span></span>
+          <span class="dc-z" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="5.5" stroke="currentColor" stroke-width="1.7"/><path d="m13 13 3.5 3.5M9 6.5v5M6.5 9h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+        </button>
+        <button type="button" class="dc" data-doc="alfa" data-full="assets/about/docs/alfa.webp" data-tru="Альфа‑Менторство" data-ten="Alfa Mentorship" data-sru="Участница программы в роли менти, Альфа‑Банк" data-sen="Mentee in the programme, Alfa‑Bank" aria-haspopup="dialog">
+          <span class="dc-th"><img src="assets/about/docs/alfa-t.webp" alt="" loading="lazy"></span>
+          <span class="dc-tx"><span class="dt"><span data-lang="ru">Альфа‑Менторство</span><span data-lang="en">Alfa Mentorship</span></span><span class="ds"><span data-lang="ru">Участница программы в роли менти, Альфа‑Банк</span><span data-lang="en">Mentee in the programme, Alfa‑Bank</span></span></span>
+          <span class="dc-z" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="5.5" stroke="currentColor" stroke-width="1.7"/><path d="m13 13 3.5 3.5M9 6.5v5M6.5 9h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+        </button>
+        <button type="button" class="dc" data-doc="lead" data-full="assets/about/docs/lead.webp" data-tru="Тренинг «Лидерство»" data-ten="Leadership training" data-sru="Выездная тренинг‑сессия, Финансовый университет, 2023" data-sen="Off‑site training session, Financial University, 2023" aria-haspopup="dialog">
+          <span class="dc-th"><img src="assets/about/docs/lead-t.webp" alt="" loading="lazy"></span>
+          <span class="dc-tx"><span class="dt"><span data-lang="ru">Тренинг «Лидерство»</span><span data-lang="en">Leadership training</span></span><span class="ds"><span data-lang="ru">Выездная тренинг‑сессия, Финансовый университет, 2023</span><span data-lang="en">Off‑site training session, Financial University, 2023</span></span></span>
+          <span class="dc-z" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="5.5" stroke="currentColor" stroke-width="1.7"/><path d="m13 13 3.5 3.5M9 6.5v5M6.5 9h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+        </button>
+        <button type="button" class="dc" data-doc="osce" data-full="assets/about/docs/osce.webp" data-tru="Модель ОБСЕ" data-ten="OSCE Model" data-sru="Участница, Варзоб, Таджикистан, 2021" data-sen="Participant, Varzob, Tajikistan, 2021" aria-haspopup="dialog">
+          <span class="dc-th"><img src="assets/about/docs/osce-t.webp" alt="" loading="lazy"></span>
+          <span class="dc-tx"><span class="dt"><span data-lang="ru">Модель ОБСЕ</span><span data-lang="en">OSCE Model</span></span><span class="ds"><span data-lang="ru">Участница, Варзоб, Таджикистан, 2021</span><span data-lang="en">Participant, Varzob, Tajikistan, 2021</span></span></span>
+          <span class="dc-z" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="5.5" stroke="currentColor" stroke-width="1.7"/><path d="m13 13 3.5 3.5M9 6.5v5M6.5 9h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+        </button>
+        <button type="button" class="dc" data-doc="vector" data-full="assets/about/docs/vector.webp" data-tru="Векторная графика в Figma" data-ten="Vector graphics in Figma" data-sru="Yodiz School, марафон из 7 занятий" data-sen="Yodiz School, a 7‑lesson marathon" aria-haspopup="dialog">
+          <span class="dc-th"><img src="assets/about/docs/vector-t.webp" alt="" loading="lazy"></span>
+          <span class="dc-tx"><span class="dt"><span data-lang="ru">Векторная графика в Figma</span><span data-lang="en">Vector graphics in Figma</span></span><span class="ds"><span data-lang="ru">Yodiz School, марафон из 7 занятий</span><span data-lang="en">Yodiz School, a 7‑lesson marathon</span></span></span>
+          <span class="dc-z" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="5.5" stroke="currentColor" stroke-width="1.7"/><path d="m13 13 3.5 3.5M9 6.5v5M6.5 9h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+        </button>
+        <button type="button" class="dc" data-doc="poster" data-full="assets/about/docs/poster.webp" data-tru="Плакатная графика в Figma" data-ten="Poster graphics in Figma" data-sru="Yodiz School, курс на 7 дней" data-sen="Yodiz School, a 7‑day course" aria-haspopup="dialog">
+          <span class="dc-th"><img src="assets/about/docs/poster-t.webp" alt="" loading="lazy"></span>
+          <span class="dc-tx"><span class="dt"><span data-lang="ru">Плакатная графика в Figma</span><span data-lang="en">Poster graphics in Figma</span></span><span class="ds"><span data-lang="ru">Yodiz School, курс на 7 дней</span><span data-lang="en">Yodiz School, a 7‑day course</span></span></span>
+          <span class="dc-z" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="5.5" stroke="currentColor" stroke-width="1.7"/><path d="m13 13 3.5 3.5M9 6.5v5M6.5 9h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+        </button>
+        <button type="button" class="dc" data-doc="eng" data-full="assets/about/docs/eng.webp" data-tru="Английский язык" data-ten="English" data-sru="Pre‑Intermediate, языковой центр DEVELOP" data-sen="Pre‑Intermediate, DEVELOP language centre" aria-haspopup="dialog">
+          <span class="dc-th"><img src="assets/about/docs/eng-t.webp" alt="" loading="lazy"></span>
+          <span class="dc-tx"><span class="dt"><span data-lang="ru">Английский язык</span><span data-lang="en">English</span></span><span class="ds"><span data-lang="ru">Pre‑Intermediate, языковой центр DEVELOP</span><span data-lang="en">Pre‑Intermediate, DEVELOP language centre</span></span></span>
+          <span class="dc-z" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="5.5" stroke="currentColor" stroke-width="1.7"/><path d="m13 13 3.5 3.5M9 6.5v5M6.5 9h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+        </button>
+    </div>
+  </section>
 
-      arrows.forEach(function (a) {
-        try {
-          var len = a.getTotalLength();
-          a.style.strokeDasharray = len;
-          a.style.strokeDashoffset = reducedMotion ? 0 : len;
-        } catch (e) {}
-      });
+  <section class="tg wrap" id="tg" aria-labelledby="tgT">
+    <div class="tg-box">
+      <svg class="tg-plane" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.4 4.3 18.3 19c-.2 1-.9 1.3-1.8.8l-4.6-3.4-2.2 2.1c-.3.3-.5.5-1 .5l.3-4.7 8.6-7.8c.4-.3-.1-.5-.6-.2L6.4 13 1.9 11.6c-1-.3-1-1 .2-1.5l17.7-6.8c.8-.3 1.6.2 1.3 1Z"/></svg>
+      <span class="kick"><b>05</b><i></i>Telegram</span>
+      <h2 class="h2" id="tgT"><span data-lang="ru">Мои Telegram‑каналы</span><span data-lang="en">My Telegram channels</span></h2>
+      <p class="lead"><span data-lang="ru">Часть находок сохраняю в Telegram: в Earworm собираю музыку и личные истории, а в «Дезигнере» держу работы, наблюдения и разборы интерфейсов.</span><span data-lang="en">I keep some of my finds on Telegram: Earworm collects music and personal stories, and Дезигнер holds my work, observations and interface teardowns.</span></p>
+      <div class="chs">
+        <a class="ch d" href="https://t.me/rashidenko_tut" target="_blank" rel="noopener">
+          <span class="ch-top"><img src="assets/about/tg-designer.webp" alt="" width="72" height="72"><span><b>Дезигнер</b><small>@rashidenko_tut</small></span></span>
+          <p><span data-lang="ru">Мои работы, разборы интерфейсов и заметки о профессии.</span><span data-lang="en">My work, interface teardowns and notes on the craft.</span></p>
+          <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.4 4.3 18.3 19c-.2 1-.9 1.3-1.8.8l-4.6-3.4-2.2 2.1c-.3.3-.5.5-1 .5l.3-4.7 8.6-7.8c.4-.3-.1-.5-.6-.2L6.4 13 1.9 11.6c-1-.3-1-1 .2-1.5l17.7-6.8c.8-.3 1.6.2 1.3 1Z"/></svg><span data-lang="ru">Читать канал</span><span data-lang="en">Open the channel</span></span>
+        </a>
+        <a class="ch e" href="https://t.me/Earworm_me" target="_blank" rel="noopener">
+          <span class="ch-top"><img src="assets/about/tg-earworm.webp" alt="" width="72" height="72"><span><b>Earworm</b><small>@Earworm_me</small></span></span>
+          <p><span data-lang="ru">Музыка, истории и странные совпадения.</span><span data-lang="en">Music, stories and strange coincidences.</span></p>
+          <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.4 4.3 18.3 19c-.2 1-.9 1.3-1.8.8l-4.6-3.4-2.2 2.1c-.3.3-.5.5-1 .5l.3-4.7 8.6-7.8c.4-.3-.1-.5-.6-.2L6.4 13 1.9 11.6c-1-.3-1-1 .2-1.5l17.7-6.8c.8-.3 1.6.2 1.3 1Z"/></svg><span data-lang="ru">Слушать и читать</span><span data-lang="en">Listen and read</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
 
-      function runScene() {
-        if (reducedMotion) {
-          photos.forEach(function (p) { p.classList.add('is-visible'); });
-          arrows.forEach(function (a) { a.style.strokeDashoffset = 0; });
-          captions.forEach(function (c) { c.classList.add('is-visible'); });
-          return;
-        }
-        var photoDelays = [0, 90, 180, 270];
-        photos.forEach(function (p, i) {
-          p.style.transitionDelay = photoDelays[i % photoDelays.length] + 'ms';
-          p.classList.add('is-visible');
-        });
-        arrows.forEach(function (a, i) {
-          var delay = 600 + i * 90;
-          a.style.transition = 'stroke-dashoffset 380ms ease-out';
-          setTimeout(function () { a.style.strokeDashoffset = 0; }, delay);
-        });
-        captions.forEach(function (c, i) {
-          var delay = 600 + i * 90 + 380;
-          setTimeout(function () { c.classList.add('is-visible'); }, delay);
-        });
+  <section class="sec wrap" aria-labelledby="offT">
+    <div class="sec-head">
+      <span class="kick"><b>06</b><i></i><span data-lang="ru">За пределами макетов</span><span data-lang="en">Beyond mockups</span></span>
+      <h2 class="h2" id="offT"><span data-lang="ru">После работы</span><span data-lang="en">After work</span></h2>
+      <p><span data-lang="ru">Переключаюсь на музыку, прогулки, природу и занятия, где не нужно согласовывать финальный макет. Люблю знакомиться с людьми и слушать их истории. Возможно, поэтому интервью остаются одной из любимых частей моей работы.</span><span data-lang="en">I switch to music, walks, nature and things that don’t need a final mockup sign‑off. I love meeting people and hearing their stories, which is probably why interviews remain one of my favourite parts of the job.</span></p>
+    </div>
+    <div class="pics">
+      <figure class="pic" style="--r:-4deg;margin:0"><img src="assets/about/about-friends-notebook-s.webp" alt="" width="675" height="900"></figure>
+      <figure class="pic" style="--r:2deg;margin:18px 0 0"><img src="assets/about/about-nature-sunset-s.webp" alt="" width="720" height="900"></figure>
+      <figure class="pic" style="--r:-1.5deg;margin:0"><img src="assets/about/about-work-book-s.webp" alt="" width="675" height="900"></figure>
+    </div>
+  </section>
+
+  <section class="hello wrap" aria-labelledby="helloT">
+    <div class="box">
+      <span class="status"><i aria-hidden="true"></i><span data-lang="ru">Ищу продуктовую команду</span><span data-lang="en">Looking for a product team</span></span>
+      <h2 class="h2" id="helloT" style="margin-top:18px"><span data-lang="ru">Давайте <em>поговорим</em></span><span data-lang="en">Let’s <em>talk</em></span></h2>
+      <p><span data-lang="ru">Посмотрите кейсы или напишите мне, если вам нужен продуктовый дизайнер для сложного продукта.</span><span data-lang="en">Take a look at the cases or message me if you need a product designer for a complex product.</span></p>
+      <div class="ctas">
+        <a class="btn ink" href="https://t.me/Madina_Rashidova" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.4 4.3 18.3 19c-.2 1-.9 1.3-1.8.8l-4.6-3.4-2.2 2.1c-.3.3-.5.5-1 .5l.3-4.7 8.6-7.8c.4-.3-.1-.5-.6-.2L6.4 13 1.9 11.6c-1-.3-1-1 .2-1.5l17.7-6.8c.8-.3 1.6.2 1.3 1Z"/></svg><span class="tl"><span data-lang="ru">Написать в Telegram</span><span data-lang="en">Message on Telegram</span></span><span class="ts">Telegram</span></a>
+        <a class="btn ghost" href="mailto:madinarashidova799@gmail.com"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span><span data-lang="ru">Почта</span><span data-lang="en">Email</span></span></a>
+        <a class="btn ghost" href="cv.pdf" data-href-ru="cv.pdf" data-href-en="cv-en.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3.5h7l4 4V20a.5.5 0 0 1-.5.5h-10A.5.5 0 0 1 7 20V3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3.5V8h4M9.5 12.5h5M9.5 16h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span>CV</span></a>
+      </div>
+      <p style="margin-top:18px"><a href="index.html#work" style="color:var(--ink);font-weight:500"><span data-lang="ru">Смотреть кейсы</span><span data-lang="en">See the cases</span></a></p>
+    </div>
+  </section>
+</main>
+<footer class="foot"><div class="wrap"><span>handmade with claude code</span><span><span data-lang="ru">обновлено 11.11.2026</span><span data-lang="en">updated 11.11.2026</span> · v3.0</span></div></footer>
+<div class="dv" id="dv" role="dialog" aria-modal="true" aria-labelledby="dvT" hidden>
+  <div class="dv-bar"><div class="dv-t" id="dvT"></div><button type="button" class="dv-x" aria-label="Закрыть" data-aria-ru="Закрыть" data-aria-en="Close"><svg viewBox="0 0 20 20" fill="none"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+  <div class="dv-stage"><button type="button" class="dv-nav p" aria-label="Предыдущий" data-aria-ru="Предыдущий" data-aria-en="Previous"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16 10H4.5M9 5l-5 5 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><img id="dvImg" alt=""><button type="button" class="dv-nav n" aria-label="Следующий" data-aria-ru="Следующий" data-aria-en="Next"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11.5M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+  <div class="dv-foot" id="dvF"></div>
+</div>
+<script src="assets/i18n.js"></script>
+<script src="assets/typography.js"></script>
+<script>
+(function(){
+  var stages=[].slice.call(document.querySelectorAll('[data-orbit]'));
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  stages.forEach(function(st){
+    var orbit=st.querySelector('.orbit'), items=[].slice.call(orbit.children), n=items.length;
+    var cxK=st.dataset.cx?parseFloat(st.dataset.cx):null,cyK=parseFloat(st.dataset.cy||'.3'), rxK=parseFloat(st.dataset.rx||'.3'), ryK=parseFloat(st.dataset.ry||'.07');
+    var period=parseFloat(st.dataset.period||'60')*1000, tilt=parseFloat(st.dataset.tilt||'-7')*Math.PI/180;
+    var ring=st.querySelector('.ring');
+    var W=0,H=0,rx=0,ry=0,cx=0,cy=0,mob=false;
+    function size(){W=st.clientWidth;H=st.clientHeight;mob=W<640;
+      rx=Math.min(W*(mob?.44:.5),H*rxK*(mob?1.15:1)) ;ry=H*ryK;cx=W/2;cy=H*cyK;var pi=st.querySelector('.portrait');if(cxK!==null&&pi){var pr=pi.getBoundingClientRect(),sr=st.getBoundingClientRect();cx=pr.left-sr.left+pr.width*cxK;}
+      if(ring){ring.style.left=cx+'px';ring.style.width=rx*2+'px';ring.style.height=ry*2+'px';ring.style.top=cy+'px';ring.style.transform='translate(-50%,-50%) rotate('+(tilt*180/Math.PI)+'deg)';}
+    }
+    var t0=performance.now(),off=0,speed=1,target=1,last=t0,vis=true;
+    function place(now){
+      var dt=now-last;last=now;speed+=(target-speed)*Math.min(1,dt/300);off+=dt*speed;
+      var base=reduce?0:off/period*Math.PI*2;
+      for(var k=0;k<n;k++){
+        var a=base+k*Math.PI*2/n, sx=Math.sin(a), z=Math.cos(a);
+        var x=rx*sx, y=ry*z;
+        var X=cx+x*Math.cos(tilt)-y*Math.sin(tilt), Y=cy+x*Math.sin(tilt)+y*Math.cos(tilt);
+        var f=(z+1)/2, s=.74+.26*f;
+        var el=items[k];
+        el.style.transform='translate3d('+X.toFixed(1)+'px,'+Y.toFixed(1)+'px,0) translate(-50%,-50%) perspective(700px) rotateY('+(-sx*22).toFixed(1)+'deg) scale('+s.toFixed(3)+')';
+        el.style.zIndex=z>0?3:1;
+        el.style.opacity=(.5+.5*f).toFixed(2);
+        el.style.zIndex=z>-.05?5:1;
       }
+    }
+    function loop(now){if(vis)place(now);if(!reduce)requestAnimationFrame(loop);}
+    size();place(performance.now());orbit.classList.add('on');
+    window.addEventListener('resize',function(){size();place(performance.now());});
+    if(!reduce){
+      requestAnimationFrame(loop);
+      setInterval(function(){if(vis&&performance.now()-last>120)place(performance.now());},120);
+      st.addEventListener('pointerenter',function(){target=.18;});
+      st.addEventListener('pointerleave',function(){target=1;});
+      orbit.addEventListener('focusin',function(){target=0;});
+      orbit.addEventListener('focusout',function(){target=1;});
+      if('IntersectionObserver' in window)new IntersectionObserver(function(e){vis=e[0].isIntersecting;last=performance.now();}).observe(st);
+    }
+  });
+  var ruler=document.getElementById('ruler');
+  if(ruler)for(var x=0;x<3000;x+=100){var s=document.createElement('span');s.style.left=(x+3)+'px';s.textContent=x;ruler.appendChild(s);}
+})();
 
-      if (!('IntersectionObserver' in window)) { runScene(); return; }
-      var obs = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) { runScene(); obs.disconnect(); }
-        });
-      }, { threshold: 0.2 });
-      obs.observe(collage);
-    })();
-  </script>
+(function(){
+  var dv=document.getElementById('dv');if(!dv)return;
+  var img=document.getElementById('dvImg'),T=document.getElementById('dvT'),F=document.getElementById('dvF');
+  var list=[],i=0,back=null;
+  function en(){return document.documentElement.classList.contains('lang-en');}
+  function collect(){var seen={};list=[];[].slice.call(document.querySelectorAll('[data-doc]')).forEach(function(b){var k=b.dataset.doc;if(seen[k])return;seen[k]=1;list.push(b);});}
+  function show(){var b=list[i],L=en()?'en':'ru';img.src=b.dataset.full;img.alt=b.dataset['t'+L]||'';
+    T.innerHTML='';T.appendChild(document.createTextNode(b.dataset['t'+L]||''));var sm=document.createElement('small');sm.textContent=b.dataset['s'+L]||'';T.appendChild(sm);
+    F.textContent=(i+1)+' / '+list.length;}
+  function open(b){collect();i=Math.max(0,list.findIndex(function(x){return x.dataset.doc===b.dataset.doc;}));back=document.activeElement;show();dv.hidden=false;document.body.classList.add('dv-open');dv.querySelector('.dv-x').focus();}
+  function close(){dv.hidden=true;document.body.classList.remove('dv-open');img.removeAttribute('src');if(back&&back.focus)back.focus();}
+  function go(d){i=(i+d+list.length)%list.length;show();}
+  document.addEventListener('click',function(e){var b=e.target.closest('[data-doc]');if(b){e.preventDefault();open(b);}});
+  dv.querySelector('.dv-x').addEventListener('click',close);
+  dv.querySelector('.dv-nav.p').addEventListener('click',function(){go(-1);});
+  dv.querySelector('.dv-nav.n').addEventListener('click',function(){go(1);});
+  dv.querySelector('.dv-stage').addEventListener('click',function(e){if(e.target===this)close();});
+  document.addEventListener('keydown',function(e){if(dv.hidden)return;if(e.key==='Escape')close();else if(e.key==='ArrowLeft')go(-1);else if(e.key==='ArrowRight')go(1);
+    else if(e.key==='Tab'){var f=[].slice.call(dv.querySelectorAll('button'));var a=f.indexOf(document.activeElement);if(e.shiftKey&&a<=0){e.preventDefault();f[f.length-1].focus();}else if(!e.shiftKey&&a===f.length-1){e.preventDefault();f[0].focus();}}});
+  document.addEventListener('langchange',function(){if(!dv.hidden)show();});
+})();
+
+(function(){var s=document.getElementById('strip');if(!s)return;var b=[].slice.call(document.querySelectorAll('[data-strip]'));
+var orig=[].slice.call(s.children);orig.forEach(function(c){var k=c.cloneNode(true);k.setAttribute('aria-hidden','true');k.tabIndex=-1;s.appendChild(k);});
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches,pos=0,paused=false,last=0,hold=0;
+function half(){return s.scrollWidth/2;}
+function wrap(){var H=half();if(pos>=H)pos-=H;if(pos<0)pos+=H;s.scrollLeft=pos;}
+function tick(now){var dt=last?Math.min(now-last,50):16;last=now;if(!paused&&!reduce&&now>hold){pos+=dt*0.028;wrap();}requestAnimationFrame(tick);}
+['pointerenter','focusin','touchstart'].forEach(function(e){s.addEventListener(e,function(){paused=true;},{passive:true});});
+['pointerleave','focusout','touchend'].forEach(function(e){s.addEventListener(e,function(){paused=false;pos=s.scrollLeft;},{passive:true});});
+s.addEventListener('scroll',function(){if(paused)pos=s.scrollLeft;},{passive:true});
+b.forEach(function(x){x.addEventListener('click',function(){var to=pos+(+x.dataset.strip)*264*2,from=pos,t0=performance.now();hold=t0+2500;
+(function an(n){var k=Math.min(1,(n-t0)/500),e=1-Math.pow(1-k,3);pos=from+(to-from)*e;wrap();if(k<1)requestAnimationFrame(an);})(t0);});});
+if(!reduce)requestAnimationFrame(tick);})();
+</script>
 </body>
 </html>
