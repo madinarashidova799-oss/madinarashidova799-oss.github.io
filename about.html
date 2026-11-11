@@ -43,8 +43,13 @@ h1,h2,h3,p{margin:0}
 .read+.read{margin-top:14px}
 /* buttons */
 .ctas{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-.btn{display:inline-flex;align-items:center;gap:9px;height:48px;padding:0 20px 0 16px;border-radius:999px;text-decoration:none;font:500 15px/1 var(--sans);transition:transform .2s cubic-bezier(.22,1,.36,1),box-shadow .2s,background .2s}
-.btn svg{width:18px;height:18px;flex:none}
+.btn{display:inline-flex;align-items:center;gap:10px;height:50px;padding:0 20px 0 7px;border-radius:999px;text-decoration:none;font:500 15px/1 var(--sans);transition:transform .2s cubic-bezier(.22,1,.36,1),box-shadow .2s,background .2s,border-color .2s}
+.btn .bi{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;flex:none;background:var(--plate);color:var(--ink);transition:background .2s,transform .25s cubic-bezier(.22,1,.36,1)}
+.btn .bi svg{width:18px;height:18px}
+.btn .bi.tgi{background:#2AABEE}
+.btn .bi.tgi svg{width:27px;height:27px;margin-left:-2px}
+.btn.ghost:hover .bi{background:#ECECE7}
+.btn:hover .bi{transform:rotate(-6deg)}
 .btn.ink{background:var(--ink);color:#fff;box-shadow:0 10px 24px -10px rgba(20,20,20,.5)}
 .btn.ink:hover{background:#2b2b2b;transform:translateY(-1px)}
 .btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--hair);box-shadow:0 6px 16px -10px rgba(20,20,20,.25)}
@@ -108,7 +113,7 @@ h1,h2,h3,p{margin:0}
 @media (max-width:640px){.dv-stage{padding:0 12px}.dv-nav{top:auto;bottom:-4px;transform:none}.dv-stage img{max-height:calc(100dvh - 200px)}.dv-foot{padding-bottom:64px}}
 body.dv-open{overflow:hidden}
 .ts{display:none}
-@media (max-width:560px){.tl{display:none}.ts{display:inline}.btn{height:44px;padding:0 16px 0 13px;font-size:14.5px;gap:8px}.ctas{gap:8px}.hero h1{font-size:27px}.stage{height:270px}}
+@media (max-width:560px){.tl{display:none}.ts{display:inline}.btn{height:44px;padding:0 15px 0 6px;font-size:14.5px;gap:8px}.btn .bi{width:32px;height:32px}.ctas{gap:8px}.hero h1{font-size:27px}.stage{height:270px}}
 @media (prefers-reduced-motion:reduce){.status i::after{animation:none}.btn{transition:none}}
 
 .doc{all:unset;box-sizing:border-box;cursor:zoom-in;display:block;padding:5px;background:#fff;border-radius:8px;box-shadow:0 18px 34px -16px rgba(20,20,20,.42),0 0 0 1px rgba(20,20,20,.06)}
@@ -264,9 +269,9 @@ background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),line
 
   <section class="sec wrap" aria-labelledby="workT">
     <div class="row">
-      <div class="side-h"><span class="kick"><b>02</b><i></i><span data-lang="ru">Как я работаю</span><span data-lang="en">How I work</span></span><h2 class="h2" id="workT"><span data-lang="ru">Сложная схема <em>становится сценарием</em></span><span data-lang="en">A complex scheme <em>becomes a flow</em></span></h2></div>
+      <div class="side-h"><span class="kick"><b>02</b><i></i><span data-lang="ru">Как я работаю</span><span data-lang="en">How I work</span></span><h2 class="h2" id="workT"><span data-lang="ru">Сложная схема <em>становится сценарием</em></span><span data-lang="en">A complex diagram <em>becomes a flow</em></span></h2></div>
       <div>
-        <p class="read"><span data-lang="ru">Больше всего я люблю момент, когда большая схема с ролями, статусами и исключениями превращается в понятный сценарий.</span><span data-lang="en">My favourite moment is when a big scheme of roles, statuses and exceptions turns into a clear flow.</span></p>
+        <p class="read"><span data-lang="ru">Больше всего я люблю момент, когда большая схема с ролями, статусами и исключениями превращается в понятный сценарий.</span><span data-lang="en">My favourite moment is when a big diagram of roles, statuses and exceptions turns into a clear flow.</span></p>
         <p class="read"><span data-lang="ru">Мне близки задачи, где нужно не просто нарисовать экран, а разобраться, как устроен продукт, выбрать главное и убрать из интерфейса всё, что пользователь не обязан держать в голове.</span><span data-lang="en">I like tasks where drawing a screen isn’t enough: you have to understand how the product works, pick what matters and remove everything the user shouldn’t have to keep in mind.</span></p>
         <p class="quote"><span data-lang="ru">«Если интерфейс приходится долго объяснять по телефону, у дизайна ещё есть работа»</span><span data-lang="en">“If an interface takes a long phone call to explain, the design still has work to do”</span></p>
       </div>
@@ -380,9 +385,9 @@ background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),line
       <h2 class="h2" id="helloT" style="margin-top:18px"><span data-lang="ru">Давайте <em>поговорим</em></span><span data-lang="en">Let’s <em>talk</em></span></h2>
       <p><span data-lang="ru">Посмотрите кейсы или напишите мне, если вам нужен продуктовый дизайнер для сложного продукта.</span><span data-lang="en">Take a look at the cases or message me if you need a product designer for a complex product.</span></p>
       <div class="ctas">
-        <a class="btn ink" href="https://t.me/Madina_Rashidova" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.4 4.3 18.3 19c-.2 1-.9 1.3-1.8.8l-4.6-3.4-2.2 2.1c-.3.3-.5.5-1 .5l.3-4.7 8.6-7.8c.4-.3-.1-.5-.6-.2L6.4 13 1.9 11.6c-1-.3-1-1 .2-1.5l17.7-6.8c.8-.3 1.6.2 1.3 1Z"/></svg><span class="tl"><span data-lang="ru">Написать в Telegram</span><span data-lang="en">Message on Telegram</span></span><span class="ts">Telegram</span></a>
-        <a class="btn ghost" href="mailto:madinarashidova799@gmail.com"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span><span data-lang="ru">Почта</span><span data-lang="en">Email</span></span></a>
-        <a class="btn ghost" href="cv.pdf" data-href-ru="cv.pdf" data-href-en="cv-en.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3.5h7l4 4V20a.5.5 0 0 1-.5.5h-10A.5.5 0 0 1 7 20V3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3.5V8h4M9.5 12.5h5M9.5 16h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span>CV</span></a>
+        <a class="btn ink" href="https://t.me/Madina_Rashidova" target="_blank" rel="noopener"><span class="bi tgi" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="#fff" d="M17.2 7.6 15.3 16.8c-.14.65-.53.81-1.07.5l-2.96-2.18-1.43 1.38c-.16.16-.29.29-.6.29l.21-3.02 5.5-4.97c.24-.21-.05-.33-.37-.12l-6.8 4.28-2.93-.92c-.64-.2-.65-.64.13-.94l11.45-4.41c.53-.2 1 .12.84.91Z"/></svg></span><span class="tl"><span data-lang="ru">Написать в Telegram</span><span data-lang="en">Message on Telegram</span></span><span class="ts">Telegram</span></a>
+        <a class="btn ghost" href="mailto:madinarashidova799@gmail.com"><span class="bi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="14" x="3" y="5" rx="2.5"/><path d="m20.5 7.5-7.6 5.1a1.6 1.6 0 0 1-1.8 0L3.5 7.5"/></svg></span><span><span data-lang="ru">Почта</span><span data-lang="en">Email</span></span></a>
+        <a class="btn ghost" href="cv.pdf" data-href-ru="cv.pdf" data-href-en="cv-en.pdf" target="_blank" rel="noopener"><span class="bi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/><path d="M5 19.5h14"/></svg></span><span class="tl"><span data-lang="ru">Скачать CV</span><span data-lang="en">Download CV</span></span><span class="ts">CV</span></a>
       </div>
       <p style="margin-top:18px"><a href="index.html#work" style="color:var(--ink);font-weight:500"><span data-lang="ru">Смотреть кейсы</span><span data-lang="en">See the cases</span></a></p>
     </div>
