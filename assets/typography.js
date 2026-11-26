@@ -71,7 +71,8 @@
       node.data = applyInlineRules(node.data);
     });
 
-    if (root.closest(FULL_SELECTOR)) {
+    // a two-word block glued into one unit can only break inside a word, so skip it
+    if (root.closest(FULL_SELECTOR) && root.textContent.trim().split(/[\s ]+/).length > 2) {
       for (var i = textNodes.length - 1; i >= 0; i--) {
         var node = textNodes[i];
         if (!node.data.trim()) continue;
