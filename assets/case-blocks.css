@@ -297,4 +297,9 @@
 .cv-zoom.full{padding:0;background:#fff}
 .cv-zoom.full .cv-zoom-box{border-radius:0;box-shadow:none}
 .cv-zoom.full .cv-zoom-x{top:calc(12px + env(safe-area-inset-top));right:12px;background:#151515;color:#fff}
-.cv-zoom.full .cv-zoom-h{bottom:calc(16px + env(safe-area-inset-bottom))}
+.cv-zoom.full .cv-zoom-h{bottom:calc(84px + env(safe-area-inset-bottom));font-size:12px}
+.cv-zoom-c{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;gap:4px;padding:4px;border-radius:999px;background:#151515;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.cv-zoom-c button{all:unset;box-sizing:border-box;min-width:48px;height:48px;padding:0 14px;border-radius:999px;display:grid;place-items:center;color:#fff;font:500 22px/1 var(--cb-sans);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.cv-zoom-c button:last-child{font-size:15px;padding:0 18px}
+.cv-zoom-c button:active{background:rgba(255,255,255,.16)}
+.cv-zoom-c button:focus-visible{outline:2px solid #fff;outline-offset:-4px}

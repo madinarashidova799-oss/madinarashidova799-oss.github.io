@@ -312,8 +312,8 @@
       hint.textContent = en ? 'Wheel or pinch to zoom · drag to pan' : 'Колесо или щипок: масштаб · перетаскивайте: сдвиг';
       ov.appendChild(box); ov.appendChild(x); ov.appendChild(hint); doc.body.appendChild(ov);
       /* phones: the canvas takes the whole screen */
-      var full = innerWidth <= 560;
-      if (full) { ov.classList.add('full'); hint.textContent = en ? 'Pinch to zoom · drag to pan' : 'Щипок: масштаб · перетаскивайте: сдвиг'; }
+      var full = matchMedia('(max-width:560px)').matches || (matchMedia('(pointer:coarse)').matches && Math.min(innerWidth, innerHeight) <= 560);
+      if (full) { ov.classList.add('full'); hint.textContent = en ? 'Pinch or double tap to zoom' : 'Щипок или двойное касание: масштаб'; }
       var vh = (window.visualViewport && visualViewport.height) || innerHeight;
       var pad = full ? 12 : 24, BW = full ? innerWidth : innerWidth - 48, BH = full ? vh : innerHeight - 48,
           fit = full ? (BW - 2 * pad) / r.w : Math.min((BW - 2 * pad) / r.w, (BH - 2 * pad) / r.h);
@@ -354,6 +354,25 @@
       });
       function up(e) { ptr.delete(e.pointerId); lastD = 0; if (!ptr.size) box.classList.remove('grab'); }
       box.addEventListener('pointerup', up); box.addEventListener('pointercancel', up);
+      /* phones: keep the browser from zooming the page, add double tap and visible zoom buttons */
+      if (full) {
+        ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (t) { ov.addEventListener(t, function (e) { e.preventDefault(); }, { passive: false }); });
+        ov.addEventListener('touchmove', function (e) { e.preventDefault(); }, { passive: false });
+        var lastTap = 0;
+        box.addEventListener('pointerup', function (e) {
+          if (moved || ptr.size) return;
+          var now = Date.now(), bb = box.getBoundingClientRect();
+          if (now - lastTap < 320) { zoomAt(e.clientX - bb.left, e.clientY - bb.top, sc * 2); lastTap = 0; } else lastTap = now;
+        });
+        var zb = doc.createElement('div'); zb.className = 'cv-zoom-c';
+        var mk = function (lab, aria, fn) { var b = doc.createElement('button'); b.type = 'button'; b.textContent = lab; b.setAttribute('aria-label', aria); b.addEventListener('click', function (e) { e.stopPropagation(); fn(); }); zb.appendChild(b); return b; };
+        mk('−', en ? 'Zoom out' : 'Уменьшить', function () { zoomAt(bw / 2, bh / 2, sc / 1.5); });
+        mk('+', en ? 'Zoom in' : 'Увеличить', function () { zoomAt(bw / 2, bh / 2, sc * 1.5); });
+        mk(en ? 'Fit' : 'Целиком', en ? 'Show the whole section' : 'Показать секцию целиком', function () {
+          sc = fitW; tx = (bw - r.w * sc) / 2 - r.x * sc; ty = (bh - r.h * sc) / 2 - r.y * sc; draw();
+        });
+        ov.appendChild(zb);
+      }
       box.addEventListener('click', function (e) { e.stopPropagation(); });
       var prevOv = doc.body.style.overflow; doc.body.style.overflow = 'hidden';
       function close() { if (!ov.parentNode) return; doc.removeEventListener('keydown', key); doc.body.removeChild(ov); doc.body.style.overflow = prevOv; host.focus(); }
