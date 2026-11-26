@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>(function(){if(localStorage.getItem('site-lang')==='en')document.documentElement.classList.add('lang-en');})();</script>
+<title data-ru="Студия видеосцен в Re-skill · Мадина Рашидова" data-en="A Video Scene Studio in Re-skill · Madina Rashidova">Студия видеосцен в Re-skill · Мадина Рашидова</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<meta name="description" content="Студия видеосцен в Re-skill: правка одной сцены без переписывания промпта. 31 клиентский тикет, приоритизация проблем, три гипотезы, два варианта раскладки и дерево метрик. В разработке." data-ru="Студия видеосцен в Re-skill: правка одной сцены без переписывания промпта. 31 клиентский тикет, приоритизация проблем, три гипотезы, два варианта раскладки и дерево метрик. В разработке." data-en="A video scene studio in Re-skill: editing one scene without rewriting the prompt. 31 client tickets, problem prioritization, three hypotheses, two layout variants and a metric tree. In development.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
+<script>try{if(!/[?&]settled\b/.test(location.search)&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("mo")}catch(e){}</script>
+<style>
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+
+  .case-floating-nav {
+    position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom));
+    transform: translateX(-50%) translateY(12px);
+    z-index: 110; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 16px;
+    width: max-content; max-width: calc(100vw - 32px);
+    opacity: 0;
+    transition: opacity 0.5s cubic-bezier(0.22,1,0.36,1), transform 0.5s cubic-bezier(0.22,1,0.36,1);
+  }
+  .case-floating-nav.is-inview { opacity: 1; transform: translateX(-50%) translateY(0); }
+  body.lightbox-open .case-floating-nav { opacity: 0; pointer-events: none; }
+
+  .case-next, .case-prev {
+    background: rgba(255, 255, 255, 0.62);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    box-shadow:
+      0 10px 32px rgba(15, 13, 12, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    border-radius: var(--radius-pill);
+  }
+
+  .case-prev {
+    display: flex; align-items: center; gap: 12px;
+    padding-inline: 24px; min-height: 56px;
+    max-width: min(360px, 60vw);
+    transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s cubic-bezier(0.22,1,0.36,1);
+  }
+  .case-prev:hover, .case-prev:focus-visible { background: rgba(255,255,255,0.88); box-shadow: var(--shadow-control); transform: translateY(-2px); }
+  .case-prev:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 2px; }
+  .case-prev:active { transform: translateY(0); }
+  .case-prev__label { font-family: var(--mono); font-size: var(--font-size-nav-label); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+  .case-prev__title-row { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
+  .case-prev__arrow { flex-shrink: 0; color: #171717; transition: transform 0.25s cubic-bezier(0.22,1,0.36,1); }
+  .case-prev__title { font-family: var(--display); font-weight: 700; font-size: var(--font-size-nav-title); color: #171717; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .case-prev:hover .case-prev__arrow, .case-prev:focus-visible .case-prev__arrow { transform: translateX(-5px); }
+
+  .case-next {
+    display: flex; align-items: center; gap: 12px;
+    padding-inline: 24px; min-height: 56px;
+    max-width: min(360px, 60vw);
+    transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s cubic-bezier(0.22,1,0.36,1);
+  }
+  .case-next:hover, .case-next:focus-visible { background: rgba(255,255,255,0.88); box-shadow: var(--shadow-control); transform: translateY(-2px); }
+  .case-next:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 2px; }
+  .case-next:active { transform: translateY(0); }
+  .case-next__label { font-family: var(--mono); font-size: var(--font-size-nav-label); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+  .case-next__title-row { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
+  .case-next__title { font-family: var(--display); font-weight: 700; font-size: var(--font-size-nav-title); color: #171717; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .case-next__arrow { flex-shrink: 0; color: #171717; transition: transform 0.25s cubic-bezier(0.22,1,0.36,1); }
+  .case-next:hover .case-next__arrow, .case-next:focus-visible .case-next__arrow { transform: translateX(5px); }
+
+  @media (max-width: 720px) {
+    .case-floating-nav { bottom: max(14px, env(safe-area-inset-bottom)); gap: 16px; }
+    .case-next, .case-prev { min-height: 48px; padding-inline: 16px; max-width: min(220px, 52vw); }
+    .case-next__label, .case-prev__label {
+      position: absolute; width: 1px; height: 1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .case-floating-nav { transition: none; opacity: 1; transform: translateX(-50%); }
+    .case-next__arrow, .case-prev__arrow, .case-next, .case-prev { transition: none; }
+  }
+/* ===== Sber case v13: «холст» (design-canvas page): grid, ruler, stickies, selection frames, calm book column ===== */
+:root{
+  --paper:#FFFFFF; --ink:#151515; --ink2:#5E605C; --mute:#9A9C97; --grid:rgba(20,20,20,.045); --hair:#E6E6E2; --plate:#F4F4F1; --panel:#F4F4F1;
+  --green:#21A038; --gt:#137A26; --deep:#0D5F21;
+  --n-mint:#CFEFD8; --n-lime:#E7F59B; --n-peach:#F8D9C4; --n-sky:#CFE6F7; --chosen:#F3E3A3;
+  --serif:Literata,Georgia,"Times New Roman",serif; --sans:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif; --sans2:var(--sans);
+  --mono:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif; --hand:Literata,Georgia,serif;
+  --radius-pill:999px; --shadow-control:0 8px 20px rgba(23,17,14,.08); --font-size-nav-label:.72rem; --font-size-nav-title:1.05rem;
+  --display:var(--sans); --text-strong:#151515; --text-dim:#5E605C;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[data-lang="en"]{display:none}
+html.lang-en [data-lang="ru"]{display:none}
+html.lang-en [data-lang="en"]{display:inline}
+html{background:#fff}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;margin:8px 0 0;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:100px 100px}
+body{margin:0}
+main{overflow-x:clip}
+img{display:block;max-width:100%}
+a{color:var(--gt)}
+:focus-visible{outline:2px solid var(--gt);outline-offset:3px}
+::selection{background:rgba(19,122,38,.2);color:var(--ink)}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+/* top: centred nav pill + ruler */
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--hair)}
+.navrow{display:flex;justify-content:center;padding-block:10px;padding-inline:8px}
+.site-nav{position:static;transform:none;display:flex;align-items:center;gap:2px;padding:4px 4px 4px 18px;border-radius:999px;border:1px solid var(--hair);background:#fff;box-shadow:none;font-size:13.5px;max-width:100%}
+.site-nav.is-nav-hidden{transform:none;opacity:1;pointer-events:auto}
+.site-nav a{text-decoration:none}
+.site-nav .nav-name{font:600 13.5px/1.2 var(--sans);color:var(--ink);margin:0 12px 0 0;white-space:nowrap;padding:0}
+.site-nav a.nav-link{font:400 13.5px/1.2 var(--sans);color:var(--ink2);padding:7px 12px;border-radius:999px;white-space:nowrap;position:relative}
+.site-nav a.nav-link::after{content:"";position:absolute;inset:-7px 0}
+.site-nav a.nav-link:hover,.site-nav a.nav-link:focus-visible{background:var(--plate);color:var(--ink)}
+.site-nav .lang-toggle{all:unset;box-sizing:border-box;cursor:pointer;position:relative;font:400 13.5px/1.2 var(--sans);background:var(--plate);color:var(--ink);padding:7px 12px;border-radius:999px;margin:0}
+.site-nav .lang-toggle::after{content:"";position:absolute;inset:-7px -2px}
+.site-nav .lang-toggle:hover{background:#EAEAE6}
+.site-nav .lang-toggle:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.ruler{height:16px;position:relative;overflow:hidden;font:500 9px var(--mono);color:var(--mute);background:repeating-linear-gradient(90deg,rgba(20,20,20,.18) 0 1px,transparent 1px 10px) left bottom/100% 4px no-repeat,repeating-linear-gradient(90deg,rgba(20,20,20,.25) 0 1px,transparent 1px 100px) left bottom/100% 8px no-repeat}
+.ruler span{position:absolute;top:1px}
+.ticks{position:fixed;left:max(10px,env(safe-area-inset-left,0px));top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:9px;z-index:15}
+.ticks i{display:block;width:10px;height:1px;background:var(--mute);transition:width .3s,background .3s}
+.ticks i.on{width:22px;background:var(--ink)}
+/* type */
+.lab{font:500 11.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+h1{font:600 clamp(28px,3vw,40px)/1.12 var(--serif);letter-spacing:-.012em;text-wrap:balance;margin:.67em 0}
+h2{font:600 clamp(22px,2vw,27px)/1.2 var(--serif);letter-spacing:-.012em;text-wrap:balance;margin:.83em 0}
+h3{font:600 clamp(18px,1.5vw,21px)/1.25 var(--serif);letter-spacing:-.012em;margin:1em 0}
+p{margin:1em 0}
+figure{margin:1em 40px}
+ul{margin:1em 0;padding-left:40px}
+.read{font:400 clamp(17px,1.35vw,19px)/1.6 var(--serif);color:#262626;max-width:36em}
+.read+.read{margin-top:14px}
+.cap{font:italic 400 16px/1.4 var(--serif);color:var(--ink2);margin-top:12px}
+.hand{font:italic 500 1.12em/1 var(--hand);color:var(--gt);position:relative;white-space:nowrap}
+.hand::after{content:"";position:absolute;left:0;right:0;bottom:-.08em;height:.12em;background:currentColor;border-radius:4px;transform-origin:0 50%;transform:scaleX(0);transition:transform .9s .2s cubic-bezier(.2,.7,.2,1)}
+.vis .hand::after{transform:scaleX(1)}
+.arrow{display:flex;gap:12px;align-items:baseline;margin-top:18px;font:400 18px/1.5 var(--serif)}
+.arrow::before{content:"↳";font-family:var(--sans);color:#D9A21B}
+.tag{display:inline-flex;align-items:center;height:26px;padding:0 10px;font:500 11px var(--mono);letter-spacing:.05em;text-transform:uppercase;position:relative;border-radius:0 4px 4px 4px}
+.tag::before{content:"";position:absolute;left:0;top:-6px;width:40%;height:7px;background:inherit;border-radius:4px 4px 0 0;clip-path:polygon(0 100%,0 0,78% 0,100% 100%)}
+.chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:999px;font:500 11px var(--mono);letter-spacing:.05em;text-transform:uppercase}
+.c-prob{background:#E8456B;color:#fff}.c-dec{background:#ECECE8;color:var(--ink)}.c-res{background:var(--n-sky)}.c-hyp{background:var(--n-lime)}
+.sb{font-family:var(--sans);font-size:15px}
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:48px;align-items:center;padding-block:72px 40px}
+.hero .meta{display:flex;align-items:center;gap:10px}
+.hero h1{margin-top:18px}
+.hero .read{margin-top:16px;max-width:30em}
+.tags{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.notes{position:relative;height:300px}
+.note{position:absolute;width:200px;padding:14px 16px 16px;box-shadow:0 10px 24px rgba(20,20,20,.08);transform:rotate(var(--r)) translateY(24px);opacity:0;transition:transform .8s cubic-bezier(.2,.8,.2,1.2),opacity .5s}
+.vis .note,.note.vis{transform:rotate(var(--r));opacity:1}
+.note .lab{color:var(--ink)}
+.note p{margin-top:8px;font-size:14.5px;line-height:1.4}
+/* figures: grey plate + selection frame */
+.fig{margin-top:28px}
+.plate{position:relative;background:var(--plate);padding:clamp(28px,4vw,56px) 16px;display:flex;justify-content:center;align-items:flex-start;gap:clamp(12px,2.5vw,28px);flex-wrap:wrap}
+.sel{position:relative}
+.sel>.h1x{position:absolute;inset:-11.5px;border:1.5px solid var(--sel,#2F7BF6);pointer-events:none}
+.sel>.h1x::before,.sel>.h1x::after,.sel>.h1x>i{content:"";position:absolute;width:9px;height:9px;background:#fff;border:1.5px solid var(--sel,#2F7BF6)}
+.sel>.h1x::before{left:-5px;top:-5px}.sel>.h1x::after{right:-5px;top:-5px}
+.sel>.h1x>i:first-child{left:-5px;bottom:-5px}.sel>.h1x>i:last-child{right:-5px;bottom:-5px}
+.sel .sz{position:absolute;left:50%;bottom:-36px;transform:translateX(-50%);font:500 10px var(--mono);color:#fff;background:var(--sel,#2F7BF6);padding:2px 6px;border-radius:3px;white-space:nowrap}
+.stick{position:absolute;padding:8px 12px;font-size:13px;box-shadow:0 8px 18px rgba(20,20,20,.08);transform:rotate(var(--r,-3deg));z-index:2;max-width:200px;line-height:1.3}
+.phone{width:var(--pw,210px);padding:calc(var(--pw,210px)*.032);border-radius:calc(var(--pw,210px)*.165);background:#151517;box-shadow:0 22px 44px rgba(0,0,0,.16);flex:none}
+.phone img{width:100%;height:auto;aspect-ratio:937/2026;border-radius:calc(var(--pw,210px)*.135);background:#fff}
+/* sections */
+.sec{padding-top:clamp(80px,9vw,128px)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start}
+.sec h2{margin-top:14px}
+.stat{display:flex;align-items:baseline;gap:14px;margin-top:22px;padding:16px 18px;background:#fff;border:1px solid var(--hair)}
+.stat b{font:600 30px/1 var(--sans);color:var(--gt);font-variant-numeric:tabular-nums}
+.stat .t{font-size:14px;line-height:1.45;color:var(--ink2)}
+.task{margin-top:22px;padding:16px 18px;background:var(--n-mint);font:400 18px/1.5 var(--serif)}
+.task b{font-family:var(--sans);font-weight:600;font-size:15px}
+.quote{text-align:center;font:italic 400 clamp(18px,1.6vw,21px)/1.5 var(--serif);color:#2a2a2a;max-width:30em;margin:clamp(60px,7vw,96px) auto 0}
+.wave{display:block;width:100%;height:40px;margin-top:clamp(60px,7vw,90px)}
+.wave path{stroke-dasharray:1400;stroke-dashoffset:1400;transition:stroke-dashoffset 2s cubic-bezier(.2,.7,.2,1)}
+.wave.vis path{stroke-dashoffset:0}
+table{width:100%;border-collapse:collapse;margin-top:22px;font-size:14.5px;background:#fff}
+th{font:500 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);text-align:left;padding:10px 12px;border-bottom:1px solid var(--ink)}
+td{padding:12px;border-bottom:1px solid var(--hair);vertical-align:top;line-height:1.45}
+td:first-child{font-weight:600;white-space:nowrap}
+.tbl{overflow-x:auto}
+/* artifacts: thumbnails that open the full image in the zoom viewer */
+.arts{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.art{all:unset;box-sizing:border-box;cursor:pointer;display:block;width:100%;background:#fff;border:1px solid var(--hair);padding:10px;transition:border-color .2s,box-shadow .2s}
+.art:hover{border-color:#BDBDB7;box-shadow:0 8px 22px rgba(20,20,20,.07)}
+.art:focus-visible{outline:2px solid var(--gt);outline-offset:3px}
+.art .th{display:block;position:relative}
+.art img{width:100%;height:auto;aspect-ratio:1000/720;object-fit:contain;background:var(--plate)}
+.art .tt{display:block;margin-top:8px;font-size:13px;color:var(--ink)}
+.art .open{position:absolute;right:8px;bottom:8px;display:inline-flex;align-items:center;justify-content:center;gap:6px;height:30px;padding:0 12px;border-radius:999px;background:#151515;color:#fff;font:500 12.5px/1 var(--sans);white-space:nowrap}
+.art .open>span{display:block;line-height:1}html:not(.lang-en) .art .open>[data-lang="en"],html.lang-en .art .open>[data-lang="ru"]{display:none}
+.art .open svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.art:hover .open,.art:focus-visible .open{background:#000}
+/* hypothesis toggle */
+.seg{display:inline-flex;padding:3px;border-radius:999px;background:#fff;border:1px solid var(--hair);margin-top:20px}
+.seg button{all:unset;cursor:pointer;padding:7px 14px;border-radius:999px;font-size:13px;color:var(--ink2)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.seg button:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.seg .new{font:500 9px var(--mono);background:#F39A3D;color:#fff;padding:1px 5px;border-radius:999px;margin-left:6px;vertical-align:2px}
+.swap{position:relative}
+.swap img{transition:opacity .4s}
+.chain{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:22px}
+.chain>span{padding:8px 12px;border:1px solid var(--hair);background:#fff;font-size:13.5px}
+.chain>span.on{background:var(--n-lime);border-color:transparent}
+.chain em{font-style:normal;color:var(--mute)}
+/* decisions */
+.dec{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start;padding-top:clamp(64px,7vw,96px)}
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.opt{display:grid;grid-template-columns:18px 1fr;gap:12px;padding:14px 16px;border:1px solid var(--hair);background:#fff;border-radius:10px}
+.opt .ic{position:relative;width:16px;height:16px;border-radius:50%;border:1.5px dashed var(--mute);margin-top:2px}
+.opt .lab{font-size:10.5px;color:var(--mute)}
+.opt p{margin-top:6px;font-size:14.5px;line-height:1.45;color:#2b2b2b}
+.opt.chosen{background:var(--chosen);border-color:#E5CC6C}
+.opt.chosen .ic{border:1.5px solid #B48A12}
+.opt .ic::after{content:"";position:absolute;inset:2.5px;border-radius:50%;background:#B48A12;transform:scale(0)}
+.opt.chosen .ic::after{transform:scale(1)}
+.opt:not(.chosen){opacity:.55}
+.opt:not(.chosen) p{color:#111;text-decoration:line-through;text-decoration-color:rgba(21,21,21,.4);text-decoration-thickness:1px}
+.opt.chosen .lab{color:var(--ink)}
+/* calculator window */
+.win{background:#fff;border:1px solid var(--hair);border-radius:12px;overflow:hidden;box-shadow:0 18px 40px rgba(20,20,20,.06)}
+.win .bar{display:flex;gap:6px;padding:10px 12px;border-bottom:1px solid var(--hair);background:#FAFAF8}
+.win .bar i{width:10px;height:10px;border-radius:50%;background:#E8655A}.win .bar i:nth-child(2){background:#E9B840}.win .bar i:nth-child(3){background:#61C454}
+.modes{display:flex;gap:4px;padding:4px;margin:16px 20px 0;width:max-content;max-width:calc(100% - 40px);border-radius:999px;background:var(--plate);border:1px solid var(--hair)}
+.modes button{all:unset;box-sizing:border-box;cursor:pointer;padding:8px 16px;border-radius:999px;font:500 13.5px/1.2 var(--sans);color:var(--ink2);white-space:nowrap;transition:background-color .2s,color .2s}
+.modes button[aria-selected="true"]{background:#151515;color:#fff}
+.modes button:not([aria-selected="true"]):hover{color:var(--ink)}
+.modes button:focus-visible{outline:2px solid rgba(21,21,21,.35);outline-offset:2px}
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0}
+.calc>div{padding:20px}
+.calc .l{border-right:1px solid var(--hair)}
+.calc .l>.pane{animation:paneIn .3s ease both}
+@keyframes paneIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.item{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;column-gap:14px;padding:7px 0;border-bottom:1px solid #F0F0EC;font-size:14px;min-height:42px}
+.item i{font-style:normal;color:var(--ink2);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right;min-width:62px}
+.item.warn{background:linear-gradient(90deg,rgba(179,38,30,.06),transparent)}
+.avs{display:inline-flex;gap:4px}
+.av1{all:unset;box-sizing:border-box;cursor:pointer;width:28px;height:28px;border-radius:50%;display:inline-grid;place-items:center;font:600 12px/1 var(--sans);border:1.5px solid var(--hair);color:var(--mute);background:#fff;transition:background-color .2s,color .2s,border-color .2s;position:relative}
+.av1::after{content:"";position:absolute;inset:-4px -2px}
+.av1[aria-pressed="true"]{background:var(--pc);border-color:var(--pd);color:#151515}
+.av1:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.sub{margin-top:18px}
+.note-u{margin-top:10px;font-size:13px;font-weight:500;color:#9A3412}
+.people{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.people button{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 13px;border-radius:999px;border:1px solid var(--hair);font-size:13px;position:relative}
+.people button::after{content:"";position:absolute;inset:-4px -2px}
+.people button[aria-pressed="true"]{border-color:var(--ink)}
+.people button[aria-pressed="false"]{color:var(--mute)}
+.people button:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.people b{width:9px;height:9px;border-radius:50%;background:var(--pc);box-shadow:inset 0 0 0 1px var(--pd)}
+.people button[aria-pressed="false"] b{background:#ccc}
+.mrow{display:flex;align-items:center;gap:12px;margin-top:10px}
+.mrow label{flex:1;display:flex;align-items:center;gap:8px;font-size:14px}
+.mrow label b{width:9px;height:9px;border-radius:50%;background:var(--pc);box-shadow:inset 0 0 0 1px var(--pd);flex:none}
+.mrow .in{position:relative;width:150px;flex:none}
+.mrow input{all:unset;box-sizing:border-box;width:100%;height:40px;padding:0 30px 0 12px;border:1px solid #C9C9C4;border-radius:8px;background:#fff;font:500 15px/1 var(--sans);font-variant-numeric:tabular-nums;text-align:right;color:var(--ink)}
+.mrow input:focus,.mrow input:focus-visible{outline:none;border-color:var(--gt);box-shadow:inset 0 0 0 1px var(--gt)}
+.mrow .in::after{content:"₽";position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--ink2);font-size:14px;pointer-events:none}
+.btn2{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;margin-top:14px;height:36px;padding:0 14px;align-items:center;border-radius:10px;border:1px solid #C9C9C4;font:500 13.5px/1 var(--sans);color:var(--ink)}
+.btn2:hover{border-color:var(--ink)}
+.btn2:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.calc .r{display:flex;flex-direction:column}
+.share{display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #F0F0EC;font-size:14.5px}
+.share u{width:10px;height:10px;border-radius:3px;background:var(--pc);box-shadow:inset 0 0 0 1px var(--pd)}
+.share b{font-variant-numeric:tabular-nums;font-weight:600}
+.share.off{color:var(--mute)}
+.share.off u{background:#ccc}
+.sbar{display:flex;height:10px;margin:12px 0 8px;border-radius:4px;overflow:hidden;background:var(--plate)}
+.sbar i{flex:0 0 0;min-width:0;background:var(--pc);transition:flex-grow .5s cubic-bezier(.2,.7,.2,1);box-shadow:-2px 0 0 #fff}
+.sbar i:first-child{box-shadow:none}
+.sbar i.rest{background:repeating-linear-gradient(135deg,#E3E3DF 0 4px,#EDEDE9 4px 8px)}
+.status{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:13.5px;font-weight:500;min-height:20px;color:var(--ink2)}
+.status.ok{color:var(--gt)}
+.status.warn{color:#9A3412}
+.btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;margin-top:16px;height:40px;padding:0 16px;align-items:center;justify-content:center;border-radius:10px;background:#137A26;color:#fff;font-size:14px;font-weight:600;align-self:flex-start;transition:opacity .2s}
+.btn[aria-disabled="true"]{opacity:.38;cursor:not-allowed}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.big{font:600 30px var(--sans);margin-top:8px;font-variant-numeric:tabular-nums}
+/* metric canvas */
+.canvas{position:relative;background:#fff;border:1px solid var(--hair);border-radius:12px;padding:28px;background-image:radial-gradient(rgba(20,20,20,.12) 1px,transparent 1.2px);background-size:16px 16px;min-height:340px}
+.canvas svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.node{position:absolute;background:#fff;border:1px solid var(--hair);border-radius:8px;padding:10px 12px;font-size:13.5px;box-shadow:0 4px 10px rgba(20,20,20,.05);max-width:36%;line-height:1.3}
+.node[data-n=d],.node[data-n=e]{max-width:29%}
+.node .lab{font-size:9.5px;display:block;margin-bottom:4px}
+.node.root{border-color:var(--ink)}
+.node.lit{background:var(--n-lime);border-color:transparent}
+.next{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+.next li{display:flex;gap:12px;align-items:baseline;padding:12px 14px;background:#fff;border:1px solid var(--hair);font:400 17px/1.45 var(--serif)}
+.next li::before{content:"";flex:none;width:8px;height:8px;background:var(--green);transform:translateY(-2px)}
+.dec .plate{flex-wrap:nowrap;--pw:190px}.dec .phone{--pw:inherit}
+.f1{--pw:200px}
+.end{height:120px}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.vis{opacity:1;transform:none}
+.case-floating-nav.is-held{opacity:0!important;pointer-events:none;visibility:hidden}
+@media (max-width:900px){
+  .hero,.two,.dec{grid-template-columns:minmax(0,1fr);gap:28px}
+  .hero{padding-block:44px 24px}
+  .notes{height:auto;display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:6px}
+  .note{position:relative;width:auto;left:auto!important;top:auto!important}
+  .arts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .calc{grid-template-columns:minmax(0,1fr)}.calc .l{border-right:0;border-bottom:1px solid var(--hair)}
+  .ticks{display:none}
+  .phone,.f1{--pw:150px}
+  .plate>.f1{display:none}
+  .stick{left:8px!important;right:auto!important;top:8px!important;bottom:auto!important;font-size:12px}
+  .plate{padding-top:52px}
+  .arrow{display:block}.arrow::before{margin-right:8px}
+  .seg button{white-space:nowrap}
+  table,thead,tbody,tr,td{display:block}thead{display:none}tr{padding:10px 0;border-bottom:1px solid var(--hair)}td{border:0;padding:3px 12px}.dec .plate{--pw:140px}
+  .site-nav .nav-name{display:none}
+  .site-nav{padding-left:4px}
+  figure{margin-inline:0}
+  .canvas{min-height:460px}
+  .node,.node[data-n=d],.node[data-n=e]{max-width:none}
+  .art .tt{font-size:12px}
+  .node[data-n=root]{left:4%!important;top:4%!important}.node[data-n=a]{left:16%!important;top:23%!important}
+  .node[data-n=d]{left:30%!important;top:40%!important}.node[data-n=e]{left:30%!important;top:54%!important}
+  .node[data-n=b]{left:16%!important;top:70%!important}.node[data-n=c]{left:16%!important;top:85%!important}
+}
+@media (max-width:560px){
+  .calc>div{padding:16px}
+  .modes{margin:14px 16px 0;max-width:calc(100% - 32px);width:auto}
+  .modes button{flex:1;text-align:center;padding:9px 6px;font-size:13px}
+  .item{grid-template-columns:minmax(0,1fr) auto;row-gap:6px;padding:9px 0}
+  .item .avs{grid-column:1/-1;grid-row:2}
+  .av1{width:32px;height:32px}
+  .mrow{flex-wrap:wrap;gap:6px}
+  .mrow label{flex:1 1 100%}
+  .mrow .in{width:100%}
+}
+.pc0,.sbar i:nth-child(1){--pc:#BFE6CB;--pd:#7FC495}.pc1,.sbar i:nth-child(2){--pc:#C4DDF2;--pd:#86B4DE}.pc2,.sbar i:nth-child(3){--pc:#DDEE8C;--pd:#B3C94A}.pc3,.sbar i:nth-child(4){--pc:#F2CDB4;--pd:#DDA27E}
+/* ruler marker */
+.rmark{position:absolute;left:0;bottom:0;width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:7px solid var(--green);margin-left:-5px;will-change:transform}
+/* artifacts hover cue */
+.arts li{will-change:auto}
+.art{transition:border-color .2s,box-shadow .2s,transform .25s cubic-bezier(.2,.7,.2,1)}
+.art:hover,.art:focus-visible{transform:translateY(-3px)}
+@media (hover:hover){
+  .art .open{opacity:0;transform:translateY(8px);transition:opacity .2s,transform .25s cubic-bezier(.2,.7,.2,1),background-color .2s}
+  .art:hover .open,.art:focus-visible .open{opacity:1;transform:none}
+}
+/* ===== motion (only with html.mo: no ?settled, no reduced motion, JS running) ===== */
+.mo .p-hero:not(.go)>.phone,.mo .p-hero:not(.go)>.sel{opacity:0;transform:translateY(32px)}
+.mo .p-hero>.phone,.mo .p-hero>.sel{transition:opacity .7s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.mo .p-hero>:nth-child(2){transition-delay:.14s}.mo .p-hero>:nth-child(3){transition-delay:.28s}
+.mo .p-hero:not(.go)>.stick{opacity:0}
+.mo .p-hero>.stick{transition:opacity .5s 1.7s}
+.mo .plate:not(.go) .h1x,.mo .dec:not(.go) .h1x{opacity:0;transform:scale(.94)}
+.mo .plate .h1x,.mo .dec .h1x{transition:opacity .45s ease var(--fd,.35s),transform .6s cubic-bezier(.2,.8,.2,1) var(--fd,.35s)}
+.mo .plate:not(.go) .h1x>i,.mo .plate:not(.go) .h1x::before,.mo .plate:not(.go) .h1x::after,.mo .dec:not(.go) .h1x>i,.mo .dec:not(.go) .h1x::before,.mo .dec:not(.go) .h1x::after{transform:scale(0)}
+.mo .plate .h1x>i,.mo .plate .h1x::before,.mo .plate .h1x::after,.mo .dec .h1x>i,.mo .dec .h1x::before,.mo .dec .h1x::after{transition:transform .35s cubic-bezier(.3,1.7,.5,1) calc(var(--fd,.35s) + .3s)}
+.mo .p-hero{--fd:.95s}
+.mo .dec{--fd:2.3s}
+.mo .plate:not(.go) .sz{opacity:0;transform:translate(-50%,10px)}
+.mo .sz{transition:opacity .4s ease 1.6s,transform .5s cubic-bezier(.2,.8,.2,1) 1.6s}
+/* chips */
+.mo .chip:not(.pop){opacity:0;transform:scale(.8)}
+.mo .chip{transition:opacity .35s ease,transform .5s cubic-bezier(.3,1.6,.5,1)}
+/* artifacts stagger */
+.mo .arts:not(.go) li{opacity:0;transform:translateY(26px)}
+.mo .arts li{transition:opacity .6s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.mo .arts li:nth-child(2){transition-delay:.08s}.mo .arts li:nth-child(3){transition-delay:.16s}.mo .arts li:nth-child(4){transition-delay:.24s}.mo .arts li:nth-child(5){transition-delay:.32s}.mo .arts li:nth-child(6){transition-delay:.4s}
+/* hypothesis chain */
+.chain>span{transition:background-color .35s,border-color .35s}
+/* decisions sequence */
+.mo .dec:not(.go) .opt:not(.chosen){opacity:0}
+.mo .dec.go .opt:not(.chosen){animation:optA 1.5s ease both}
+@keyframes optA{0%{opacity:0;transform:translateY(10px)}30%{opacity:1;transform:none}62%{opacity:1}100%{opacity:.55}}
+.mo .dec.go .opt:not(.chosen) p{animation:strike .5s ease 1s both}
+@keyframes strike{from{text-decoration-color:transparent}to{text-decoration-color:rgba(21,21,21,.4)}}
+.mo .dec:not(.go) .opt:not(.chosen) p{text-decoration-color:transparent}
+.mo .dec:not(.go) .opt.chosen{opacity:0}
+.mo .dec.go .opt.chosen{animation:slideB .6s cubic-bezier(.2,.8,.2,1) 1.5s both}
+@keyframes slideB{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+.mo .dec:not(.go) .opt.chosen .ic::after{transform:scale(0)}
+.mo .dec.go .opt.chosen .ic::after{animation:dot .35s cubic-bezier(.3,1.7,.5,1) 2s both}
+@keyframes dot{from{transform:scale(0)}to{transform:scale(1)}}
+.dec .phone{transform:translate3d(0,var(--py,0px),0)}
+.mo .dec .phone{will-change:transform}
+/* metric tree */
+.mo #tree:not(.go) .node{opacity:0}
+.mo #tree .node{transition:opacity .5s ease}
+.mo #tree .node[data-n=a]{transition-delay:.12s}.mo #tree .node[data-n=b]{transition-delay:.2s}.mo #tree .node[data-n=c]{transition-delay:.28s}.mo #tree .node[data-n=d]{transition-delay:.36s}.mo #tree .node[data-n=e]{transition-delay:.44s}
+.mo #treeSvg path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .7s cubic-bezier(.4,0,.2,1)}
+.mo #tree.go #treeSvg path{stroke-dashoffset:0}
+/* next list */
+.mo .next:not(.go) li{opacity:0;transform:translateY(14px)}
+.mo .next li{transition:opacity .5s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
+.mo .next li:nth-child(2){transition-delay:.12s}.mo .next li:nth-child(3){transition-delay:.24s}
+
+@media (prefers-reduced-motion:reduce){.reveal,.note{opacity:1!important;transform:rotate(var(--r,0deg))!important;transition:none}.reveal{transform:none!important}.wave path{stroke-dashoffset:0;transition:none}.hand::after{transform:scaleX(1);transition:none}.sbar i{transition:none}.swap img{transition:none}.ticks i{transition:none}.art,.art .open,.modes button,.btn,.chain>span,.sbar i{transition:none!important}.calc .l>.pane{animation:none}}
+
+.av{position:fixed;inset:0;z-index:300;background:#fff;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .2s ease}
+.av.is-open{opacity:1;pointer-events:auto}
+.av[hidden]{display:none}
+.av-bar{display:flex;align-items:center;gap:12px;padding:10px clamp(12px,2vw,24px);border-bottom:1px solid var(--hair);background:#fff;flex:none}
+.av-title{flex:1;min-width:0;font:500 15px/1.3 var(--sans2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink);margin:0}
+.av-ctl{display:flex;align-items:center;gap:6px}
+.av-btn{all:unset;box-sizing:border-box;cursor:pointer;min-width:44px;height:44px;padding:0 12px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #D6D6D3;border-radius:6px;font:500 18px/1 var(--sans2);color:var(--ink);background:#fff}
+.av-btn:hover{background:var(--panel)}
+.av-btn:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.av-btn.txt{font-size:14px;padding:0 16px}
+.av-zoom{min-width:56px;text-align:center;font:14px var(--sans2);color:var(--ink2);font-variant-numeric:tabular-nums}
+.av-stage{position:relative;flex:1;overflow:hidden;touch-action:none;cursor:grab;background:var(--panel)}
+.av-stage.is-drag{cursor:grabbing}
+.av-stage img{position:absolute;left:0;top:0;max-width:none;transform-origin:0 0;user-select:none;-webkit-user-drag:none;will-change:transform;background:#fff;border:1px solid var(--hair)}
+.av-hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);padding:8px 14px;background:#fff;border:1px solid var(--hair);font:13px var(--sans2);color:var(--ink2);pointer-events:none;white-space:nowrap;transition:opacity .4s}
+.av-hint.is-gone{opacity:0}
+body.av-open{overflow:hidden}
+body.av-open .case-floating-nav,body.av-open .site-nav{opacity:0;pointer-events:none}
+
+
+/* body text: Golos Text */
+:root{--body:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif}
+.read,.arrow,.task,.next li,.steps li,.flow p,.opt p,.impact,.stat .t,.note p,.tbl td{font-family:var(--body)}
+.read{font-size:clamp(16px,1.15vw,17.5px);line-height:1.68;color:#2e2e2e;letter-spacing:0}
+.arrow{font-size:16.5px;line-height:1.6}
+.task{font-size:16.5px;line-height:1.55}
+.next li{font-size:15.5px;line-height:1.5}
+
+/* competitor cards */
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stats .stat{margin-top:0;flex-direction:column;align-items:flex-start;gap:8px}
+.stats .stat b{font-size:clamp(24px,2.2vw,30px);white-space:nowrap}
+.src{margin-top:10px;font-size:12.5px;line-height:1.45;color:var(--ink2)}.src a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.cmps{list-style:none;padding:0;margin:28px 0 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:auto auto auto;column-gap:14px;row-gap:0}
+.cmp{display:grid;grid-template-rows:subgrid;grid-row:span 3;background:#fff;border:1px solid var(--hair);border-radius:14px;overflow:hidden}
+.cmp-h{display:flex;gap:12px;align-items:center;padding:18px 18px 16px}
+.cmp-m{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font:700 18px/1 var(--sans);color:var(--ink);flex:none}
+.cmp-h b{display:block;font-size:15.5px;font-weight:600;line-height:1.25}
+.cmp-h small{display:block;margin-top:2px;font-size:12.5px;color:var(--ink2)}
+.cmp-no{padding:16px 18px 18px;border-top:1px solid var(--hair)}
+.cmp-no .lab{color:#A8321E}
+.cmp-no p{margin-top:8px;font-size:15.5px;line-height:1.45;color:var(--ink);font-weight:500}
+.cmp-ok{padding:14px 18px 18px;background:#FAFAF8;border-top:1px solid var(--hair)}
+.cmp-ok ul{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px}
+.cmp-ok li{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:7px;background:#fff;border:1px solid var(--hair);font-size:13px;line-height:1;color:#2e2e2e;white-space:nowrap}
+.cmp-ok li::before{content:"";width:8px;height:4px;border-left:1.8px solid var(--gt);border-bottom:1.8px solid var(--gt);transform:rotate(-45deg) translateY(-1px);flex:none}
+@media (max-width:1100px){.cmps{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:14px}}
+@media (max-width:560px){.cmps{grid-template-columns:minmax(0,1fr)}.cmp{grid-template-rows:auto;grid-row:auto;display:block}.cmp-ok li{white-space:normal;height:auto;min-height:28px;padding:6px 10px}.stats{grid-template-columns:minmax(0,1fr)}.stats .stat{flex-direction:row;align-items:baseline}}
+
+/* prototype launcher + dialog */
+.proto-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center;margin-top:24px;padding:22px 24px;background:#fff;border:1px solid var(--hair);border-radius:14px}
+.proto-card p{margin:0;font-size:15.5px;line-height:1.55;color:#2e2e2e;font-family:var(--body,var(--sans))}
+.proto-card .lab{display:block;margin-bottom:6px}
+.proto-open{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 20px;border-radius:999px;background:#151515;color:#fff;font:500 14.5px/1 var(--sans);white-space:nowrap;transition:background-color .15s}
+.proto-open:hover{background:#000}.proto-open:focus-visible{outline:2px solid var(--gt);outline-offset:3px}
+.proto-open svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.proto-dlg{border:0;padding:0;border-radius:16px;width:min(1140px,calc(100% - 32px));max-height:calc(100dvh - 32px);overflow:auto;background:var(--paper,#fff);box-shadow:0 30px 80px rgba(0,0,0,.25)}
+.proto-dlg::backdrop{background:rgba(20,20,20,.55)}
+.proto-dlg .dh{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;background:var(--paper,#fff);border-bottom:1px solid var(--hair)}
+.proto-dlg .dh b{font:600 17px/1.3 var(--serif)}
+.proto-x{all:unset;cursor:pointer;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--plate);font-size:20px;line-height:1}
+.proto-x:focus-visible{outline:2px solid var(--gt);outline-offset:2px}
+.proto-dlg .db{padding:20px}
+.proto-dlg .fig{margin-top:0}
+body.dlg-open{overflow:hidden}
+@media (max-width:640px){.proto-card{grid-template-columns:minmax(0,1fr)}.proto-open{justify-self:start}.proto-dlg{width:100%;max-width:none;max-height:100dvh;height:100dvh;margin:0;border-radius:0}.proto-dlg .db{padding:12px}}
+
+/* ===== Re-skill import case: violet accent, desktop screenshots instead of phones ===== */
+:root{--green:#6938EF;--gt:#5A2FD6;--deep:#4316B8;--n-mint:#E4DCFD}
+::selection{background:rgba(105,56,239,.18)}
+.shot{position:relative;width:min(100%,640px);flex:none}
+.shot img{width:100%;height:auto;border-radius:14px;box-shadow:0 22px 44px -20px rgba(20,20,20,.28);background:#eff0f5}
+button.shot{all:unset;box-sizing:border-box;display:block;position:relative;cursor:zoom-in;width:min(100%,640px);flex:none}
+button.shot img{transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
+button.shot:hover img{transform:translateY(-3px);box-shadow:0 28px 52px -20px rgba(20,20,20,.34)}
+button.shot:focus-visible{outline:2px solid var(--gt);outline-offset:6px;border-radius:14px}
+.shot-hero{width:min(100%,720px)}
+.plate>.sel{width:min(100%,640px)}
+.sel>.shot{width:100%}
+.p-hero>.sel{width:min(100%,720px)}
+.shot-m{width:min(44%,240px)}
+.shot-half{width:min(100%,520px)}
+.plate-col{flex-direction:column;align-items:center;flex-wrap:nowrap}
+.plate-col>.shot,.plate-col>.sel{width:100%;max-width:560px}
+.plate-col>.sel>.shot{width:100%}
+.dec .plate{flex-wrap:wrap}
+.quote .who{display:block;margin-top:12px;font:400 14px/1.4 var(--sans);font-style:normal;color:var(--ink2)}
+.cmps3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cmp-plain{background:#fff}
+.cmp-plain p{font-weight:400!important;color:#2e2e2e!important}
+.chain.path{margin-top:18px}
+.chain.path>span{background:#fff}
+.rules{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:8px}
+.rules li{position:relative;padding-left:18px;font:400 15.5px/1.5 var(--body,var(--sans));color:#2e2e2e}
+.rules li::before{content:"";position:absolute;left:0;top:.6em;width:7px;height:7px;background:var(--green)}
+.st{display:inline-block;margin-right:6px;padding:2px 8px;border-radius:999px;font:500 11.5px/1.5 var(--sans);white-space:nowrap}
+.st.ok{background:#E3F4E8;color:#166534}.st.wait{background:#FEF3E2;color:#92400E}.st.no{background:#ECECE8;color:#5E605C}
+.checks{display:grid;gap:12px;margin-top:20px}
+.ck{background:#fff;border:1px solid var(--hair);padding:14px 16px}
+.ck p{margin:8px 0 0;font:400 15.5px/1.55 var(--body,var(--sans));color:#2e2e2e}
+#metrics td:first-child{white-space:normal;min-width:180px}
+.plate-tight{padding:28px 24px!important}
+.dec-wide{grid-template-columns:minmax(0,1fr)!important;gap:28px}
+.dec-wide>div:first-child{max-width:760px}
+.plate-duo{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(20px,3vw,40px);align-items:start;padding:36px clamp(20px,3vw,40px)!important}
+.plate-duo>.sel,.plate-duo>.shot{width:100%;max-width:none}
+#result .fig .plate{height:auto}
+.metrics-intro{max-width:760px}
+.kvl{list-style:none;margin:16px 0 0;padding:0;max-width:680px;border-top:1px solid var(--hair)}
+.kvl li{display:grid;grid-template-columns:minmax(110px,160px) minmax(0,1fr);gap:18px;padding:11px 0;border-bottom:1px solid var(--hair);font:400 15.5px/1.5 var(--body,var(--sans));color:#2e2e2e}
+.kvl li b{font:600 13.5px/1.5 var(--sans);color:var(--ink);letter-spacing:.005em}
+.chr{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0;padding:0}
+.chr li{padding:6px 12px;border:1px solid var(--hair);background:#fff;border-radius:999px;font:400 14px/1.25 var(--sans);color:#2e2e2e}
+@media (max-width:640px){.kvl li{grid-template-columns:minmax(0,1fr);gap:2px}}
+.flows{list-style:none;padding:0;margin:34px 0 10px;display:grid;gap:18px;counter-reset:fl}
+.flow{display:grid;grid-template-columns:30px minmax(0,1fr) 40px minmax(0,1fr) 40px minmax(0,1fr);align-items:center;counter-increment:fl}
+.flow::before{content:counter(fl,decimal-leading-zero);font:500 11px var(--mono);color:var(--ink2)}
+.flow .lab{font-size:9.5px;display:block}
+.flow p{margin-top:6px;font-size:14.5px;line-height:1.4;font-family:var(--body,var(--sans))}
+.f-find{padding:14px 16px;box-shadow:0 8px 18px rgba(20,20,20,.07);transform:rotate(var(--r,0deg))}
+.f-find .lab{color:var(--ink)}
+.f-find p{font-weight:500;font-size:15px}
+.f-mean{padding:14px 16px;background:#fff;border:1px solid var(--hair);border-radius:10px}
+.f-mean p{color:#3a3a3a}
+.f-need{position:relative;padding:14px 16px;background:#fff;border:1.5px solid var(--green)}
+.f-need::before,.f-need::after{content:"";position:absolute;width:8px;height:8px;background:#fff;border:1.5px solid var(--green)}
+.f-need::before{left:-5px;top:-5px}
+.f-need::after{right:-5px;bottom:-5px}
+.f-need .lab{color:var(--gt)}
+.f-need p{color:var(--ink);font-weight:500}
+.f-ar{position:relative;height:1.5px;background:#9A9C97;margin:0 6px}
+.f-ar::after{content:"";position:absolute;right:-2px;top:-4px;border-style:solid;border-width:4.75px 0 4.75px 8px;border-color:transparent transparent transparent #9A9C97}
+@media (max-width:900px){.flows{gap:30px}.flow{grid-template-columns:minmax(0,1fr)}.flow::before{margin-bottom:8px}.f-ar{width:1.5px;height:22px;margin:0 auto}.f-ar::after{right:auto;left:-4px;top:auto;bottom:-2px;border-width:8px 4.75px 0 4.75px;border-color:#9A9C97 transparent transparent transparent}}
+#tree{min-height:300px}
+@media (max-width:1100px){.cmps3{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:900px){.plate-duo{grid-template-columns:minmax(0,1fr)}.plate-tight{padding:20px 14px!important}.shot-m{width:min(46%,200px)}.plate-col>.shot,.plate-col>.sel{max-width:none}#metrics td:first-child{min-width:0}}
+
+.stats3r{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:22px}
+@media (max-width:760px){.stats3r{grid-template-columns:minmax(0,1fr)}}
+.bars{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.bars li{display:grid;grid-template-columns:minmax(0,11.5em) minmax(0,1fr);gap:12px;align-items:center;font-size:14.5px;color:var(--ink2)}
+.bars .bv{display:flex;align-items:center;gap:8px}
+.bars .bv i{display:block;height:14px;width:calc(var(--v) / 6 * 100%);max-width:calc(100% - 2em);background:#C9BCFB;border-radius:3px}
+.bars li:first-child .bv i{background:#6938EF}
+.bars .bv b{font-weight:600;color:var(--ink)}
+@media (max-width:560px){.bars li{grid-template-columns:minmax(0,1fr)}.bars li{gap:4px}}
+.prio-wrap{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);margin-top:30px;align-items:start}
+@media (max-width:860px){.prio-wrap{grid-template-columns:minmax(0,1fr)}}
+.prio{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.prio li{display:grid;grid-template-columns:2.2em minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 14px;background:#fff;border:1px solid var(--hair);font-size:14.5px;line-height:1.4}
+.prio .ps{font:600 15px/1 var(--sans);color:var(--ink)}
+.prio .pw{font-size:12.5px;padding:4px 9px;border-radius:99px;background:#ECECE8;white-space:nowrap}
+.prio .w-u{border-color:#6938EF;box-shadow:inset 3px 0 0 #6938EF}
+.prio .w-u .pw{background:#C9BCFB}
+.prio .w-m .pw{background:#E6F0D0}
+.prio-side .read+.read{margin-top:12px}
+@media (max-width:560px){.prio li{grid-template-columns:2em minmax(0,1fr)}.prio .pw{grid-column:2;justify-self:start}}
+.bugcard{background:#fff;border:1px solid var(--hair);padding:20px 22px;align-self:start}
+.bugcard p{margin:8px 0 14px;font-size:15px;line-height:1.55}
+.bars-more{margin:12px 0 0;font-size:14px;color:var(--ink2)}
+.cut{margin-top:clamp(40px,5vw,64px);max-width:62em}
+@media (max-width:900px){#tree.canvas{display:flex;flex-direction:column;gap:10px;min-height:0!important;height:auto!important;padding:16px}#tree #treeSvg{display:none}#tree .node{position:static!important;max-width:none!important;width:auto!important;transform:none!important}#tree .node:not(.root){margin-left:18px;border-left:2px solid #C9BCFB}}
+</style>
+<link rel="stylesheet" href="assets/typography.css">
+<link rel="stylesheet" href="assets/site-chrome.css?v=6">
+</head>
+<body>
+  <div class="top"><div class="navrow"><nav class="site-nav">
+    <a href="index.html" class="nav-name"><span data-lang="ru">Главная</span><span data-lang="en">Home</span></a>
+    <a href="index.html#work" class="nav-link"><span data-lang="ru">Работы</span><span data-lang="en">Work</span></a>
+    <a href="about.html" class="nav-link"><span data-lang="ru">Обо мне</span><span data-lang="en">About</span></a>
+    <a href="cv.pdf" data-href-ru="cv.pdf" data-href-en="cv-en.pdf" class="nav-link" target="_blank" rel="noopener">CV</a>
+    <button type="button" class="lang-toggle" data-lang-toggle aria-label="Switch to English">EN</button>
+  </nav></div><div class="ruler" id="ruler" aria-hidden="true"></div></div>
+
+<div class="ticks" id="ticks" aria-hidden="true"></div>
+
+<main id="main">
+<header class="wrap hero" id="hero" data-tick>
+  <div class="reveal">
+    <div class="meta"><span class="lab"><span data-lang="ru">Архив · Re-skill</span><span data-lang="en">Archive · Re-skill</span></span></div>
+    <h1><span data-lang="ru">Студия видеосцен в Re-skill</span><span data-lang="en">A video scene studio in Re-skill</span></h1>
+    <p class="read"><span data-lang="ru">Правка одной сцены без переписывания всего промпта.</span><span data-lang="en">Edit one scene without rewriting the whole prompt.</span></p>
+    <div class="tags"><span class="tag" style="background:#ECECE8"><span data-lang="ru">EdTech, B2B, AI‑видео</span><span data-lang="en">EdTech, B2B, AI video</span></span><span class="tag" style="background:#C9BCFB"><span data-lang="ru">Продуктовый дизайн</span><span data-lang="en">Product design</span></span></div>
+  </div>
+  <div class="notes reveal">
+    <div class="note" style="--r:-3deg;left:6%;top:6%;background:var(--n-sky);transition-delay:.1s"><span class="lab"><span data-lang="ru">Роль</span><span data-lang="en">Role</span></span><p><span data-lang="ru">Product Owner, дизайн и фронтенд</span><span data-lang="en">Product Owner, design and front end</span></p></div>
+    <div class="note" style="--r:2.5deg;left:52%;top:0;background:var(--n-lime);transition-delay:.2s"><span class="lab"><span data-lang="ru">Платформа</span><span data-lang="en">Platform</span></span><p><span data-lang="ru">Веб, конструктор курсов</span><span data-lang="en">Web, course builder</span></p></div>
+    <div class="note" style="--r:2deg;left:4%;top:50%;background:var(--n-mint);transition-delay:.3s"><span class="lab"><span data-lang="ru">Пользователи</span><span data-lang="en">Users</span></span><p><span data-lang="ru">Авторы курсов в компаниях‑клиентах</span><span data-lang="en">Course authors at client companies</span></p></div>
+    <div class="note" style="--r:-2deg;left:52%;top:44%;background:var(--n-peach);transition-delay:.4s"><span class="lab"><span data-lang="ru">Статус</span><span data-lang="en">Status</span></span><p><span data-lang="ru">В разработке: фронтенд на staging</span><span data-lang="en">In development: front end on staging</span></p></div>
+  </div>
+</header>
+
+<section class="wrap sec two reveal" data-tick id="context">
+  <div><span class="lab"><span data-lang="ru">Контекст</span><span data-lang="en">Context</span></span><h2><span data-lang="ru">Видеоуроки с ИИ‑ведущим</span><span data-lang="en">Video lessons with an AI presenter</span></h2></div>
+  <div>
+    <p class="read"><span data-lang="ru">Re-skill собирает курсы из документов компании, а к урокам делает видео с ИИ‑ведущим. Автор получает сценарий по сценам, правит его и запускает рендер. Видео быстро стало главной функцией для платящих клиентов и главным источником их обращений.</span><span data-lang="en">Re-skill builds courses from a company’s documents and makes videos with an AI presenter for the lessons. The author gets a scene‑by‑scene script, edits it and runs the render. Video quickly became the key feature for paying clients and the main source of their tickets.</span></p>
+    <div class="stats stats3r">
+      <div class="stat"><b>31</b><span><span data-lang="ru">клиентский тикет по видео за три месяца</span><span data-lang="en">client video tickets in three months</span></span></div>
+      <div class="stat"><b>15 / 32</b><span><span data-lang="ru">новых багов за неделю пришлись на видео</span><span data-lang="en">new bugs in one week were about video</span></span></div>
+      <div class="stat"><b>6 / 10</b><span><span data-lang="ru">оценка видео одним из клиентов на звонке</span><span data-lang="en">one client’s rating of video on a call</span></span></div>
+    </div>
+  </div>
+</section>
+
+<svg class="wave wrap reveal" viewBox="0 0 1100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 C 180 10, 320 34, 520 22 S 860 6, 1100 18" fill="none" stroke="#9A9C97" stroke-width="1.2"/></svg>
+
+<section class="wrap sec two reveal" data-tick id="problem">
+  <div>
+    <span class="chip c-prob"><span data-lang="ru">Проблема</span><span data-lang="en">Problem</span></span>
+    <h2><span data-lang="ru">Чтобы поправить фразу, переписывают промпт</span><span data-lang="en">Fixing a phrase means rewriting the prompt</span></h2>
+    <p class="read" style="margin-top:16px"><span data-lang="ru">Автор правил видео словами в чате. Каждая правка пересобирала видео целиком, а что изменится, было видно только после рендера. Готовая версия молча не принимала правки. Клиенты шли в поддержку, и команда Re-skill сама переписывала их промпты.</span><span data-lang="en">Authors edited video by typing in a chat. Each edit rebuilt the whole video, and what would change only showed after the render. A finished version silently refused edits. Clients went to support, and the Re-skill team rewrote their prompts for them.</span></p>
+    <div class="task"><span data-lang="ru"><b>Задача.</b> Дать автору поправить одну сцену и до рендера увидеть, что пойдёт в видео.</span><span data-lang="en"><b>Task:</b> let an author fix one scene and see what goes into the video before the render.</span></div>
+  </div>
+  <div>
+    <span class="lab" style="display:block;margin-bottom:14px"><span data-lang="ru">Темы 31 клиентского тикета с 1 сентября по 21 ноября</span><span data-lang="en">Topics of 31 client tickets, Sep 1 to Nov 21</span></span>
+    <ol class="bars" aria-label="Темы клиентских тикетов по видео" data-aria-ru="Темы клиентских тикетов по видео" data-aria-en="Topics of client video tickets"><li style="--v:6"><span class="bl"><span data-lang="ru">Новая версия с правками</span><span data-lang="en">A new version with edits</span></span><span class="bv"><i></i><b>6</b></span></li><li style="--v:5"><span class="bl"><span data-lang="ru">Рендер и плеер</span><span data-lang="en">Render and player</span></span><span class="bv"><i></i><b>5</b></span></li><li style="--v:4"><span class="bl"><span data-lang="ru">Вступление и концовка</span><span data-lang="en">Intro and outro</span></span><span class="bv"><i></i><b>4</b></span></li><li style="--v:4"><span class="bl"><span data-lang="ru">Текст на экране</span><span data-lang="en">On‑screen text</span></span><span class="bv"><i></i><b>4</b></span></li><li style="--v:3"><span class="bl"><span data-lang="ru">Ведущий</span><span data-lang="en">Presenter</span></span><span class="bv"><i></i><b>3</b></span></li></ol><p class="bars-more"><span data-lang="ru">Ещё 9: голос, логотип, фон, сценарий, длительность.</span><span data-lang="en">9 more: voice, logo, background, script, length.</span></p>
+  </div>
+</section>
+<p class="quote reveal"><span data-lang="ru">«Когда я меняю одно предложение, я хочу, чтобы вид и сцена остались прежними, а поменялось только предложение».</span><span data-lang="en">“Whenever I change a sentence, I would like to keep the same look and scene the same, but only the sentence is gonna be changed.”</span><span class="who"><span data-lang="ru">Клиент, финансовая организация с Ближнего Востока</span><span data-lang="en">Client, a financial institution in the Middle East</span></span></p>
+
+<section class="wrap sec reveal" data-tick id="research">
+  <span class="chip c-res"><span data-lang="ru">Исследование</span><span data-lang="en">Research</span></span>
+  <h2><span data-lang="ru">Что болит и что из этого решает интерфейс</span><span data-lang="en">What hurts and what the interface can fix</span></h2>
+  <p class="read" style="margin-top:14px"><span data-lang="ru">Я свела в одну карту четыре источника и оценила каждую проблему как силу свидетельства, умноженную на тяжесть. Шкала от 1 до 9.</span><span data-lang="en">I put four sources into one map and scored each problem as strength of evidence times severity, on a 1 to 9 scale.</span></p>
+  <ul class="chr"><li><span data-lang="ru">31 тикет</span><span data-lang="en">31 tickets</span></li><li><span data-lang="ru">2 звонка с клиентами</span><span data-lang="en">2 client calls</span></li><li><span data-lang="ru">Клики в редакторе за 60 дней</span><span data-lang="en">Editor clicks over 60 days</span></li><li><span data-lang="ru">11 записей сессий</span><span data-lang="en">11 session recordings</span></li></ul>
+  <div class="prio-wrap">
+    <div><span class="lab" style="display:block;margin-bottom:12px"><span data-lang="ru">Приоритет · где решается</span><span data-lang="en">Priority · where it’s fixed</span></span><ol class="prio"><li class="w-p"><b class="ps">9</b><span class="pt"><span data-lang="ru">Не тот ведущий, голос или язык в готовом видео</span><span data-lang="en">Wrong presenter, voice or language in the finished video</span></span><span class="pw"><span data-lang="ru">Пайплайн</span><span data-lang="en">Pipeline</span></span></li><li class="w-p"><b class="ps">9</b><span class="pt"><span data-lang="ru">Генерация падает без понятной причины</span><span data-lang="en">Generation fails with no clear reason</span></span><span class="pw"><span data-lang="ru">Пайплайн</span><span data-lang="en">Pipeline</span></span></li><li class="w-m"><b class="ps">9</b><span class="pt"><span data-lang="ru">Вступление, концовка и логотип не там, где задали</span><span data-lang="en">Intro, outro and logo not where they were set</span></span><span class="pw"><span data-lang="ru">Вместе</span><span data-lang="en">Shared</span></span></li><li class="w-m"><b class="ps">6</b><span class="pt"><span data-lang="ru">Чтобы поправить фразу, пересобирают всё видео</span><span data-lang="en">Fixing one phrase means rebuilding the whole video</span></span><span class="pw"><span data-lang="ru">Вместе</span><span data-lang="en">Shared</span></span></li><li class="w-u"><b class="ps">6</b><span class="pt"><span data-lang="ru">Непонятно, куда писать: озвучка, картинка или текст на экране</span><span data-lang="en">Unclear where to write: voice‑over, picture or on‑screen text</span></span><span class="pw"><span data-lang="ru">Интерфейс</span><span data-lang="en">Interface</span></span></li><li class="w-u"><b class="ps">4</b><span class="pt"><span data-lang="ru">Что пойдёт в видео, видно только после рендера</span><span data-lang="en">What goes into the video shows only after the render</span></span><span class="pw"><span data-lang="ru">Интерфейс</span><span data-lang="en">Interface</span></span></li><li class="w-m"><b class="ps">4</b><span class="pt"><span data-lang="ru">Непонятно, сколько стоит правка и какая версия у учеников</span><span data-lang="en">Unclear what an edit costs and which version learners see</span></span><span class="pw"><span data-lang="ru">Вместе</span><span data-lang="en">Shared</span></span></li></ol></div>
+    <div class="prio-side"><p class="read"><span data-lang="ru">Три самые тяжёлые проблемы решаются в пайплайне рендера, а не в интерфейсе. Я не стала обещать, что студия уменьшит число видео‑багов, и передала эти три бэкенду со списком вопросов.</span><span data-lang="en">The three heaviest problems are fixed in the render pipeline, not the interface. I didn’t promise the studio would cut video bugs, and handed these three to the backend with a list of questions.</span></p><p class="read"><span data-lang="ru">Зона студии: правка без пересборки, ясность, куда писать, и видимость того, что пойдёт в видео. На этом и построены гипотезы.</span><span data-lang="en">The studio’s job: editing without a rebuild, clarity on where to write, and seeing what goes into the video. The hypotheses are built on that.</span></p></div>
+  </div>
+  <ol class="flows" aria-label="Находки" data-aria-ru="Находки" data-aria-en="Findings">
+    <li class="flow"><div class="f-find" style="background:var(--n-peach);--r:-1.5deg"><span class="lab"><span data-lang="ru">Звонки с клиентами</span><span data-lang="en">Client calls</span></span><p><span data-lang="ru">Каждую правку клиента команда Re-skill переписывала в промпт сама</span><span data-lang="en">The Re-skill team rewrote each of the client’s fixes into the prompt itself</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-mean"><span class="lab"><span data-lang="ru">Что это значит</span><span data-lang="en">What it means</span></span><p><span data-lang="ru">Автор правит словами, а получает пересборку всего видео</span><span data-lang="en">The author edits in words and gets the whole video rebuilt</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-need"><span class="lab"><span data-lang="ru">Что нужно от решения</span><span data-lang="en">What the design needs</span></span><p><span data-lang="ru">Править сцену прямо в её полях, без промпта</span><span data-lang="en">Edit a scene right in its fields, without a prompt</span></p></div></li><li class="flow"><div class="f-find" style="background:var(--n-lime);--r:1.2deg"><span class="lab"><span data-lang="ru">Клики в редакторе</span><span data-lang="en">Editor clicks</span></span><p><span data-lang="ru">120 кликов без отклика по карточкам сцен, 14 по полю «Визуал» в готовой версии</span><span data-lang="en">120 dead clicks on scene cards, 14 on the “Visual” field of a finished version</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-mean"><span class="lab"><span data-lang="ru">Что это значит</span><span data-lang="en">What it means</span></span><p><span data-lang="ru">Сцену ждут как объект, который можно открыть и поправить</span><span data-lang="en">People expect a scene to be an object they can open and fix</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-need"><span class="lab"><span data-lang="ru">Что нужно от решения</span><span data-lang="en">What the design needs</span></span><p><span data-lang="ru">Сцена как карточка, у кадра свои инструменты</span><span data-lang="en">A scene as a card, the frame with its own tools</span></p></div></li><li class="flow"><div class="f-find" style="background:var(--n-sky);--r:-1deg"><span class="lab"><span data-lang="ru">Тикеты</span><span data-lang="en">Tickets</span></span><p><span data-lang="ru">Текст для карточки на экране пишут в сценарий, и ИИ придумывает его сам</span><span data-lang="en">Text meant for an on‑screen card goes into the script, and the AI makes it up</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-mean"><span class="lab"><span data-lang="ru">Что это значит</span><span data-lang="en">What it means</span></span><p><span data-lang="ru">Озвучка, картинка и текст на экране смешаны в одном поле</span><span data-lang="en">Voice‑over, picture and on‑screen text are mixed in one field</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-need"><span class="lab"><span data-lang="ru">Что нужно от решения</span><span data-lang="en">What the design needs</span></span><p><span data-lang="ru">Три отдельных подписанных места</span><span data-lang="en">Three separate, labelled places</span></p></div></li><li class="flow"><div class="f-find" style="background:var(--n-mint);--r:1.5deg"><span class="lab"><span data-lang="ru">11 записей сессий</span><span data-lang="en">11 session recordings</span></span><p><span data-lang="ru">Отказ сервера 409 в 4 из 5 случаев не позже 1,5 с после выбора версии</span><span data-lang="en">The server’s 409 refusal came within 1.5 s of picking a version in 4 of 5 cases</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-mean"><span class="lab"><span data-lang="ru">Что это значит</span><span data-lang="en">What it means</span></span><p><span data-lang="ru">Это не поведение автора, а баг: правка уходит не в ту версию</span><span data-lang="en">That’s not author behaviour but a bug: the edit goes to the wrong version</span></p></div><i class="f-ar" aria-hidden="true"></i><div class="f-need"><span class="lab"><span data-lang="ru">Что нужно от решения</span><span data-lang="en">What the design needs</span></span><p><span data-lang="ru">Починить баг и убрать его из метрики</span><span data-lang="en">Fix the bug and take it out of the metric</span></p></div></li>
+  </ol>
+</section>
+
+<section class="wrap sec reveal" data-tick id="hypothesis">
+  <span class="chip c-hyp"><span data-lang="ru">Гипотезы</span><span data-lang="en">Hypotheses</span></span>
+  <h2><span data-lang="ru">Три гипотезы с критериями, записанными заранее</span><span data-lang="en">Three hypotheses with criteria written in advance</span></h2>
+  <ul class="kvl"><li><b><span data-lang="ru">H2 · основная</span><span data-lang="en">H2 · main</span></b><span><span data-lang="ru">Если озвучка, картинка кадра и текст на экране это отдельные подписанные места, а текст на экране виден в кадре до рендера, автор правит сцену прямо в поле, а не через промпт. Подтверждение: 4 из 5 участников теста кладут текст карточки в «Текст на экране» без подсказки. Опровержение: 2 из 5 ищут, куда писать, или уходят в чат.</span><span data-lang="en">If the voice‑over, the frame’s picture and the on‑screen text are separate labelled places, and the on‑screen text shows in the frame before the render, the author edits a scene right in the field, not through a prompt. Confirmed if 4 of 5 test participants put the card text into “On‑screen text” unprompted. Refuted if 2 of 5 look for where to write or fall back to the chat.</span></span></li><li><b><span data-lang="ru">H1 · зависит от бэкенда</span><span data-lang="en">H1 · depends on the backend</span></b><span><span data-lang="ru">Если до запуска видно, какие сцены изменились и пойдут в новый рендер, авторы реже перезапускают то же видео в течение суток. Сохраняет ли рендер нетронутые сцены, решает бэкенд, поэтому вопрос ушёл техлиду до финального макета. Подтверждение: доля повторных рендеров за сутки ниже базовых 16 из 19. Опровержение: не падает.</span><span data-lang="en">If it’s visible before the run which scenes changed and will be re‑rendered, authors re‑run the same video within a day less often. Whether the render keeps untouched scenes is a backend call, so the question went to the tech lead before the final design. Confirmed if the share of same‑day re‑renders falls below the baseline of 16 of 19. Refuted if it doesn’t fall.</span></span></li><li><b><span data-lang="ru">H3 · путь к новой версии</span><span data-lang="en">H3 · path to a new version</span></b><span><span data-lang="ru">Если на готовой версии сразу видно, как начать новую, правка готового видео чаще доходит до новой версии за 5 минут. Подтверждение: больше 2 из 11 эпизодов у каждого автора и меньше обходов через чат. Опровержение: доля не растёт. Свидетельство сначала было слабым, поэтому до решения я разобрала записи сессий: часть отказов оказалась багом, и я убрала его из метрики.</span><span data-lang="en">If a finished version shows right away how to start a new one, edits of a finished video reach a new version within 5 minutes more often. Confirmed if it’s above 2 of 11 episodes for each author and the chat is used as a workaround less often. Refuted if the share doesn’t grow. The evidence was weak at first, so before deciding I went through session recordings: some refusals turned out to be a bug, and I took it out of the metric.</span></span></li></ul>
+</section>
+
+<section class="wrap sec reveal" data-tick id="solutions">
+  <span class="chip c-dec"><span data-lang="ru">Решение</span><span data-lang="en">Solution</span></span>
+  <h2><span data-lang="ru">Студия сцен</span><span data-lang="en">A scene studio</span></h2>
+
+  <article class="dec reveal">
+    <div><span class="chip c-dec"><span data-lang="ru">01</span><span data-lang="en">01</span></span><h3 style="margin-top:12px"><span data-lang="ru">Сцена как объект</span><span data-lang="en">A scene as an object</span></h3><p class="read" style="margin-top:12px"><span data-lang="ru">Сцены стали карточками с длительностью и замечаниями. У кадра своя колонка инструментов: ведущий, макет, голос, текст на экране, фон. Ведущий и голос меняются для всего видео одним действием.</span><span data-lang="en">Scenes became cards with their length and remarks. The frame has its own tool column: presenter, layout, voice, on‑screen text, background. The presenter and voice change for the whole video in one action.</span></p></div>
+    <figure class="fig" style="margin-top:0"><div class="plate plate-tight"><div class="sel" style="--sel:#6938EF"><span class="h1x"><i></i><i></i></span><button type="button" class="shot zoom" data-av data-full="assets/process/reskill-video/a-draft-ru.webp" data-full-ru="assets/process/reskill-video/a-draft-ru.webp" data-full-en="assets/process/reskill-video/a-draft-en.webp" data-title-ru="Студия: сцены слева, кадр с инструментами, кадры сцены и текст озвучки" data-title-en="The studio: scenes on the left, the frame with its tools, the scene’s shots and the voice‑over" aria-label="Увеличить: Студия: сцены слева, кадр с инструментами, кадры сцены и текст озвучки" data-aria-ru="Увеличить: Студия: сцены слева, кадр с инструментами, кадры сцены и текст озвучки" data-aria-en="Zoom in: The studio: scenes on the left, the frame with its tools, the scene’s shots and the voice‑over"><img src="assets/process/reskill-video/a-draft-ru.webp" data-src-ru="assets/process/reskill-video/a-draft-ru.webp" data-src-en="assets/process/reskill-video/a-draft-en.webp" width="1600" height="1200" alt="Студия: сцены слева, кадр с инструментами, кадры сцены и текст озвучки" data-alt-ru="Студия: сцены слева, кадр с инструментами, кадры сцены и текст озвучки" data-alt-en="The studio: scenes on the left, the frame with its tools, the scene’s shots and the voice‑over" loading="lazy" decoding="async"></button></div></div><figcaption class="cap"><span data-lang="ru">Рис. 1. Студия: сцены, кадр с инструментами, кадры сцены и текст озвучки. Тестовые данные.</span><span data-lang="en">Fig. 1. The studio: scenes, the frame with its tools, the scene’s shots and the voice‑over. Test data.</span></figcaption></figure>
+  </article>
+  <article class="dec reveal">
+    <div><span class="chip c-dec"><span data-lang="ru">02</span><span data-lang="en">02</span></span><h3 style="margin-top:12px"><span data-lang="ru">Каждому тексту своё место</span><span data-lang="en">Every text in its own place</span></h3><p class="read" style="margin-top:12px"><span data-lang="ru">Озвучка, текст на экране и просьба к ИИ разведены. Под полем озвучки написано, что этот текст прозвучит в видео. Если в озвучку попала просьба к ИИ, студия отмечает это замечанием до рендера.</span><span data-lang="en">The voice‑over, on‑screen text and requests to the AI are kept apart. Under the voice‑over it says this text will be spoken in the video. If a request to the AI lands in the voice‑over, the studio flags it with a remark before the render.</span></p></div>
+    <figure class="fig" style="margin-top:0"><div class="plate plate-tight"><div class="sel" style="--sel:#6938EF"><span class="h1x"><i></i><i></i></span><button type="button" class="shot zoom" data-av data-full="assets/process/reskill-video/a-voice-ru.webp" data-full-ru="assets/process/reskill-video/a-voice-ru.webp" data-full-en="assets/process/reskill-video/a-voice-en.webp" data-title-ru="Сцена 2: в текст озвучки попала просьба к ИИ «Добавь на фон график продаж»" data-title-en="Scene 2: a request to the AI, “Add a sales chart to the background”, ended up in the voice‑over" aria-label="Увеличить: Сцена 2: в текст озвучки попала просьба к ИИ «Добавь на фон график продаж»" data-aria-ru="Увеличить: Сцена 2: в текст озвучки попала просьба к ИИ «Добавь на фон график продаж»" data-aria-en="Zoom in: Scene 2: a request to the AI, “Add a sales chart to the background”, ended up in the voice‑over"><img src="assets/process/reskill-video/a-voice-ru.webp" data-src-ru="assets/process/reskill-video/a-voice-ru.webp" data-src-en="assets/process/reskill-video/a-voice-en.webp" width="1600" height="1200" alt="Сцена 2: в текст озвучки попала просьба к ИИ «Добавь на фон график продаж»" data-alt-ru="Сцена 2: в текст озвучки попала просьба к ИИ «Добавь на фон график продаж»" data-alt-en="Scene 2: a request to the AI, “Add a sales chart to the background”, ended up in the voice‑over" loading="lazy" decoding="async"></button></div></div><figcaption class="cap"><span data-lang="ru">Рис. 2. Просьба к ИИ попала в текст озвучки: ведущий прочитал бы её вслух. Тестовые данные.</span><span data-lang="en">Fig. 2. A request to the AI ended up in the voice‑over: the presenter would read it out loud. Test data.</span></figcaption></figure>
+  </article>
+  <article class="dec reveal">
+    <div><span class="chip c-dec"><span data-lang="ru">03</span><span data-lang="en">03</span></span><h3 style="margin-top:12px"><span data-lang="ru">Честный кадр и проверка перед рендером</span><span data-lang="en">An honest frame and a check before the render</span></h3><p class="read" style="margin-top:12px"><span data-lang="ru">Пока сцену не рендерили, на кадре стоит «Набросок». Окно генерации называет сцены с замечаниями и расстановку, которая пока не дойдёт до видео, со ссылками на каждую. Раньше оно писало «Проблем не найдено» при предупреждении на сцене.</span><span data-lang="en">Until a scene is rendered, the frame says “Sketch”. The generate dialog names the scenes with remarks and the layout that won’t reach the video yet, with a link to each. Before, it said “No problems found” over a warning on a scene.</span></p></div>
+    <figure class="fig" style="margin-top:0"><div class="plate plate-tight"><div class="sel" style="--sel:#6938EF"><span class="h1x"><i></i><i></i></span><button type="button" class="shot zoom" data-av data-full="assets/process/reskill-video/a-generate-ru.webp" data-full-ru="assets/process/reskill-video/a-generate-ru.webp" data-full-en="assets/process/reskill-video/a-generate-en.webp" data-title-ru="Окно генерации называет сцену с замечанием и расстановку, которая не попадёт в видео" data-title-en="The generate dialog names the scene with a remark and the layout that won’t reach the video" aria-label="Увеличить: Окно генерации называет сцену с замечанием и расстановку, которая не попадёт в видео" data-aria-ru="Увеличить: Окно генерации называет сцену с замечанием и расстановку, которая не попадёт в видео" data-aria-en="Zoom in: The generate dialog names the scene with a remark and the layout that won’t reach the video"><img src="assets/process/reskill-video/a-generate-ru.webp" data-src-ru="assets/process/reskill-video/a-generate-ru.webp" data-src-en="assets/process/reskill-video/a-generate-en.webp" width="1600" height="640" alt="Окно генерации называет сцену с замечанием и расстановку, которая не попадёт в видео" data-alt-ru="Окно генерации называет сцену с замечанием и расстановку, которая не попадёт в видео" data-alt-en="The generate dialog names the scene with a remark and the layout that won’t reach the video" loading="lazy" decoding="async"></button></div></div><figcaption class="cap"><span data-lang="ru">Рис. 3. Перед рендером видно, что учесть. Можно генерировать сейчас или сначала поправить.</span><span data-lang="en">Fig. 3. Before the render you see what to keep in mind. Generate now or fix first.</span></figcaption></figure>
+  </article>
+  <article class="dec reveal">
+    <div><span class="chip c-dec"><span data-lang="ru">04</span><span data-lang="en">04</span></span><h3 style="margin-top:12px"><span data-lang="ru">Правка готового видео</span><span data-lang="en">Editing a finished video</span></h3><ul class="kvl"><li><b><span data-lang="ru">«Править в студии»</span><span data-lang="en">“Edit in studio”</span></b><span><span data-lang="ru">открывает ту сцену, на которой нажали, и говорит, что ученики пока видят прошлую версию.</span><span data-lang="en">opens the scene it was pressed on and says learners still see the previous version.</span></span></li><li><b><span data-lang="ru">«Изменено»</span><span data-lang="en">“Changed”</span></b><span><span data-lang="ru">на карточке сцены видно, что пойдёт в новый рендер.</span><span data-lang="en">on a scene card shows what goes into the new render.</span></span></li><li><b><span data-lang="ru">Длительность и язык</span><span data-lang="en">Length and language</span></b><span><span data-lang="ru">длина всего видео с вступлением и концовкой и язык озвучки видны в студии.</span><span data-lang="en">the whole video’s length with intro and outro, and the voice‑over language, are visible in the studio.</span></span></li></ul></div>
+    <div class="bugcard"><span class="lab"><span data-lang="ru">Баг, который нашли записи</span><span data-lang="en">A bug the recordings found</span></span><p><span data-lang="ru">Правка сохраняется с задержкой около 2 с. Если за это время выбрать другую версию, правка уходила в готовую версию, сервер отвечал 409, и она терялась без сообщения. Баг был и в продакшене у двух клиентов.</span><span data-lang="en">An edit saves after a delay of about 2 s. Picking another version in that window sent the edit to the finished version; the server answered 409 and the edit was lost with no message. The bug was in production too, at two clients.</span></p><div class="chain"><span><span data-lang="ru">Правка</span><span data-lang="en">Edit</span></span><em aria-hidden="true">→</em><span><span data-lang="ru">Смена версии</span><span data-lang="en">Version switch</span></span><em aria-hidden="true">→</em><span class="on"><span data-lang="ru">Правка сохраняется в своей версии</span><span data-lang="en">The edit saves to its own version</span></span></div></div>
+  </article>
+
+  <article class="dec dec-wide reveal">
+    <div><span class="chip c-dec"><span data-lang="ru">Раскладка</span><span data-lang="en">Layout</span></span><h3 style="margin-top:12px"><span data-lang="ru">Два варианта с одинаковыми элементами</span><span data-lang="en">Two variants with the same elements</span></h3><p class="read" style="margin-top:12px"><span data-lang="ru">Я собрала в коде два варианта: сцены карточками слева (A) и лентой под кадром (B). Элементы одинаковые, отличается только место. Выбор за юзабилити‑тестом в тестовом окружении: сколько участников без подсказки находят нужное поле, время до первой правки и как раскладка вмещается на 1280×720 при масштабе 200%.</span><span data-lang="en">I built two variants in code: scenes as cards on the left (A) and as a strip under the frame (B). The elements are the same; only their place differs. A usability test in a test environment decides: how many participants find the right field unprompted, time to the first edit, and how the layout fits at 1280×720 and 200% zoom.</span></p></div>
+    <figure class="fig" style="margin-top:0"><div class="plate plate-duo"><div class="sel" style="--sel:#6938EF"><span class="h1x"><i></i><i></i></span><button type="button" class="shot zoom" data-av data-full="assets/process/reskill-video/a-draft-ru.webp" data-full-ru="assets/process/reskill-video/a-draft-ru.webp" data-full-en="assets/process/reskill-video/a-draft-en.webp" data-title-ru="Вариант A: сцены слева, кадр с инструментами, кадры сцены и текст озвучки" data-title-en="Variant A: scenes on the left, the frame with its tools, the scene’s shots and the voice‑over" aria-label="Увеличить: Вариант A: сцены слева, кадр с инструментами, кадры сцены и текст озвучки" data-aria-ru="Увеличить: Вариант A: сцены слева, кадр с инструментами, кадры сцены и текст озвучки" data-aria-en="Zoom in: Variant A: scenes on the left, the frame with its tools, the scene’s shots and the voice‑over"><img src="assets/process/reskill-video/a-draft-ru.webp" data-src-ru="assets/process/reskill-video/a-draft-ru.webp" data-src-en="assets/process/reskill-video/a-draft-en.webp" width="1600" height="1200" alt="Вариант A: сцены слева, кадр с инструментами, кадры сцены и текст озвучки" data-alt-ru="Вариант A: сцены слева, кадр с инструментами, кадры сцены и текст озвучки" data-alt-en="Variant A: scenes on the left, the frame with its tools, the scene’s shots and the voice‑over" loading="lazy" decoding="async"></button></div><button type="button" class="shot zoom" data-av data-full="assets/process/reskill-video/b-draft-ru.webp" data-full-ru="assets/process/reskill-video/b-draft-ru.webp" data-full-en="assets/process/reskill-video/b-draft-en.webp" data-title-ru="Вариант B: сцены лентой под кадром" data-title-en="Variant B: scenes as a strip under the frame" aria-label="Увеличить: Вариант B: сцены лентой под кадром" data-aria-ru="Увеличить: Вариант B: сцены лентой под кадром" data-aria-en="Zoom in: Variant B: scenes as a strip under the frame"><img src="assets/process/reskill-video/b-draft-ru.webp" data-src-ru="assets/process/reskill-video/b-draft-ru.webp" data-src-en="assets/process/reskill-video/b-draft-en.webp" width="1600" height="1200" alt="Вариант B: сцены лентой под кадром" data-alt-ru="Вариант B: сцены лентой под кадром" data-alt-en="Variant B: scenes as a strip under the frame" loading="lazy" decoding="async"></button></div><figcaption class="cap"><span data-lang="ru">Рис. 4. Слева вариант A, справа вариант B. Тестовые данные.</span><span data-lang="en">Fig. 4. Left: variant A. Right: variant B. Test data.</span></figcaption></figure>
+  </article>
+
+  <div class="cut">
+    <span class="lab" style="display:block;margin-bottom:12px"><span data-lang="ru">Что сознательно не вошло</span><span data-lang="en">What I left out on purpose</span></span>
+    <ul class="kvl"><li><b><span data-lang="ru">Строка «Состав сцены»</span><span data-lang="en">“Scene makeup” row</span></b><span><span data-lang="ru">Сводная строка под кадром дублировала инструменты на кадре и съедала высоту на 1440×900. Убрали: путь к полям остался через колонку инструментов и поле озвучки.</span><span data-lang="en">A summary row under the frame repeated the frame’s tools and ate height at 1440×900. We dropped it: the way to the fields stays through the tool column and the voice‑over.</span></span></li><li><b><span data-lang="ru">Новый вид текста на видео</span><span data-lang="en">A new look for on‑screen text</span></b><span><span data-lang="ru">Рестайл карточек требует правок в рендере. Направление со сплошной фирменной плашкой готово в макетах и ждёт согласования с бэкендом, чтобы кадр не обещал того, чего рендер не нарисует.</span><span data-lang="en">Restyling the cards needs changes in the render. A solid brand plate direction is ready in mockups and waits on the backend, so the frame never promises what the render won’t draw.</span></span></li><li><b><span data-lang="ru">«Обновить только сцену»</span><span data-lang="en">“Update just this scene”</span></b><span><span data-lang="ru">Отложено до ответа, сохраняет ли рендер нетронутые сцены. Без этого кнопка обещала бы экономию, которой нет.</span><span data-lang="en">On hold until we know whether the render keeps untouched scenes. Without that the button would promise a saving that isn’t there.</span></span></li></ul>
+  </div>
+</section>
+
+<section class="wrap sec reveal" data-tick id="metrics">
+  <div class="metrics-intro">
+    <span class="lab"><span data-lang="ru">Дерево метрик</span><span data-lang="en">Metric tree</span></span>
+    <h2 style="margin-top:12px"><span data-lang="ru">Как поймём, что сработало</span><span data-lang="en">How we’ll know it worked</span></h2>
+    <p class="read" style="margin-top:14px"><span data-lang="ru">Первым шагом нужно чинить аналитику: событие генерации видео не доходило до PostHog, и воронку «старт, готово, опубликовано» было не посчитать. Я описала семь событий студии и собрала базовую линию по записям сессий и истории рендеров.</span><span data-lang="en">The first step is fixing analytics: the video generation event never reached PostHog, so the “start, ready, published” funnel couldn’t be counted. I specified seven studio events and built a baseline from session recordings and render history.</span></p>
+    <p class="read"><span data-lang="ru">Правило решения записано до выкладки: вывод делаем после ~20 эпизодов от трёх и более авторов, примерно через восемь недель.</span><span data-lang="en">The decision rule is written before release: we conclude after ~20 episodes from three or more authors, about eight weeks.</span></p>
+  </div>
+  <figure class="fig"><div class="canvas" id="tree">
+    <svg id="treeSvg" aria-hidden="true"></svg>
+    <div class="node root" data-n="root" style="left:3%;top:40%"><span class="lab"><span data-lang="ru">Основная</span><span data-lang="en">Main</span></span><span data-lang="ru">Правка готового видео доходит до новой версии за 5 минут · сейчас 2 из 11 эпизодов</span><span data-lang="en">An edit of a finished video reaches a new version within 5 min · now 2 of 11 episodes</span></div>
+    <div class="node" data-n="a" data-p="root" style="left:40%;top:3%"><span data-lang="ru">Первая правка прямо в поле, не в чате · сейчас 12 из 24 сессий</span><span data-lang="en">First edit right in the field, not the chat · now 12 of 24 sessions</span></div>
+    <div class="node" data-n="b" data-p="root" style="left:40%;top:28%"><span data-lang="ru">Обход через чат · сейчас 5 из 11 эпизодов</span><span data-lang="en">Going around via the chat · now 5 of 11 episodes</span></div>
+    <div class="node" data-n="d" data-p="root" style="left:40%;top:53%"><span data-lang="ru">Повторный рендер того же видео за сутки · сейчас 16 из 19 интервалов</span><span data-lang="en">Re‑render of the same video within a day · now 16 of 19 intervals</span></div>
+    <div class="node lit" data-n="c" data-p="root" style="left:40%;top:78%"><span data-lang="ru">Ограничитель: потерянные правки и 409 при смене версии · цель 0</span><span data-lang="en">Guardrail: lost edits and 409 on version switch · target 0</span></div>
+  </div><figcaption class="cap"><span data-lang="ru">Рис. 5. Дерево метрик с базовой линией до выкладки.</span><span data-lang="en">Fig. 5. The metric tree with the pre‑release baseline.</span></figcaption></figure>
+</section>
+
+<section class="wrap sec reveal" data-tick id="result">
+  <div><span class="lab"><span data-lang="ru">Итог</span><span data-lang="en">Outcome</span></span><h2 style="margin-top:12px"><span data-lang="ru">Сцену можно поправить, не трогая промпт</span><span data-lang="en">A scene can be fixed without touching the prompt</span></h2>
+    <p class="read" style="margin-top:14px"><span data-lang="ru">Студия собрана во фронтенде на staging. Автор правит сцену без промпта, видит отдельные места для озвучки, текста на экране и просьбы к ИИ и до рендера знает, что учесть. Попутно я нашла и исправила баг потери правок, который был в продакшене у двух клиентов. Бэкенд получил контракт и семь вопросов, от которых зависит H1. Раскладку и гипотезу H2 решит юзабилити‑тест.</span><span data-lang="en">The studio is built in the front end on staging. An author fixes a scene without a prompt, sees separate places for voice‑over, on‑screen text and requests to the AI, and knows before the render what to keep in mind. Along the way I found and fixed a lost‑edit bug that was in production at two clients. The backend got a contract and seven questions that H1 depends on. A usability test will decide the layout and hypothesis H2.</span></p>
+    <span class="lab" style="display:block;margin-top:26px"><span data-lang="ru">Что дальше</span><span data-lang="en">What’s next</span></span>
+    <ul class="next"><li><span data-lang="ru">Юзабилити‑тест в тестовом окружении с авторами двух клиентов: выбор между A и B и проверка H2.</span><span data-lang="en">A usability test in a test environment with authors from two clients: choosing between A and B and checking H2.</span></li><li><span data-lang="ru">Починить событие генерации и выкатить события студии, затем считать метрики по правилу.</span><span data-lang="en">Fix the generation event and ship the studio events, then count the metrics by the rule.</span></li><li><span data-lang="ru">Точечный рендер сцены вместе с бэкендом, затем кнопка «Обновить только сцену».</span><span data-lang="en">Per‑scene render with the backend, then the “Update just this scene” button.</span></li></ul>
+  </div>
+  
+</section>
+<div class="end"></div>
+</main>
+
+  <nav class="case-floating-nav cfn">
+    <a class="cfn-btn cfn-home" href="index.html#work" aria-label="Все кейсы" data-aria-ru="Все кейсы" data-aria-en="All cases">
+      <span class="cfn-ic"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16 10H4.5M9 5l-5 5 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="cfn-tx"><span class="cfn-lab"><span data-lang="ru">Главная</span><span data-lang="en">Home</span></span><span class="cfn-ti"><span data-lang="ru">Все кейсы</span><span data-lang="en">All cases</span></span></span>
+    </a>
+    <a class="cfn-btn cfn-next" href="case-sber-split.html">
+      <span class="cfn-tx"><span class="cfn-lab"><span data-lang="ru">Следующий</span><span data-lang="en">Next</span></span><span class="cfn-ti"><span data-lang="ru">Разделение счёта</span><span data-lang="en">Bill splitting</span></span></span>
+      <span class="cfn-ic"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11.5M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+  </nav>
+
+
+  <div class="av" id="av" role="dialog" aria-modal="true" aria-labelledby="avTitle" hidden>
+    <div class="av-bar">
+      <h2 class="av-title" id="avTitle"></h2>
+      <div class="av-ctl" role="group" aria-label="Масштаб" data-aria-ru="Масштаб" data-aria-en="Zoom">
+        <button type="button" class="av-btn" data-z="out" aria-label="Уменьшить" data-aria-ru="Уменьшить" data-aria-en="Zoom out">&#8722;</button>
+        <span class="av-zoom" id="avZoom" aria-live="polite">100%</span>
+        <button type="button" class="av-btn" data-z="in" aria-label="Увеличить" data-aria-ru="Увеличить" data-aria-en="Zoom in">+</button>
+        <button type="button" class="av-btn txt" data-z="fit" aria-label="По ширине" data-aria-ru="По ширине" data-aria-en="Fit to width"><span data-lang="ru">По ширине</span><span data-lang="en">Fit</span></button>
+        <button type="button" class="av-btn av-close" aria-label="Закрыть" data-aria-ru="Закрыть" data-aria-en="Close">&#215;</button>
+      </div>
+    </div>
+    <div class="av-stage"><img id="avImg" alt="" draggable="false" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><p class="av-hint"><span data-lang="ru">Колесо или щипок для масштаба, перетаскивание для сдвига, Esc закрывает</span><span data-lang="en">Scroll or pinch to zoom, drag to pan, Esc to close</span></p></div>
+  </div>
+<script src="assets/i18n.js"></script>
+  <script src="assets/typography.js"></script>
+  <script src="assets/case-nav.js"></script>
+<script>
+(function () {
+  'use strict';
+  var doc = document;
+  function $(s, c) { return (c || doc).querySelector(s); }
+  function $$(s, c) { return Array.prototype.slice.call((c || doc).querySelectorAll(s)); }
+  function isEn() { return doc.documentElement.classList.contains('lang-en'); }
+  function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+  var RM = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var NS = 'http://www.w3.org/2000/svg';
+  var QS = {};
+  location.search.replace(/^\?/, '').split('&').forEach(function (kv) { if (kv) { var p = kv.split('='); QS[p[0]] = p[1] || ''; } });
+
+  /* ---------- floating case nav: show only once the reader reaches the outcome ---------- */
+  var cnav = $('.case-floating-nav'), endEl = $('#result');
+  if (cnav && endEl) {
+    var held = function () { cnav.classList.toggle('is-held', endEl.getBoundingClientRect().top > innerHeight * 0.75); };
+    held(); addEventListener('scroll', held, { passive: true }); addEventListener('resize', held);
+  }
+
+  /* ---------- artifact viewer ---------- */
+  var av = $('#av');
+  if (av) {
+    var stageEl = $('.av-stage', av), img = $('#avImg'), titleEl = $('#avTitle'), zoomEl = $('#avZoom'), hint = $('.av-hint', av);
+    var S = { s: 1, x: 0, y: 0, fit: 1, min: .1, max: 2, nw: 0, nh: 0 }, opener = null, pts = {}, pinch = null, drag = null;
+    function sw() { return stageEl.clientWidth; } function sh() { return stageEl.clientHeight; }
+    function clampPos() {
+      var w = S.nw * S.s, h = S.nh * S.s;
+      S.x = w <= sw() ? (sw() - w) / 2 : clamp(S.x, sw() - w, 0);
+      S.y = h <= sh() ? (sh() - h) / 2 : clamp(S.y, sh() - h, 0);
+    }
+    function apply() {
+      clampPos();
+      img.style.transform = 'translate(' + S.x + 'px,' + S.y + 'px) scale(' + S.s + ')';
+      zoomEl.textContent = Math.round(S.s / S.fit * 100) + '%';
+    }
+    function setFit() {
+      if (!S.nw) return;
+      S.fit = sw() / S.nw; S.min = Math.min(S.fit, sh() / S.nh) * .9; S.max = Math.max(2, S.fit * 4);
+      S.s = S.fit; S.x = 0; S.y = 0; apply();
+    }
+    function zoomTo(ns, cx, cy) {
+      ns = clamp(ns, S.min, S.max);
+      var k = ns / S.s; S.x = cx - (cx - S.x) * k; S.y = cy - (cy - S.y) * k; S.s = ns; apply();
+    }
+    function zoomBy(f) { zoomTo(S.s * f, sw() / 2, sh() / 2); }
+    function open(btn) {
+      opener = btn;
+      var src = (isEn() && btn.getAttribute('data-full-en')) || btn.getAttribute('data-full');
+      titleEl.innerHTML = '<span data-lang="ru">' + btn.getAttribute('data-title-ru') + '</span><span data-lang="en">' + btn.getAttribute('data-title-en') + '</span>';
+      img.alt = isEn() ? btn.getAttribute('data-title-en') : btn.getAttribute('data-title-ru');
+      S.nw = 0; img.style.transform = 'translate(0,0) scale(1)'; img.style.opacity = 0;
+      img.onload = function () { S.nw = img.naturalWidth; S.nh = img.naturalHeight; img.style.width = S.nw + 'px'; img.style.height = S.nh + 'px'; img.style.opacity = 1; setFit(); };
+      img.src = src;
+      av.hidden = false; av.getBoundingClientRect(); av.classList.add('is-open'); doc.body.classList.add('av-open');
+      hint.classList.remove('is-gone'); setTimeout(function () { hint.classList.add('is-gone'); }, 4000);
+      $('.av-close', av).focus();
+    }
+    function close() {
+      av.classList.remove('is-open'); doc.body.classList.remove('av-open');
+      setTimeout(function () { if (!av.classList.contains('is-open')) av.hidden = true; }, 260);
+      if (opener) opener.focus();
+    }
+    $$('[data-av]').forEach(function (b) { b.addEventListener('click', function () { open(b); }); });
+    $('.av-close', av).addEventListener('click', close);
+    $('[data-z="in"]', av).addEventListener('click', function () { zoomBy(1.35); });
+    $('[data-z="out"]', av).addEventListener('click', function () { zoomBy(1 / 1.35); });
+    $('[data-z="fit"]', av).addEventListener('click', setFit);
+    stageEl.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      var r = stageEl.getBoundingClientRect(), f = Math.exp(-e.deltaY * (e.ctrlKey ? .01 : .0016));
+      zoomTo(S.s * f, e.clientX - r.left, e.clientY - r.top);
+    }, { passive: false });
+    stageEl.addEventListener('pointerdown', function (e) {
+      stageEl.setPointerCapture(e.pointerId); pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      var ids = Object.keys(pts);
+      if (ids.length === 1) { drag = { x: e.clientX, y: e.clientY, ox: S.x, oy: S.y }; stageEl.classList.add('is-drag'); }
+      else if (ids.length === 2) { var a = pts[ids[0]], b = pts[ids[1]]; pinch = { d: Math.hypot(a.x - b.x, a.y - b.y), s: S.s }; drag = null; }
+    });
+    stageEl.addEventListener('pointermove', function (e) {
+      if (!pts[e.pointerId]) return; pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      var ids = Object.keys(pts);
+      if (pinch && ids.length === 2) {
+        var a = pts[ids[0]], b = pts[ids[1]], r = stageEl.getBoundingClientRect();
+        zoomTo(pinch.s * Math.hypot(a.x - b.x, a.y - b.y) / pinch.d, (a.x + b.x) / 2 - r.left, (a.y + b.y) / 2 - r.top);
+      } else if (drag) { S.x = drag.ox + e.clientX - drag.x; S.y = drag.oy + e.clientY - drag.y; apply(); }
+    });
+    function up(e) {
+      delete pts[e.pointerId]; pinch = null; var ids = Object.keys(pts);
+      if (ids.length === 1) { var p = pts[ids[0]]; drag = { x: p.x, y: p.y, ox: S.x, oy: S.y }; } else { drag = null; stageEl.classList.remove('is-drag'); }
+    }
+    stageEl.addEventListener('pointerup', up); stageEl.addEventListener('pointercancel', up);
+    stageEl.addEventListener('dblclick', function (e) {
+      var r = stageEl.getBoundingClientRect();
+      if (S.s > S.fit * 1.4) setFit(); else zoomTo(S.fit * 2.4, e.clientX - r.left, e.clientY - r.top);
+    });
+    av.addEventListener('keydown', function (e) {
+      var k = e.key, step = 80;
+      if (k === 'Escape') { e.preventDefault(); close(); return; }
+      if (k === 'Tab') {
+        var f = $$('button', av).filter(function (b) { return !b.disabled && b.offsetParent !== null; });
+        if (!f.length) return;
+        var i = f.indexOf(doc.activeElement);
+        if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); }
+        else if (!e.shiftKey && (i === f.length - 1 || i < 0)) { e.preventDefault(); f[0].focus(); }
+        return;
+      }
+      var inBtn = doc.activeElement && doc.activeElement.tagName === 'BUTTON' && (k === 'Enter' || k === ' ');
+      if (inBtn) return;
+      if (k === '+' || k === '=') { e.preventDefault(); zoomBy(1.25); }
+      else if (k === '-' || k === '_') { e.preventDefault(); zoomBy(.8); }
+      else if (k === '0') { e.preventDefault(); setFit(); }
+      else if (k === 'ArrowLeft') { e.preventDefault(); S.x += step; apply(); }
+      else if (k === 'ArrowRight') { e.preventDefault(); S.x -= step; apply(); }
+      else if (k === 'ArrowUp') { e.preventDefault(); S.y += step; apply(); }
+      else if (k === 'ArrowDown') { e.preventDefault(); S.y -= step; apply(); }
+    });
+    window.addEventListener('resize', function () { if (av.classList.contains('is-open')) { var f = S.s / S.fit; setFit(); if (f > 1.01) zoomTo(S.fit * f, sw() / 2, sh() / 2); } });
+    window.__av = S;
+  }
+})();
+
+(function () {
+  'use strict';
+  var doc = document;
+  var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var settled = /[?&]settled\b/.test(location.search);
+  function $(s) { return doc.querySelector(s); }
+  function $$(s) { return Array.prototype.slice.call(doc.querySelectorAll(s)); }
+  function isEn() { return doc.documentElement.classList.contains('lang-en'); }
+  function L(ru, en) { return isEn() ? en : ru; }
+
+  /* ruler numbers */
+  var ruler = $('#ruler');
+  if (ruler) for (var x = 0; x < 3000; x += 100) { var s = doc.createElement('span'); s.style.left = (x + 3) + 'px'; s.textContent = x; ruler.appendChild(s); }
+
+  /* reveal on scroll; ?settled (and no-IO browsers) show everything */
+  var revealEls = $$('.reveal,.wave');
+  if (settled || !('IntersectionObserver' in window)) {
+    revealEls.concat($$('.note')).forEach(function (el) { el.classList.add('vis'); });
+  } else {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); } });
+    }, { threshold: .15 });
+    revealEls.forEach(function (el) { io.observe(el); });
+  }
+
+  /* left ticks = sections */
+  var secs = $$('[data-tick]'), ticks = $('#ticks');
+  if (ticks) {
+    secs.forEach(function () { ticks.appendChild(doc.createElement('i')); });
+    var tk = Array.prototype.slice.call(ticks.children);
+    var onScroll = function () {
+      var cur = 0; secs.forEach(function (s, i) { if (s.getBoundingClientRect().top < innerHeight * .45) cur = i; });
+      tk.forEach(function (t, i) { t.classList.toggle('on', i === cur); });
+    };
+    addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  }
+
+  /* A/B toggle in the hypothesis */
+  var ab = $('#abImg') || $('#abimg');
+  if (ab) {
+    var A = { a: ['assets/sber/v3/recipient-02-request.webp', 'Запрос участника только на итоговую сумму 1 675 ₽', 'Participant request for the total of 1,675 ₽ only', 'assets/sber/v3-en/recipient-02-request.webp'],
+              b: ['assets/sber/v3/recipient-03-items.webp', 'Запрос участника с позициями чека', 'Participant request with receipt items', 'assets/sber/v3-en/recipient-03-items.webp'] };
+    var segBtns = $$('.seg button');
+    segBtns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        if (b.getAttribute('aria-pressed') === 'true') return;
+        segBtns.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        var v = A[b.getAttribute('data-v')];
+        ab.style.opacity = 0;
+        setTimeout(function () {
+          ab.setAttribute('data-src-ru', v[0]); ab.setAttribute('data-src-en', v[3]); ab.src = isEn() ? v[3] : v[0]; ab.setAttribute('data-alt-ru', v[1]); ab.setAttribute('data-alt-en', v[2]); ab.alt = L(v[1], v[2]); ab.style.opacity = 1;
+        }, RM ? 0 : 200);
+      });
+    });
+  }
+
+  /* metric tree connectors */
+  var tree = $('#tree'), svg = $('#treeSvg');
+  if (tree && svg) {
+    var NS = 'http://www.w3.org/2000/svg';
+    var drawTree = function () {
+      var tr = tree.getBoundingClientRect(), ds = [];
+      $$('#tree [data-p]').forEach(function (n) {
+        var p = tree.querySelector('[data-n="' + n.getAttribute('data-p') + '"]');
+        var a = p.getBoundingClientRect(), b = n.getBoundingClientRect(), d;
+        var x1, y1, x2, y2;
+        if (window.innerWidth <= 900) {
+          /* stacked layout: leave the parent bottom edge near its left, enter the child from the left */
+          x1 = a.left - tr.left + 14; y1 = a.bottom - tr.top; x2 = b.left - tr.left; y2 = b.top + b.height / 2 - tr.top;
+          d = 'M' + x1 + ' ' + y1 + ' V' + (y2 - 8) + ' Q' + x1 + ' ' + y2 + ' ' + (x1 + 8) + ' ' + y2 + ' H' + x2;
+        } else {
+          x1 = a.right - tr.left; y1 = a.top + a.height / 2 - tr.top; x2 = b.left - tr.left; y2 = b.top + b.height / 2 - tr.top;
+          var mx = (x1 + x2) / 2;
+          d = 'M' + x1 + ' ' + y1 + ' C ' + mx + ' ' + y1 + ', ' + mx + ' ' + y2 + ', ' + x2 + ' ' + y2;
+        }
+        ds.push([d, n.getAttribute('data-p') === 'root' ? 0 : 1]);
+      });
+      svg.setAttribute('viewBox', '0 0 ' + tr.width + ' ' + tr.height);
+      svg.textContent = '';
+      var cnt = [0, 0];
+      ds.forEach(function (it) {
+        var path = doc.createElementNS(NS, 'path');
+        path.setAttribute('d', it[0]); path.setAttribute('fill', 'none'); path.setAttribute('stroke', '#7a7c78'); path.setAttribute('stroke-width', '1.2'); path.setAttribute('pathLength', '1');
+        path.style.transitionDelay = (.85 + it[1] * .45 + cnt[it[1]]++ * .1).toFixed(2) + 's';
+        svg.appendChild(path);
+      });
+    };
+    var rt, sched = function () { cancelAnimationFrame(rt); rt = requestAnimationFrame(drawTree); };
+    drawTree();
+    addEventListener('resize', sched);
+    addEventListener('load', sched);
+    doc.addEventListener('langchange', sched);
+    if (window.ResizeObserver) new ResizeObserver(sched).observe(tree);
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(sched);
+  }
+
+  /* motion: IntersectionObserver entries, one rAF scroll handler (ruler marker + phone parallax) */
+  var MO = doc.documentElement.classList.contains('mo');
+  var rmark = doc.createElement('i'); rmark.className = 'rmark';
+  if (ruler) ruler.appendChild(rmark);
+  var phones = $$('.dec .phone'), ticking = false;
+  function frame() {
+    ticking = false;
+    var max = Math.max(1, doc.documentElement.scrollHeight - innerHeight), pr = Math.min(1, Math.max(0, (window.pageYOffset || doc.documentElement.scrollTop) / max));
+    if (ruler) rmark.style.transform = 'translate3d(' + (pr * (ruler.clientWidth - 10) + 5) + 'px,0,0)';
+    if (MO) phones.forEach(function (ph, k) {
+      var r = ph.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > innerHeight + 200) return;
+      var c = ((r.top + r.height / 2) - innerHeight / 2) / innerHeight, f = k % 2 ? 1 : .6;
+      ph.style.setProperty('--py', Math.max(-16, Math.min(16, -c * 24 * f)).toFixed(1) + 'px');
+    });
+  }
+  function req() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+  addEventListener('scroll', req, { passive: true }); addEventListener('resize', req); req();
+
+  function once(sel, opts, fn) {
+    var els = $$(sel); if (!els.length) return;
+    if (!MO || !('IntersectionObserver' in window)) { els.forEach(function (el) { fn(el, true); }); return; }
+    var o = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { o.unobserve(e.target); fn(e.target, false); } });
+    }, opts);
+    els.forEach(function (el) { o.observe(el); });
+  }
+  var go = function (el) { el.classList.add('go'); };
+  once('.plate', { threshold: .3 }, function (el) { if (!el.closest('.dec')) go(el); });
+  once('.dec', { threshold: .25 }, function (el) { go(el); var p = el.querySelector('.plate'); if (p) go(p); });
+  once('.arts', { threshold: .2 }, go);
+  once('.next', { threshold: .3 }, go);
+  once('#tree', { threshold: .35 }, go);
+  once('.chip', { threshold: .6 }, function (el) { el.classList.add('pop'); });
+  if (!MO || !('IntersectionObserver' in window)) {
+    doc.documentElement.classList.remove('mo');
+    $$('.plate,.dec,.arts,.next,#tree').forEach(go);
+  }
+
+  /* hypothesis chain lights up node by node once, then rests on the first */
+  var chain = $('.chain');
+  if (chain && MO && 'IntersectionObserver' in window) {
+    var nodes = Array.prototype.slice.call(chain.children).filter(function (n) { return n.tagName === 'SPAN'; });
+    var cho = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return; cho.disconnect();
+      nodes.forEach(function (n, i) {
+        setTimeout(function () { nodes.forEach(function (x, j) { x.classList.toggle('on', i === j); }); }, 500 + i * 480);
+      });
+      setTimeout(function () { nodes.forEach(function (x, j) { x.classList.toggle('on', j === 0); }); }, 500 + nodes.length * 480 + 250);
+    }, { threshold: .9 });
+    cho.observe(chain);
+  }
+})();
+
+</script>
+<script>
+(function(){document.querySelectorAll('[data-proto]').forEach(function(b){var d=document.getElementById(b.getAttribute('data-proto'));if(!d)return;
+b.addEventListener('click',function(){d.showModal();document.body.classList.add('dlg-open');window.dispatchEvent(new Event('resize'))});
+d.addEventListener('close',function(){document.body.classList.remove('dlg-open');b.focus()});
+d.querySelector('.proto-x').addEventListener('click',function(){d.close()});
+d.addEventListener('click',function(e){if(e.target===d)d.close()});});})();
+</script>
+</body>
+</html>
