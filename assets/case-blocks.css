@@ -5,7 +5,7 @@
    [data-lang] spans), images by assets/i18n.js. */
 
 .cv,.cv-mini,.cv-zoom,.cmw,.hy,.pv,.mt-tree,.bm,.dev{
-  --cb-ink:#151515;--cb-ink2:#5E605C;--cb-mute:#9A9C97;--cb-hair:#E6E6E2;--cb-plate:#F4F4F1;--cb-gt:#137A26;
+  --cb-ink:#151515;--cb-ink2:#5E605C;--cb-mute:#6E706B;--cb-hair:#E6E6E2;--cb-plate:#F4F4F1;--cb-gt:#137A26;
   --cb-n-mint:#CFEFD8;--cb-n-lime:#E7F59B;--cb-n-peach:#F8D9C4;--cb-n-sky:#CFE6F7;
   --cb-proto:#8FCBF6;--cb-flag:#4C9BF7;--cb-sel:#2F7BF6;
   --cb-serif:Literata,Georgia,serif;--cb-sans:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -285,3 +285,11 @@
 .mt-n.root{font-size:16px;padding:14px 18px}
 .mt-nsm{padding:14px 16px}@media (min-width:901px){.mt-nsm{max-width:30%}}
 .mt-nsm .mn{font-size:14px;line-height:1.45}
+
+/* phones: the mini canvas is one big tap target that opens the zoom view */
+@media (max-width:560px){
+  .cv-mini{height:220px}
+  .cv-mini *{pointer-events:none}
+  .cv-mini::after{content:"Открыть экраны";position:absolute;left:50%;bottom:14px;transform:translateX(-50%);min-height:44px;display:flex;align-items:center;padding:0 18px;border-radius:999px;background:#151515;color:#fff;font:500 14px/1 var(--cb-sans);white-space:nowrap;box-shadow:0 6px 16px rgba(0,0,0,.18);z-index:5}
+  html.lang-en .cv-mini::after{content:"Open the screens"}
+}

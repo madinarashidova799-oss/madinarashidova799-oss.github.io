@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /case-namaste.html
+Disallow: /case-reskill-video.html
+
+Sitemap: https://madinarashidova.is-a.dev/sitemap.xml

@@ -10,7 +10,7 @@
 <meta name="description" content="Студия видеосцен в Re-skill: правка одной сцены без переписывания промпта. 31 клиентский тикет, приоритизация проблем, три гипотезы, два варианта раскладки и дерево метрик. В разработке." data-ru="Студия видеосцен в Re-skill: правка одной сцены без переписывания промпта. 31 клиентский тикет, приоритизация проблем, три гипотезы, два варианта раскладки и дерево метрик. В разработке." data-en="A video scene studio in Re-skill: editing one scene without rewriting the prompt. 31 client tickets, problem prioritization, three hypotheses, two layout variants and a metric tree. In development.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap"></noscript>
 <script>document.documentElement.classList.add('js');</script>
 <script>try{if(!/[?&]settled\b/.test(location.search)&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("mo")}catch(e){}</script>
 <style>
@@ -84,7 +84,7 @@
   }
 /* ===== Sber case v13: «холст» (design-canvas page): grid, ruler, stickies, selection frames, calm book column ===== */
 :root{
-  --paper:#FFFFFF; --ink:#151515; --ink2:#5E605C; --mute:#9A9C97; --grid:rgba(20,20,20,.045); --hair:#E6E6E2; --plate:#F4F4F1; --panel:#F4F4F1;
+  --paper:#FFFFFF; --ink:#151515; --ink2:#5E605C; --mute:#6E706B; --grid:rgba(20,20,20,.045); --hair:#E6E6E2; --plate:#F4F4F1; --panel:#F4F4F1;
   --green:#21A038; --gt:#137A26; --deep:#0D5F21;
   --n-mint:#CFEFD8; --n-lime:#E7F59B; --n-peach:#F8D9C4; --n-sky:#CFE6F7; --chosen:#F3E3A3;
   --serif:Literata,Georgia,"Times New Roman",serif; --sans:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif; --sans2:var(--sans);
@@ -127,7 +127,7 @@ a{color:var(--gt)}
 .ticks i{display:block;width:10px;height:1px;background:var(--mute);transition:width .3s,background .3s}
 .ticks i.on{width:22px;background:var(--ink)}
 /* type */
-.lab{font:500 11.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.lab{font:500 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
 h1{font:600 clamp(28px,3vw,40px)/1.12 var(--serif);letter-spacing:-.012em;text-wrap:balance;margin:.67em 0}
 h2{font:600 clamp(22px,2vw,27px)/1.2 var(--serif);letter-spacing:-.012em;text-wrap:balance;margin:.83em 0}
 h3{font:600 clamp(18px,1.5vw,21px)/1.25 var(--serif);letter-spacing:-.012em;margin:1em 0}
@@ -723,7 +723,7 @@ button.shot:focus-visible{outline:2px solid var(--gt);outline-offset:6px;border-
         <button type="button" class="av-btn av-close" aria-label="Закрыть" data-aria-ru="Закрыть" data-aria-en="Close">&#215;</button>
       </div>
     </div>
-    <div class="av-stage"><img id="avImg" alt="" draggable="false" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><p class="av-hint"><span data-lang="ru">Колесо или щипок для масштаба, перетаскивание для сдвига, Esc закрывает</span><span data-lang="en">Scroll or pinch to zoom, drag to pan, Esc to close</span></p></div>
+    <div class="av-stage"><img loading="lazy" id="avImg" alt="" draggable="false" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><p class="av-hint"><span data-lang="ru">Колесо или щипок для масштаба, перетаскивание для сдвига, Esc закрывает</span><span data-lang="en">Scroll or pinch to zoom, drag to pan, Esc to close</span></p></div>
   </div>
 <script src="assets/i18n.js"></script>
   <script src="assets/typography.js?v=2"></script>
