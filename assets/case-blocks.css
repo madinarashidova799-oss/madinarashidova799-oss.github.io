@@ -293,3 +293,8 @@
   .cv-mini::after{content:"Открыть экраны";position:absolute;left:50%;bottom:14px;transform:translateX(-50%);min-height:44px;display:flex;align-items:center;padding:0 18px;border-radius:999px;background:#151515;color:#fff;font:500 14px/1 var(--cb-sans);white-space:nowrap;box-shadow:0 6px 16px rgba(0,0,0,.18);z-index:5}
   html.lang-en .cv-mini::after{content:"Open the screens"}
 }
+/* phones: the enlarged canvas fills the screen */
+.cv-zoom.full{padding:0;background:#fff}
+.cv-zoom.full .cv-zoom-box{border-radius:0;box-shadow:none}
+.cv-zoom.full .cv-zoom-x{top:calc(12px + env(safe-area-inset-top));right:12px;background:#151515;color:#fff}
+.cv-zoom.full .cv-zoom-h{bottom:calc(16px + env(safe-area-inset-bottom))}

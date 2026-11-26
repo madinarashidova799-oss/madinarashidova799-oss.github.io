@@ -311,18 +311,29 @@
       var hint = doc.createElement('span'); hint.className = 'cv-zoom-h';
       hint.textContent = en ? 'Wheel or pinch to zoom · drag to pan' : 'Колесо или щипок: масштаб · перетаскивайте: сдвиг';
       ov.appendChild(box); ov.appendChild(x); ov.appendChild(hint); doc.body.appendChild(ov);
-      var pad = 24, BW = innerWidth - 48, BH = innerHeight - 48,
-          fit = Math.min((BW - 2 * pad) / r.w, (BH - 2 * pad) / r.h);
-      var bw = Math.min(BW, Math.round(r.w * fit + 2 * pad)), bh = Math.min(BH, Math.round(r.h * fit + 2 * pad));
+      /* phones: the canvas takes the whole screen */
+      var full = innerWidth <= 560;
+      if (full) { ov.classList.add('full'); hint.textContent = en ? 'Pinch to zoom · drag to pan' : 'Щипок: масштаб · перетаскивайте: сдвиг'; }
+      var vh = (window.visualViewport && visualViewport.height) || innerHeight;
+      var pad = full ? 12 : 24, BW = full ? innerWidth : innerWidth - 48, BH = full ? vh : innerHeight - 48,
+          fit = full ? (BW - 2 * pad) / r.w : Math.min((BW - 2 * pad) / r.w, (BH - 2 * pad) / r.h);
+      var bw = full ? BW : Math.min(BW, Math.round(r.w * fit + 2 * pad)), bh = full ? BH : Math.min(BH, Math.round(r.h * fit + 2 * pad));
       box.style.width = bw + 'px'; box.style.height = bh + 'px';
-      var sc = fit, tx = (bw - r.w * fit) / 2 - r.x * fit, ty = (bh - r.h * fit) / 2 - r.y * fit;
+      /* phones: open at screen height so the screens are readable, starting from the left edge; pinch out to see it all */
+      var fitW = fit, sc = fit, tx, ty;
+      if (full) {
+        var fitH = (bh - 72 - 80) / r.h;
+        sc = Math.max(fitW, Math.min(fitH, fitW * 3));
+        tx = pad - r.x * sc;
+        ty = 72 + Math.max(0, (bh - 72 - 80 - r.h * sc) / 2) - r.y * sc;
+      } else { tx = (bw - r.w * fit) / 2 - r.x * fit; ty = (bh - r.h * fit) / 2 - r.y * fit; }
       function draw() {
         w2.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0) scale(' + sc + ')';
         var g = Math.max(6, 16 * sc) + 'px'; box.style.backgroundSize = g + ' ' + g;
         box.style.backgroundPosition = tx + 'px ' + ty + 'px';
       }
       draw();
-      function zoomAt(cx, cy, ns) { ns = clamp(ns, fit * .6, 2.5); tx = cx - (cx - tx) * ns / sc; ty = cy - (cy - ty) * ns / sc; sc = ns; draw(); }
+      function zoomAt(cx, cy, ns) { ns = clamp(ns, fitW * .6, full ? Math.max(4, fitW * 6) : 2.5); tx = cx - (cx - tx) * ns / sc; ty = cy - (cy - ty) * ns / sc; sc = ns; draw(); }
       box.addEventListener('wheel', function (e) {
         e.preventDefault(); var bb = box.getBoundingClientRect();
         zoomAt(e.clientX - bb.left, e.clientY - bb.top, sc * Math.exp(-e.deltaY * (e.ctrlKey ? .01 : .0025)));
@@ -345,7 +356,7 @@
       box.addEventListener('pointerup', up); box.addEventListener('pointercancel', up);
       box.addEventListener('click', function (e) { e.stopPropagation(); });
       var prevOv = doc.body.style.overflow; doc.body.style.overflow = 'hidden';
-      function close() { doc.removeEventListener('keydown', key); doc.body.removeChild(ov); doc.body.style.overflow = prevOv; host.focus(); }
+      function close() { if (!ov.parentNode) return; doc.removeEventListener('keydown', key); doc.body.removeChild(ov); doc.body.style.overflow = prevOv; host.focus(); }
       function key(e) {
         if (e.key === 'Escape') { e.preventDefault(); close(); }
         else if (e.key === 'Tab') { e.preventDefault(); x.focus(); }
